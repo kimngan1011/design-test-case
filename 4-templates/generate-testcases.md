@@ -5,6 +5,7 @@ Context:
 - The coverage matrix is already defined in this project.
 - Each AC has selected test techniques and risk level.
 - You must generate test cases strictly based on the coverage strategy.
+- You must follow the test case design rules defined in /Users/manabie/design-test-case/4-templates/test-case-rules.md
 - You must read the existing test cases to ensure impact
 - You need to create the test data for each test case, ensuring it is deterministic and covers the necessary scenarios.
 
@@ -29,7 +30,7 @@ Instructions:
    - Severity based on business impact
    - Priority based on risk level
 
-Output format (STRICT Qase CSV format):
+Output format (STRICT Qase CSV format): read this file /Users/manabie/design-test-case/4-templates/qase-format.csv
 
 suite: name,
 title: Actor + Action + Expected Outcome (concise and clear),
