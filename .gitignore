@@ -1,0 +1,8 @@
+# Secrets & tokens — keep local only
+.vscode/mcp.json
+
+# OS
+.DS_Store
+
+# Editor
+.vscode/settings.json

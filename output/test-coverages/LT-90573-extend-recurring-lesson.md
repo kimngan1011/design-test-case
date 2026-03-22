@@ -7,38 +7,57 @@
 
 ## 1. Business Rules Extracted
 
-| #   | AC      | Business Rule                                                                                                                                                |
-| --- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1   | AC 01.1 | "Extend Recurrence" button is available on Lesson Schedule detail page                                                                                       |
-| 2   | AC 01.1 | Clicking the button opens the Lesson Creation Form                                                                                                           |
-| 3   | AC 01.1 | User can only review and update allowed fields                                                                                                               |
-| 4   | AC 01.2 | Start Time, End Time, Duration, Teaching Medium, Lesson Name → pre-filled & editable (from Lesson Schedule)                                                  |
-| 5   | AC 01.2 | Classroom → searchable dropdown, user selects from available classrooms                                                                                      |
-| 6   | AC 01.2 | Day of the Week → auto-calculated from Lesson Date                                                                                                           |
-| 7   | AC 01.2 | Date → auto-calculated: current end date + 7 days                                                                                                            |
-| 8   | AC 01.2 | Lesson Code → auto-calculated: last existing lesson code + 1                                                                                                 |
-| 9   | AC 01.2 | Lesson Type → default "Regular", editable                                                                                                                    |
-| 10  | AC 01.2 | Lesson Capacity → blank, optional                                                                                                                            |
-| 11  | AC 01.2 | Location, Academic Year, Course, Class, Teaching Method → locked (non-editable)                                                                              |
-| 12  | AC 01.2 | Recurrence Type → display saved value, not editable                                                                                                          |
-| 13  | AC 01.2 | Recurrence Days (custom) → display saved value, not editable                                                                                                 |
-| 14  | AC 01.2 | Recurrence End Date → editable only to extend (later date)                                                                                                   |
-| 15  | AC 01.2 | Lesson Count → editable only to increase                                                                                                                     |
-| 16  | AC 01.2 | Skip Closed Dates → display saved state, not editable                                                                                                        |
-| 17  | AC 01.3 | Button only available when `is_recurring = TRUE`                                                                                                             |
-| 18  | AC 01.3 | User can only extend End Date beyond current value OR increase Lesson Count beyond current number                                                            |
-| 19  | AC 01.4 | New lessons added to same recurring chain with DRAFT status                                                                                                  |
-| 20  | AC 01.4 | New lessons NOT created if existing lesson on that date (created by Add Lesson manually)                                                                     |
-| 21  | AC 01.4 | Lesson code auto-calculated for following lessons based on defined code                                                                                      |
-| 22  | AC 01.4 | Teachers and students must be manually allocated to new lessons                                                                                              |
-| 23  | AC 01.4 | Nichibei only: update syllabus description for new lessons based on lesson code                                                                              |
-| 24  | AC 01.5 | Update Lesson Schedule End Date when End Date is extended                                                                                                    |
-| 25  | AC 01.5 | Update Lesson Schedule End Date when Lesson Count is increased (derived from last lesson date)                                                               |
-| 26  | AC 01.5 | Update reflected on: SF Lesson Schedule detail, SF Lesson edit form, SF Calendar Related list, BO Lesson detail Recurring settings, BO Calendar Related list |
-| 27  | AC 02.1 | "Apply this and the following" and "Apply to the specific number lessons" on recurring lessons updates all lessons — including extended ones                 |
-| 28  | AC 02.1 | One-time lesson edit only impacts that specific lesson                                                                                                       |
-| 29  | AC 02.1 | Manually created one-time lessons are NOT affected by recurring "Apply this and the following" edits                                                         |
-| 30  | AC 02.2 | Student/teacher "Apply this and the following" and "Apply to the specific number lessons" reflects across old, extended, and manually created lessons        |
+| #   | AC               | Business Rule                                                                                                                                                                             |
+| --- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | AC 01.1          | "Extend Recurrence" button is available on Lesson Schedule detail page                                                                                                                    |
+| 2   | AC 01.1          | Clicking the button opens the Lesson Creation Form                                                                                                                                        |
+| 3   | AC 01.1          | User can only review and update allowed fields                                                                                                                                            |
+| 4   | AC 01.2          | Start Time, End Time, Duration, Teaching Medium, Lesson Name → pre-filled & editable (from Lesson Schedule)                                                                               |
+| 5   | AC 01.2          | Classroom → searchable dropdown, user selects from available classrooms                                                                                                                   |
+| 6   | AC 01.2          | Day of the Week → auto-calculated from Lesson Date                                                                                                                                        |
+| 7   | AC 01.2          | Date → auto-calculated: current end date + 7 days                                                                                                                                         |
+| 8   | AC 01.2          | Lesson Code → auto-calculated: last existing lesson code + 1 for each new lesson                                                                                                          |
+| 9   | AC 01.2          | Lesson Type → default "Regular", editable                                                                                                                                                 |
+| 10  | AC 01.2          | Lesson Capacity → blank, optional                                                                                                                                                         |
+| 11  | AC 01.2          | Location, Academic Year, Course, Class, Teaching Method → locked (non-editable)                                                                                                           |
+| 12  | AC 01.2          | Recurrence Type → display saved value, not editable                                                                                                                                       |
+| 13  | AC 01.2          | Recurrence Days (custom) → display saved value, not editable                                                                                                                              |
+| 14  | AC 01.2          | Recurrence End Date → editable only to extend (later date)                                                                                                                                |
+| 15  | AC 01.2          | Lesson Count → editable only to increase                                                                                                                                                  |
+| 16  | AC 01.2          | Skip Closed Dates → display saved state, not editable                                                                                                                                     |
+| 17  | AC 01.3          | Button only available when `is_recurring = TRUE`                                                                                                                                          |
+| 18  | AC 01.3          | User can only extend End Date beyond current value OR increase Lesson Count beyond current number and check all lesson information of all new created lessons following the defined logic |
+| 19  | AC 01.4          | New lessons added to same recurring chain with DRAFT status                                                                                                                               |
+| 20  | AC 01.4          | New lessons NOT created if existing lesson on that date (created by Add Lesson manually)                                                                                                  |
+| 21  | AC 01.4          | Lesson code auto-calculated for following lessons based on defined code                                                                                                                   |
+| 22  | AC 01.4          | Teachers and students must be manually allocated to new lessons                                                                                                                           |
+| 23  | AC 01.4          | Nichibei only: update syllabus description for new lessons based on lesson code                                                                                                           |
+| 24  | AC 01.5          | Update Lesson Schedule End Date when End Date is extended                                                                                                                                 |
+| 25  | AC 01.5          | Update Lesson Schedule End Date when Lesson Count is increased (derived from last lesson date)                                                                                            |
+| 26  | AC 01.5          | Update reflected on: SF Lesson Schedule detail, SF Lesson edit form, SF Calendar Related list, BO Lesson detail Recurring settings, BO Calendar Related list                              |
+| 27  | AC 02.1          | "Apply this and the following" and "Apply to the specific number lessons" on recurring lessons updates all lessons — including extended ones                                              |
+| 28  | AC 02.1          | One-time lesson edit only impacts that specific lesson                                                                                                                                    |
+| 29  | AC 02.1          | Manually created one-time lessons are NOT affected by recurring "Apply this and the following" edits                                                                                      |
+| 30  | AC 02.2          | Assign/Unassign Student "Apply this and the following" reflects across old, extended, and manually created lessons                                                                        |
+| 31  | AC 02.2          | Assign/Unassign Student "Apply to the specific number lessons" reflects from old + extended lessons, and reassigns to new lessons                                                         |
+| 32  | AC 02.2          | Assign/Unassign Teacher "Apply this and the following" reflects across old, extended, and manually created lessons                                                                        |
+| 33  | AC 02.2          | Assign/Unassign Teacher "Apply to the specific number lessons" reflects from old + extended lessons, and reassigns to new lessons                                                         |
+| 34  | Additional logic | Add lesson manual to the last lesson of the chain, after that extend the end date of the chain                                                                                            |
+| 35  | Additional logic | Add lesson manual to the last lesson of the chain, after that increase the lesson count of the chain                                                                                      |
+| 36  | Additional logic | Edit lesson date to the last lesson of the chain, after that extend the end date of the chain                                                                                             |
+| 37  | Additional logic | Edit lesson date to the last lesson of the chain, after that increase the lesson count of the chain                                                                                       |
+| 38  | Additional logic | Completed the last lesson of the chain, after that extend the end date of the chain                                                                                                       |
+| 39  | Additional logic | Completed the last lesson of the chain, after that increase the lesson count of the chain                                                                                                 |
+| 40  | Additional logic | Cancelled the last lesson of the chain, after that extend the end date of the chain                                                                                                       |
+| 41  | Additional logic | Cancelled the last lesson of the chain, after that increase the lesson count of the chain                                                                                                 |
+| 42  | Additional logic | Edit lesson on BO, after extending the end date of the chain                                                                                                                              |
+| 43  | Additional logic | Edit lesson on BO, after increasing the lesson count of the chain                                                                                                                         |
+| 44  | Additional logic | Assign/Unassign student on BO, after extending the end date of the chain, then edit with "Apply this and the following"                                                                   |
+| 45  | Additional logic | Assign/Unassign student on BO, after increasing the lesson count of the chain, then edit with "Apply this and the following"                                                              |
+| 46  | Additional logic | Assign/Unassign teacher on BO, after extending the end date of the chain, then edit with "Apply this and the following"                                                                   |
+| 47  | Additional logic | Assign/Unassign teacher on BO, after increasing the lesson count of the chain, then edit with "Apply this and the following"                                                              |
+| 48  | Additional logic | We have a existing feature about generating zoom link, if we extend the end date of the chain, we need to generate zoom link for new lessons on BO                                        |
+| 49  | Additional logic | We have a existing feature about generating zoom link, if we increase the lesson count of the chain, we need to generate zoom link for new lessons on BO                                  |
 
 ---
 

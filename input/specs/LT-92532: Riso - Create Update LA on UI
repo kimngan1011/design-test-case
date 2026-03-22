@@ -1,0 +1,112 @@
+ID: https://manabie.atlassian.net/browse/LT-92532
+
+## Summary
+
+Riso ERP uses Lesson Management without order modules. HQ/CM users need to manually create Lesson Allocations (LA) on UI — and update/delete them — so they can allocate students to lessons before contracts are signed. The system introduces a new "New Lesson Allocation" button in the Contact → Course tab, a multi-step modal form, CSV bulk import, and validation rules preventing date conflicts and past-date entries.
+
+## Acceptance Criteria
+
+### US 01 — As a HQ or CM, I want to create Lesson Allocation on UI or by CSV
+
+| ID      | Feature                      | Acceptance Criteria                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AC 01.1 | Create LA CTA                | Under Require Lesson Allocation table in Contact → Course tab, a "New Lesson Allocation" button is shown. Clicking it opens the New Lesson Allocation modal.                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| AC 01.2 | New Lesson Allocation form   | Form opens with: AY pre-filled by current AY; Location pre-filled by student's single active enrolled location (status = enrolled). If student has >1 active enrolled location → Location field is blank. If student has no active enrolled location → Location field is blank (shows all active enrolled locations or all locations user has affiliation with as suggestions). Course selection table appears after AY and Location are selected; shows all Course Masters with Course Offering (by AY) and Location Course (by Location); reloads when AY or Location changes; supports JP partial search by course name. |
+| AC 01.3 | Config course and confirm    | User selects one or more courses → moves to next page to configure: Type (single select: Regular / Seasonal / Trial), Purchased Slot, Start date, End date (start < end). On confirm & save: redirected to Contact page; new LA(s) appear in the LA table in Course tab. LA is created with user-input data; Product details, student course id, package course, order remarks = No value (no order association); Course Offering and Location Course derived from selected course master & location.                                                                                                                       |
+| AC 01.4 | LA creation validation       | 1. Same AY + Same Location + Same Course + overlapping start & end date → inline error at course section: _"The selected course has a duration that overlaps with another instance of the same course created earlier. Please adjust the start or end date."_ 2. Both start and end date are in the past → inline error under End date: _"End date must be a future date."_ 3. Start date > End date → inline error under both fields: _"Start date must be earlier than End date."_                                                                                                                                        |
+| AC 01.5 | Bulk Create LA by CSV import | User can bulk create LAs via SF CSV import. Same data rules as AC 01.3; same validation as AC 01.4.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+
+### US 02 — As a HQ or CM, I want to edit or delete LA on UI
+
+| ID      | Feature   | Acceptance Criteria                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| AC 02.1 | Edit LA   | Editable fields: Start date, End date (only to a date **after** the original value — applies to both). New dates must pass validation in AC 01.4. If LA type = Trial: user can also edit Purchased Slot but only to a value **greater than** the original.                                                                                                                                                                                 |
+| AC 02.2 | Delete LA | Delete is allowed **only** when LA's start date is in the future (> today). Confirmation dialog: _"All allocated lesson (if any) in this course will also be removed. This action cannot be reverted. Are you sure you want to delete this Lesson Allocation?"_ On confirm: LA is deleted and all allocated lessons are unlinked. On cancel: nothing changes. Delete button is **disabled** when LA's start date is in the past (≤ today). |
+
+### US 03 — As a HQ or CM, I want to see summation of slot contracts
+
+> ⚠️ US03 to be implemented together with PBT-1812. AC 03.2 is TBC.
+
+| ID      | Feature                         | Acceptance Criteria                                                                                                                                                                                                                                    |
+| ------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| AC 03.1 | Purchased Slot auto-calculation | LA.Purchased_Slot = sum of Contract.Slot for all contracts linked to the same LA, excluding Cancelled, Voided, and deleted (delete_flag = on) contracts. Recalculated when an existing contract is updated or a new contract is added for the same LA. |
+| AC 03.2 | End Date auto-calculation (TBC) | LA.End_Date = latest end date among contracts linked to the same LA (excluding Cancelled/Voided/deleted). _(Status: TBC — pending confirmation)_                                                                                                       |
+
+---
+
+## Business Rules (Extracted)
+
+| #   | AC      | Business Rule                                                                                                          |
+| --- | ------- | ---------------------------------------------------------------------------------------------------------------------- |
+| 1   | AC 01.1 | "New Lesson Allocation" button appears under Require Lesson Allocation table in Contact → Course tab                   |
+| 2   | AC 01.1 | Clicking button opens the New Lesson Allocation modal                                                                  |
+| 3   | AC 01.2 | AY field is pre-filled with the current Academic Year                                                                  |
+| 4   | AC 01.2 | Location pre-filled if student has exactly 1 active enrolled location; otherwise blank                                 |
+| 5   | AC 01.2 | Location dropdown shows all active enrolled locations or all locations user has affiliation with                       |
+| 6   | AC 01.2 | Course list loads only after AY and Location are both selected                                                         |
+| 7   | AC 01.2 | Course list shows all Course Masters with Course Offering (by AY) and Location Course (by Location)                    |
+| 8   | AC 01.2 | Course list reloads when AY or Location changes                                                                        |
+| 9   | AC 01.2 | Course search supports JP partial match                                                                                |
+| 10  | AC 01.3 | User can select multiple courses to create multiple LAs in one flow                                                    |
+| 11  | AC 01.3 | LA Type options: Regular, Seasonal, Trial                                                                              |
+| 12  | AC 01.3 | Start date must be earlier than End date                                                                               |
+| 13  | AC 01.3 | On save: user redirected to Contact page and LA appears in LA table                                                    |
+| 14  | AC 01.3 | LA created without order-related fields (product details, student course id, package course, order remarks = no value) |
+| 15  | AC 01.4 | Overlapping dates for same AY + Location + Course → error at course section                                            |
+| 16  | AC 01.4 | Both start and end date in the past → inline error under End date: "End date must be a future date"                    |
+| 17  | AC 01.4 | Start date > End date → inline error under both date fields: "Start date must be earlier than End date"                |
+| 18  | AC 01.5 | CSV bulk import respects same validation and data rules as UI creation                                                 |
+| 19  | AC 02.1 | Edit: Start date and End date can only be changed to a date **after** the original value                               |
+| 20  | AC 02.1 | Edited dates must pass all validations in AC 01.4                                                                      |
+| 21  | AC 02.1 | Trial LA type: Purchased Slot editable to a value **greater than** the original only                                   |
+| 22  | AC 02.2 | Delete only allowed when LA start date > today                                                                         |
+| 23  | AC 02.2 | Delete confirmation dialog must be shown before deletion                                                               |
+| 24  | AC 02.2 | On confirm delete: LA deleted, allocated lessons unlinked                                                              |
+| 25  | AC 02.2 | Delete button disabled when LA start date ≤ today                                                                      |
+| 26  | AC 03.1 | LA.Purchased_Slot = sum of Contract.Slot (excluding Cancelled, Voided, delete_flag = on)                               |
+| 27  | AC 03.1 | LA.Purchased_Slot recalculated when contract updated or new contract added for same LA                                 |
+| 28  | AC 03.2 | LA.End_Date = latest end date from linked contracts (excluding Cancelled/Voided/deleted) — TBC                         |
+
+---
+
+## Clarification Questions
+
+1. **AC 01.4** — The PRD has a strikethrough note: _"Only accept start date in the past"_ with a question mark. Is it confirmed that start date **can** be in the past while only end date must be future? Or must both dates be in or after today?
+2. **AC 02.1** — What error message is shown when a user tries to edit a date to a value earlier than the original?
+3. **AC 02.1** — For Regular and Seasonal LA types, are there any other editable fields besides Start/End date? Is Purchased Slot read-only for these types?
+4. **AC 02.1** — For Trial LA Purchased Slot edit: is there a maximum value constraint, or only a minimum (must be > original)?
+5. **AC 01.5** — What error messages are shown for CSV import validation failures (overlap, past dates, start > end)? Are they row-level or file-level errors?
+6. **AC 02.2** — When LA is deleted, are allocated lessons unlinked synchronously (immediately) or via a background process?
+7. **AC 03.1 / 03.2** — US03 is pending PBT-1812. Is it in scope for this test cycle or explicitly excluded?
+8. **AC 03.2** — End Date auto-calculation is TBC. Should this be tested or deferred?
+9. **General** — What roles have access to Create/Edit/Delete LA? Is the permission scope only HQ and CM, or also teachers and other roles?
+10. **AC 01.2** — When student has no active enrolled location, can the user type-search for any location, or are they restricted to locations they have affiliation with?
+
+---
+
+## Related Specs
+
+- None found (first ticket for Lesson Allocation feature)
+
+---
+
+## Related Test Cases
+
+- `output/test-cases/lesson-management/lesson/` — general lesson management test cases (no overlap with LA creation)
+
+---
+
+## QASE Coverage Gaps
+
+> Qase PX suite 18 ("(OLD) Manabie Scheduling") has 0 existing test cases.
+> All business rules below require new test case coverage:
+
+- AC 01.1 — CTA button visibility and modal trigger
+- AC 01.2 — AY/Location pre-fill logic and course list load/reload
+- AC 01.3 — Multi-course selection, LA type config, save and redirect
+- AC 01.4 — All three validation scenarios (overlap, past dates, start > end)
+- AC 01.5 — CSV bulk import with validation
+- AC 02.1 — Edit date (date-forward only), Trial purchased slot edit
+- AC 02.2 — Delete with future start date, disabled delete with past start date, confirmation dialog
+- AC 03.1 — Purchased Slot auto-calculation on contract changes (pending PBT-1812)
+- AC 03.2 — End Date auto-calculation (TBC)
