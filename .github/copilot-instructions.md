@@ -29,6 +29,11 @@ This workspace has five domain-specific skills. When a user request matches a sk
 **Trigger:** User asks to import test cases to Qase, upload test cases, create Qase suites, or sync local test case files with Qase.
 **Skill file:** `.github/skills/import-to-qase.SKILL.md`
 
+### 5. Review Automation Test Run
+
+**Trigger:** User asks to review an automation test run, check test results from Qase, analyze step-results.md files, compare execution vs. test case definitions, or export a review report.
+**Skill file:** `.github/skills/review-automation-tests.SKILL.md`
+
 ---
 
 ## Workspace Structure
@@ -38,3 +43,4 @@ This workspace has five domain-specific skills. When a user request matches a sk
 - `output/test-cases/` — generated test case files (`.md` and `.csv`)
 - `output/test-coverages/` — coverage matrix files
 - `output/test-reports/` — test report files
+- `output/review-automation-tests/` — automation run review reports
