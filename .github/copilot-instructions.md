@@ -6,7 +6,7 @@ This workspace has five domain-specific skills. When a user request matches a sk
 
 ### 0. Full QA Workflow (End-to-End)
 
-**Trigger:** User asks to run the full pipeline, process a ticket end-to-end, do everything from Jira to Qase, or run all phases at once.
+**Trigger:** User asks to run the full pipeline, process a ticket full workflow, do everything from Jira to Qase, or run all phases at once.
 **Skill file:** `.github/skills/full-workflow.SKILL.md`
 
 ### 1. Analyze Requirements
@@ -34,6 +34,11 @@ This workspace has five domain-specific skills. When a user request matches a sk
 **Trigger:** User asks to review an automation test run, check test results from Qase, analyze step-results.md files, compare execution vs. test case definitions, or export a review report.
 **Skill file:** `.github/skills/review-automation-tests.SKILL.md`
 
+### 6. Execute Test Cases (Manual via Playwright)
+
+**Trigger:** User asks to execute a test case, run a Qase test case manually, perform a test on SF sandbox, verify test steps on Salesforce, or create an execution record.
+**Skill file:** `.github/skills/execute-test-cases.SKILL.md`
+
 ---
 
 ## Workspace Structure
@@ -44,3 +49,4 @@ This workspace has five domain-specific skills. When a user request matches a sk
 - `output/test-coverages/` — coverage matrix files
 - `output/test-reports/` — test report files
 - `output/review-automation-tests/` — automation run review reports
+- `output/execute-test-cases/` — manual test execution records (organised by Jira ticket)
