@@ -1,0 +1,135 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,2496,,Subject in Lesson Detail,1,,
+,,,,,,,,,,,,,,,,,,,,2498,,Subject – CSV Import,0,,
+,Lesson Import – CSV with Valid Subject – Lessons Created with Correct Subject,"AC 02.1 — Equivalence Partitioning — Import lessons via CSV with a valid Subject Master value; confirm lessons are created with the correct subject mapped.","- Logged in as HQ or CM user on SF
+- Subject Master has active records (e.g., Math, English, Science)
+- CSV file prepared with Subject column containing valid Subject Master names
+- Master data is set up (Location, AY, Course, Class)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Go to Manabie Lesson → Lesson tab → click """"Import""""""
+2. ""Select Lesson Schedule and """"Add new record""""""
+3. ""Select AY, Account, Class, Location Course, Program Master""
+4. ""Upload CSV file with Subject column containing """"Math"""" and """"English""""""
+5. ""Map columns including Subject → Subject field""
+6. ""Click """"Next"""" and """"Start Import""""""
+7. ""Open imported lessons on SF""
+8. ""Open imported lessons on BO""","1. ""Import wizard opens""
+2. ""Import configuration page displayed""
+3. ""Fields populated""
+4. ""CSV uploaded; preview displayed with Subject column""
+5. ""Column mapping completed""
+6. ""Import completes; lessons created""
+7. ""Each lesson shows the correct Subject from the CSV (Math or English)""
+8. ""Each lesson shows the correct Subject on BO""","1. """"
+2. """"
+3. """"
+4. ""Subject: Math, English""
+5. """"
+6. """"
+7. """"
+8. """"",,,2,,,,
+,Lesson Import – CSV with Empty Subject Column – Lessons Created Without Subject,"AC 02.1 / AC 01.2 — Equivalence Partitioning — Import lessons via CSV with Subject column left empty; confirm lessons are created without subject and no error.","- Logged in as HQ or CM user on SF
+- CSV file prepared with Subject column empty for all rows
+- Master data is set up",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Import CSV with empty Subject column""
+2. ""Open imported lessons on SF""
+3. ""Open imported lessons on BO""","1. ""Import completes without error""
+2. ""Lesson detail shows Subject field empty""
+3. ""Lesson detail shows Subject field empty on BO""","1. ""Subject: (empty)""
+2. """"
+3. """"",,,2,,,,
+,Lesson Import – CSV with Invalid Subject Value – Import Error Returned,"AC 02.1 — Negative Testing — Import lessons via CSV with a Subject value that does not match any Subject Master record; confirm an error is returned.","- Logged in as HQ or CM user on SF
+- CSV file prepared with Subject column containing ""InvalidSubjectXYZ"" (not in Subject Master)
+- Master data is set up",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Import CSV with Subject = """"InvalidSubjectXYZ""""""
+2. ""Observe error message""","1. ""Import fails or shows error for rows with invalid subject""
+2. ""Error indicates unrecognized Subject value; no lesson created for invalid rows""","1. ""Subject: InvalidSubjectXYZ""
+2. """"",,,2,,,,
+,Lesson Import – CSV with Mixed Valid and Empty Subject – All Lessons Created Correctly,"AC 02.1 — Equivalence Partitioning — Import CSV where some rows have a valid Subject and others have empty Subject; confirm all lessons created correctly.","- Logged in as HQ or CM user on SF
+- CSV prepared with rows: Row 1 Subject = ""Math"", Row 2 Subject = """", Row 3 Subject = ""Science""
+- Master data is set up",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Import CSV with mixed Subject values""
+2. ""Open lesson from Row 1""
+3. ""Open lesson from Row 2""
+4. ""Open lesson from Row 3""","1. ""Import completes; all 3 lessons created""
+2. ""Subject = """"Math""""""
+3. ""Subject is empty""
+4. ""Subject = """"Science""""""","1. ""Row 1: Math, Row 2: empty, Row 3: Science""
+2. """"
+3. """"
+4. """"",,,2,,,,
+,,,,,,,,,,,,,,,,,,,,2499,,Subject – Search,0,,
+,Lesson List – SF – Search by Subject Name – Matching Lessons Returned,"AC 04.1 — Decision Table — Search for lessons by Subject name on SF Lesson list; confirm matching lessons are returned.","- Logged in as HQ or CM user on SF
+- At least one lesson exists with Subject = ""Math""
+- At least one lesson exists with Subject = ""English""",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Manabie Lesson → Lesson tab""
+2. ""Enter """"Math"""" in the search/filter area for Subject""
+3. ""Clear search and enter """"English""""""","1. ""Lesson list displayed""
+2. ""Lessons with Subject = """"Math"""" are shown; others are excluded""
+3. ""Lessons with Subject = """"English"""" are shown""","1. """"
+2. ""Search: Math""
+3. ""Search: English""",,,2,,,,
+,Lesson List – SF – Search by Non-Existing Subject – No Lessons Returned,"AC 04.1 — Negative Testing — Search for a subject name that does not exist on any lesson; confirm no results.","- Logged in as HQ or CM user on SF
+- No lessons exist with Subject = ""NonExistentSubject""",,,low,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Manabie Lesson → Lesson tab""
+2. ""Enter """"NonExistentSubject"""" in Subject search""","1. ""Lesson list displayed""
+2. ""No matching lessons shown; empty result or no match""","1. """"
+2. ""Search: NonExistentSubject""",,,2,,,,
+,Lesson List – BO – Search by Subject Name – Matching Lessons Returned,"AC 04.2 — Decision Table — Search for lessons by Subject name on BO Lesson Management; confirm matching lessons are returned.","- Logged in to Backoffice
+- At least one lesson exists with Subject = ""Math""",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Lesson Management on BO""
+2. ""Enter """"Math"""" in the Subject search field""","1. ""Lesson list displayed""
+2. ""Lessons with Subject = """"Math"""" are shown; others are excluded""","1. """"
+2. ""Search: Math""",,,2,,,,
+,,,,,,,,,,,,,,,,,,,,2500,,Subject – Filter,0,,
+,Lesson Calendar – SF – Filter by Subject – Only Matching Lessons Shown,"AC 05.1 — Decision Table — Apply Subject filter on SF Calendar; confirm only lessons with the selected subject are displayed.","- Logged in as HQ or CM user on SF
+- Lessons exist with Subject = ""Math"" and Subject = ""English"" on visible calendar dates",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to SF Calendar view""
+2. ""Apply Subject filter and select """"Math""""""
+3. ""Clear Subject filter""","1. ""Calendar with lessons displayed""
+2. ""Only lessons with Subject = """"Math"""" are shown on the calendar""
+3. ""All lessons are displayed again regardless of subject""","1. """"
+2. ""Filter: Math""
+3. """"",,,2,,,,
+,Lesson Calendar – BO – Filter by Subject – Only Matching Lessons Shown,"AC 05.2 — Decision Table — Apply Subject filter on BO Calendar; confirm only lessons with the selected subject are displayed.","- Logged in to Backoffice
+- Lessons exist with Subject = ""Math"" and Subject = ""English"" on visible calendar dates",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to BO Calendar view""
+2. ""Apply Subject filter and select """"Math""""""
+3. ""Clear Subject filter""","1. ""Calendar with lessons displayed""
+2. ""Only lessons with Subject = """"Math"""" are shown on the calendar""
+3. ""All lessons are displayed again""","1. """"
+2. ""Filter: Math""
+3. """"",,,2,,,,
+,Lesson List – BO – Subject Filter Applied – Only Matching Lessons Shown,"AC 05.3 — Decision Table — Apply Subject filter on BO Lesson Management list; confirm only lessons with the selected subject are shown.","- Logged in to Backoffice
+- Lessons exist with Subject = ""Math"" and Subject = ""English""",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Lesson Management list on BO""
+2. ""Apply Subject filter and select """"Math""""""
+3. ""Clear Subject filter""","1. ""Lesson list displayed""
+2. ""Only lessons with Subject = """"Math"""" are shown""
+3. ""All lessons are displayed again""","1. """"
+2. ""Filter: Math""
+3. """"",,,2,,,,
+,Lesson List – BO – Subject Filter Combined with Other Filters – Cross-Field Validation,"AC 05.3 — Decision Table — Apply Subject filter combined with Location and Course filters; confirm cross-field validation applies correctly.","- Logged in to Backoffice
+- Lessons exist with:
+  - Lesson A: Subject = ""Math"", Location = ""Location A"", Course = ""Course X""
+  - Lesson B: Subject = ""Math"", Location = ""Location B"", Course = ""Course Y""
+  - Lesson C: Subject = ""English"", Location = ""Location A"", Course = ""Course X""",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Apply Subject filter = """"Math""""""
+2. ""Additionally apply Location filter = """"Location A""""""
+3. ""Clear all filters""","1. ""Lessons A and B are shown""
+2. ""Only Lesson A is shown (Math + Location A)""
+3. ""All lessons A, B, C are displayed""","1. ""Filter: Subject = Math""
+2. ""Filter: Subject = Math, Location = Location A""
+3. """"",,,2,,,,
+,,,,,,,,,,,,,,,,,,,,2501,,Subject – Exclusions & Constraints,0,,
+,Lesson Detail – Aver Custom Page – Subject Field Absent,"AC 06.1 — Permission Matrix / Negative Testing — Confirm Subject field does NOT appear on Aver custom lesson page.","- Logged in with Aver tenant credentials
+- A lesson exists on Aver custom page",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Aver custom lesson page""
+2. ""Observe all fields on lesson detail""","1. ""Lesson detail page displayed""
+2. ""Subject field is NOT present on the page""","1. """"
+2. """"",,,2,,,,
+,Lesson Detail – Teacher Assigned Regardless of Subject – No Subject-Teacher Validation,"AC 06.2 — Permission Matrix — Assign a teacher to a lesson with Subject = ""Math"" where the teacher has no eligible_subject for Math; confirm no validation error.","- Logged in as HQ or CM user on SF
+- A lesson exists with Subject = ""Math""
+- A teacher exists who does NOT have ""Math"" in eligible_subject",,,low,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open lesson detail with Subject = """"Math""""""
+2. ""Click """"Add Teacher"""" and select a teacher without Math eligibility""
+3. ""Observe lesson teachers section""","1. ""Lesson detail displayed""
+2. ""Teacher is added to the lesson without any validation error""
+3. ""Teacher is listed on the lesson regardless of subject mismatch""","1. ""Subject: Math""
+2. """"
+3. """"",,,2,,,,
+,Lesson Detail – Different Subjects on Same-Course Lessons – No Course-Subject Constraint,"AC 06.3 — CRUD Testing — Create two lessons under the same course with different subjects; confirm no error or constraint.","- Logged in as HQ or CM user on SF
+- Course ""Course X"" exists
+- Subject Master has ""Math"" and ""English""",,,low,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Create a lesson under Course X with Subject = """"Math""""""
+2. ""Create another lesson under Course X with Subject = """"English""""""
+3. ""Open both lessons""","1. ""Lesson created with Subject = """"Math""""""
+2. ""Lesson created with Subject = """"English""""; no conflict or error""
+3. ""Each lesson shows its own subject independently""","1. ""Course: Course X, Subject: Math""
+2. ""Course: Course X, Subject: English""
+3. """"",,,2,,,,

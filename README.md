@@ -2,6 +2,10 @@
 
 A GitHub Copilot-powered workspace for automating the full QA test design pipeline — from a Jira ticket to test cases imported into Qase.
 
+## Demo
+
+▶️ [Watch the full pipeline demo](https://drive.google.com/file/d/12WghFmQ2miYe3IPJRVXIeKqRWgiWxx8J/view?usp=sharing)
+
 ---
 
 ## Overview

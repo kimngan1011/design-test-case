@@ -1,0 +1,101 @@
+# LT-94698: Riso | Core | Subject in Lesson Detail
+
+ID: https://manabie.atlassian.net/browse/LT-94698
+
+## Summary
+
+Riso requires subject information linked to each lesson for auditing and reporting purposes (instructor matching, personalized curricula, instructional records). This feature adds a Subject field (Subject Master lookup) to lessons — optional, single-select. The field must be visible and editable on SF, BO, Calendar, and Learning App, and support CSV import, search, and filter.
+
+## Acceptance Criteria
+
+### AC 01 — Specify Subject on Lesson
+
+- **AC 01.1** Allow the user to specify the Subject (Subject Master lookup) of each lesson.
+- **AC 01.2** Lesson's Subject is optional.
+- **AC 01.3** Single select (only one subject per lesson).
+
+### AC 02 — CSV Import
+
+- **AC 02.1** Allow the user to specify the subject through bulk CSV import.
+
+### AC 03 — Display Subject
+
+- **AC 03.1** Display the lesson's Subject in SF – Lesson Details (above Location).
+- **AC 03.2** Display the lesson's Subject in SF – Calendar – Lesson Info.
+- **AC 03.3** Display the lesson's Subject in BO – Lesson Details (above Location).
+- **AC 03.4** Display the lesson's Subject in BO – Calendar – Lesson Info.
+- **AC 03.5** Display the lesson's Subject in Mobile – Learning App.
+
+### AC 04 — Search by Subject
+
+- **AC 04.1** SF Lessons — Search for Subject (do not add Subject to list columns as core; just confirm it can be shown and searching works).
+- **AC 04.2** BO – Lesson Management — Search by Subject.
+
+### AC 05 — Filter by Subject
+
+- **AC 05.1** SF Calendar — Filter by Subject.
+- **AC 05.2** BO Calendar — Filter by Subject.
+- **AC 05.3** BO – Lesson Management — Subject Filter (confirm cross-field validation).
+
+### AC 06 — Exclusions and Constraints
+
+- **AC 06.1** Aver custom page will NOT have this field.
+- **AC 06.2** No teacher-subject validation (eligible_subject) is required.
+- **AC 06.3** No course-subject relationship is required.
+
+## Business Rules (Extracted)
+
+| #   | AC      | Business Rule                                                                        |
+| --- | ------- | ------------------------------------------------------------------------------------ |
+| 1   | AC 01.1 | User can set Subject on a lesson via Subject Master lookup                           |
+| 2   | AC 01.2 | Subject field is optional — lesson can be saved without a subject                    |
+| 3   | AC 01.3 | Subject is single-select — only one subject per lesson                               |
+| 4   | AC 02.1 | User can specify subject in CSV import; subject mapped to Subject Master             |
+| 5   | AC 03.1 | Subject displayed in SF Lesson Details, positioned above Location                    |
+| 6   | AC 03.2 | Subject displayed in SF Calendar Lesson Info                                         |
+| 7   | AC 03.3 | Subject displayed in BO Lesson Details, positioned above Location                    |
+| 8   | AC 03.4 | Subject displayed in BO Calendar Lesson Info                                         |
+| 9   | AC 03.5 | Subject displayed in Mobile Learning App                                             |
+| 10  | AC 04.1 | SF Lessons list supports search by Subject; Subject not added to list columns (core) |
+| 11  | AC 04.2 | BO Lesson Management supports search by Subject                                      |
+| 12  | AC 05.1 | SF Calendar supports filtering by Subject                                            |
+| 13  | AC 05.2 | BO Calendar supports filtering by Subject                                            |
+| 14  | AC 05.3 | BO Lesson Management supports Subject filter with cross-field validation             |
+| 15  | AC 06.1 | Aver custom page must NOT show Subject field                                         |
+| 16  | AC 06.2 | No teacher-subject validation — any teacher can be assigned regardless of subject    |
+| 17  | AC 06.3 | No course-subject relationship — subject is per-lesson, not per-course               |
+
+## Clarification Questions
+
+1. When editing a recurring lesson's subject, does the change apply to "only this lesson" or "this and following"? Or both options?
+2. Can subject be changed after the lesson is completed/cancelled, or is it locked at certain lesson statuses?
+3. What happens when a Subject Master record is deleted or deactivated — are existing lessons affected?
+4. For CSV import, what is the exact column name for Subject? What happens if the subject value doesn't match any Subject Master record (error or skip)?
+5. For search on SF Lessons list — is this a lookup search or text search? Does it match partial subject names?
+6. Cross-field validation on BO Subject Filter (AC 05.3) — which fields interact with Subject? Location? Course?
+7. Is Subject displayed on the lesson list in BO, or only in the detail view?
+8. When creating a lesson via "Add Lesson" on a lesson schedule, is Subject pre-filled from the schedule or left blank?
+9. Does the duplicate lesson flow copy the subject to the new lesson?
+10. Does Subject appear in the lesson report or only in the lesson itself?
+
+## Related Specs
+
+- `input/specs/LT-92532: Riso - Create Update LA on UI` — same tenant (Riso), lesson allocation feature
+- `input/specs/LT-96342: Renseikai - Configure Lesson Student Session Error Message Display` — lesson detail area
+
+## Related Test Cases
+
+- `output/test-cases/lesson-management/lesson/edit-lesson/edit-lesson-bo.md` — existing edit lesson tests on BO (lesson detail fields)
+- `output/test-cases/lesson-management/lesson/edit-lesson/edit-lesson-sf.md` — existing edit lesson tests on SF
+- `output/test-cases/lesson-management/lesson/create-lesson/import-lesson.md` — existing CSV import tests
+- `output/test-cases/lesson-management/lesson/create-lesson/create-lesson-schedule-detail.md` — create lesson form fields
+- `output/test-cases/lesson-management/lesson/create-lesson/create-lesson-list.md` — lesson list columns
+
+## QASE Coverage Gaps
+
+- AC 01.1–01.3 — No existing test for Subject field on lesson (new field)
+- AC 02.1 — CSV import tests exist but no subject column coverage
+- AC 03.1–03.5 — No existing tests for Subject display on any surface
+- AC 04.1–04.2 — No existing tests for Subject search
+- AC 05.1–05.3 — No existing tests for Subject filter
+- AC 06.1 — No existing test for Aver exclusion

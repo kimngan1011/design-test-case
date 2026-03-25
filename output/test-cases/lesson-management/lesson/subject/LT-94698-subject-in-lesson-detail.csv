@@ -1,0 +1,105 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,2496,,Subject in Lesson Detail,1,,
+,,,,,,,,,,,,,,,,,,,,2497,,Subject – Set & Display,0,,
+,Lesson Detail – SF – Create One-Time Lesson with Subject – Subject Saved and Displayed,"AC 01.1 — Equivalence Partitioning — Create a one-time lesson on SF with a subject selected from Subject Master lookup; confirm subject is saved and displayed correctly.","- Logged in as HQ or CM user on SF
+- Subject Master has at least one active record (e.g., Math, English)
+- User has created master data (Location, AY, Course, Class)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Go to Manabie Lesson → Lesson tab → click """"New""""""
+2. ""Fill in required lesson fields for a one-time individual lesson""
+3. ""Click on Subject field""
+4. ""Select a subject from the lookup""
+5. ""Click """"Save""""""
+6. ""Observe Subject field on lesson detail""","1. ""Create lesson form opens""
+2. ""All required fields populated""
+3. ""Subject Master lookup opens with searchable list""
+4. ""Subject field shows the selected subject name""
+5. ""Lesson created; redirected to lesson detail page""
+6. ""Subject displays """"Math"""" and is positioned above Location""","1. """"
+2. """"
+3. """"
+4. ""Subject: Math""
+5. """"
+6. """"",,,2,,,,
+,Lesson Detail – SF – Edit Subject to Different Value – Subject Updated on Detail Page,"AC 01.1 — Equivalence Partitioning — Edit an existing lesson's subject to a different Subject Master value; confirm the new subject is saved.","- Logged in as HQ or CM user on SF
+- A one-time lesson exists with Subject = ""Math""",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open existing lesson detail page""
+2. ""Click """"Edit""""""
+3. ""Click on Subject field and select a different subject""
+4. ""Click """"Save""""""","1. ""Lesson detail with Subject = """"Math"""" displayed""
+2. ""Lesson enters edit mode""
+3. ""Subject field updated to the new value""
+4. ""Lesson saved; detail page shows Subject = """"English""""""","1. """"
+2. """"
+3. ""Subject: English""
+4. """"",,,2,,,,
+,Lesson Detail – SF – Clear Subject from Lesson – Lesson Saved Without Subject,"AC 01.1 / AC 01.2 — Equivalence Partitioning — Clear the subject from a lesson that has one; confirm lesson saves without error.","- Logged in as HQ or CM user on SF
+- A lesson exists with Subject = ""English""",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open lesson detail page""
+2. ""Click """"Edit""""""
+3. ""Clear the Subject field (remove current value)""
+4. ""Click """"Save""""""","1. ""Lesson detail with Subject = """"English"""" displayed""
+2. ""Lesson enters edit mode""
+3. ""Subject field is empty""
+4. ""Lesson saved; Subject field is empty on detail page""","1. """"
+2. """"
+3. """"
+4. """"",,,2,,,,
+,Lesson Detail – SF – Create Lesson Without Subject – Lesson Saved with Empty Subject,"AC 01.2 — Equivalence Partitioning — Create a lesson without selecting any subject; confirm lesson saves without error.","- Logged in as HQ or CM user on SF
+- User has created master data (Location, AY, Course, Class)",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Go to Manabie Lesson → Lesson tab → click """"New""""""
+2. ""Fill in all required fields but leave Subject field empty""
+3. ""Click """"Save""""""","1. ""Create lesson form opens""
+2. ""All required fields populated; Subject is blank""
+3. ""Lesson created without error; Subject is empty on detail""","1. """"
+2. """"
+3. """"",,,2,,,,
+,Lesson Detail – SF – Subject Field – Single-Select Behavior – Only One Subject Selectable,"AC 01.3 — Equivalence Partitioning — Confirm Subject field is single-select; selecting a new value replaces the old value.","- Logged in as HQ or CM user on SF
+- Subject Master has at least two records (e.g., Math, English)
+- A lesson exists without a subject",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open lesson detail → click """"Edit""""""
+2. ""Click Subject field and select """"Math""""""
+3. ""Click Subject field again and select """"English""""""
+4. ""Click """"Save""""""","1. ""Lesson enters edit mode""
+2. ""Subject field shows """"Math""""""
+3. ""Subject field shows """"English"""" (replaces """"Math"""", not multi-select)""
+4. ""Lesson saved with Subject = """"English""""""","1. """"
+2. ""Subject: Math""
+3. ""Subject: English""
+4. """"",,,2,,,,
+,Lesson Detail – SF – Subject Displayed Above Location on Detail Page,"AC 03.1 — Regression Analysis — Confirm Subject field is positioned above Location on SF Lesson Detail page.","- Logged in as HQ or CM user on SF
+- A lesson exists with Subject = ""Math"" and Location assigned",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open lesson detail page""
+2. ""Observe field order in lesson information""","1. ""Lesson detail page loads""
+2. ""Subject field appears above Location field""","1. """"
+2. ""Subject: Math""",,,2,,,,
+,Lesson Detail – SF Calendar – Lesson Info Popup – Subject Displayed,"AC 03.2 — Regression Analysis — Confirm Subject appears in SF Calendar lesson info popup.","- Logged in as HQ or CM user on SF
+- A lesson exists with Subject = ""Math"" on a visible calendar date",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to SF Calendar view""
+2. ""Click on the lesson with Subject = """"Math""""""
+3. ""Observe lesson info popup fields""","1. ""Calendar view loads with lessons displayed""
+2. ""Lesson info popup opens""
+3. ""Subject = """"Math"""" is displayed in the popup""","1. """"
+2. """"
+3. ""Subject: Math""",,,2,,,,
+,Lesson Detail – BO – Subject Displayed Above Location on Detail Page,"AC 03.3 — Regression Analysis — Confirm Subject field appears above Location on BO Lesson Detail page.","- A lesson exists with Subject = ""Math""
+- Logged in to Backoffice",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Lesson Management → open the lesson""
+2. ""Observe lesson information fields""","1. ""Lesson detail page loads on BO""
+2. ""Subject = """"Math"""" displayed above Location on lesson detail""","1. """"
+2. ""Subject: Math""",,,2,,,,
+,Lesson Detail – BO Calendar – Lesson Info Popup – Subject Displayed,"AC 03.4 — Regression Analysis — Confirm Subject appears in BO Calendar lesson info popup.","- A lesson exists with Subject = ""Math"" on a visible calendar date
+- Logged in to Backoffice",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to BO Calendar view""
+2. ""Click on the lesson with Subject = """"Math""""""
+3. ""Observe lesson info popup fields""","1. ""Calendar view loads with lessons displayed""
+2. ""Lesson info popup opens""
+3. ""Subject = """"Math"""" is displayed in the popup""","1. """"
+2. """"
+3. ""Subject: Math""",,,2,,,,
+,Lesson Detail – Mobile Learning App – Student Views Lesson with Subject – Subject Displayed,"AC 03.5 — Regression Analysis — Confirm Subject is visible to students on Mobile Learning App.","- A lesson exists with Subject = ""Math"" and a student assigned
+- Student has Mobile Learning App access",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student logs into Mobile Learning App""
+2. ""Student opens the lesson with Subject = """"Math""""""
+3. ""Observe lesson information""","1. ""Student dashboard loads""
+2. ""Lesson detail displayed on mobile""
+3. ""Subject = """"Math"""" is displayed in the lesson detail""","1. """"
+2. """"
+3. ""Subject: Math""",,,2,,,,
+,Lesson Detail – Mobile Learning App – Lesson Without Subject – No Subject Shown,"AC 03.5 / AC 01.2 — Regression Analysis — Confirm that lessons without a subject do not show an empty or broken Subject field on Mobile.","- A lesson exists without a subject and a student assigned
+- Student has Mobile Learning App access",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student logs into Mobile Learning App""
+2. ""Student opens the lesson without a subject""
+3. ""Observe lesson information""","1. ""Student dashboard loads""
+2. ""Lesson detail displayed on mobile""
+3. ""Subject field is either empty or hidden; no broken UI elements""","1. """"
+2. """"
+3. """"",,,2,,,,

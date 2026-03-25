@@ -270,6 +270,117 @@ Before finishing, verify the record file contains:
 
 ---
 
+## Backoffice Execution Reference
+
+This section covers lessons learned from executing Backoffice (BO) tests — specifically the zoom vacancy/occupancy test suite.
+
+### Two-Account Session Limitation
+
+Playwright MCP controls a **single Chromium browser context**. All tabs share cookies, so opening a second tab and logging in as a different user **overwrites** the first session — there is no true parallel session. A second physical browser or browser context would require a second MCP server, which is not available.
+
+**Consequence:** Switch between full access and partial access via explicit logout → login.
+
+### Login Flow (Backoffice)
+
+1. Click the profile button (top-right) → click **ログアウト**
+2. On the login page: tenant ID is pre-filled → click **次**
+3. On the credentials page: click the access level dropdown → select **フルアクセス** or **一部アクセス**
+4. Click **SALESFORCEアカウントでログイン**
+5. On the Salesforce login page: credentials are pre-filled → click **Sandbox にログイン**
+6. Wait ~3 seconds for redirect back to Backoffice
+
+### Two-Account Zoom Vacancy Test Pattern
+
+These tests use:
+
+- **Full access** (`+migratedstaff`) — to set up lesson time/teaching medium
+- **Partial access** (`+migratedteacher`) — to verify zoom owner vacancy in the Student tab
+
+**Efficient TC-to-TC transition:**
+
+| Scenario                                   | Steps                                                                                                                                                   |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Prev TC: no zoom link generated            | Full access: edit L2 time + change 対面→Zoom in ONE edit → logout → partial access verify                                                               |
+| Prev TC: zoom link generated (VACANT TC)   | Partial access: reset (Zoom→対面, same edit or separate) → logout → full access: edit 対面→Zoom + new time in ONE edit → logout → partial access verify |
+| Resetting from Zoom when time also changes | Requires **TWO full-access edits**: Edit 1: Zoom→対面 + new time → save; Edit 2: 対面→Zoom → save                                                       |
+
+**Key rule:** Changing 対面→Zoom + time change can be done in **one edit**. Changing Zoom→対面 always triggers a zoom deletion confirmation dialog first.
+
+### Teaching Medium Change Dialogs
+
+| Change direction          | First dialog                                                              | Second dialog                        |
+| ------------------------- | ------------------------------------------------------------------------- | ------------------------------------ |
+| Zoom → 対面               | "授業形態を変更すると、この授業のZoom設定が削除されます" → click **確認** | Recurrence → **この授業のみ** → 適用 |
+| 対面 → Zoom               | _(none)_                                                                  | Recurrence → **この授業のみ** → 適用 |
+| Zoom → Zoom (time change) | "Zoom再発行" confirmation → click **確認**                                | Recurrence → **この授業のみ** → 適用 |
+
+Always select **この授業のみ** in the recurrence dialog unless explicitly instructed to change all lessons.
+
+### Time Field Entry Pattern (Backoffice combobox)
+
+1. Click into the time combobox field (開始時刻 / 終了時刻)
+2. **Type** the desired time (e.g. `14:00`) — this filters the listbox options
+3. **Click** the matching option that appears in the listbox dropdown
+4. Do NOT press Enter — the selection must come from clicking the listbox option
+
+### "zoomリンクを追加" Button — Disabled on Page Load
+
+After navigating to the 生徒 (Student) tab of a lesson, the **zoomリンクを追加** button is initially `[disabled]` while the zoom section loads. Wait **2 seconds** before attempting to click it.
+
+### Zoom Owner Dropdown — Escape Before 発行
+
+After selecting a zoom owner from the dropdown listbox:
+
+1. The listbox may remain visible and intercept the next click
+2. Press **Escape** to close the listbox
+3. Then click **発行**
+
+### "複数リンクを発行" vs "単一リンク"
+
+The TC definition specifies which link type to use. Check the test case's link type field:
+
+- **Multiple (複数リンクを発行)** — opens dialog with zoom owner dropdown per student
+- **Single (単一リンク)** — opens dialog with a single shared zoom owner dropdown
+
+Both flows end with: select zoom owner → press Escape → click 発行 → click 確認.
+
+### Occupancy Verification (No Zoom Generation for OCCUPIED TCs)
+
+For OCCUPIED test cases, you only need to:
+
+1. Click **zoomリンクを追加** → select link type
+2. Open the zoom owner dropdown
+3. **Verify Kim Ngan is ABSENT** from the list (she is occupied)
+4. Click **キャンセル** — do NOT generate a zoom link
+5. No reset needed (no zoom link was created)
+
+For VACANT test cases:
+
+1. Open zoom owner dropdown → verify Kim Ngan **IS present**
+2. Select Kim Ngan → press Escape → click 発行 → click 確認
+3. Verify "zoomリンクを追加しました" alert
+4. **Reset after**: change teaching medium Zoom → 対面, save, then 対面 → Zoom for next TC
+
+### Backoffice URL Patterns
+
+| Purpose       | URL                                                                                  |
+| ------------- | ------------------------------------------------------------------------------------ |
+| Lesson detail | `https://backoffice.prep.tokyo.manabie.io/lesson/lesson_management/<LESSON_ID>/show` |
+| Login page    | `https://backoffice.prep.tokyo.manabie.io/login-tenant`                              |
+
+### Lesson State Tracking
+
+Maintain a clear record of L2's current state before each TC:
+
+| Field           | Expected state entering TC                     |
+| --------------- | ---------------------------------------------- |
+| Teaching medium | Zoom                                           |
+| Zoom link       | None (cleared after previous TC)               |
+| Date            | 2026/04/07 (unless TC requires different date) |
+| Time            | TC-specific (see progress table)               |
+
+---
+
 ## SF Navigation Reference
 
 | Object               | List View URL                                                          |
