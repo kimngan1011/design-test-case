@@ -1,8 +1,11 @@
 ---
 description: >
-  **WORKFLOW SKILL** — Analyze requirements from a Jira ticket to produce a structured spec file.
+  **WORKFLOW SKILL** — Analyze requirements from a Jira ticket to produce a structured spec file,
+  including deep conflict detection, gap analysis, and inconsistency mapping between new requirements
+  and the current system.
   USE FOR: onboarding a new ticket, analyzing feature requirements, formulating clarification
-  questions, discovering scope from Jira + Confluence + Figma.
+  questions, discovering scope from Jira + Confluence + Figma, detecting mismatch/conflicts with
+  existing specs and test cases, identifying missing behaviors in new requirements.
   INPUT: Jira ticket ID or URL + optional QASE link.
   OUTPUT: structured `.md` spec file saved to `input/specs/`.
   DO NOT USE FOR: generating test cases (use generate-testcases skill) or creating test coverage (use test-coverage template).
@@ -75,7 +78,7 @@ If a QASE link was provided as input:
 3. For each test case, note:
    - Which AC or feature area it covers (based on title and description)
    - Which scenarios are already tested
-   - Which business rules from Step 5 already have coverage
+   - Which business rules from Step 6 already have coverage
    - Gaps: business rules with no corresponding test case
 
 If no QASE link was provided, skip this step silently.
@@ -90,17 +93,74 @@ Use keywords from Step 1 (feature name, module, field names) to search locally:
 2. **Search `output/test-cases/`** — find existing test cases that may overlap with or be impacted by this ticket.
 3. **Search `output/test-coverages/`** — check if a coverage matrix already exists for this feature.
 
-For each match, note:
+For each match, **read the full content** of the file — do not just note the filename. You need the actual business rules, field behaviors, and assertions to compare in Step 5b.
 
-- Which ACs or business rules are already covered
-- Which scenarios may be **impacted** by this new feature (regression risk)
-- Which edge cases are already tested vs. missing
+---
+
+### Step 5b — Conflict & Gap Analysis Against Current System
+
+This step is **mandatory** whenever related specs or test cases are found in Step 5. Its purpose is to surface mismatches, inconsistencies, and missing behaviors **before** writing the spec.
+
+#### 5b-1: Business Rule Delta
+
+For each business rule you will extract in Step 6, check against every related spec and test case:
+
+- Does an existing spec define the **same field or flow** with **different behavior**?
+- Does an existing test case **assert a value or state** that this ticket would change or invalidate?
+- Does the new rule **extend**, **replace**, or **conflict** with the existing behavior?
+
+Classify each finding using one of these tags:
+
+| Tag                    | Meaning                                                                     |
+| ---------------------- | --------------------------------------------------------------------------- |
+| `[CONFLICT]`           | New rule directly contradicts an existing spec or test assertion            |
+| `[REGRESSION RISK]`    | New behavior may break an existing test case without contradicting the spec |
+| `[EXTENDED]`           | New rule adds to existing behavior without contradiction                    |
+| `[REPLACED]`           | New rule fully supersedes an existing rule (note the old rule explicitly)   |
+| `[UNDOCUMENTED IN AC]` | Figma or Confluence shows a behavior not mentioned in any AC                |
+| `[MISSING BEHAVIOR]`   | A scenario exists in the system but this ticket provides no rule for it     |
+
+#### 5b-2: Implicit Dependency Check
+
+Ask for each new rule:
+
+- Does it **assume a precondition** that is set by another feature or ticket?
+- If that upstream feature changes, does this ticket's behavior break?
+- Is there a **data dependency** (e.g. a field value produced by another flow) that is not documented in the AC?
+
+#### 5b-3: Role & Permission Coverage Check
+
+- List all roles that interact with this feature (from AC, Confluence, Figma).
+- For each role mentioned, verify: does the AC define behavior for **every role**, or only some?
+- Flag roles where behavior is undefined as `[ROLE GAP]`.
+
+#### 5b-4: Edge Case & Boundary Check Against Existing Tests
+
+Compare the scope of existing test cases against the new AC:
+
+- Are there **boundary conditions** already tested that the new AC does not address?
+- Are there **error scenarios** covered in existing tests that the new AC ignores?
+- Are there **null/empty/zero** states tested previously that may now behave differently?
+
+#### 5b-5: Format Findings as a Table
+
+Consolidate all findings into a conflict and gap table:
+
+```
+| # | Tag                | Source                          | AC      | Description                                                      |
+|---|--------------------|---------------------------------|---------|------------------------------------------------------------------|
+| 1 | [CONFLICT]         | input/specs/LT-XXXXX, line 42   | AC 01.2 | New: date auto-filled. Existing: date always editable by teacher |
+| 2 | [REGRESSION RISK]  | output/test-cases/TC-042        | AC 02.1 | TC asserts field = null on create; new flow sets a default value |
+| 3 | [UNDOCUMENTED IN AC]| Figma node #1234               | —       | Confirmation dialog shown in Figma; no AC covers this dialog     |
+| 4 | [ROLE GAP]         | AC (all sections)               | —       | School Admin role not mentioned; Teacher role only               |
+| 5 | [MISSING BEHAVIOR] | output/test-cases/TC-018        | —       | Existing test covers recurring_count = 0; new AC has no rule     |
+```
 
 ---
 
 ### Step 6 — Extract Business Rules and Acceptance Criteria
 
-Consolidate all information from Steps 1–4 into a structured list:
+Consolidate all information from Steps 1–5b into a structured list:
 
 **For each AC**, extract:
 
@@ -112,35 +172,41 @@ Consolidate all information from Steps 1–4 into a structured list:
 - Conflict handling (e.g. "lesson not created if date already exists")
 - Cross-system / integration impact (e.g. "reflected on SF Calendar, BO detail")
 
-Format: numbered list grouped by AC ID, e.g.:
+Format: numbered list grouped by AC ID:
 
 ```
-| #  | AC    | Business Rule                          |
-|----|-------|----------------------------------------|
-| 1  | AC 01.1 | Button only visible when is_recurring = TRUE |
-| 2  | AC 01.2 | Date field auto-filled: last end date + 7 days |
+| #  | AC      | Business Rule                                            |
+|----|---------|----------------------------------------------------------|
+| 1  | AC 01.1 | Button only visible when is_recurring = TRUE             |
+| 2  | AC 01.2 | Date field auto-filled: last end date + 7 days           |
 ```
 
 ---
 
 ### Step 7 — Formulate Clarification Questions
 
-Based on the extracted business rules, compare against the Figma design, Confluence pages, existing test cases (QASE + local), to identify gaps:
+Based on the extracted business rules and the conflict/gap findings from Step 5b, write targeted questions.
 
-**Categories to check:**
+**Every question MUST follow this format:**
 
-| Category                       | Questions to ask                                                   |
-| ------------------------------ | ------------------------------------------------------------------ |
-| **Ambiguity**                  | Is this rule clearly defined? Does it contradict another AC?       |
-| **Missing behavior**           | What happens when the field is empty / null / zero?                |
-| **Boundary conditions**        | What is the exact min/max value? What happens at the limit?        |
-| **Error handling**             | What error message is shown? Can the user retry?                   |
-| **Role/permission gaps**       | Is this behavior the same for all roles? What about edge roles?    |
-| **Cross-feature impact**       | Does this interact with feature X? Which existing tests may break? |
-| **Data integrity**             | What if the operation partially fails? Is it atomic?               |
-| **Nichibei / tenant-specific** | Does this feature behave differently per tenant/org?               |
+> **[Category]** The question itself — phrased clearly for a product manager or developer.
+> _Evidence: `<source file or AC ID>` — `<what it says that creates the gap or ambiguity>`_
 
-Write all questions directly into the spec file under `## Clarification Questions`. Do **not** post them to Jira or any external tool.
+**Categories:**
+
+| Category             | Trigger condition                                           |
+| -------------------- | ----------------------------------------------------------- |
+| `[CONFLICT]`         | Two sources define the same behavior differently            |
+| `[REGRESSION RISK]`  | Existing test may fail under new behavior                   |
+| `[MISSING BEHAVIOR]` | No AC rule exists for a scenario the system already handles |
+| `[ROLE GAP]`         | A role is not covered by any AC                             |
+| `[BOUNDARY]`         | Min/max or limit value is undefined                         |
+| `[ERROR HANDLING]`   | No AC describes what happens on failure or invalid input    |
+| `[AMBIGUITY]`        | A rule is stated but its exact behavior is unclear          |
+| `[DATA INTEGRITY]`   | Partial failure or atomicity is not addressed               |
+| `[TENANT-SPECIFIC]`  | Behavior may vary per tenant/org but AC does not clarify    |
+
+Write all questions to the spec file first. They will be reviewed and posted to Jira in Step 9.
 
 ---
 
@@ -174,11 +240,36 @@ Include tables for field behaviors where applicable.>
 | --- | ------- | ------------- |
 | 1   | AC XX.X | ...           |
 
+## Conflict & Gap Analysis
+
+### Conflicts with Existing System
+
+| #   | Tag               | Source                   | AC      | Description                                     |
+| --- | ----------------- | ------------------------ | ------- | ----------------------------------------------- |
+| 1   | [CONFLICT]        | input/specs/LT-XXXXX     | AC XX.X | <new behavior> vs <existing behavior>           |
+| 2   | [REGRESSION RISK] | output/test-cases/TC-XXX | AC XX.X | <what the existing test asserts that may break> |
+
+### Missing in Requirements
+
+| #   | Tag                  | Source                   | Description                                      |
+| --- | -------------------- | ------------------------ | ------------------------------------------------ |
+| 1   | [UNDOCUMENTED IN AC] | Figma node #XXXX         | <behavior visible in Figma but absent from AC>   |
+| 2   | [MISSING BEHAVIOR]   | output/test-cases/TC-XXX | <scenario already in system with no new AC rule> |
+| 3   | [ROLE GAP]           | AC (all sections)        | <role not addressed>                             |
+
+### Assumptions Made
+
+<!-- List any assumption this analysis made due to missing or ambiguous information -->
+
+- Assumed behavior X applies to all tenants unless stated otherwise.
+
 ## Clarification Questions
 
-1. <Question about ambiguity or missing behavior>
-2. <Question about boundary condition>
-3. ...
+1. **[CONFLICT]** <Question>
+   _Evidence: `input/specs/LT-XXXXX` — `<what it says>`_
+
+2. **[MISSING BEHAVIOR]** <Question>
+   _Evidence: `output/test-cases/TC-XXX` — `<what the test covers>`_
 
 ## Related Specs
 
@@ -190,9 +281,73 @@ Include tables for field behaviors where applicable.>
 
 ## QASE Coverage Gaps
 
-<!-- List business rules from the table above that have no existing QASE test case -->
+<!-- List business rules from the Business Rules table that have no existing QASE test case -->
 
 - AC XX.X — <business rule with no test case yet>
+```
+
+---
+
+### Step 9 — Review & Post Clarification Questions to Jira
+
+After the spec file is saved, present the clarification questions to the user for review **before** posting anything to Jira.
+
+#### 9-1: Present questions for review
+
+Display all questions in a clean, readable format — without the Evidence lines, just the numbered questions. Tell the user:
+
+> "Here are the clarification questions I've drafted for **[TICKET-ID]**. Please review and let me know:
+>
+> - Which questions are **approved** to post as a Jira comment
+> - Which should be **removed or reworded**
+> - Any additional questions you'd like to **add**"
+
+#### 9-2: Wait for user confirmation
+
+**Do not post anything to Jira until the user explicitly approves.**
+
+Accept any of these as approval signals:
+
+- "looks good", "post it", "go ahead", "approved", "LGTM"
+- A modified list from the user
+- Explicit confirmation like "post questions 1, 2, 4"
+
+If the user asks to reword a question, update it in both the chat and the spec file before posting.
+
+#### 9-3: Post approved questions as a Jira comment
+
+Once approved, use the **Jira MCP** tool (`mcp_jira_jira_add_comment`) to post a single comment to the ticket containing all approved questions.
+
+Format the Jira comment as:
+
+```
+*Clarification Questions — [Your Name / QA]*
+
+Please help clarify the following before test case generation begins:
+
+1. [CONFLICT] <Question text>
+
+2. [MISSING BEHAVIOR] <Question text>
+
+3. [ROLE GAP] <Question text>
+
+_(Generated from spec analysis. Full details in `input/specs/<TICKET-ID>: <Feature Name>`.)_
+```
+
+> **Note:** Post as a **single comment** — do not post one comment per question.
+
+#### 9-4: Confirm and update spec
+
+After posting, tell the user the comment was added and include the Jira comment URL if available.
+Update the spec file to note that questions were posted:
+
+```markdown
+## Clarification Questions
+
+> ✅ Posted to Jira on <date> — [view comment](jira-comment-url)
+
+1. **[CONFLICT]** <Question>
+   _Evidence: ..._
 ```
 
 ---
@@ -204,10 +359,18 @@ Before finishing, verify:
 - [ ] All User Stories and AC sections from the Jira ticket are captured
 - [ ] Figma field states cross-referenced with AC (skipped silently if no Figma link found)
 - [ ] QASE existing test cases fetched and coverage gaps identified (skipped silently if no QASE link provided)
-- [ ] At least one clarification question for each AC that has ambiguous or undefined behavior
-- [ ] Clarification questions are written to the spec file only — not posted to Jira
-- [ ] Existing local test cases that may be impacted by this change are listed
-- [ ] Spec file is saved to `input/specs/` with the format `<TICKET-ID>: <Feature Name>`
+- [ ] Step 5b was performed for every related spec/test case found — not skipped
+- [ ] Every conflict finding in the table has a tag, a source with line reference if possible, and a plain-language description
+- [ ] Every clarification question includes an _Evidence_ line pointing to a specific source
+- [ ] At least one question per AC that has ambiguous, conflicting, or undefined behavior
+- [ ] `[ROLE GAP]` check performed — all roles identified and gaps noted
+- [ ] `[MISSING BEHAVIOR]` check performed — existing test scenarios compared against new AC scope
+- [ ] Assumptions section is filled if any inference was made
+- [ ] Clarification questions presented to user for review before any Jira action
+- [ ] Jira comment posted only after explicit user approval — never auto-posted
+- [ ] Jira comment is a single comment containing all approved questions
+- [ ] Spec file updated with posted status and Jira comment URL after posting
+- [ ] Spec file saved to `input/specs/` with format `<TICKET-ID>: <Feature Name>`
 - [ ] No test cases are generated — this skill only analyzes and documents requirements
 
 ---
@@ -219,6 +382,8 @@ Analyze requirements for ticket LT-99999.
 QASE: https://app.qase.io/project/LM?suite=42
 ```
 
-The skill will fetch the Jira ticket, find related Confluence pages and Figma links, search
-existing specs and test cases, extract all business rules, formulate clarification questions,
-and save a structured spec to `input/specs/LT-99999: <Feature Name>`.
+The skill will fetch the Jira ticket, read related Confluence and Figma sources, search existing
+specs and test cases, extract all business rules, perform a structured conflict and gap analysis
+(Step 5b), formulate evidence-backed clarification questions, save a complete spec to
+`input/specs/LT-99999: <Feature Name>`, then **present the questions for user review** before
+posting them as a single Jira comment upon approval.

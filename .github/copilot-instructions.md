@@ -2,7 +2,7 @@
 
 ## Available Skills
 
-This workspace has five domain-specific skills. When a user request matches a skill's domain, read the corresponding skill file to get the full instructions before proceeding.
+This workspace has domain-specific skills. When a user request matches a skill's domain, read the corresponding skill file to get the full instructions before proceeding.
 
 ### 0. Full QA Workflow (End-to-End)
 
@@ -38,6 +38,11 @@ This workspace has five domain-specific skills. When a user request matches a sk
 
 **Trigger:** User asks to execute a test case, run a Qase test case manually, perform a test on SF sandbox, verify test steps on Salesforce, or create an execution record.
 **Skill file:** `.github/skills/execute-test-cases.SKILL.md`
+
+### 7. Update QA Report
+
+**Trigger:** User asks to update the QA report, update QA test report on Confluence, add test results to a Confluence report page, publish test coverage and results to Confluence, or update the acceptance test coverage table.
+**Skill file:** `.github/skills/update-report-confluence.SKILL.md`
 
 ---
 
