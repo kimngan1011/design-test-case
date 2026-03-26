@@ -52,20 +52,6 @@ Only proceed to the next phase after explicit confirmation.
 
 **Read and follow the full instructions in `.github/skills/analyze-requirements.SKILL.md`.**
 
-Pass these inputs to the skill:
-
-- **Jira ticket** — the ticket ID or URL provided by the user
-- **QASE link** — the Qase project link provided by the user (if any)
-
-Execute all steps defined in that skill file (Steps 1–9), including:
-
-- Fetching the Jira ticket, Confluence pages, and Figma designs
-- Searching the local workspace for related specs and test cases
-- Performing the full **Conflict & Gap Analysis** (Step 5b)
-- Extracting business rules and formulating clarification questions
-- Saving the spec file to `input/specs/<TICKET-ID>: <Feature Name>`
-- Presenting clarification questions for user review before posting to Jira (Step 9)
-
 **→ After completing Phase 1, pause and ask:**
 
 > "Phase 1 complete — spec saved to `input/specs/<TICKET-ID>: <Feature Name>`. Continue to Phase 2 (Define Test Coverage)?"
@@ -77,21 +63,6 @@ Execute all steps defined in that skill file (Steps 1–9), including:
 > Goal: Produce a structured test coverage matrix from the spec file.
 
 **Read and follow the full instructions in `.github/skills/define-test-coverage.SKILL.md`.**
-
-Pass this input to the skill:
-
-- **Spec file** — the spec file path produced by Phase 1 (e.g. `input/specs/LT-12345: Feature Name`)
-
-Execute all steps defined in that skill file (Steps 1–9), including:
-
-- Reading the spec file and existing test coverages/cases
-- Categorizing business rules into logic types
-- Selecting test techniques per logic type
-- Building the coverage strategy table with risk levels and coverage depth
-- Identifying high-risk areas (Critical / High / Medium tiers)
-- Mapping coverage gaps vs. existing test cases
-- Proposing the test suite structure
-- Saving the coverage file to `output/test-coverages/<TICKET-ID>-<feature>.md`
 
 **→ After completing Phase 2, pause and ask:**
 
@@ -105,19 +76,6 @@ Execute all steps defined in that skill file (Steps 1–9), including:
 
 **Read and follow the full instructions in `.github/skills/generate-test-cases.SKILL.md`.**
 
-Pass this input to the skill:
-
-- **Coverage file** — the coverage file path produced by Phase 2 (e.g. `output/test-coverages/LT-12345-feature-name.md`)
-
-Execute all steps defined in that skill file (Steps 1–7), including:
-
-- Reading the coverage file, `input/templates/test-case-rules.md`, and existing test cases
-- Applying test case design rules (title format, forbidden words, one-TC-per-rule)
-- Generating test cases per AC using the correct technique pattern and coverage depth
-- Writing each test case with all required fields (title, description, preconditions, steps, severity, priority)
-- Grouping test cases into suites per the proposed structure
-- Saving both `.md` and `.csv` files to `output/test-cases/<module>/<feature>/`
-
 **→ After completing Phase 3, pause and ask:**
 
 > "Phase 3 complete — test cases saved to `output/test-cases/...`. Continue to Phase 4 (Import to Qase)?"
@@ -129,21 +87,6 @@ Execute all steps defined in that skill file (Steps 1–7), including:
 > Goal: Create suites and test cases in Qase; update the `.csv` with real suite IDs.
 
 **Read and follow the full instructions in `.github/skills/import-to-qase.SKILL.md`.**
-
-Pass these inputs to the skill:
-
-- **Qase link** — the project URL or code provided by the user (e.g. `https://app.qase.io/project/LM` or `LM`)
-- **Test case file** — the `.md` or `.csv` file produced by Phase 3
-
-Execute all steps defined in that skill file (Steps 1–9), including:
-
-- Parsing the Qase project code
-- Reading and parsing the test case file
-- Fetching existing suites from Qase and resolving the suite hierarchy
-- Checking for duplicate test cases before creating
-- Importing test cases via `mcp_qase_bulk_create_cases`
-- Updating the `.csv` file with real Qase suite IDs
-- Printing the import summary with totals
 
 ---
 
