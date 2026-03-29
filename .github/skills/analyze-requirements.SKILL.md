@@ -62,10 +62,11 @@ Extract:
 
 ### Step 2 — Read Related Confluence Pages
 
-1. Use links from the Jira ticket, or search Confluence with feature keywords if no links exist.
-2. Use `mcp_confluence_confluence_get_page` or `mcp_confluence_confluence_search_pages`.
-3. Extract: business context, constraints, architecture notes, role/permission rules.
-4. If the Scheduling Confluence page was approved in Step 0, fetch it here and incorporate its business rules into Step 5b.
+1. Use links from the Jira ticket, or search Confluence with feature keywords to find related pages.
+2. If the Scheduling Confluence page was approved in Step 0, use the Confluence tool (e.g., CQL `ancestor=1046151229`) to list ALL DESCENDANT pages (including children of children, recursively) under Context/Ancestor ID `1046151229`.
+3. **USER REVIEW REQUIRED**: Do NOT immediately fetch the full contents of the identified pages. First, present a bulleted list of all identified Confluence page titles to the user. Stop and ask the user to confirm/select which pages are truly relevant to the current feature.
+4. Once the user provides their selection, ONLY use `mcp_confluence_confluence_get_page` to fetch the full contents of the user-approved pages.
+5. Extract from those pages: business rules, constraints, architecture notes, and role/permission rules. Combine the extracted business rules into Step 5b.
 
 ---
 
@@ -82,21 +83,25 @@ Extract:
 
 ---
 
-### Step 4 — Fetch Existing QASE Test Cases
+### Step 4 — Fetch Existing QASE Test Cases (Optional)
 
-Parse the QASE URL to get the **project code** and **parent suite ID**, then:
+*Note: A QASE link provided here should only be used to find existing, related test cases. Do NOT use this step for an empty parent suite meant for future import.*
 
-1. **Discover all descendant suites:**
-   - Call `mcp_qase_list_suites(code=<PROJECT>, limit=100, offset=0)`.
-   - Paginate until all suites are loaded. Collect suites whose `parent_id` matches the given suite, then recurse depth-first.
+1. **Check Input**: Did the user explicitly provide a QASE link in their initial request?
+2. **If NO QASE link was provided**: Skip this entire step and proceed directly to Step 5.
+3. **If a QASE link WAS provided** — **Phase A: Discover relevant suites first**:
+   - Call `mcp_qase_list_suites` using pagination `offset` to fetch ALL suites in the project.
+   - Build a local descendant tree to identify ALL suites (children, grandchildren, great-grandchildren, recursively) nested under the provided `parent suite ID`.
+   - From this list, identify which suite **names** appear relevant to the current feature/ticket (by name matching only — do NOT fetch test cases yet).
+   - Present a bulleted list of potentially relevant suite names (with their IDs) to the user and **STOP**.
+4. **USER REVIEW REQUIRED (Suite Selection)**: Ask the user to confirm which suites are truly relevant. Wait for the user's response before proceeding.
+5. **Phase B: Fetch test cases only from user-approved suites**:
+   - For EACH suite the user selected, call `mcp_qase_list_cases` with pagination to fetch all test cases.
+   - ONLY read the `title` of each test case (do NOT read detailed steps) to save tokens.
+   - Present the collected test case titles grouped by suite to the user.
+6. Only include these user-approved test cases in the final coverage analysis (mapping which AC or feature area they cover).
 
-2. **Fetch test cases from every suite:**
-   - Call `mcp_qase_list_cases(code=<PROJECT>, suite_id=<ID>, limit=100, offset=0)` for each suite.
-   - Paginate if a suite returns exactly 100 cases.
-
-3. For each test case, note: which AC or feature area it covers, and which business rules already have coverage.
-
-If PX Suite 18 was approved in Step 0, merge its cases into this step's result set.
+If PX Suite 18 was approved in Step 0, also discover its descendant suites and apply the same user-review flow above.
 
 ---
 

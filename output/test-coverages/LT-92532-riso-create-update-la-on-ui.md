@@ -8,71 +8,80 @@
 
 ## 1. Business Rules Extracted
 
-| #   | AC      | Business Rule                                                                                                          |
-| --- | ------- | ---------------------------------------------------------------------------------------------------------------------- |
-| 1   | AC 01.1 | "New Lesson Allocation" button appears under Require Lesson Allocation table in Contact → Course tab                   |
-| 2   | AC 01.1 | Clicking button opens the New Lesson Allocation modal                                                                  |
-| 3   | AC 01.2 | AY field is pre-filled with the current Academic Year                                                                  |
-| 4   | AC 01.2 | Location pre-filled if student has exactly 1 active enrolled location; otherwise blank                                 |
-| 5   | AC 01.2 | Location dropdown shows all active enrolled locations or all locations user has affiliation with                       |
-| 6   | AC 01.2 | Course list loads only after AY and Location are both selected                                                         |
-| 7   | AC 01.2 | Course list shows all Course Masters with Course Offering (by AY) and Location Course (by Location)                    |
-| 8   | AC 01.2 | Course list reloads when AY or Location changes                                                                        |
-| 9   | AC 01.2 | Course search supports JP partial match                                                                                |
-| 10  | AC 01.3 | User can select multiple courses to create multiple LAs in one flow                                                    |
-| 11  | AC 01.3 | LA Type options: Regular, Seasonal, Trial                                                                              |
-| 12  | AC 01.3 | Start date must be earlier than End date                                                                               |
-| 13  | AC 01.3 | On save: user redirected to Contact page and LA appears in LA table                                                    |
-| 14  | AC 01.3 | LA created without order-related fields (product details, student course id, package course, order remarks = no value) |
-| 15  | AC 01.4 | Overlapping dates for same AY + Location + Course → error at course section                                            |
-| 16  | AC 01.4 | Both start and end date in the past → inline error under End date: "End date must be a future date"                    |
-| 17  | AC 01.4 | Start date > End date → inline error under both date fields: "Start date must be earlier than End date"                |
-| 18  | AC 01.5 | CSV bulk import respects same validation and data rules as UI creation                                                 |
-| 19  | AC 02.1 | Edit: Start date and End date can only be changed to a date after the original value                                   |
-| 20  | AC 02.1 | Edited dates must pass all validations in AC 01.4                                                                      |
-| 21  | AC 02.1 | Trial LA type: Purchased Slot editable to a value greater than the original only                                       |
-| 22  | AC 02.2 | Delete only allowed when LA start date > today                                                                         |
-| 23  | AC 02.2 | Delete confirmation dialog must be shown before deletion                                                               |
-| 24  | AC 02.2 | On confirm delete: LA deleted, allocated lessons unlinked                                                              |
-| 25  | AC 02.2 | Delete button disabled when LA start date ≤ today                                                                      |
-| 26  | AC 03.1 | LA.Purchased_Slot = sum of Contract.Slot (excluding Cancelled, Voided, delete_flag = on)                               |
-| 27  | AC 03.1 | LA.Purchased_Slot recalculated when contract updated or new contract added for same LA                                 |
-| 28  | AC 03.2 | LA.End_Date = latest end date from linked contracts (excluding Cancelled/Voided/deleted) — TBC                         |
+| #   | AC        | Business Rule                                                                                                          |
+| --- | --------- | ---------------------------------------------------------------------------------------------------------------------- | --- | --- | --------- | ------------------------------------------------------------ |
+| 1   | AC 01.1   | "New Lesson Allocation" button appears under Require Lesson Allocation table in Contact → Course tab                   |
+| 2   | AC 01.1   | Clicking button opens the New Lesson Allocation modal                                                                  |
+| 3   | AC 01.2   | AY field is pre-filled with the current Academic Year                                                                  |
+| 4   | AC 01.2   | Location pre-filled if student has exactly 1 active enrolled location; otherwise blank                                 |
+| 5   | AC 01.2   | Location dropdown shows all active enrolled locations or all locations user has affiliation with                       |
+| 6   | AC 01.2   | Course list loads only after AY and Location are both selected                                                         |
+| 7   | AC 01.2   | Course list shows all Course Masters with Course Offering (by AY) and Location Course (by Location)                    |
+| 8   | AC 01.2   | Course list reloads when AY or Location changes                                                                        |
+| 9   | AC 01.2   | Course search supports JP partial match                                                                                |
+| 10  | AC 01.3   | User can select multiple courses to create multiple LAs in one flow                                                    |
+| 11  | AC 01.3   | LA Type options: Regular, Seasonal, Trial                                                                              |
+| 12  | AC 01.3   | Start date must be earlier than End date                                                                               |
+| 13  | AC 01.3   | On save: user redirected to Contact page and LA appears in LA table                                                    |
+| 14  | AC 01.3   | LA created without order-related fields (product details, student course id, package course, order remarks = no value) |
+| 15  | AC 01.4   | Overlapping dates for same AY + Location + Course → error at course section                                            |
+| 16  | AC 01.4   | Both start and end date in the past → inline error under End date: "End date must be a future date"                    |
+| 17  | AC 01.4   | Start date > End date → inline error under both date fields: "Start date must be earlier than End date"                |
+| 18  | AC 01.5   | CSV bulk import respects same validation and data rules as UI creation                                                 |
+| 19  | AC 02.1   | Edit: Start date and End date can only be changed to a date after the original value                                   |
+| 20  | AC 02.1   | Edited dates must pass all validations in AC 01.4                                                                      |
+| 21  | AC 02.1   | Trial LA type: Purchased Slot editable to a value greater than the original only                                       |
+| 22  | AC 02.2   | Delete only allowed when LA start date > today                                                                         |
+| 23  | AC 02.2   | Delete confirmation dialog must be shown before deletion                                                               |
+| 24  | AC 02.2   | On confirm delete: LA deleted, allocated lessons unlinked                                                              |
+| 25  | AC 02.2   | Delete button disabled when LA start date ≤ today                                                                      |
+| 26  | AC 03.1   | LA.Purchased_Slot = sum of Contract.Slot (excluding Cancelled, Voided, delete_flag = on)                               |
+| 27  | AC 03.1   | LA.Purchased_Slot recalculated when contract updated or new contract added for same LA                                 |
+| 28  | AC 03.2   | LA.End_Date = latest end date from linked contracts (excluding Cancelled/Voided/deleted) — TBC                         |     | 29  | Confirmed | UI-created LAs set `require_allocation = TRUE` automatically |
+| 30  | Confirmed | UI-created LAs are fully independent of the order lifecycle (void/withdrawal/LOA do not affect them)                   |
+| 31  | Confirmed | CSV validation errors are row-level; same error messages as UI creation                                                |
+| 32  | Confirmed | Lesson unlinking on delete is synchronous (immediate)                                                                  |
+| 33  | Confirmed | Location dropdown (no enrolled location) restricted to user-affiliated locations only                                  |
 
 ---
 
 ## 2. Logic Type Categorization
 
-| #   | AC      | Logic Type(s)                           |
-| --- | ------- | --------------------------------------- |
-| 1   | AC 01.1 | Conditional logic, Permission logic     |
-| 2   | AC 01.1 | State transition                        |
-| 3   | AC 01.2 | Conditional logic                       |
-| 4   | AC 01.2 | Conditional logic (decision on count)   |
-| 5   | AC 01.2 | Conditional logic                       |
-| 6   | AC 01.2 | Conditional logic                       |
-| 7   | AC 01.2 | Data integrity, Cross-system impact     |
-| 8   | AC 01.2 | State transition                        |
-| 9   | AC 01.2 | Validation logic                        |
-| 10  | AC 01.3 | Validation logic                        |
-| 11  | AC 01.3 | Validation logic (enum)                 |
-| 12  | AC 01.3 | Boundary/range logic, Validation logic  |
-| 13  | AC 01.3 | State transition, Cross-system impact   |
-| 14  | AC 01.3 | Data integrity                          |
-| 15  | AC 01.4 | Data integrity, Validation logic        |
-| 16  | AC 01.4 | Boundary/range logic, Validation logic  |
-| 17  | AC 01.4 | Boundary/range logic, Validation logic  |
-| 18  | AC 01.5 | Validation logic, Data integrity        |
-| 19  | AC 02.1 | Boundary/range logic, Validation logic  |
-| 20  | AC 02.1 | Validation logic                        |
-| 21  | AC 02.1 | Boundary/range logic, Conditional logic |
-| 22  | AC 02.2 | Conditional logic                       |
-| 23  | AC 02.2 | State transition                        |
-| 24  | AC 02.2 | Data integrity, Cross-system impact     |
-| 25  | AC 02.2 | Conditional logic                       |
-| 26  | AC 03.1 | Data integrity                          |
-| 27  | AC 03.1 | Data integrity, Cross-system impact     |
-| 28  | AC 03.2 | Data integrity (TBC)                    |
+| #   | AC        | Logic Type(s)                           |
+| --- | --------- | --------------------------------------- |
+| 1   | AC 01.1   | Conditional logic, Permission logic     |
+| 2   | AC 01.1   | State transition                        |
+| 3   | AC 01.2   | Conditional logic                       |
+| 4   | AC 01.2   | Conditional logic (decision on count)   |
+| 5   | AC 01.2   | Conditional logic                       |
+| 6   | AC 01.2   | Conditional logic                       |
+| 7   | AC 01.2   | Data integrity, Cross-system impact     |
+| 8   | AC 01.2   | State transition                        |
+| 9   | AC 01.2   | Validation logic                        |
+| 10  | AC 01.3   | Validation logic                        |
+| 11  | AC 01.3   | Validation logic (enum)                 |
+| 12  | AC 01.3   | Boundary/range logic, Validation logic  |
+| 13  | AC 01.3   | State transition, Cross-system impact   |
+| 14  | AC 01.3   | Data integrity                          |
+| 15  | AC 01.4   | Data integrity, Validation logic        |
+| 16  | AC 01.4   | Boundary/range logic, Validation logic  |
+| 17  | AC 01.4   | Boundary/range logic, Validation logic  |
+| 18  | AC 01.5   | Validation logic, Data integrity        |
+| 19  | AC 02.1   | Boundary/range logic, Validation logic  |
+| 20  | AC 02.1   | Validation logic                        |
+| 21  | AC 02.1   | Boundary/range logic, Conditional logic |
+| 22  | AC 02.2   | Conditional logic                       |
+| 23  | AC 02.2   | State transition                        |
+| 24  | AC 02.2   | Data integrity, Cross-system impact     |
+| 25  | AC 02.2   | Conditional logic                       |
+| 26  | AC 03.1   | Data integrity                          |
+| 27  | AC 03.1   | Data integrity, Cross-system impact     |
+| 28  | AC 03.2   | Data integrity (TBC)                    |
+| 29  | Confirmed | Data integrity, Cross-system impact     |
+| 30  | Confirmed | Data integrity, Cross-system impact     |
+| 31  | Confirmed | Validation logic, Data integrity        |
+| 32  | Confirmed | Data integrity, Cross-system impact     |
+| 33  | Confirmed | Conditional logic                       |
 
 ---
 
@@ -122,6 +131,11 @@
 | AC 03.1 | Purchased Slot = sum of active contracts                | Data integrity                      | CRUD Testing                       | High       | Deep           |
 | AC 03.1 | Recalculated on contract create/update                  | Data integrity, Cross-system        | CRUD Testing, Regression Analysis  | High       | Deep           |
 | AC 03.2 | End Date = max end date of active contracts (TBC)       | Data integrity (TBC)                | CRUD Testing                       | Medium     | Standard       |
+| BR 29   | UI-created LAs set `require_allocation = TRUE`          | Data integrity, Cross-system impact | CRUD Testing, Regression Analysis  | Critical   | Deep           |
+| BR 30   | UI-created LAs independent of order lifecycle           | Data integrity, Cross-system impact | Regression Analysis                | Critical   | Deep           |
+| BR 31   | CSV validation errors are row-level (same as UI)        | Validation logic, Data integrity    | Equivalence Partitioning           | High       | Standard       |
+| BR 32   | Delete unlinks lessons synchronously                    | Data integrity, Cross-system impact | CRUD Testing                       | High       | Standard       |
+| BR 33   | Location dropdown restricted to affiliated locations    | Conditional logic                   | Decision Table                     | Medium     | Standard       |
 
 ---
 
@@ -226,6 +240,23 @@
 
 ---
 
+## 7b. Additional Coverage Gaps (from Confluence + Existing Test Files)
+
+> Identified during Phase 1 re-analysis using: Confluence Lesson Allocation Flow, Lesson Allocation | Student Allocation Report, and local test case cross-reference.
+
+| #   | Gap Area                                                          | Source                                                                | Risk Level | Coverage Needed                                                                                                    |
+| --- | ----------------------------------------------------------------- | --------------------------------------------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| 1   | `require_allocation` flag set to TRUE on UI-create                | TC-1261, Confluence Student Allocation Report                         | Critical   | Verify created LA has `require_allocation = TRUE`; student appears in "Add Students" popup                         |
+| 2   | Student visibility in lesson "Add Students" popup after UI-create | TC-1261 (student-assignment-lesson-detail.md)                         | Critical   | End-to-end: create LA → open lesson → Add Students → student visible with correct course                           |
+| 3   | Allocation Dashboard appearance post-create                       | Confluence Student Allocation Report AC 01.3, 01.5                    | High       | Allocation Dashboard shows newly created LA; sorted by start_date ASC, end_date ASC, created_at ASC                |
+| 4   | Order-driven LA coexistence (no duplicate)                        | Confluence Lesson Allocation Flow                                     | High       | Create UI-LA for Course X → submit order for same Course X → no duplicate LA created (or overlap validation fires) |
+| 5   | Void order isolation — UI-created LAs unaffected                  | Confluence Lesson Allocation Flow (Void New Order → Delete LA)        | High       | After UI-create LA, void a subsequent order for same course → UI-created LA still exists                           |
+| 6   | Withdrawal/LOA order isolation — UI-created LAs unaffected        | Confluence Lesson Allocation Flow (Withdrawal/LOA → update/delete LA) | High       | Submit withdrawal/LOA order → UI-created LA dates NOT auto-updated                                                 |
+| 7   | Dashboard sort order with multiple LAs per student                | Confluence Student Allocation Report AC 01.5                          | Medium     | Create 3 LAs with different start dates → verify dashboard sort order                                              |
+| 8   | `require_allocation = FALSE` edge case → not shown in dashboard   | Confluence Student Allocation Report AC 01.3                          | Medium     | If flag can be FALSE, verify LA does NOT appear in dashboard (boundary case)                                       |
+
+---
+
 ## 7. Suggested Test Suite Structure
 
 ```
@@ -234,8 +265,10 @@ output/test-cases/lesson-management/student-session/lesson-allocation/
   ├── create-la-validation.md    → AC 01.4 — Validation rules (overlap, past date, start > end)
   ├── create-la-csv.md           → AC 01.5 — CSV bulk import (valid + all failure scenarios)
   ├── edit-delete-la.md          → AC 02.1, 02.2 — Edit date/slot, delete with guard conditions
-  └── la-auto-calculation.md     → AC 03.1, 03.2 — Purchased Slot + End Date auto-calc (pending PBT-1812)
+  ├── la-auto-calculation.md     → AC 03.1, 03.2 — Purchased Slot + End Date auto-calc (pending PBT-1812)
+  └── la-system-integration.md  → NEW — require_allocation flag, Add Students popup, dashboard, order isolation
 ```
 
 > ℹ️ All test cases in this suite are **[Riso]-prefixed** as this is a tenant-specific feature.
 > US03 test cases are drafted but should be executed only after PBT-1812 is confirmed in scope.
+> `la-system-integration.md` covers the new gaps identified in Phase 1 re-analysis (see section 7b).
