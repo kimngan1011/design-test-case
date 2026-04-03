@@ -44,6 +44,21 @@ This workspace has domain-specific skills. When a user request matches a skill's
 **Trigger:** User asks to update the QA report, update QA test report on Confluence, add test results to a Confluence report page, publish test coverage and results to Confluence, or update the acceptance test coverage table.
 **Skill file:** `.github/skills/update-report-confluence.SKILL.md`
 
+### 8. Write Automation Test Script
+
+**Trigger:** User asks to write an automation test script, generate a Playwright spec file, automate a test case, create E2E tests, or generate automation scripts from a local `.md` test case file or a Qase case / run.
+**Skill file:** `.github/skills/write-automation-script.SKILL.md`
+
+### 9. Write and Run Automation Test Script (Combined)
+
+**Trigger:** User asks to write AND run automation tests, automate and execute test cases, write a script and immediately run it, or run each test case right after writing it.
+**Skill file:** `.github/skills/write-and-run-automation.SKILL.md`
+
+### 10. Create Test Runs from Qase Test Plan
+
+**Trigger:** User asks to create test runs from a Qase test plan, set up test runs for team members, bulk-create runs from a plan template, or create regression test runs from a plan.
+**Skill file:** `.github/skills/create-test-runs.SKILL.md`
+
 ---
 
 ## Workspace Structure
@@ -55,3 +70,8 @@ This workspace has domain-specific skills. When a user request matches a skill's
 - `output/test-reports/` — test report files
 - `output/review-automation-tests/` — automation run review reports
 - `output/execute-test-cases/` — manual test execution records (organised by Jira ticket)
+- `e2e/` — Playwright + TypeScript automation project
+  - `e2e/src/pages/` — Page Object Model (sf/ and bo/ sub-folders)
+  - `e2e/src/fixtures/` — Playwright fixtures (page objects injected into tests)
+  - `e2e/src/helpers/` — qase.ts, step.ts, test-data.ts
+  - `e2e/tests/` — spec files mirroring `output/test-cases/lesson-management/`

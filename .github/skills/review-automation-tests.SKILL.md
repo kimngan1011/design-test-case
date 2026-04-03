@@ -1,7 +1,7 @@
 ---
 description: >
   **WORKFLOW SKILL** — Review automation test results from a Qase test run.
-  USE FOR: reviewing an automated Playwright/automated test run in Qase; reading step-results.md
+  USE FOR: reviewing an automated Playwright/automated test run in Qase; reading step-results.json
   from each test case execution; comparing automation results against the original test case
   (preconditions, actions, expected results); identifying failures, flakiness, or mismatches;
   and exporting a structured review report.
@@ -42,7 +42,7 @@ mcp_qase_get_run(code=<PROJECT>, id=<RUN_ID>)
 Use `mcp_qase_list_results` to get all result entries for the run:
 
 - Each result entry has: `case_id`, `status`, `steps[]`, `time_spent_ms`, `end_time`, `attachments[]`
-- Extract the `step-results.md` URL from `attachments` (mime: `text/markdown`, filename: `step-results.md`)
+- Extract the `step-results.json` URL from `attachments` (mime: `application/json`, filename: `step-results.json`)
 
 ```
 mcp_qase_list_results(code=<PROJECT>, run=<RUN_ID>, limit=100)
@@ -62,9 +62,9 @@ case_id → {
 }
 ```
 
-### Step 3 — Read step-results.md for Each Test Case
+### Step 3 — Read step-results.json for Each Test Case
 
-For each test case in the result map, fetch the `step-results.md` attachment URL using `fetch_webpage`.
+For each test case in the result map, fetch the `step-results.json` attachment URL using `fetch_webpage`.
 
 The file contains for each step:
 
@@ -72,6 +72,28 @@ The file contains for each step:
 - Status: PASSED / FAILED
 - Duration (ms)
 - Runtime logs with `[INFO]`, `[PASS]`, `[FAIL]`, `[ERROR]` entries
+
+**New JSON format — structured step entries:**
+
+Step entries in `step-results.json` now include structured prefix labels in their JSON content. Each step log block may contain one or more of the following prefixed lines:
+
+```
+PRECONDITION: <text describing the setup state or data used>
+ACTION:       <text describing what the automation did>
+EXPECTED:     <text describing what was verified>
+```
+
+These prefixes map directly to fields in the original Qase test case definition:
+
+| Step-results prefix | Qase test case field         |
+| ------------------- | ---------------------------- |
+| `PRECONDITION:`     | `preconditions` (case level) |
+| `ACTION:`           | `steps[N].action`            |
+| `EXPECTED:`         | `steps[N].expected_result`   |
+
+When reading step-results.json, extract all `PRECONDITION:`, `ACTION:`, and `EXPECTED:` lines per step and store them for the mapping comparison in Step 5.
+
+**Unmapped entries:** If a step log block contains `ACTION:` or `EXPECTED:` lines that have **no corresponding Qase step** (by position or content), it must be flagged as an unmapped automation action. See Step 5 and the Quality Checks section.
 
 **Prioritize reading failures first:**
 
@@ -91,24 +113,55 @@ Extract from the general tab:
 
 - `title` — test case name
 - `preconditions` — setup conditions required
-- `steps[]` — each step has: `action`, `expected_result`
+- `steps[]` — each step has: `action`, `expected_result`, `position`
 - `severity`, `priority`, `automation` status
 - `suite_id` — which suite it belongs to
+
+Build a definition map for each case:
+
+```
+case_id → {
+  preconditions: <string>,
+  steps: [
+    { position: N, action: <string>, expected_result: <string> },
+    ...
+  ]
+}
+```
+
+This map is used in Step 5 to align each `PRECONDITION:` / `ACTION:` / `EXPECTED:` entry in step-results.json against the defined case fields.
 
 ### Step 5 — Compare Execution vs. Definition (per Suite → per Test Case)
 
 **Organize all test cases by suite before comparing.** Group cases using the `suite_id` from the Qase case definition. For each suite, iterate through every test case in the suite one by one.
 
+#### Mapping PRECONDITION / ACTION / EXPECTED to Original Test Case Fields
+
+For each test case, align the structured entries extracted from step-results.json (Step 3) against the definition map built in Step 4:
+
+| Step-results entry  | Maps to                         | How to verify                                                                                                 |
+| ------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `PRECONDITION: ...` | `case.preconditions`            | The automation's setup state/data must match every condition stated in the Qase `preconditions` field         |
+| `ACTION: ...`       | `case.steps[N].action`          | Match each `ACTION:` line to the corresponding step position in Qase; order and content must align            |
+| `EXPECTED: ...`     | `case.steps[N].expected_result` | Each `EXPECTED:` line must cover every sub-condition listed in the corresponding Qase `expected_result` field |
+
+**Unmapped automation entries (highlight required):**
+
+- An `ACTION:` or `EXPECTED:` entry in step-results.json that has **no corresponding Qase step** (by position or by content match) is an **unmapped automation action**.
+- An `ACTION:` or `EXPECTED:` entry where the position exists in Qase but the content does **not match** the defined action/expected_result is a **mismatched mapping**.
+- All unmapped and mismatched entries must be **highlighted** in the review report (see output format below).
+
 For each individual test case, perform the following checklist and record a **Matching** or **Not Matching** verdict:
 
-| Check                | What to verify                                                                        |
-| -------------------- | ------------------------------------------------------------------------------------- |
-| **Preconditions**    | Runtime logs in step 1 (`Precondition Data Snapshot`) match the defined preconditions |
-| **Step coverage**    | Number of executed steps matches number of defined steps                              |
-| **Step actions**     | Step names in `step-results.md` correspond to step actions in the test case           |
-| **Expected results** | `[PASS]`/`[FAIL]` log lines reflect whether each expected result was met              |
-| **Failures**         | For failed steps, extract the specific `[FAIL]` or `[ERROR]` log lines as evidence    |
-| **Flakiness**        | Cases with retries before passing are flagged as potentially flaky                    |
+| Check                | What to verify                                                                                         |
+| -------------------- | ------------------------------------------------------------------------------------------------------ |
+| **Preconditions**    | `PRECONDITION:` entries in step-results match every condition in `case.preconditions`                  |
+| **Step coverage**    | Number of `ACTION:` entries matches number of defined steps; every defined step has a mapped entry     |
+| **Step actions**     | Each `ACTION:` entry corresponds (by position and content) to `steps[N].action` in the Qase definition |
+| **Expected results** | Each `EXPECTED:` entry covers every sub-condition in `steps[N].expected_result`                        |
+| **Unmapped entries** | Any `ACTION:`/`EXPECTED:` entries without a matching Qase step are flagged as unmapped                 |
+| **Failures**         | For failed steps, extract the specific `[FAIL]` or `[ERROR]` log lines as evidence                     |
+| **Flakiness**        | Cases with retries before passing are flagged as potentially flaky                                     |
 
 **Verdict rules — applied per test case:**
 
@@ -133,7 +186,7 @@ When comparing each Qase step against its execution, apply ALL of the following 
 
 #### 1. Input Values vs. Actual Values in Precondition Snapshot
 
-- Read the Precondition Data Snapshot in `step-results.md` (JSON block after `[INFO] Precondition :`)
+- Read the Precondition Data Snapshot in `step-results.json` (JSON block after `[INFO] Precondition :`)
 - Compare **each field individually** against what Qase step 1 action specifies
 - Flag if automation uses a different value from what is defined (e.g. wrong `lessonType`, wrong `teachingMethod`, wrong `skipCloseDate` setting)
 - **Critical pattern**: If automation sets `expectedValue` = `actualValue` = `WRONG_VALUE`, the step passes green but the wrong thing is being tested — always trace back to the definition
@@ -187,7 +240,7 @@ When comparing each Qase step against its execution, apply ALL of the following 
 #### 9. Defined Steps vs. Executed Steps — Beyond Count (GAP-2 pattern)
 
 - Do **not** rely solely on the count of defined steps vs. executed steps — a count match can hide a missing step if automation also runs an undocumented step of its own
-- For each defined Qase step (by position and action), confirm there is a **corresponding** automation step in `step-results.md`
+- For each defined Qase step (by position and action), confirm there is a **corresponding** automation step in `step-results.json`
 - Common miss: a high-numbered step (e.g. "Student login Mobile", "Verify on external system") is entirely absent from automation while automation runs an extra undocumented step that keeps the count equal
 - If any defined step has no executed counterpart, flag as `MISSING_STEP` — this is more severe than a count mismatch because it means an entire expected result is permanently unverified
 - When a step is missing: note whether it implies a different platform (mobile, BO, external API) that the automation framework doesn't reach
@@ -252,12 +305,26 @@ Use this structure:
 
 One row per test case, organized by suite. Describes every check performed against the test run and original definition.
 
-| Suite        | Test Case        | Checks Performed                                                                                  | Verdict         |
-| ------------ | ---------------- | ------------------------------------------------------------------------------------------------- | --------------- |
-| <Suite Name> | PX-<id>: <title> | Preconditions ✅ · Step coverage ✅ · Step actions ✅ · Expected results ✅ · No extra actions ✅ | ✅ Matching     |
-| <Suite Name> | PX-<id>: <title> | Preconditions ✅ · Step coverage ✅ · Step actions ✅ · Expected results ⚠️ · No extra actions ✅ | ❌ Not Matching |
+| Suite        | Test Case        | Checks Performed                                                                                                        | Verdict         |
+| ------------ | ---------------- | ----------------------------------------------------------------------------------------------------------------------- | --------------- |
+| <Suite Name> | PX-<id>: <title> | Preconditions ✅ · Step coverage ✅ · Step actions ✅ · Expected results ✅ · Unmapped entries ✅ · No extra actions ✅ | ✅ Matching     |
+| <Suite Name> | PX-<id>: <title> | Preconditions ✅ · Step coverage ✅ · Step actions ✅ · Expected results ⚠️ · Unmapped entries ⚠️ · No extra actions ✅ | ❌ Not Matching |
 
 > **Checks Performed** column must enumerate every individual check done for that case (use ✅, ⚠️, or ❌ per check).
+
+> **Unmapped entries** — if any `ACTION:` or `EXPECTED:` entry in step-results.json has no corresponding Qase step, mark the "Unmapped entries" check as ⚠️ and include a detail block under "Not Matching Cases — Detail" listing the unmapped entries.
+
+---
+
+## ⚠️ Unmapped Automation Test Cases
+
+List every test case (or step within a test case) where an `ACTION:` or `EXPECTED:` entry in step-results.json could **not be mapped** to any step in the original Qase definition. Group by suite.
+
+| Suite        | Case ID | Step Position | Unmapped Entry Type | Content (truncated)         | Impact                                          |
+| ------------ | ------- | ------------- | ------------------- | --------------------------- | ----------------------------------------------- |
+| <Suite Name> | PX-<id> | Step N        | ACTION / EXPECTED   | `<first 80 chars of entry>` | No defined step to trace this execution back to |
+
+> A test case row appears here only if it has at least one unmapped `ACTION:` or `EXPECTED:` entry. Cases with full mapping are not listed in this table.
 
 ---
 
@@ -349,39 +416,70 @@ List as a table:
 - For shared-step fixes: list the shared step hash and all affected case IDs
 ```
 
-### Step 7 — Update Automation Status for GAP Cases
+### Step 7 — Update Automation Status (Matching → Automated, Not Matching → Manual)
 
-For every test case that received a **Not Matching** verdict in Step 5, update its **Automation Status** in Qase to **Manual** (`automation = 0`).
+After completing Step 5, update the **Automation Status** in Qase for every analyzed test case according to its verdict:
 
-This signals to the team that:
+| Verdict         | Current Status | Update To | Qase API value   |
+| --------------- | -------------- | --------- | ---------------- |
+| ✅ Matching     | In Review      | Automated | `automation = 2` |
+| ❌ Not Matching | In Review      | Manual    | `automation = 0` |
 
-- The automation does not accurately reflect the defined test case
-- The case must be manually executed until the automation is fixed or the definition is updated
-- The case should NOT be considered "green" based on the automation result alone
+Only update cases whose current automation status is **In Review** (`automation = 3`). Skip cases already set to Automated or Manual.
 
-**Scope:** Only apply this to cases specifically analyzed and found to have gaps. Do not bulk-update entire suites unless all cases in the suite are individually verified as Not Matching.
+#### Sub-step 7a — Request Approval Before Updating
 
-**How to update in Qase UI (manual, required — see API note below):**
+Before making any changes, **present a summary table** of all proposed updates and **ask the user for confirmation**:
 
-1. Open the test case in Qase (e.g. `https://app.qase.io/case/PX?id=<case_id>`)
-2. Click **Edit** on the case
-3. In the general settings, find the **Automation status** field
-4. Change from `Automated` to `Not automated` (Manual)
-5. Click **Save**
-6. Repeat for each Not Matching case
+```
+I am about to update the automation status for the following cases. Please confirm (yes/no):
 
-> **⚠️ API limitation:** The Qase v1 PATCH endpoint (`PATCH /v1/case/{code}/{id}`) returns `status: True` for requests containing `automation: 0` but does **not** persist the change. The `automation` field cannot be updated via the REST API in the current Qase version. Updates must be done manually through the Qase UI.
+| Case ID  | Title    | Verdict      | Current Status | → New Status |
+| -------- | -------- | ------------ | -------------- | ------------ |
+| PX-<id>  | <title>  | ✅ Matching  | In Review      | Automated    |
+| PX-<id>  | <title>  | ❌ Not Match | In Review      | Manual       |
 
-**After updating, add a record to the review report:**
+Total: N cases to update (X → Automated, Y → Manual). Proceed?
+```
+
+Do **not** call any update API until the user explicitly approves.
+
+#### Sub-step 7b — Auto-Update via API
+
+Once approved, for each case in the approval table, call `mcp_qase_update_case`:
+
+```
+# Matching → Automated
+mcp_qase_update_case(code=<PROJECT>, id=<CASE_ID>, automation=2)
+
+# Not Matching → Manual
+mcp_qase_update_case(code=<PROJECT>, id=<CASE_ID>, automation=0)
+```
+
+After each call, verify the update succeeded by re-fetching the case:
+
+```
+mcp_qase_get_case(code=<PROJECT>, id=<CASE_ID>)
+→ confirm case.automation == 2 (Automated) or 0 (Manual)
+```
+
+If the API does not persist the change (returns success but field unchanged on re-fetch), fall back to the manual UI method:
+
+1. Open `https://app.qase.io/case/<PROJECT>?id=<CASE_ID>`
+2. Click **Edit** → **Automation status** → set the correct value → **Save**
+3. Note the case ID as "manually updated" in the report
+
+#### Sub-step 7c — Record Updates in the Report
+
+Append the following section to the review report:
 
 ```markdown
 ## Automation Status Updates
 
-The following cases were set to Manual (Not automated) in Qase after this review:
-
-| Case ID | Title   | Gaps Found   | Updated By      | Date       |
-| ------- | ------- | ------------ | --------------- | ---------- |
-| PX-<id> | <title> | GAP-N, GAP-M | <reviewer name> | YYYY-MM-DD |
+| Case ID | Title   | Verdict      | Updated To | Method   | Date       |
+| ------- | ------- | ------------ | ---------- | -------- | ---------- |
+| PX-<id> | <title> | ✅ Matching  | Automated  | API / UI | YYYY-MM-DD |
+| PX-<id> | <title> | ❌ Not Match | Manual     | API / UI | YYYY-MM-DD |
 ```
 
 ---
@@ -410,10 +508,18 @@ Before finalizing the report, verify:
 
 - [ ] Every test case in the run appears in the Per-Suite Verification Table — no case is omitted
 - [ ] Cases are grouped by suite (not mixed across suites)
-- [ ] The "Checks Performed" column enumerates every individual check done per case with a ✅/⚠️/❌ indicator
+- [ ] The "Checks Performed" column enumerates every individual check done per case with a ✅/⚠️/❌ indicator, including the "Unmapped entries" check
 - [ ] Every ❌ Not Matching row has a corresponding detail block in the "Not Matching Cases — Detail" section
 - [ ] Each detail block contains both "What to Check in the Test Run" AND "How to Fix the Test Case Definition"
 - [ ] For shared-step mismatches: the detail block notes the shared step hash and lists all other cases affected
+
+**PRECONDITION / ACTION / EXPECTED mapping:**
+
+- [ ] Every `PRECONDITION:` entry in step-results.json is compared against `case.preconditions` — mismatches are flagged
+- [ ] Every `ACTION:` entry is matched to its corresponding `steps[N].action` by position — content drift is flagged
+- [ ] Every `EXPECTED:` entry is matched to `steps[N].expected_result` — missing sub-conditions are flagged
+- [ ] Any `ACTION:` or `EXPECTED:` entry with **no corresponding Qase step** is listed in the "⚠️ Unmapped Automation Test Cases" table in the report
+- [ ] Any test case with at least one unmapped entry has its "Unmapped entries" check marked ⚠️ in the Per-Suite Verification Table and a corresponding detail block in "Not Matching Cases — Detail"
 
 **For definition-vs-execution comparison, additionally verify:**
 
@@ -427,14 +533,19 @@ Before finalizing the report, verify:
 - [ ] Every defined Qase step has a **corresponding executed step** — not just an equal total count (Rule 9 / GAP-2 pattern)
 - [ ] Every step log is scanned for **silent skip messages** (`[INFO] skipped`, `cannot find field`, etc.) — a PASSED step with a skip log is flagged (Rule 10 / GAP-3 pattern)
 - [ ] For recurring-lesson chain steps: **every individual lesson** in scope is explicitly verified — success message alone is insufficient (Rule 11 / GAP-7 pattern)
-- [ ] Every **Not Matching** case has its Qase Automation Status updated to **Manual** in the Qase UI (Step 7) — with the case IDs and update date recorded in the report's "Automation Status Updates" table
+- [ ] A **pre-update approval table** was shown to the user before any API calls were made (Step 7a)
+- [ ] Every **Matching** case with "In Review" status has been updated to **Automated** (`automation = 2`) via API (Step 7b)
+- [ ] Every **Not Matching** case with "In Review" status has been updated to **Manual** (`automation = 0`) via API (Step 7b)
+- [ ] Each update was verified by re-fetching the case after the API call (Step 7b)
+- [ ] All updates (API or manual fallback) are recorded in the "Automation Status Updates" table in the report (Step 7c)
 
 ---
 
 ## Notes
 
+- **PRECONDITION / ACTION / EXPECTED format**: step-results.json now contains structured prefix labels in step JSON blocks. Always extract all three prefix types before comparing against Qase definitions. If a prefix entry cannot be matched to any defined step, it is unmapped and must appear in the "\u26a0\ufe0f Unmapped Automation Test Cases" table.
 - The Qase results API may return **293+ entries for 118 cases** — always deduplicate by `case_id` using latest `end_time`
-- `step-results.md` files can be large (up to 52KB) — focus on log lines containing `[FAIL]`, `[ERROR]`, or `[PASS] Pass SUCCESS` for efficiency
+- `step-results.json` files can be large (up to 52KB) — focus on log lines containing `[FAIL]`, `[ERROR]`, or `[PASS] Pass SUCCESS` for efficiency
 - Cases with `status=invalid` often indicate environment/infra issues, not test logic failures — note this distinction in the report
 - For passed cases with no retries, a full step-by-step comparison is optional unless specifically requested
 - **False green pattern**: When automation sets `expectedValue = actualValue = WRONG_VALUE`, the step passes but tests the wrong behavior. Always trace expected values back to the Qase definition, not just confirm they match each other in the log.
@@ -444,4 +555,4 @@ Before finalizing the report, verify:
 - **Missing step pattern (Rule 9)**: A defined step that is entirely absent from automation is not caught by a count check if automation also runs an extra undocumented step. Always match by content/position, not by total count. Steps involving a different platform (mobile, external system) are often the ones silently dropped.
 - **Silent skip pattern (Rule 10)**: `[INFO] I temporarily skipped the field "X"` is a red flag. Automation frameworks sometimes continue execution and report PASS after skipping a field they cannot locate. Always grep every step log for skip variants before accepting a clean PASSED status.
 - **Recurring chain scope pattern (Rule 11)**: "Only this Lesson" requires absence-of-change verified on every other lesson in the chain. "This and following lessons" requires presence-of-change verified on every lesson from the selected one to the last. A single success message is never enough. Count lessons from the Qase precondition and verify each explicitly.
-- **Automation status update (Step 7 / API limitation)**: The Qase v1 `PATCH /case/{code}/{id}` endpoint silently ignores `automation: 0` in the request body and returns `status: True` without actually changing the field. Do NOT assume the API call succeeded — always verify by re-fetching the case. Automation status for Not Matching cases **must be set manually** in the Qase UI: open each case → Edit → Automation status → Not automated → Save.
+- **Automation status update (Step 7)**: Always request user approval before calling any update API. Use `mcp_qase_update_case` with `automation=2` (Automated) for Matching cases and `automation=0` (Manual) for Not Matching cases. Always re-fetch the case after each API call to confirm the field was persisted — if not, fall back to manual UI update and note it in the report.

@@ -1,0 +1,98 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,2569,,"Add New Course with Past Date (PBT-1859)",,
+18825
+18825,"Lesson Allocation – Add Associated Course – Past Effective Date ≥ Product Start Date – New Course LA Created","AC 03.1, AC 03.3 — BVA / Happy Path — Validates that adding a new associated course via an update order with a past effective date (≥ product start date) creates a new LA with start date = effective date, and leaves the existing LA unchanged.","* User has a student with an active enrolled location
+* User has created a product offering (package type = Schedule) with Course A added; Require Allocation flag = True
+* User has submitted an order for the student with product start date = 2026-01-01; Course A LA exists with start date = 2026-01-01
+* User has added Course B to the product offering (Require Allocation = True)
+* Current date = 2026-04-02",,,"high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Go to Student Detail → Click ""New Order Group"" button
+2. Select the student's location and save
+3. At Order Group Product, click ""Manage"" button → Select the existing product → Click ""Update""
+4. Click ""Add Course"" → Select Course B → Enter effective date = 2026-01-10
+5. Assign a class for Course B
+6. Click ""Save Draft""
+7. Click ""Submit""
+8. Navigate to Contact → Course tab → Lesson Allocation list
+9. Check existing Course A LA
+10. Check new Course B LA teaching method
+11. Check new Course B LA total session count","1. New Order Group dialog opens
+2. Order Group is created
+3. Update order form opens showing current product
+4. Course B row added with effective date field showing 2026-01-10; no inline error
+5. Class assignment saved
+6. Order saved as draft with no error message
+7. Order submitted successfully
+8. New LA for Course B is visible in the list with start date = 2026-01-10
+9. Course A LA still exists with original start date = 2026-01-01 and original end date unchanged
+10. Teaching method on Course B LA = teaching method of Course B's course offering's course master
+11. Total session count = 0; no student session auto-created","""""
+""Student's active enrolled location""
+""""
+""Effective date: 2026-01-10""
+""Valid class for Course B""
+""""
+""""
+""""
+""""
+""""
+""""",,,,,
+18826,"Lesson Allocation – Add Associated Course – Past Effective Date = Product Start Date – Boundary Allowed","AC 03.2, AC 03.3 — BVA Boundary — Validates that effective date exactly equal to the product start date is accepted (lower boundary of allowed range).","* User has a student with an active enrolled location
+* User has a product offering (package type = Frequency) with Course A; submitted order with product start date = 2026-01-01; Course A LA exists
+* User has added Course B to the product offering (Require Allocation = True)
+* Current date = 2026-04-02",,,"high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Go to Student Detail → Click ""New Order Group"" → Select location → Save
+2. At Order Group Product, click ""Manage"" → Select product → Click ""Update""
+3. Click ""Add Course"" → Select Course B → Enter effective date = 2026-01-01 (= product start date)
+4. Click ""Save Draft""
+5. Click ""Submit""
+6. Navigate to Contact → Course tab → Lesson Allocation list","1. Order Group created
+2. Update order form opens
+3. Course B row added with effective date = 2026-01-01; no inline error displayed
+4. Order saved as draft with no error
+5. Order submitted successfully
+6. New LA for Course B visible with start date = 2026-01-01","""""
+""""
+""Effective date: 2026-01-01""
+""""
+""""
+""""",,,,,
+18827,"Lesson Allocation – Add Associated Course – Past Effective Date < Product Start Date – Order Submission Blocked","AC 03.2 — Negative Testing — Validates that effective date earlier than the product start date is rejected with the correct EN and JP error messages, and the order cannot be saved or submitted.","* User has a student with an active enrolled location
+* User has a product offering with Course A; submitted order with product start date = 2026-01-01; Course A LA exists
+* User has added Course B to the product offering (Require Allocation = True)
+* Current date = 2026-04-02",,,"high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Go to Student Detail → Click ""New Order Group"" → Select location → Save
+2. At Order Group Product, click ""Manage"" → Select product → Click ""Update""
+3. Click ""Add Course"" → Select Course B → Enter effective date = 2025-12-01 (< product start date 2026-01-01)
+4. Click ""Save Draft""
+5. Click ""Submit"" (if accessible)
+6. Navigate to Contact → Course tab → Lesson Allocation list","1. Order Group created
+2. Update order form opens
+3. Effective date entered
+4. Order cannot be saved; inline error displayed: ""The selected effective date is earlier than the product start date."" (EN); ""選択された適用開始日は、商品の開始日以降の日付を選択してください。"" (JP)
+5. Submission blocked; same error persists
+6. No new LA created for Course B","""""
+""""
+""Effective date: 2025-12-01""
+""""
+""""
+""""",,,,,
+18828,"Lesson Allocation – Void Update Order That Added New Course with Past Effective Date – Added Course LA Deleted, Original Unchanged","AC 07.6 — State Transition Testing — Validates that voiding an update order which added a new course using a past effective date deletes only the newly added course LA, and leaves the original course LA intact.","* User has completed the scenario from TC ""Add Associated Course – Past Effective Date ≥ Product Start Date""
+* Course A LA exists: start date = 2026-01-01
+* Course B LA exists: start date = 2026-01-10 (created via past-date update order)
+* The update order adding Course B is in ""Submitted"" status and visible in the billing tab",,,"high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Go to Student Detail → Billing tab
+2. Open the update order group that added Course B with effective date = 2026-01-10
+3. Click ""Void"" on the update order
+4. Confirm void action
+5. Navigate to Contact → Course tab → Lesson Allocation list
+6. Check Course A LA
+7. Check total session count on Course A LA","1. Billing tab shows the list of order groups including the update order that added Course B
+2. Order group detail opens showing the submitted update order
+3. Void confirmation dialog appears
+4. Order status changes to ""Voided""
+5. Course B LA is removed from the list
+6. Course A LA still exists with original start date = 2026-01-01 and original end date unchanged
+7. Total session count on Course A LA is unchanged from before the void","""""
+""""
+""""
+""""
+""""
+""""
+""""",,,,,

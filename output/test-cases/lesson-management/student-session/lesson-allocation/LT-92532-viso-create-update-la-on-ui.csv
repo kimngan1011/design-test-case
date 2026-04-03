@@ -1,0 +1,163 @@
+,[Riso] Lesson Allocation – Calendar – Student List – UI-created LA always visible (Ignore Duration),"System integration — Verify that a student with an LA created via the UI always appears on the Student List in the Calendar environment, regardless of the LA duration, because Calendar does not check LA duration limits when filtering students.","- Logged in as HQ or CM user
+- A UI-created LA exists for Student A: Course X, Type = Regular, Start 2026-01-01, End 2026-01-15, `require_allocation = TRUE`
+- A published group lesson exists for Course X on a date far outside the LA duration (e.g., 2026-05-01)",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Calendar tab""
+2. ""Select the lesson for Course X on 2026-05-01""
+3. ""Open the """"Add Students"""" or view the Student List assigning to the lesson""
+4. ""Search for Student A in the list""","1. ""Calendar is displayed""
+2. ""Lesson details/drawer opens""
+3. ""Student list opens allowing searching by Course X""
+4. ""Student A still appears successfully in the Student List and is enabled to assign""","1. """"
+2. ""Lesson Date: 2026-05-01 (Outside LA effect)""
+3. """"
+4. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Lesson Assignment – Update LA Date does not auto assign/unassign,Integration — Verify that extending or modifying an LA’s date on the UI does not trigger any implicit/background processes to auto-assign or auto-unassign the student from their existing lesson events on the Calendar.,"- Logged in as HQ or CM user
+- Student A has a UI-created LA for Course X: Start 2026-04-01, End 2026-06-30
+- Student A has been manually assigned to Lesson L1 (Course X) on 2026-05-15 (within LA range)
+- Student A is also assigned to another Lesson L2 (Course X) on 2026-08-01 (outside original LA range, which is allowed by Calendar rules)",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Contact → Course tab → Edit LA from the UI""
+2. ""Extend End Date from 2026-06-30 to 2026-12-31 and save""
+3. ""Navigate to Calendar tab""
+4. ""Check the participation of Student A in Lesson L1 (2026-05-15)""
+5. ""Check the participation of Student A in Lesson L2 (2026-08-01)""","1. ""LA modal opens with editable Start and End Date fields""
+2. ""LA saved successfully""
+3. ""Calendar view opens""
+4. ""Student A is still assigned to Lesson L1; no background unassign triggered""
+5. ""Student A is still assigned to Lesson L2; no auto-status updates or removals triggered""","1. """"
+2. ""End Date update: 2026-12-31""
+3. """"
+4. ""Lesson L1 Date: 2026-05-15""
+5. ""Lesson L2 Date: 2026-08-01""",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Delete LA – Synchronous unlinking,"Integration — Verify that deleting a UI-created LA synchronously removes the student from any calendar lessons they were already assigned to. According to Business Rule 32, the lesson unlinking is immediate.","- Logged in as HQ or CM user
+- Student A has a UI-created LA for Course X
+- Student A is assigned to two upcoming published group lessons (L1 and L2) for Course X",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Calendar and verify Student A in L1 and L2""
+2. ""Navigate to Contact → Course tab → Delete the LA for Student A""
+3. ""Confirm the deletion""
+4. ""Navigate back to Calendar and check Student Sessions for L1 and L2""","1. ""Student A is visible in the Student Sessions list for both L1 and L2""
+2. ""Confirmation dialog warns about allocated lessons being removed""
+3. ""LA is immediately deleted""
+4. ""Student A no longer appears in the sessions for either L1 or L2; synchronous unlinking happened successfully""","1. """"
+2. """"
+3. """"
+4. """"",,,,,LA – System Integration,,,
+,"[Riso] Lesson Allocation – Calendar – Student Dots – ""Trial Student"" label visibility","Integration — Verify that a UI-created LA configured as 'Trial' propagates the correct student attribute so the ""Trial Student dot"" mark appears correctly on lessons in the Calendar view.","- Logged in as HQ or CM user
+- Student A has an active UI-created LA: Course X, Type = **Trial**
+- Student A is assigned to a published group lesson for Course X",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Calendar tab""
+2. ""Open or expand the lesson detail for the assigned course""
+3. ""Observe the visual indicators next to Student A's name""","1. ""Calendar view is displayed containing the active lesson event""
+2. ""Student list for the specific lesson opens""
+3. ""System correctly displays the """"Trial Student dot"""" indicating they are taking a trial""","1. """"
+2. """"
+3. ""LA Type used: Trial""",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Assign Student – One-time lesson,"Integration — Verify that a student with a UI-created LA can be properly assigned to a One-time lesson, and the LA's Lesson Allocated count updates correctly.","- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X (`require_allocation = TRUE`)
+- A published **One-time** lesson exists for Course X within the LA duration",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the One-time lesson detail page (or drawer)""
+2. ""Click """"Add Students"""" and search for Student A""
+3. ""Select Student A and confirm assignment""
+4. ""Navigate to Contact → Course tab → LA detail for Student A""
+5. ""Check LA Report History""","1. ""Lesson details are displayed""
+2. ""Student A is listed""
+3. ""Student A is added to the One-time lesson""
+4. ""Lesson Allocated count increments by 1""
+5. ""The specific one-time lesson is recorded in the history tab""","1. """"
+2. """"
+3. ""Target: One-time lesson""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Assign Student – Recurring lesson – 'Only this' option,Integration — Verify that a student with a UI-created LA can be assigned to a single instance of a recurring lesson using the 'Only this' option.,"- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X
+- A published **Recurring** lesson series exists for Course X within the LA duration",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to a specific instance of the recurring lesson""
+2. ""Click """"Add Students"""", select Student A""
+3. ""Choose the """"**Only this**"""" lesson option and confirm""
+4. ""Check the next lesson in the recurring series""
+5. ""Check LA Report History""","1. ""Lesson details are displayed""
+2. ""Options for recurring assignment appear""
+3. ""Student A is assigned ONLY to the current lesson instance""
+4. ""Student A is NOT assigned to subsequent instances""
+5. ""Exactly 1 lesson instance is added to the allocated count and history""","1. """"
+2. """"
+3. ""Option: Only this""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Assign Student – Recurring lesson – 'This and the following' option,Integration — Verify that assigning a student with a UI-created LA using 'This and the following' correctly populates all subsequent instances in a recurring lesson series up to the LA end date.,"- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X
+- A published **Recurring** lesson series exists for Course X within the LA duration",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to a specific instance of the recurring lesson""
+2. ""Click """"Add Students"""", select Student A""
+3. ""Choose """"**This and the following**"""" option and confirm""
+4. ""Check subsequent lessons in the series""
+5. ""Check LA Report History""","1. ""Lesson details are displayed""
+2. ""Options for recurring assignment appear""
+3. ""Student A is assigned to the current and all subsequent instances in the series""
+4. ""Student A is present in all valid future lesson instances within the LA duration""
+5. ""Lesson Allocated count increments by the total number of newly assigned instances""","1. """"
+2. """"
+3. ""Option: This and following""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Assign Student – Recurring lesson – 'Specific number' option,Integration — Verify that assigning a student with a UI-created LA via 'Specific number' correctly assigns them to the exact count of subsequent recurring lessons.,"- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X
+- A published **Recurring** lesson series exists for Course X",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to a specific instance of the recurring lesson""
+2. ""Click """"Add Students"""", select Student A""
+3. ""Choose """"**Specific number**"""" option, input '3', and confirm""
+4. ""View the 4th consecutive lesson instance""
+5. ""Check LA Report History""","1. ""Lesson details are displayed""
+2. ""Options for recurring assignment appear""
+3. ""Student A is assigned to the current lesson and the next 2 instances (total 3)""
+4. ""Student A is NOT assigned to the 4th instance""
+5. ""Lesson Allocated count strictly increases by 3""","1. """"
+2. """"
+3. ""Option: Specific number, 3""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Unassign Student – One-time lesson,Integration — Verify that unassigning a student with a UI-created LA from a One-time lesson correctly drops them from the lesson and deducts the allocation count.,"- Logged in as HQ or CM user
+- Student A is assigned to a published **One-time** lesson via their UI-created LA",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the One-time lesson detail where Student A is assigned""
+2. ""Click Remove/Unassign on Student A's row""
+3. ""Confirm unassignment""
+4. ""Check LA detail for Student A""","1. ""Student A is visible in Student Sessions""
+2. ""Confirmation modal is shown""
+3. ""Student A is removed from the lesson""
+4. ""Lesson Allocated count decrements by 1; the lesson is removed from Report History""","1. """"
+2. """"
+3. """"
+4. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Unassign Student – Recurring lesson – 'Only this' option,Integration — Verify that unassigning a student with a UI-created LA via 'Only this' drops them only from the specific recurring lesson instance selected.,"- Logged in as HQ or CM user
+- Student A is assigned to multiple instances of a published **Recurring** lesson series via their UI-created LA",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to a specific assigned instance of the recurring lesson""
+2. ""Click Remove/Unassign on Student A's row""
+3. ""Select """"**Only this**"""" lesson option and confirm""
+4. ""Navigate to the next instance in the recurring series""
+5. ""Check LA detail for Student A""","1. ""Student A is visible in Student Sessions""
+2. ""Modal prompts for unassign scope for recurring lesson""
+3. ""Student A is removed ONLY from this specific instance""
+4. ""Student A remains assigned to the subsequent instance""
+5. ""Lesson Allocated count is decremented by exactly 1""","1. """"
+2. """"
+3. ""Option: Only this""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Unassign Student – Recurring lesson – 'This and the following' option,Integration — Verify that unassigning a student with a UI-created LA via 'This and the following' drops them from the current and all future instances of the recurring series.,"- Logged in as HQ or CM user
+- Student A is assigned to multiple instances of a published **Recurring** lesson series via their UI-created LA",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to a specific assigned instance of the recurring lesson""
+2. ""Click Remove/Unassign on Student A's row""
+3. ""Select """"**This and the following**"""" option and confirm""
+4. ""Navigate to any subsequent instance in the recurring series""
+5. ""Check LA detail for Student A""","1. ""Student A is visible in Student Sessions""
+2. ""Modal prompts for unassign scope for recurring lesson""
+3. ""Student A is removed from this instance and all future instances in the series""
+4. ""Student A is no longer assigned to those future lessons""
+5. ""Lesson Allocated count is decremented by the total number of unassigned instances""","1. """"
+2. """"
+3. ""Option: This and following""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Bulk Collect Attendance – LA student in lesson,"Integration — Verify that bulk collecting attendance operates correctly for a student assigned to a lesson via a newly created UI LA, seamlessly applying the status to the LA reports.","- Logged in as HQ or CM user
+- Student A has a UI-created LA and is assigned to a past/in-progress lesson
+- There are multiple students in the lesson",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the lesson detail page (or bulk attendance feature via list)""
+2. ""Check the checkbox to select multiple/all students (including Student A)""
+3. ""Click 'Collect Attendance' action and set status to 'Attend'""
+4. ""Confirm the bulk attendance submission""
+5. ""Check LA Report History for Student A""","1. ""Student Sessions are listed""
+2. ""UI indicates multiple students are selected""
+3. ""Bulk action executes""
+4. ""Student A's attendance updates to 'Attend' along with the others""
+5. ""The updated attendance status ('Attend') reflects correctly inside the LA details""","1. """"
+2. """"
+3. ""Action: Bulk Attendance""
+4. """"
+5. """"",,,,,LA – System Integration,,,

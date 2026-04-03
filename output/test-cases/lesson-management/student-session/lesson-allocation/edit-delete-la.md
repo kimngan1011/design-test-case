@@ -4,9 +4,9 @@
 
 ---
 
-### [Riso] Lesson Allocation – Edit LA – Start Date – Changed to Date After Original – Update Accepted
+### [Riso] Lesson Allocation – Edit LA – Start Date – Updated to Future Date – Update Accepted
 
-**Description:** AC 02.1 — BVA just-above boundary — Verify that editing Start date to a value one day after the original is accepted.
+**Description:** AC 02.1 — Happy Path — Verify that editing Start date to any valid future date is accepted without restriction on original value.
 
 **Preconditions:**
 
@@ -14,62 +14,20 @@
 - Existing LA: Course "Math", AY 2026, Location A, Start = 2026-04-01, End = 2026-09-30, Type = Regular
 - LA edit form is open
 
-| #   | Action                                                   | Expected Result                                                      | Test Data             |
-| --- | -------------------------------------------------------- | -------------------------------------------------------------------- | --------------------- |
-| 1   | Open edit form for the LA                                | Edit form shows current values: Start = 2026-04-01, End = 2026-09-30 |                       |
-| 2   | Change Start date to 2026-04-02 (one day after original) | Start date field shows 2026-04-02; no validation error               | New Start: 2026-04-02 |
-| 3   | Click Save                                               | Update is accepted; LA record shows Start = 2026-04-02               |                       |
+| #   | Action                          | Expected Result                                                      | Test Data             |
+| --- | ------------------------------- | -------------------------------------------------------------------- | --------------------- |
+| 1   | Open edit form for the LA       | Edit form shows current values: Start = 2026-04-01, End = 2026-09-30 |                       |
+| 2   | Change Start date to 2026-05-15 | Start date field shows 2026-05-15; no validation error               | New Start: 2026-05-15 |
+| 3   | Click Save                      | Update is accepted; LA record shows Start = 2026-05-15               |                       |
 
 **Severity:** major
 **Priority:** high
 
 ---
 
-### [Riso] Lesson Allocation – Edit LA – Start Date – Changed to Same as Original – Blocked
+### [Riso] Lesson Allocation – Edit LA – Start Date – Updated to Date Before Original – Update Accepted
 
-**Description:** AC 02.1 — BVA at boundary — Verify that editing Start date to the same value as the original date is NOT accepted (must be after original).
-
-**Preconditions:**
-
-- Logged in as HQ or CM user
-- Existing LA: Start = 2026-04-01, End = 2026-09-30
-- LA edit form is open
-
-| #   | Action                                         | Expected Result                                                   | Test Data             |
-| --- | ---------------------------------------------- | ----------------------------------------------------------------- | --------------------- |
-| 1   | Open edit form                                 | Current Start = 2026-04-01                                        |                       |
-| 2   | Set Start date = 2026-04-01 (same as original) | Validation error indicating date must be after the original value | New Start: 2026-04-01 |
-| 3   | Confirm Save is blocked                        | Save button is disabled or error persists                         |                       |
-
-**Severity:** major
-**Priority:** high
-
----
-
-### [Riso] Lesson Allocation – Edit LA – Start Date – Changed to Date Before Original – Blocked
-
-**Description:** AC 02.1 — BVA below boundary / Negative Testing — Verify that editing Start date to a value before the original date is rejected.
-
-**Preconditions:**
-
-- Logged in as HQ or CM user
-- Existing LA: Start = 2026-04-01, End = 2026-09-30
-- LA edit form is open
-
-| #   | Action                                                | Expected Result                                                   | Test Data             |
-| --- | ----------------------------------------------------- | ----------------------------------------------------------------- | --------------------- |
-| 1   | Open edit form                                        | Current Start = 2026-04-01                                        |                       |
-| 2   | Set Start date = 2026-03-31 (one day before original) | Validation error indicating date must be after the original value | New Start: 2026-03-31 |
-| 3   | Confirm Save is blocked                               | Save button is disabled or error persists                         |                       |
-
-**Severity:** major
-**Priority:** high
-
----
-
-### [Riso] Lesson Allocation – Edit LA – End Date – Changed to Date After Original – Update Accepted
-
-**Description:** AC 02.1 — BVA just-above boundary — Verify that editing End date to a value one day after the original is accepted.
+**Description:** AC 02.1 — Regression — Verify that Start date can now be edited to a date before the original value (original-date restriction removed).
 
 **Preconditions:**
 
@@ -77,32 +35,96 @@
 - Existing LA: Start = 2026-04-01, End = 2026-09-30, Type = Regular
 - LA edit form is open
 
-| #   | Action                                             | Expected Result                                      | Test Data           |
-| --- | -------------------------------------------------- | ---------------------------------------------------- | ------------------- |
-| 1   | Open edit form                                     | Current End = 2026-09-30                             |                     |
-| 2   | Set End date = 2026-10-01 (one day after original) | End date field shows 2026-10-01; no validation error | New End: 2026-10-01 |
-| 3   | Click Save                                         | Update accepted; LA shows End = 2026-10-01           |                     |
+| #   | Action                                        | Expected Result                                        | Test Data             |
+| --- | --------------------------------------------- | ------------------------------------------------------ | --------------------- |
+| 1   | Open edit form                                | Edit form shows current values: Start = 2026-04-01     |                       |
+| 2   | Set Start date = 2026-03-15 (before original) | Start date field shows 2026-03-15; no validation error | New Start: 2026-03-15 |
+| 3   | Click Save                                    | Update is accepted; LA record shows Start = 2026-03-15 |                       |
 
 **Severity:** major
 **Priority:** high
 
 ---
 
-### [Riso] Lesson Allocation – Edit LA – End Date – Changed to Date Before Original – Blocked
+### [Riso] Lesson Allocation – Edit LA – End Date – Updated to Future Date – Update Accepted
 
-**Description:** AC 02.1 — BVA below boundary / Negative Testing — Verify that editing End date to a value before the original date is rejected.
+**Description:** AC 02.1 — Happy Path — Verify that editing End date to any valid future date is accepted without restriction on original value.
 
 **Preconditions:**
 
 - Logged in as HQ or CM user
-- Existing LA: Start = 2026-04-01, End = 2026-09-30
+- Existing LA: Start = 2026-04-01, End = 2026-09-30, Type = Regular
 - LA edit form is open
 
-| #   | Action                                              | Expected Result                                                       | Test Data           |
-| --- | --------------------------------------------------- | --------------------------------------------------------------------- | ------------------- |
-| 1   | Open edit form                                      | Current End = 2026-09-30                                              |                     |
-| 2   | Set End date = 2026-09-29 (one day before original) | Validation error indicating end date must be after the original value | New End: 2026-09-29 |
-| 3   | Confirm Save is blocked                             | Save button is disabled or error persists                             |                     |
+| #   | Action                    | Expected Result                                      | Test Data           |
+| --- | ------------------------- | ---------------------------------------------------- | ------------------- |
+| 1   | Open edit form            | Current End = 2026-09-30                             |                     |
+| 2   | Set End date = 2026-08-31 | End date field shows 2026-08-31; no validation error | New End: 2026-08-31 |
+| 3   | Click Save                | Update accepted; LA shows End = 2026-08-31           |                     |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Edit LA – End Date – Updated to Date Before Original – Update Accepted
+
+**Description:** AC 02.1 — Regression — Verify that End date can now be edited to a date before the original value (original-date restriction removed).
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Existing LA: Start = 2026-04-01, End = 2026-09-30, Type = Regular
+- LA edit form is open
+
+| #   | Action                                      | Expected Result                                      | Test Data           |
+| --- | ------------------------------------------- | ---------------------------------------------------- | ------------------- |
+| 1   | Open edit form                              | Current End = 2026-09-30                             |                     |
+| 2   | Set End date = 2026-07-01 (before original) | End date field shows 2026-07-01; no validation error | New End: 2026-07-01 |
+| 3   | Click Save                                  | Update accepted; LA shows End = 2026-07-01           |                     |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Edit LA – Both Dates in Past – End Date Error Shown
+
+**Description:** AC 02.1 / AC 01.4 — Negative Testing — Verify that editing both Start date and End date to past dates triggers the "End date must be a future date" error.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Existing LA: Start = 2026-04-01, End = 2026-09-30, Type = Regular
+- LA edit form is open
+- Today = 2026-04-01
+
+| #   | Action                             | Expected Result                                                                              | Test Data             |
+| --- | ---------------------------------- | -------------------------------------------------------------------------------------------- | --------------------- |
+| 1   | Open edit form                     | Edit form is displayed                                                                       |                       |
+| 2   | Set Start date = 2026-03-01 (past) | Start date field shows 2026-03-01                                                            | New Start: 2026-03-01 |
+| 3   | Set End date = 2026-03-31 (past)   | Inline error appears under End date field: "End date must be a future date"; Save is blocked | New End: 2026-03-31   |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Edit LA – Start Date After End Date – Error on Both Fields
+
+**Description:** AC 02.1 / AC 01.4 — Negative Testing — Verify that editing Start date to be after End date shows an error on both date fields.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Existing LA: Start = 2026-04-01, End = 2026-09-30, Type = Regular
+- LA edit form is open
+
+| #   | Action                                  | Expected Result                                                                                       | Test Data             |
+| --- | --------------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------- |
+| 1   | Open edit form                          | Edit form shows current values: Start = 2026-04-01, End = 2026-09-30                                  |                       |
+| 2   | Set Start date = 2026-10-01 (after End) | Inline error appears under both Start and End date fields: "Start date must be earlier than End date" | New Start: 2026-10-01 |
+| 3   | Confirm Save is blocked                 | Save button is disabled or submission fails                                                           |                       |
 
 **Severity:** major
 **Priority:** high
@@ -127,109 +149,6 @@
 
 **Severity:** major
 **Priority:** high
-
----
-
-### [Riso] Lesson Allocation – Edit LA – Trial Type – Purchased Slot Increased – Update Accepted
-
-**Description:** AC 02.1 — BVA/Decision Table — Verify that for Trial LA type, Purchased Slot can be edited to a value greater than the original.
-
-**Preconditions:**
-
-- Logged in as HQ or CM user
-- Existing LA: Type = Trial, Purchased Slot = 5, Start = 2026-04-01, End = 2026-09-30
-- LA edit form is open
-
-| #   | Action                                              | Expected Result                                     | Test Data   |
-| --- | --------------------------------------------------- | --------------------------------------------------- | ----------- |
-| 1   | Open edit form for Trial LA                         | Purchased Slot field is editable; current value = 5 |             |
-| 2   | Change Purchased Slot to 6 (one more than original) | No validation error                                 | New Slot: 6 |
-| 3   | Click Save                                          | Update accepted; LA shows Purchased Slot = 6        |             |
-
-**Severity:** major
-**Priority:** high
-
----
-
-### [Riso] Lesson Allocation – Edit LA – Trial Type – Purchased Slot Set to Same Value – Blocked
-
-**Description:** AC 02.1 — BVA at boundary — Verify that setting Purchased Slot to the same value as original (not greater) is rejected.
-
-**Preconditions:**
-
-- Logged in as HQ or CM user
-- Existing Trial LA: Purchased Slot = 5
-- LA edit form is open
-
-| #   | Action                                    | Expected Result                                                | Test Data   |
-| --- | ----------------------------------------- | -------------------------------------------------------------- | ----------- |
-| 1   | Open edit form                            | Purchased Slot = 5                                             |             |
-| 2   | Set Purchased Slot = 5 (same as original) | Validation error indicating slot must be greater than original | New Slot: 5 |
-| 3   | Confirm Save is blocked                   | Save is blocked                                                |             |
-
-**Severity:** major
-**Priority:** high
-
----
-
-### [Riso] Lesson Allocation – Edit LA – Trial Type – Purchased Slot Decreased – Blocked
-
-**Description:** AC 02.1 — Negative Testing — Verify that decreasing Purchased Slot below the original value for a Trial LA is rejected.
-
-**Preconditions:**
-
-- Logged in as HQ or CM user
-- Existing Trial LA: Purchased Slot = 5
-- LA edit form is open
-
-| #   | Action                                      | Expected Result                                                | Test Data   |
-| --- | ------------------------------------------- | -------------------------------------------------------------- | ----------- |
-| 1   | Open edit form                              | Purchased Slot = 5                                             |             |
-| 2   | Set Purchased Slot = 4 (less than original) | Validation error indicating slot must be greater than original | New Slot: 4 |
-| 3   | Confirm Save is blocked                     | Save is blocked                                                |             |
-
-**Severity:** major
-**Priority:** high
-
----
-
-### [Riso] Lesson Allocation – Edit LA – Regular Type – Purchased Slot Field Not Editable
-
-**Description:** AC 02.1 — Decision Table — Verify that Purchased Slot field is NOT editable for Regular LA type.
-
-**Preconditions:**
-
-- Logged in as HQ or CM user
-- Existing LA: Type = Regular, Purchased Slot = 10
-- LA edit form is open
-
-| #   | Action                        | Expected Result                                             | Test Data |
-| --- | ----------------------------- | ----------------------------------------------------------- | --------- |
-| 1   | Open edit form for Regular LA | Edit form is displayed                                      |           |
-| 2   | Observe Purchased Slot field  | Purchased Slot field is read-only / disabled (not editable) |           |
-
-**Severity:** normal
-**Priority:** medium
-
----
-
-### [Riso] Lesson Allocation – Edit LA – Seasonal Type – Purchased Slot Field Not Editable
-
-**Description:** AC 02.1 — Decision Table — Verify that Purchased Slot field is NOT editable for Seasonal LA type.
-
-**Preconditions:**
-
-- Logged in as HQ or CM user
-- Existing LA: Type = Seasonal, Purchased Slot = 8
-- LA edit form is open
-
-| #   | Action                         | Expected Result                                             | Test Data |
-| --- | ------------------------------ | ----------------------------------------------------------- | --------- |
-| 1   | Open edit form for Seasonal LA | Edit form is displayed                                      |           |
-| 2   | Observe Purchased Slot field   | Purchased Slot field is read-only / disabled (not editable) |           |
-
-**Severity:** normal
-**Priority:** medium
 
 ---
 

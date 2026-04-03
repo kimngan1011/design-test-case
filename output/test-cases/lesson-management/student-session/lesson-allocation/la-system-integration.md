@@ -321,3 +321,293 @@
 
 **Severity:** major
 **Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Student List – UI-created LA always visible (Ignore Duration)
+
+**Description:** System integration — Verify that a student with an LA created via the UI always appears on the Student List in the Calendar environment, regardless of the LA duration, because Calendar does not check LA duration limits when filtering students.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- A UI-created LA exists for Student A: Course X, Type = Regular, Start 2026-01-01, End 2026-01-15, `require_allocation = TRUE`
+- A published group lesson exists for Course X on a date far outside the LA duration (e.g., 2026-05-01)
+
+| #   | Action                                                                   | Expected Result                                                                    | Test Data                                   |
+| --- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- | ------------------------------------------- |
+| 1   | Navigate to Calendar tab                                                 | Calendar is displayed                                                              |                                             |
+| 2   | Select the lesson for Course X on 2026-05-01                             | Lesson details/drawer opens                                                        | Lesson Date: 2026-05-01 (Outside LA effect) |
+| 3   | Open the "Add Students" or view the Student List assigning to the lesson | Student list opens allowing searching by Course X                                  |                                             |
+| 4   | Search for Student A in the list                                         | Student A still appears successfully in the Student List and is enabled to assign  |                                             |
+
+**Severity:** normal
+**Priority:** medium
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Lesson Assignment – Update LA Date does not auto assign/unassign
+
+**Description:** Integration — Verify that extending or modifying an LA’s date on the UI does not trigger any implicit/background processes to auto-assign or auto-unassign the student from their existing lesson events on the Calendar.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A has a UI-created LA for Course X: Start 2026-04-01, End 2026-06-30
+- Student A has been manually assigned to Lesson L1 (Course X) on 2026-05-15 (within LA range)
+- Student A is also assigned to another Lesson L2 (Course X) on 2026-08-01 (outside original LA range, which is allowed by Calendar rules)
+
+| #   | Action                                                                              | Expected Result                                                                                         | Test Data                               |
+| --- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | --------------------------------------- |
+| 1   | Navigate to Contact → Course tab → Edit LA from the UI                              | LA modal opens with editable Start and End Date fields                                                  |                                         |
+| 2   | Extend End Date from 2026-06-30 to 2026-12-31 and save                              | LA saved successfully                                                                                   | End Date update: 2026-12-31             |
+| 3   | Navigate to Calendar tab                                                            | Calendar view opens                                                                                     |                                         |
+| 4   | Check the participation of Student A in Lesson L1 (2026-05-15)                      | Student A is still assigned to Lesson L1; no background unassign triggered                              | Lesson L1 Date: 2026-05-15              |
+| 5   | Check the participation of Student A in Lesson L2 (2026-08-01)                      | Student A is still assigned to Lesson L2; no auto-status updates or removals triggered                  | Lesson L2 Date: 2026-08-01              |
+
+**Severity:** normal
+**Priority:** medium
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Delete LA – Synchronous unlinking
+
+**Description:** Integration — Verify that deleting a UI-created LA synchronously removes the student from any calendar lessons they were already assigned to. According to Business Rule 32, the lesson unlinking is immediate.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A has a UI-created LA for Course X
+- Student A is assigned to two upcoming published group lessons (L1 and L2) for Course X
+
+| #   | Action                                                               | Expected Result                                                                                                            | Test Data |
+| --- | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- | --------- |
+| 1   | Navigate to Calendar and verify Student A in L1 and L2               | Student A is visible in the Student Sessions list for both L1 and L2                                                       |           |
+| 2   | Navigate to Contact → Course tab → Delete the LA for Student A       | Confirmation dialog warns about allocated lessons being removed                                                            |           |
+| 3   | Confirm the deletion                                                 | LA is immediately deleted                                                                                                  |           |
+| 4   | Navigate back to Calendar and check Student Sessions for L1 and L2   | Student A no longer appears in the sessions for either L1 or L2; synchronous unlinking happened successfully               |           |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Student Dots – "Trial Student" label visibility
+
+**Description:** Integration — Verify that a UI-created LA configured as 'Trial' propagates the correct student attribute so the "Trial Student dot" mark appears correctly on lessons in the Calendar view.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A has an active UI-created LA: Course X, Type = **Trial**
+- Student A is assigned to a published group lesson for Course X
+
+| #   | Action                                                                 | Expected Result                                                                           | Test Data             |
+| --- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | --------------------- |
+| 1   | Navigate to Calendar tab                                               | Calendar view is displayed containing the active lesson event                             |                       |
+| 2   | Open or expand the lesson detail for the assigned course               | Student list for the specific lesson opens                                                |                       |
+| 3   | Observe the visual indicators next to Student A's name                 | System correctly displays the "Trial Student dot" indicating they are taking a trial      | LA Type used: Trial   |
+
+**Severity:** major
+**Priority:** medium
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Student Dots – "New Student" label visibility
+
+**Description:** Integration — Verify that a UI-created LA (as the student's first enrollment) correctly flags the student attribute so the "New Student dot" is indicated at their first lesson in the Calendar view.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A has a newly created active UI LA: Course X, Type = **Regular**
+- This applies to the very first lesson assigned to Student A upon starting the course
+
+| #   | Action                                                                  | Expected Result                                                                                | Test Data               |
+| --- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------- |
+| 1   | Navigate to Calendar tab                                                | Calendar view is displayed                                                                     |                         |
+| 2   | Open the detail or drawer of Student A's first assigned lesson event    | Student Sessions list opens                                                                    |                         |
+| 3   | Observe the visual indicators next to Student A's name                  | System correctly displays the "New Student dot" to mark the student's very first enrolled date |                         |
+
+**Severity:** major
+**Priority:** medium
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Assign Student – One-time lesson
+
+**Description:** Integration — Verify that a student with a UI-created LA can be properly assigned to a One-time lesson, and the LA's Lesson Allocated count updates correctly.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X (`require_allocation = TRUE`)
+- A published **One-time** lesson exists for Course X within the LA duration
+
+| #   | Action                                                                    | Expected Result                                                                     | Test Data               |
+| --- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------- |
+| 1   | Navigate to the One-time lesson detail page (or drawer)                   | Lesson details are displayed                                                        |                         |
+| 2   | Click "Add Students" and search for Student A                             | Student A is listed                                                                 |                         |
+| 3   | Select Student A and confirm assignment                                   | Student A is added to the One-time lesson                                           | Target: One-time lesson |
+| 4   | Navigate to Contact → Course tab → LA detail for Student A                | Lesson Allocated count increments by 1                                              |                         |
+| 5   | Check LA Report History                                                   | The specific one-time lesson is recorded in the history tab                         |                         |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Assign Student – Recurring lesson – 'Only this' option
+
+**Description:** Integration — Verify that a student with a UI-created LA can be assigned to a single instance of a recurring lesson using the 'Only this' option.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X
+- A published **Recurring** lesson series exists for Course X within the LA duration
+
+| #   | Action                                                                    | Expected Result                                                                     | Test Data               |
+| --- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------- |
+| 1   | Navigate to a specific instance of the recurring lesson                   | Lesson details are displayed                                                        |                         |
+| 2   | Click "Add Students", select Student A                                    | Options for recurring assignment appear                                             |                         |
+| 3   | Choose the "**Only this**" lesson option and confirm                      | Student A is assigned ONLY to the current lesson instance                           | Option: Only this       |
+| 4   | Check the next lesson in the recurring series                             | Student A is NOT assigned to subsequent instances                                   |                         |
+| 5   | Check LA Report History                                                   | Exactly 1 lesson instance is added to the allocated count and history               |                         |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Assign Student – Recurring lesson – 'This and the following' option
+
+**Description:** Integration — Verify that assigning a student with a UI-created LA using 'This and the following' correctly populates all subsequent instances in a recurring lesson series up to the LA end date.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X
+- A published **Recurring** lesson series exists for Course X within the LA duration
+
+| #   | Action                                                                    | Expected Result                                                                     | Test Data                  |
+| --- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------- |
+| 1   | Navigate to a specific instance of the recurring lesson                   | Lesson details are displayed                                                        |                            |
+| 2   | Click "Add Students", select Student A                                    | Options for recurring assignment appear                                             |                            |
+| 3   | Choose "**This and the following**" option and confirm                    | Student A is assigned to the current and all subsequent instances in the series     | Option: This and following |
+| 4   | Check subsequent lessons in the series                                    | Student A is present in all valid future lesson instances within the LA duration    |                            |
+| 5   | Check LA Report History                                                   | Lesson Allocated count increments by the total number of newly assigned instances   |                            |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Assign Student – Recurring lesson – 'Specific number' option
+
+**Description:** Integration — Verify that assigning a student with a UI-created LA via 'Specific number' correctly assigns them to the exact count of subsequent recurring lessons.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X
+- A published **Recurring** lesson series exists for Course X
+
+| #   | Action                                                                    | Expected Result                                                                     | Test Data                  |
+| --- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------- |
+| 1   | Navigate to a specific instance of the recurring lesson                   | Lesson details are displayed                                                        |                            |
+| 2   | Click "Add Students", select Student A                                    | Options for recurring assignment appear                                             |                            |
+| 3   | Choose "**Specific number**" option, input '3', and confirm               | Student A is assigned to the current lesson and the next 2 instances (total 3)      | Option: Specific number, 3 |
+| 4   | View the 4th consecutive lesson instance                                  | Student A is NOT assigned to the 4th instance                                       |                            |
+| 5   | Check LA Report History                                                   | Lesson Allocated count strictly increases by 3                                      |                            |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Unassign Student – One-time lesson
+
+**Description:** Integration — Verify that unassigning a student with a UI-created LA from a One-time lesson correctly drops them from the lesson and deducts the allocation count.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A is assigned to a published **One-time** lesson via their UI-created LA
+
+| #   | Action                                                                    | Expected Result                                                                     | Test Data               |
+| --- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------- |
+| 1   | Navigate to the One-time lesson detail where Student A is assigned        | Student A is visible in Student Sessions                                            |                         |
+| 2   | Click Remove/Unassign on Student A's row                                  | Confirmation modal is shown                                                         |                         |
+| 3   | Confirm unassignment                                                      | Student A is removed from the lesson                                                |                         |
+| 4   | Check LA detail for Student A                                             | Lesson Allocated count decrements by 1; the lesson is removed from Report History   |                         |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Unassign Student – Recurring lesson – 'Only this' option
+
+**Description:** Integration — Verify that unassigning a student with a UI-created LA via 'Only this' drops them only from the specific recurring lesson instance selected.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A is assigned to multiple instances of a published **Recurring** lesson series via their UI-created LA
+
+| #   | Action                                                                    | Expected Result                                                                     | Test Data               |
+| --- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------- |
+| 1   | Navigate to a specific assigned instance of the recurring lesson          | Student A is visible in Student Sessions                                            |                         |
+| 2   | Click Remove/Unassign on Student A's row                                  | Modal prompts for unassign scope for recurring lesson                               |                         |
+| 3   | Select "**Only this**" lesson option and confirm                          | Student A is removed ONLY from this specific instance                               | Option: Only this       |
+| 4   | Navigate to the next instance in the recurring series                     | Student A remains assigned to the subsequent instance                               |                         |
+| 5   | Check LA detail for Student A                                             | Lesson Allocated count is decremented by exactly 1                                  |                         |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Unassign Student – Recurring lesson – 'This and the following' option
+
+**Description:** Integration — Verify that unassigning a student with a UI-created LA via 'This and the following' drops them from the current and all future instances of the recurring series.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A is assigned to multiple instances of a published **Recurring** lesson series via their UI-created LA
+
+| #   | Action                                                                    | Expected Result                                                                     | Test Data                  |
+| --- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------- |
+| 1   | Navigate to a specific assigned instance of the recurring lesson          | Student A is visible in Student Sessions                                            |                            |
+| 2   | Click Remove/Unassign on Student A's row                                  | Modal prompts for unassign scope for recurring lesson                               |                            |
+| 3   | Select "**This and the following**" option and confirm                    | Student A is removed from this instance and all future instances in the series      | Option: This and following |
+| 4   | Navigate to any subsequent instance in the recurring series               | Student A is no longer assigned to those future lessons                             |                            |
+| 5   | Check LA detail for Student A                                             | Lesson Allocated count is decremented by the total number of unassigned instances   |                            |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocation – Calendar – Bulk Collect Attendance – LA student in lesson
+
+**Description:** Integration — Verify that bulk collecting attendance operates correctly for a student assigned to a lesson via a newly created UI LA, seamlessly applying the status to the LA reports.
+
+**Preconditions:**
+
+- Logged in as HQ or CM user
+- Student A has a UI-created LA and is assigned to a past/in-progress lesson
+- There are multiple students in the lesson
+
+| #   | Action                                                                    | Expected Result                                                                     | Test Data                  |
+| --- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------- |
+| 1   | Navigate to the lesson detail page (or bulk attendance feature via list)  | Student Sessions are listed                                                         |                            |
+| 2   | Check the checkbox to select multiple/all students (including Student A)  | UI indicates multiple students are selected                                         |                            |
+| 3   | Click 'Collect Attendance' action and set status to 'Attend'              | Bulk action executes                                                                | Action: Bulk Attendance    |
+| 4   | Confirm the bulk attendance submission                                    | Student A's attendance updates to 'Attend' along with the others                    |                            |
+| 5   | Check LA Report History for Student A                                     | The updated attendance status ('Attend') reflects correctly inside the LA details   |                            |
+
+**Severity:** major
+**Priority:** high

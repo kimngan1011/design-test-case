@@ -1,0 +1,5 @@
+[     956ms] [WARNING]   WARN  [Statsig] Creating multiple Statsig clients with the same SDK key can lead to unexpected behavior. Multi-instance support requires different SDK keys. @ https://manabie.atlassian.net/browse/LT-96152:3
+[    1919ms] [WARNING] {msg: An error has occurred checking the feature gate. Only the first occurrence of this error is logged., gateName: platform_ufo_self_timings, error: Error: Client must be initialized before using this method
+    at e.value (https://id-frontend.prod…} @ https://id-frontend.prod-east.frontend.public.atl-paas.net/assets/index.e1a52ebd.js:39
+[    1930ms] [WARNING] Multiple versions of FeatureGateClients found on the current page.
+      The currently bound version is 5.5.4 when module version 4.26.5 was loading. @ https://id-frontend.prod-east.frontend.public.atl-paas.net/assets/index.e1a52ebd.js:39

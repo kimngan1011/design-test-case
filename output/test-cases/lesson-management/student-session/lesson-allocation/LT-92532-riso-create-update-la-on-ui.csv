@@ -1,7 +1,7 @@
 v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
 ,,,,,,,,,,,,,,,,,,,,,,Lesson Allocation,1,,
 ,,,,,,,,,,,,,,,,,,,,,,Create LA – CTA Button & Modal,2,,
-18019,"[Riso] Lesson Allocation – Contact Course Tab – New Lesson Allocation Button – Displayed for HQ/CM user","AC 01.1 — Decision Table — Verify ""New Lesson Allocation"" CTA button is visible under the Require Lesson Allocation table in Contact → Course tab for authorized users.","- Logged in as HQ or CM user
+18019,[Riso] Lesson Allocation – Contact Course Tab – New Lesson Allocation Button – Displayed for HQ/CM user,"AC 01.1 — Decision Table — Verify ""New Lesson Allocation"" CTA button is visible under the Require Lesson Allocation table in Contact → Course tab for authorized users.","- Logged in as HQ or CM user
 - Navigate to Student detail → Contact → Course tab
 - Student has at least one course with require_allocation = TRUE",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Student detail page""
 2. ""Click on Contact tab""
@@ -13,7 +13,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 2. """"
 3. """"
 4. """"",,,2,,,,
-18026,"[Riso] Lesson Allocation – Contact Course Tab – New Lesson Allocation Button – Click Opens Modal","AC 01.1 — State Transition Testing — Verify clicking the ""New Lesson Allocation"" button opens the New Lesson Allocation modal.","- Logged in as HQ or CM user
+18026,[Riso] Lesson Allocation – Contact Course Tab – New Lesson Allocation Button – Click Opens Modal,"AC 01.1 — State Transition Testing — Verify clicking the ""New Lesson Allocation"" button opens the New Lesson Allocation modal.","- Logged in as HQ or CM user
 - On Student → Contact → Course tab
 - ""New Lesson Allocation"" button is visible",,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Click """"New Lesson Allocation"""" button""
 2. ""Observe modal header""
@@ -23,19 +23,19 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 2. """"
 3. """"",,,2,,,,
 ,,,,,,,,,,,,,,,,,,,,,,Create LA – Form Pre-fill & Course List,2,,
-18027,"[Riso] Lesson Allocation – New LA Form – Academic Year – Pre-filled with Current AY","AC 01.2 — Decision Table — Verify AY field is automatically pre-filled with the current Academic Year when the modal opens.","- Logged in as HQ or CM user
+18027,[Riso] Lesson Allocation – New LA Form – Academic Year – Pre-filled with Current AY,AC 01.2 — Decision Table — Verify AY field is automatically pre-filled with the current Academic Year when the modal opens.,"- Logged in as HQ or CM user
 - Current Academic Year exists and is active (e.g., AY 2026)
 - New Lesson Allocation modal is open",,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open New Lesson Allocation modal""
 2. ""Observe AY field""","1. ""Modal is displayed""
 2. ""AY field is pre-filled with the current active AY (e.g., 2026)""","1. """"
 2. ""AY: 2026""",,,2,,,,
-18028,"[Riso] Lesson Allocation – New LA Form – Location Field – Pre-filled When Student Has Exactly 1 Active Enrolled Location","AC 01.2 — Decision Table — Verify Location is pre-filled when the student has exactly one active enrolled location (status = enrolled).","- Logged in as HQ or CM user
+18028,[Riso] Lesson Allocation – New LA Form – Location Field – Pre-filled When Student Has Exactly 1 Active Enrolled Location,AC 01.2 — Decision Table — Verify Location is pre-filled when the student has exactly one active enrolled location (status = enrolled).,"- Logged in as HQ or CM user
 - Student has exactly 1 active enrolled location (e.g., Location A, status = enrolled)
 - New Lesson Allocation modal is open",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open New Lesson Allocation modal""
 2. ""Observe Location field""","1. ""Modal is displayed""
 2. ""Location field is pre-filled with """"Location A"""" (the student's sole active enrolled location)""","1. """"
 2. ""Location: Location A""",,,2,,,,
-18029,"[Riso] Lesson Allocation – New LA Form – Location Field – Blank When Student Has 2+ Active Enrolled Locations","AC 01.2 — Decision Table — Verify Location field is blank when the student has more than one active enrolled location.","- Logged in as HQ or CM user
+18029,[Riso] Lesson Allocation – New LA Form – Location Field – Blank When Student Has 2+ Active Enrolled Locations,AC 01.2 — Decision Table — Verify Location field is blank when the student has more than one active enrolled location.,"- Logged in as HQ or CM user
 - Student has 2 active enrolled locations (Location A and Location B, both status = enrolled)
 - New Lesson Allocation modal is open",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open New Lesson Allocation modal""
 2. ""Observe Location field""
@@ -44,7 +44,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Dropdown shows both Location A and Location B as options""","1. """"
 2. """"
 3. """"",,,2,,,,
-18030,"[Riso] Lesson Allocation – New LA Form – Location Field – Blank When Student Has No Active Enrolled Location","AC 01.2 — Decision Table — Verify Location field is blank when student has no active enrolled location; dropdown shows all locations user has affiliation with.","- Logged in as HQ or CM user who has affiliation with Location A and Location B
+18030,[Riso] Lesson Allocation – New LA Form – Location Field – Blank When Student Has No Active Enrolled Location,AC 01.2 — Decision Table — Verify Location field is blank when student has no active enrolled location; dropdown shows all locations user has affiliation with.,"- Logged in as HQ or CM user who has affiliation with Location A and Location B
 - Student has 0 active enrolled locations
 - New Lesson Allocation modal is open",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open New Lesson Allocation modal""
 2. ""Observe Location field""
@@ -53,7 +53,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Dropdown shows all locations the current user has affiliation with (Location A, Location B)""","1. """"
 2. """"
 3. """"",,,2,,,,
-18031,"[Riso] Lesson Allocation – New LA Form – Course List – Not Shown Before AY and Location Are Selected","AC 01.2 — Decision Table — Verify course selection table does not load until both AY and Location are selected.","- Logged in as HQ or CM user
+18031,[Riso] Lesson Allocation – New LA Form – Course List – Not Shown Before AY and Location Are Selected,AC 01.2 — Decision Table — Verify course selection table does not load until both AY and Location are selected.,"- Logged in as HQ or CM user
 - New Lesson Allocation modal is open
 - AY is pre-filled; Location is blank",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Observe course table area with only AY filled, Location blank""
 2. ""Select a Location""
@@ -62,14 +62,14 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Course list disappears / resets""","1. """"
 2. ""Location: Location A""
 3. """"",,,2,,,,
-18032,"[Riso] Lesson Allocation – New LA Form – Course List – Shows Course Masters with Course Offering and Location Course","AC 01.2 — CRUD Testing — Verify course list only shows Course Masters that have both a Course Offering (for selected AY) and a Location Course (for selected Location).","- Logged in as HQ or CM user
+18032,[Riso] Lesson Allocation – New LA Form – Course List – Shows Course Masters with Course Offering and Location Course,AC 01.2 — CRUD Testing — Verify course list only shows Course Masters that have both a Course Offering (for selected AY) and a Location Course (for selected Location).,"- Logged in as HQ or CM user
 - Course Master ""Math"" has Course Offering for AY 2026 AND Location Course for Location A
 - Course Master ""English"" has Course Offering for AY 2026 but NO Location Course for Location A
 - AY = 2026, Location = Location A selected in modal",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select AY = 2026 and Location = Location A""
 2. ""Observe course list""","1. ""Course list loads""
 2. """"Math"""" is shown in the list; """"English"""" is NOT shown""","1. ""AY: 2026, Location: Location A""
 2. """"",,,2,,,,
-18033,"[Riso] Lesson Allocation – New LA Form – Course List – Reloads When AY Changes","AC 01.2 — State Transition Testing — Verify course list is refreshed when the AY value is changed.","- Logged in as HQ or CM user
+18033,[Riso] Lesson Allocation – New LA Form – Course List – Reloads When AY Changes,AC 01.2 — State Transition Testing — Verify course list is refreshed when the AY value is changed.,"- Logged in as HQ or CM user
 - AY 2026 and Location A selected; course list shows Courses A, B
 - AY 2025 has a different set (Course C only)",,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Observe course list with AY = 2026, Location = Location A""
 2. ""Change AY to 2025""
@@ -78,7 +78,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Only Course C is shown""","1. """"
 2. ""AY: 2025""
 3. """"",,,2,,,,
-18034,"[Riso] Lesson Allocation – New LA Form – Course List – Reloads When Location Changes","AC 01.2 — State Transition Testing — Verify course list is refreshed when the Location value is changed.","- Logged in as HQ or CM user
+18034,[Riso] Lesson Allocation – New LA Form – Course List – Reloads When Location Changes,AC 01.2 — State Transition Testing — Verify course list is refreshed when the Location value is changed.,"- Logged in as HQ or CM user
 - AY 2026 + Location A selected; course list shows Courses A, B
 - Location B has Course D only",,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Observe course list with AY = 2026, Location = Location A""
 2. ""Change Location to Location B""
@@ -87,13 +87,13 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Only Course D is shown""","1. """"
 2. ""Location: Location B""
 3. """"",,,2,,,,
-18035,"[Riso] Lesson Allocation – New LA Form – Course Search – JP Partial Match Returns Matching Courses","AC 01.2 — Equivalence Partitioning — Verify course search box supports Japanese partial match.","- Logged in as HQ or CM user
+18035,[Riso] Lesson Allocation – New LA Form – Course Search – JP Partial Match Returns Matching Courses,AC 01.2 — Equivalence Partitioning — Verify course search box supports Japanese partial match.,"- Logged in as HQ or CM user
 - AY and Location selected; courses including 数学コース and 英語コース are in the list",,, low,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Type partial JP string in course search box""
 2. ""Observe results""","1. ""Course list filters to show only courses containing the search string""
 2. ""Only 数学コース is shown; 英語コース is not shown""","1. ""Search: 数学""
 2. """"",,,2,,,,
 ,,,,,,,,,,,,,,,,,,,,,,Create LA – Happy Path,2,,
-18036,"[Riso] Lesson Allocation – Create LA – Single Course – Happy Path – LA Created and Displayed in Table","AC 01.3 — CRUD Testing — Verify a single LA can be created with all required fields; user is redirected and LA appears in the table.","- Logged in as HQ or CM user
+18036,[Riso] Lesson Allocation – Create LA – Single Course – Happy Path – LA Created and Displayed in Table,AC 01.3 — CRUD Testing — Verify a single LA can be created with all required fields; user is redirected and LA appears in the table.,"- Logged in as HQ or CM user
 - Student has 1 active enrolled location (Location A)
 - Course ""Math"" exists for AY 2026 + Location A
 - No existing LA for Math / AY 2026 / Location A in the test date range",,, high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open New Lesson Allocation modal""
@@ -127,7 +127,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 9. """"
 10. """"
 11. """"",,,2,,,,
-18037,"[Riso] Lesson Allocation – Create LA – Multiple Courses in One Flow – All LAs Created","AC 01.3 — Equivalence Partitioning — Verify selecting multiple courses in one flow creates an LA for each selected course.","- Logged in as HQ or CM user
+18037,[Riso] Lesson Allocation – Create LA – Multiple Courses in One Flow – All LAs Created,AC 01.3 — Equivalence Partitioning — Verify selecting multiple courses in one flow creates an LA for each selected course.,"- Logged in as HQ or CM user
 - AY 2026, Location A selected
 - Courses ""Math"" and ""English"" both available with no overlapping existing LAs",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open New Lesson Allocation modal and proceed to course table""
 2. ""Select Math and English""
@@ -145,7 +145,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 4. ""Math: Regular, 10, 2026-04-01, 2026-09-30; English: Seasonal, 5, 2026-04-01, 2026-06-30""
 5. """"
 6. """"",,,2,,,,
-18038,"[Riso] Lesson Allocation – Create LA – All Three LA Types – Each Type Can Be Selected","AC 01.3 — Equivalence Partitioning — Verify all three LA type options (Regular, Seasonal, Trial) are available and selectable.","- Logged in as HQ or CM user
+18038,[Riso] Lesson Allocation – Create LA – All Three LA Types – Each Type Can Be Selected,"AC 01.3 — Equivalence Partitioning — Verify all three LA type options (Regular, Seasonal, Trial) are available and selectable.","- Logged in as HQ or CM user
 - On configuration page",,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Click Type dropdown""
 2. ""Select Regular""
 3. ""Change Type to Seasonal""
@@ -157,7 +157,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Type: Seasonal""
 4. ""Type: Trial""",,,2,,,,
 ,,,,,,,,,,,,,,,,,,,,,,Create LA – Validation,2,,
-18039,"[Riso] Lesson Allocation – Create LA – Date Range – Start Date Same as End Date – Error Shown","AC 01.3 / AC 01.4 — BVA boundary — Verify that setting Start date equal to End date triggers a validation error.","- Logged in as HQ or CM user
+18039,[Riso] Lesson Allocation – Create LA – Date Range – Start Date Same as End Date – Error Shown,AC 01.3 / AC 01.4 — BVA boundary — Verify that setting Start date equal to End date triggers a validation error.,"- Logged in as HQ or CM user
 - Configuration page is open (course selected)",,, high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Enter Start date = 2026-05-01""
 2. ""Enter End date = 2026-05-01 (same as start)""
 3. ""Confirm Save is blocked""","1. ""Start date field shows 2026-05-01""
@@ -165,7 +165,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Save/Confirm button is disabled or submission fails""","1. ""Start: 2026-05-01""
 2. ""End: 2026-05-01""
 3. """"",,,2,,,,
-18040,"[Riso] Lesson Allocation – Create LA – Date Range – Start Date One Day Before End Date – LA Created","AC 01.3 / AC 01.4 — BVA just-inside boundary — Verify that Start date = End date - 1 day is accepted.","- Logged in as HQ or CM user
+18040,[Riso] Lesson Allocation – Create LA – Date Range – Start Date One Day Before End Date – LA Created,AC 01.3 / AC 01.4 — BVA just-inside boundary — Verify that Start date = End date - 1 day is accepted.,"- Logged in as HQ or CM user
 - Configuration page open; no existing overlap",,, high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Enter Start date = 2026-05-01""
 2. ""Enter End date = 2026-05-02""
 3. ""Click Save""","1. ""Start date shows 2026-05-01""
@@ -173,7 +173,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""LA is created successfully; user is redirected""","1. ""Start: 2026-05-01""
 2. ""End: 2026-05-02""
 3. """"",,,2,,,,
-18041,"[Riso] Lesson Allocation – Create LA – Date Range – Start Date After End Date – Error on Both Fields","AC 01.4 — Negative Testing / BVA — Verify that Start date > End date shows an error on both date fields.","- Logged in as HQ or CM user
+18041,[Riso] Lesson Allocation – Create LA – Date Range – Start Date After End Date – Error on Both Fields,AC 01.4 — Negative Testing / BVA — Verify that Start date > End date shows an error on both date fields.,"- Logged in as HQ or CM user
 - Configuration page open",,, high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Enter Start date = 2026-06-01""
 2. ""Enter End date = 2026-05-31""
 3. ""Confirm Save is blocked""","1. ""Start date shows 2026-06-01""
@@ -181,7 +181,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Save/Confirm button is disabled or submission fails""","1. ""Start: 2026-06-01""
 2. ""End: 2026-05-31""
 3. """"",,,2,,,,
-18042,"[Riso] Lesson Allocation – Create LA – Past End Date – End Date = Today – Error Shown","AC 01.4 — BVA at today's boundary — Verify that End date = today triggers the end date error.","- Logged in as HQ or CM user
+18042,[Riso] Lesson Allocation – Create LA – Past End Date – End Date = Today – Error Shown,AC 01.4 — BVA at today's boundary — Verify that End date = today triggers the end date error.,"- Logged in as HQ or CM user
 - Configuration page open
 - Today's date = 2026-03-23",,, high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Enter Start date = 2026-03-01""
 2. ""Enter End date = 2026-03-23 (today)""
@@ -190,7 +190,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Save/Confirm button is disabled or submission fails""","1. ""Start: 2026-03-01""
 2. ""End: 2026-03-23""
 3. """"",,,2,,,,
-18043,"[Riso] Lesson Allocation – Create LA – Past End Date – End Date = Tomorrow – LA Created","AC 01.4 — BVA just-above boundary — Verify that End date = tomorrow is accepted.","- Logged in as HQ or CM user
+18043,[Riso] Lesson Allocation – Create LA – Past End Date – End Date = Tomorrow – LA Created,AC 01.4 — BVA just-above boundary — Verify that End date = tomorrow is accepted.,"- Logged in as HQ or CM user
 - Configuration page open; today = 2026-03-23; no existing overlap",,, high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Enter Start date = 2026-03-01""
 2. ""Enter End date = 2026-03-24 (tomorrow)""
 3. ""Click Save""","1. ""Start date shows 2026-03-01""
@@ -198,7 +198,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""LA is created successfully""","1. ""Start: 2026-03-01""
 2. ""End: 2026-03-24""
 3. """"",,,2,,,,
-18044,"[Riso] Lesson Allocation – Create LA – Both Dates in Past – Error on End Date","AC 01.4 — Negative Testing — Verify that both start and end date in the past triggers end date error.","- Logged in as HQ or CM user
+18044,[Riso] Lesson Allocation – Create LA – Both Dates in Past – Error on End Date,AC 01.4 — Negative Testing — Verify that both start and end date in the past triggers end date error.,"- Logged in as HQ or CM user
 - Configuration page open; today = 2026-03-23",,, high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Enter Start date = 2026-01-01""
 2. ""Enter End date = 2026-03-01""
 3. ""Confirm Save is blocked""","1. ""Start date shows 2026-01-01""
@@ -206,7 +206,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Save/Confirm button is disabled or submission fails""","1. ""Start: 2026-01-01""
 2. ""End: 2026-03-01""
 3. """"",,,2,,,,
-18045,"[Riso] Lesson Allocation – Create LA – Overlap – Same AY + Location + Course + Overlapping Dates – Error at Course Section","AC 01.4 — Decision Table / Negative Testing — Verify that selecting a course with an overlapping date range shows a course-section error.","- Logged in as HQ or CM user
+18045,[Riso] Lesson Allocation – Create LA – Overlap – Same AY + Location + Course + Overlapping Dates – Error at Course Section,AC 01.4 — Decision Table / Negative Testing — Verify that selecting a course with an overlapping date range shows a course-section error.,"- Logged in as HQ or CM user
 - Existing LA: Course Math, AY 2026, Location A, Start = 2026-04-01, End = 2026-09-30
 - Configuration page open with same AY 2026, Location A, Course Math",,, high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Enter Start date = 2026-05-01""
 2. ""Enter End date = 2026-08-31""
@@ -215,7 +215,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Save/Confirm is disabled or fails""","1. ""Start: 2026-05-01""
 2. ""End: 2026-08-31""
 3. """"",,,2,,,,
-18046,"[Riso] Lesson Allocation – Create LA – Overlap – Same AY + Location + Course + Non-Overlapping Dates – LA Created","AC 01.4 — Decision Table / Positive — Verify non-overlapping date range for same course does not block creation.","- Logged in as HQ or CM user
+18046,[Riso] Lesson Allocation – Create LA – Overlap – Same AY + Location + Course + Non-Overlapping Dates – LA Created,AC 01.4 — Decision Table / Positive — Verify non-overlapping date range for same course does not block creation.,"- Logged in as HQ or CM user
 - Existing LA: Math, AY 2026, Location A, Start = 2026-04-01, End = 2026-06-30",,, high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Enter Start date = 2026-07-01""
 2. ""Enter End date = 2026-09-30""
 3. ""Click Save""","1. ""Start date shows 2026-07-01""
@@ -223,7 +223,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""LA is created successfully""","1. ""Start: 2026-07-01""
 2. ""End: 2026-09-30""
 3. """"",,,2,,,,
-18047,"[Riso] Lesson Allocation – Create LA – Different Course, Same AY + Location + Overlapping Dates – LA Created","AC 01.4 — Decision Table — Verify overlapping dates for a different course do not trigger the overlap error.","- Logged in as HQ or CM user
+18047,"[Riso] Lesson Allocation – Create LA – Different Course, Same AY + Location + Overlapping Dates – LA Created",AC 01.4 — Decision Table — Verify overlapping dates for a different course do not trigger the overlap error.,"- Logged in as HQ or CM user
 - Existing LA: Math, AY 2026, Location A, Start = 2026-04-01, End = 2026-09-30
 - Creating: English, same AY + Location + dates",,, high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select English course""
 2. ""Enter Start date = 2026-04-01""
@@ -236,7 +236,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""End: 2026-09-30""
 4. """"",,,2,,,,
 ,,,,,,,,,,,,,,,,,,,,,,Create LA – CSV Import,2,,
-18048,"[Riso] Lesson Allocation – CSV Import – Valid CSV – All LAs Created","AC 01.5 — Equivalence Partitioning (valid partition) — Verify a valid CSV file creates all LAs successfully.","- Logged in as HQ or CM user
+18048,[Riso] Lesson Allocation – CSV Import – Valid CSV – All LAs Created,AC 01.5 — Equivalence Partitioning (valid partition) — Verify a valid CSV file creates all LAs successfully.,"- Logged in as HQ or CM user
 - Valid CSV prepared; all rows valid, non-overlapping, future end dates",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the SF CSV import function for Lesson Allocation""
 2. ""Upload the valid CSV file""
 3. ""Click Import / Confirm""
@@ -250,7 +250,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. """"
 4. """"
 5. """"",,,2,,,,
-18049,"[Riso] Lesson Allocation – CSV Import – Overlapping Dates Row – Import Fails for That Row","AC 01.5 — Negative Testing — Verify a CSV row with overlapping dates triggers an error for that row only.","- Logged in as HQ or CM user
+18049,[Riso] Lesson Allocation – CSV Import – Overlapping Dates Row – Import Fails for That Row,AC 01.5 — Negative Testing — Verify a CSV row with overlapping dates triggers an error for that row only.,"- Logged in as HQ or CM user
 - Existing LA: Math, AY 2026, Location A, S1, 2026-04-01 to 2026-09-30
 - CSV: Row 1 valid; Row 2 overlapping dates for same student/course",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Upload CSV file""
 2. ""Observe validation results""
@@ -259,7 +259,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Row 1 LA created; Row 2 LA NOT created""","1. """"
 2. """"
 3. """"",,,2,,,,
-18050,"[Riso] Lesson Allocation – CSV Import – Past End Date Row – Import Fails for That Row","AC 01.5 — Negative Testing — Verify a CSV row with past end date triggers error for that row only.","- Logged in as HQ or CM user
+18050,[Riso] Lesson Allocation – CSV Import – Past End Date Row – Import Fails for That Row,AC 01.5 — Negative Testing — Verify a CSV row with past end date triggers error for that row only.,"- Logged in as HQ or CM user
 - Today = 2026-03-23
 - CSV: Row 1 valid; Row 2 start=2026-01-01, end=2026-03-01",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Upload CSV file""
 2. ""Observe validation results""
@@ -268,7 +268,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Row 1 LA created; Row 2 LA NOT created""","1. """"
 2. """"
 3. """"",,,2,,,,
-18051,"[Riso] Lesson Allocation – CSV Import – Start Date After End Date Row – Import Fails for That Row","AC 01.5 — Negative Testing — Verify a CSV row where start > end triggers error for that row only.","- Logged in as HQ or CM user
+18051,[Riso] Lesson Allocation – CSV Import – Start Date After End Date Row – Import Fails for That Row,AC 01.5 — Negative Testing — Verify a CSV row where start > end triggers error for that row only.,"- Logged in as HQ or CM user
 - CSV: Row 1 valid; Row 2 start=2026-09-01, end=2026-06-30",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Upload CSV file""
 2. ""Observe validation results""
 3. ""Check import result""","1. ""File accepted""
@@ -277,52 +277,62 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 2. """"
 3. """"",,,2,,,,
 ,,,,,,,,,,,,,,,,,,,,,,Edit LA,2,,
-18052,"[Riso] Lesson Allocation – Edit LA – Start Date – Changed to Date After Original – Update Accepted","AC 02.1 — BVA just-above boundary — Verify editing Start date to a value one day after original is accepted.","- Logged in as HQ or CM user
+18052,[Riso] Lesson Allocation – Edit LA – Start Date – Updated to Future Date – Update Accepted,AC 02.1 — Happy Path — Verify editing Start date to any valid future date is accepted without restriction on original value.,"- Logged in as HQ or CM user
 - Existing LA: Math, AY 2026, Location A, Start=2026-04-01, End=2026-09-30, Type=Regular
 - LA edit form is open",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form for the LA""
-2. ""Change Start date to 2026-04-02""
+2. ""Change Start date to 2026-05-15""
 3. ""Click Save""","1. ""Edit form shows current values: Start=2026-04-01, End=2026-09-30""
-2. ""Start date field shows 2026-04-02; no validation error""
-3. ""Update is accepted; LA record shows Start=2026-04-02""","1. """"
-2. ""New Start: 2026-04-02""
+2. ""Start date field shows 2026-05-15; no validation error""
+3. ""Update is accepted; LA record shows Start=2026-05-15""","1. """"
+2. ""New Start: 2026-05-15""
 3. """"",,,2,,,,
-18053,"[Riso] Lesson Allocation – Edit LA – Start Date – Changed to Same as Original – Blocked","AC 02.1 — BVA at boundary — Verify editing Start date to same value as original is rejected.","- Logged in as HQ or CM user
-- Existing LA: Start=2026-04-01, End=2026-09-30
-- LA edit form is open",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form""
-2. ""Set Start date = 2026-04-01 (same as original)""
-3. ""Confirm Save is blocked""","1. ""Current Start=2026-04-01""
-2. ""Validation error indicating date must be after the original value""
-3. ""Save button is disabled or error persists""","1. """"
-2. ""New Start: 2026-04-01""
-3. """"",,,2,,,,
-18054,"[Riso] Lesson Allocation – Edit LA – Start Date – Changed to Date Before Original – Blocked","AC 02.1 — BVA below boundary / Negative — Verify editing Start date to a value before original is rejected.","- Logged in as HQ or CM user
-- Existing LA: Start=2026-04-01
-- LA edit form is open",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form""
-2. ""Set Start date = 2026-03-31""
-3. ""Confirm Save is blocked""","1. ""Current Start=2026-04-01""
-2. ""Validation error indicating date must be after the original value""
-3. ""Save is blocked""","1. """"
-2. ""New Start: 2026-03-31""
-3. """"",,,2,,,,
-18055,"[Riso] Lesson Allocation – Edit LA – End Date – Changed to Date After Original – Update Accepted","AC 02.1 — BVA just-above boundary — Verify editing End date to one day after original is accepted.","- Logged in as HQ or CM user
+18053,[Riso] Lesson Allocation – Edit LA – Start Date – Updated to Date Before Original – Update Accepted,AC 02.1 — Regression — Verify Start date can be edited to a date before the original value (original-date restriction removed).,"- Logged in as HQ or CM user
 - Existing LA: Start=2026-04-01, End=2026-09-30, Type=Regular
 - LA edit form is open",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form""
-2. ""Set End date = 2026-10-01""
-3. ""Click Save""","1. ""Current End=2026-09-30""
-2. ""End date shows 2026-10-01; no error""
-3. ""Update accepted; LA shows End=2026-10-01""","1. """"
-2. ""New End: 2026-10-01""
+2. ""Set Start date = 2026-03-15 (before original)""
+3. ""Click Save""","1. ""Edit form shows current values: Start=2026-04-01""
+2. ""Start date field shows 2026-03-15; no validation error""
+3. ""Update is accepted; LA record shows Start=2026-03-15""","1. """"
+2. ""New Start: 2026-03-15""
 3. """"",,,2,,,,
-18056,"[Riso] Lesson Allocation – Edit LA – End Date – Changed to Date Before Original – Blocked","AC 02.1 — BVA below boundary / Negative — Verify editing End date to before original is rejected.","- Logged in as HQ or CM user
-- Existing LA: End=2026-09-30
+18055,[Riso] Lesson Allocation – Edit LA – End Date – Updated to Future Date – Update Accepted,AC 02.1 — Happy Path — Verify editing End date to any valid future date is accepted without restriction on original value.,"- Logged in as HQ or CM user
+- Existing LA: Start=2026-04-01, End=2026-09-30, Type=Regular
 - LA edit form is open",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form""
-2. ""Set End date = 2026-09-29""
-3. ""Confirm Save is blocked""","1. ""Current End=2026-09-30""
-2. ""Validation error: end date must be after original""
-3. ""Save is blocked""","1. """"
-2. ""New End: 2026-09-29""
+2. ""Set End date = 2026-08-31""
+3. ""Click Save""","1. ""Current End=2026-09-30""
+2. ""End date shows 2026-08-31; no error""
+3. ""Update accepted; LA shows End=2026-08-31""","1. """"
+2. ""New End: 2026-08-31""
 3. """"",,,2,,,,
-18057,"[Riso] Lesson Allocation – Edit LA – Edited Dates Cause Overlap – Error Shown","AC 02.1 / AC 01.4 — Negative Testing — Verify editing dates to create overlap triggers the overlap error.","- Logged in as HQ or CM user
+18056,[Riso] Lesson Allocation – Edit LA – End Date – Updated to Date Before Original – Update Accepted,AC 02.1 — Regression — Verify End date can be edited to a date before the original value (original-date restriction removed).,"- Logged in as HQ or CM user
+- Existing LA: Start=2026-04-01, End=2026-09-30, Type=Regular
+- LA edit form is open",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form""
+2. ""Set End date = 2026-07-01 (before original)""
+3. ""Click Save""","1. ""Current End=2026-09-30""
+2. ""End date shows 2026-07-01; no error""
+3. ""Update accepted; LA shows End=2026-07-01""","1. """"
+2. ""New End: 2026-07-01""
+3. """"",,,2,,,,
+18749,[Riso] Lesson Allocation – Edit LA – Both Dates in Past – End Date Error Shown,AC 02.1 / AC 01.4 — Negative Testing — Verify that editing both Start and End dates to past values triggers the end date future error.,"- Logged in as HQ or CM user
+- Existing LA: Start=2026-04-01, End=2026-09-30, Type=Regular
+- LA edit form is open
+- Today=2026-04-01",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form""
+2. ""Set Start date = 2026-03-01 (past)""
+3. ""Set End date = 2026-03-31 (past)""","1. ""Edit form is displayed""
+2. ""Start date field shows 2026-03-01""
+3. ""Inline error under End date: """"End date must be a future date""""; Save is blocked""","1. """"
+2. ""New Start: 2026-03-01""
+3. ""New End: 2026-03-31""",,,2,,,,
+18750,[Riso] Lesson Allocation – Edit LA – Start Date After End Date – Error on Both Fields,AC 02.1 / AC 01.4 — Negative Testing — Verify that editing Start date to after End date shows errors on both date fields.,"- Logged in as HQ or CM user
+- Existing LA: Start=2026-04-01, End=2026-09-30, Type=Regular
+- LA edit form is open",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form""
+2. ""Set Start date = 2026-10-01 (after End)""
+3. ""Confirm Save is blocked""","1. ""Edit form shows Start=2026-04-01, End=2026-09-30""
+2. ""Inline error under both Start and End date: """"Start date must be earlier than End date""""""
+3. ""Save button is disabled or submission fails""","1. """"
+2. ""New Start: 2026-10-01""
+3. """"",,,2,,,,
+18057,[Riso] Lesson Allocation – Edit LA – Edited Dates Cause Overlap – Error Shown,AC 02.1 / AC 01.4 — Negative Testing — Verify editing dates to create overlap triggers the overlap error.,"- Logged in as HQ or CM user
 - LA 1: Math, AY 2026, Location A, 2026-04-01 to 2026-06-30
 - LA 2 (being edited): Math, AY 2026, Location A, 2026-07-01 to 2026-09-30",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form for LA 2""
 2. ""Change Start date to 2026-06-01""
@@ -331,43 +341,8 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Save fails""","1. """"
 2. ""New Start: 2026-06-01""
 3. """"",,,2,,,,
-18058,"[Riso] Lesson Allocation – Edit LA – Trial Type – Purchased Slot Increased – Update Accepted","AC 02.1 — BVA/Decision Table — Verify Trial LA Purchased Slot can be edited to a value greater than original.","- Logged in as HQ or CM user
-- Existing LA: Type=Trial, Purchased Slot=5
-- LA edit form is open",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form for Trial LA""
-2. ""Change Purchased Slot to 6""
-3. ""Click Save""","1. ""Purchased Slot field is editable; current value=5""
-2. ""No validation error""
-3. ""Update accepted; LA shows Purchased Slot=6""","1. """"
-2. ""New Slot: 6""
-3. """"",,,2,,,,
-18059,"[Riso] Lesson Allocation – Edit LA – Trial Type – Purchased Slot Set to Same Value – Blocked","AC 02.1 — BVA at boundary — Verify Purchased Slot set to same value as original is rejected.","- Logged in as HQ or CM user
-- Existing Trial LA: Purchased Slot=5",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form""
-2. ""Set Purchased Slot = 5""
-3. ""Confirm Save is blocked""","1. ""Purchased Slot=5""
-2. ""Validation error: slot must be greater than original""
-3. ""Save is blocked""","1. """"
-2. ""New Slot: 5""
-3. """"",,,2,,,,
-18060,"[Riso] Lesson Allocation – Edit LA – Trial Type – Purchased Slot Decreased – Blocked","AC 02.1 — Negative Testing — Verify decreasing Purchased Slot below original for Trial LA is rejected.","- Logged in as HQ or CM user
-- Existing Trial LA: Purchased Slot=5",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form""
-2. ""Set Purchased Slot = 4""
-3. ""Confirm Save is blocked""","1. ""Purchased Slot=5""
-2. ""Validation error: slot must be greater than original""
-3. ""Save is blocked""","1. """"
-2. ""New Slot: 4""
-3. """"",,,2,,,,
-18061,"[Riso] Lesson Allocation – Edit LA – Regular Type – Purchased Slot Field Not Editable","AC 02.1 — Decision Table — Verify Purchased Slot is NOT editable for Regular LA type.","- Logged in as HQ or CM user
-- Existing LA: Type=Regular, Purchased Slot=10",,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form for Regular LA""
-2. ""Observe Purchased Slot field""","1. ""Edit form is displayed""
-2. ""Purchased Slot field is read-only / disabled""","1. """"
-2. """"",,,2,,,,
-18062,"[Riso] Lesson Allocation – Edit LA – Seasonal Type – Purchased Slot Field Not Editable","AC 02.1 — Decision Table — Verify Purchased Slot is NOT editable for Seasonal LA type.","- Logged in as HQ or CM user
-- Existing LA: Type=Seasonal, Purchased Slot=8",,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open edit form for Seasonal LA""
-2. ""Observe Purchased Slot field""","1. ""Edit form is displayed""
-2. ""Purchased Slot field is read-only / disabled""","1. """"
-2. """"",,,2,,,,
 ,,,,,,,,,,,,,,,,,,,,,,Delete LA,2,,
-18063,"[Riso] Lesson Allocation – Delete LA – Start Date in Future – Delete Button Enabled and Confirmation Shown","AC 02.2 — Decision Table — Verify delete button is enabled and confirmation dialog appears for LA with future start date.","- Logged in as HQ or CM user
+18063,[Riso] Lesson Allocation – Delete LA – Start Date in Future – Delete Button Enabled and Confirmation Shown,AC 02.2 — Decision Table — Verify delete button is enabled and confirmation dialog appears for LA with future start date.,"- Logged in as HQ or CM user
 - Existing LA: Start=2026-04-01 (future), End=2026-09-30
 - On Student → Contact → Course tab",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Locate the LA row with future start date""
 2. ""Click Delete button""
@@ -376,15 +351,15 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. """"Confirm"""" and """"Cancel"""" buttons are both present""","1. """"
 2. """"
 3. """"",,,2,,,,
-18064,"[Riso] Lesson Allocation – Delete LA – Start Date in Past – Delete Button Disabled","AC 02.2 — Decision Table — Verify delete button is disabled for LA with past start date.","- Logged in as HQ or CM user
+18064,[Riso] Lesson Allocation – Delete LA – Start Date in Past – Delete Button Disabled,AC 02.2 — Decision Table — Verify delete button is disabled for LA with past start date.,"- Logged in as HQ or CM user
 - Existing LA: Start=2026-03-01 (past), End=2026-09-30",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Locate the LA row with past start date""
 2. ""Attempt to click disabled Delete button""","1. ""Delete button is present but disabled / greyed out""
 2. ""No action triggered; button remains disabled""","1. """"
 2. """"",,,2,,,,
-18065,"[Riso] Lesson Allocation – Delete LA – Start Date = Today – Delete Button Disabled","AC 02.2 — BVA at boundary — Verify delete button is disabled when LA start date = today.","- Logged in as HQ or CM user
+18065,[Riso] Lesson Allocation – Delete LA – Start Date = Today – Delete Button Disabled,AC 02.2 — BVA at boundary — Verify delete button is disabled when LA start date = today.,"- Logged in as HQ or CM user
 - Today=2026-03-23
 - Existing LA: Start=2026-03-23 (today)",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Locate the LA row with start date = today""","1. ""Delete button is disabled""","1. ""Start: 2026-03-23""",,,2,,,,
-18066,"[Riso] Lesson Allocation – Delete LA – Confirm Delete – LA Deleted and Allocated Lessons Unlinked","AC 02.2 — CRUD Testing / Data Integrity — Verify confirming delete removes the LA and unlinks all allocated lessons.","- Logged in as HQ or CM user
+18066,[Riso] Lesson Allocation – Delete LA – Confirm Delete – LA Deleted and Allocated Lessons Unlinked,AC 02.2 — CRUD Testing / Data Integrity — Verify confirming delete removes the LA and unlinks all allocated lessons.,"- Logged in as HQ or CM user
 - Existing LA: Start=2026-04-01 (future), with 2 lessons allocated
 - Delete confirmation dialog is open",,, high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Click Confirm in the delete confirmation dialog""
 2. ""Observe the LA table""
@@ -396,7 +371,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 2. """"
 3. """"
 4. """"",,,2,,,,
-18067,"[Riso] Lesson Allocation – Delete LA – Cancel Delete – Nothing Changes","AC 02.2 — State Transition Testing — Verify cancelling delete dialog leaves LA and lessons unchanged.","- Logged in as HQ or CM user
+18067,[Riso] Lesson Allocation – Delete LA – Cancel Delete – Nothing Changes,AC 02.2 — State Transition Testing — Verify cancelling delete dialog leaves LA and lessons unchanged.,"- Logged in as HQ or CM user
 - Existing LA with future start date and allocated lessons
 - Delete confirmation dialog is open",,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Click Cancel in the delete confirmation dialog""
 2. ""Observe the LA table""
@@ -409,36 +384,36 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. """"
 4. """"",,,2,,,,
 ,,,,,,,,,,,,,,,,,,,,,,LA – Purchased Slot Auto-Calculation,2,,
-18068,"[Riso] Lesson Allocation – Purchased Slot – Initial Calculation – Equals Sum of Active Contract Slots","AC 03.1 — CRUD Testing — Verify LA.Purchased_Slot = sum of all active contract slots.","- LA exists; Contract 1 (slot=5, active) + Contract 2 (slot=5, active); expected = 10",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Student → Contact → Course tab""
+18068,[Riso] Lesson Allocation – Purchased Slot – Initial Calculation – Equals Sum of Active Contract Slots,AC 03.1 — CRUD Testing — Verify LA.Purchased_Slot = sum of all active contract slots.,"- LA exists; Contract 1 (slot=5, active) + Contract 2 (slot=5, active); expected = 10",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Student → Contact → Course tab""
 2. ""Locate the LA record""
 3. ""Observe Purchased Slot value""","1. ""Lesson Allocation table is displayed""
 2. ""LA row is found""
 3. ""Purchased Slot = 10""","1. """"
 2. """"
 3. ""Contract 1: slot=5, Contract 2: slot=5""",,,2,,,,
-18069,"[Riso] Lesson Allocation – Purchased Slot – Contract Cancelled – Slot Decremented","AC 03.1 — CRUD Testing — Verify LA.Purchased_Slot is recalculated when a contract is cancelled.","- LA linked to Contract 1 (slot=5, active) and Contract 2 (slot=5, active); LA.Purchased_Slot=10",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Cancel Contract 2""
+18069,[Riso] Lesson Allocation – Purchased Slot – Contract Cancelled – Slot Decremented,AC 03.1 — CRUD Testing — Verify LA.Purchased_Slot is recalculated when a contract is cancelled.,"- LA linked to Contract 1 (slot=5, active) and Contract 2 (slot=5, active); LA.Purchased_Slot=10",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Cancel Contract 2""
 2. ""Navigate to the LA record""
 3. ""Observe Purchased Slot value""","1. ""Contract 2 status = Cancelled""
 2. ""LA table is shown""
 3. ""Purchased Slot = 5 (Contract 2 excluded as Cancelled)""","1. ""Contract 2: Cancelled""
 2. """"
 3. """"",,,2,,,,
-18070,"[Riso] Lesson Allocation – Purchased Slot – Contract Voided – Slot Decremented","AC 03.1 — CRUD Testing — Verify LA.Purchased_Slot is recalculated when a contract is voided.","- LA linked to Contract 1 (slot=5) and Contract 2 (slot=5); LA.Purchased_Slot=10",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Void Contract 2""
+18070,[Riso] Lesson Allocation – Purchased Slot – Contract Voided – Slot Decremented,AC 03.1 — CRUD Testing — Verify LA.Purchased_Slot is recalculated when a contract is voided.,- LA linked to Contract 1 (slot=5) and Contract 2 (slot=5); LA.Purchased_Slot=10,,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Void Contract 2""
 2. ""Observe LA Purchased Slot""","1. ""Contract 2 status=Voided""
 2. ""Purchased Slot = 5""","1. ""Contract 2: Voided""
 2. """"",,,2,,,,
-18071,"[Riso] Lesson Allocation – Purchased Slot – Contract Deleted (delete_flag = on) – Slot Decremented","AC 03.1 — CRUD Testing — Verify contract with delete_flag=on is excluded from LA.Purchased_Slot.","- LA linked to Contract 1 (slot=5, active) and Contract 2 (slot=5, delete_flag=on); expected=5",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the LA record""
+18071,[Riso] Lesson Allocation – Purchased Slot – Contract Deleted (delete_flag = on) – Slot Decremented,AC 03.1 — CRUD Testing — Verify contract with delete_flag=on is excluded from LA.Purchased_Slot.,"- LA linked to Contract 1 (slot=5, active) and Contract 2 (slot=5, delete_flag=on); expected=5",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the LA record""
 2. ""Observe Purchased Slot value""","1. ""LA table is shown""
 2. ""Purchased Slot = 5 (Contract 2 excluded)""","1. """"
 2. ""Contract 2: delete_flag=on""",,,2,,,,
-18072,"[Riso] Lesson Allocation – Purchased Slot – New Contract Added – Slot Incremented","AC 03.1 — CRUD Testing — Verify LA.Purchased_Slot increases when a new contract is added.","- LA linked to Contract 1 (slot=5, active); LA.Purchased_Slot=5",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Create Contract 3 (slot=12) linked to the same LA""
+18072,[Riso] Lesson Allocation – Purchased Slot – New Contract Added – Slot Incremented,AC 03.1 — CRUD Testing — Verify LA.Purchased_Slot increases when a new contract is added.,"- LA linked to Contract 1 (slot=5, active); LA.Purchased_Slot=5",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Create Contract 3 (slot=12) linked to the same LA""
 2. ""Navigate to the LA record""
 3. ""Observe Purchased Slot value""","1. ""Contract 3 is created""
 2. ""LA table is shown""
 3. ""Purchased Slot = 17 (5 + 12)""","1. ""Contract 3: slot=12""
 2. """"
 3. """"",,,2,,,,
-18073,"[Riso] Lesson Allocation – Purchased Slot – Existing Contract Updated – Slot Recalculated","AC 03.1 — CRUD Testing — Verify LA.Purchased_Slot recalculates when a contract slot value is updated.","- LA linked to Contract 1 (slot=5) and Contract 2 (slot=5); LA.Purchased_Slot=10",,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Update Contract 1 slot from 5 to 8""
+18073,[Riso] Lesson Allocation – Purchased Slot – Existing Contract Updated – Slot Recalculated,AC 03.1 — CRUD Testing — Verify LA.Purchased_Slot recalculates when a contract slot value is updated.,- LA linked to Contract 1 (slot=5) and Contract 2 (slot=5); LA.Purchased_Slot=10,,, high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Update Contract 1 slot from 5 to 8""
 2. ""Navigate to the LA record""
 3. ""Observe Purchased Slot value""","1. ""Contract 1 updated""
 2. ""LA table is shown""
@@ -446,14 +421,244 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 2. """"
 3. """"",,,2,,,,
 ,,,,,,,,,,,,,,,,,,,,,,LA – End Date Auto-Calculation (TBC – Deferred),2,,
-18074,"[Riso] Lesson Allocation – End Date – Active Contracts – Set to Latest Contract End Date","AC 03.2 (TBC) — CRUD Testing — Verify LA.End_Date = latest end date among active contracts.","- LA linked to Contract 1 (end=2026-06-30, active) and Contract 2 (end=2026-09-30, active); expected LA.End_Date=2026-09-30",,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the LA record""
+18074,[Riso] Lesson Allocation – End Date – Active Contracts – Set to Latest Contract End Date,AC 03.2 (TBC) — CRUD Testing — Verify LA.End_Date = latest end date among active contracts.,"- LA linked to Contract 1 (end=2026-06-30, active) and Contract 2 (end=2026-09-30, active); expected LA.End_Date=2026-09-30",,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the LA record""
 2. ""Observe End Date value""","1. ""LA is displayed""
 2. ""End Date = 2026-09-30""","1. """"
 2. """"",,,2,,,,
-18075,"[Riso] Lesson Allocation – End Date – Contract with Latest Date Is Cancelled – End Date Recalculated","AC 03.2 (TBC) — CRUD Testing — Verify LA.End_Date recalculates when the contract with latest end date is cancelled.","- LA linked to Contract 1 (end=2026-06-30) and Contract 2 (end=2026-09-30); LA.End_Date=2026-09-30",,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Cancel Contract 2 (end=2026-09-30)""
+18075,[Riso] Lesson Allocation – End Date – Contract with Latest Date Is Cancelled – End Date Recalculated,AC 03.2 (TBC) — CRUD Testing — Verify LA.End_Date recalculates when the contract with latest end date is cancelled.,- LA linked to Contract 1 (end=2026-06-30) and Contract 2 (end=2026-09-30); LA.End_Date=2026-09-30,,, medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Cancel Contract 2 (end=2026-09-30)""
 2. ""Navigate to the LA record""
 3. ""Observe End Date value""","1. ""Contract 2 status=Cancelled""
 2. ""LA is displayed""
 3. ""End Date = 2026-06-30""","1. """"
 2. """"
 3. """"",,,2,,,,
+,[Riso] Lesson Allocation – Calendar – Student List – UI-created LA always visible (Ignore Duration),"System integration — Verify that a student with an LA created via the UI always appears on the Student List in the Calendar environment, regardless of the LA duration, because Calendar does not check LA duration limits when filtering students.","- Logged in as HQ or CM user
+- A UI-created LA exists for Student A: Course X, Type = Regular, Start 2026-01-01, End 2026-01-15, `require_allocation = TRUE`
+- A published group lesson exists for Course X on a date far outside the LA duration (e.g., 2026-05-01)",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Calendar tab""
+2. ""Select the lesson for Course X on 2026-05-01""
+3. ""Open the """"Add Students"""" or view the Student List assigning to the lesson""
+4. ""Search for Student A in the list""","1. ""Calendar is displayed""
+2. ""Lesson details/drawer opens""
+3. ""Student list opens allowing searching by Course X""
+4. ""Student A still appears successfully in the Student List and is enabled to assign""","1. """"
+2. ""Lesson Date: 2026-05-01 (Outside LA effect)""
+3. """"
+4. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Lesson Assignment – Update LA Date does not auto assign/unassign,Integration — Verify that extending or modifying an LA’s date on the UI does not trigger any implicit/background processes to auto-assign or auto-unassign the student from their existing lesson events on the Calendar.,"- Logged in as HQ or CM user
+- Student A has a UI-created LA for Course X: Start 2026-04-01, End 2026-06-30
+- Student A has been manually assigned to Lesson L1 (Course X) on 2026-05-15 (within LA range)
+- Student A is also assigned to another Lesson L2 (Course X) on 2026-08-01 (outside original LA range, which is allowed by Calendar rules)",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Contact → Course tab → Edit LA from the UI""
+2. ""Extend End Date from 2026-06-30 to 2026-12-31 and save""
+3. ""Navigate to Calendar tab""
+4. ""Check the participation of Student A in Lesson L1 (2026-05-15)""
+5. ""Check the participation of Student A in Lesson L2 (2026-08-01)""","1. ""LA modal opens with editable Start and End Date fields""
+2. ""LA saved successfully""
+3. ""Calendar view opens""
+4. ""Student A is still assigned to Lesson L1; no background unassign triggered""
+5. ""Student A is still assigned to Lesson L2; no auto-status updates or removals triggered""","1. """"
+2. ""End Date update: 2026-12-31""
+3. """"
+4. ""Lesson L1 Date: 2026-05-15""
+5. ""Lesson L2 Date: 2026-08-01""",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Delete LA – Synchronous unlinking,"Integration — Verify that deleting a UI-created LA synchronously removes the student from any calendar lessons they were already assigned to. According to Business Rule 32, the lesson unlinking is immediate.","- Logged in as HQ or CM user
+- Student A has a UI-created LA for Course X
+- Student A is assigned to two upcoming published group lessons (L1 and L2) for Course X",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Calendar and verify Student A in L1 and L2""
+2. ""Navigate to Contact → Course tab → Delete the LA for Student A""
+3. ""Confirm the deletion""
+4. ""Navigate back to Calendar and check Student Sessions for L1 and L2""","1. ""Student A is visible in the Student Sessions list for both L1 and L2""
+2. ""Confirmation dialog warns about allocated lessons being removed""
+3. ""LA is immediately deleted""
+4. ""Student A no longer appears in the sessions for either L1 or L2; synchronous unlinking happened successfully""","1. """"
+2. """"
+3. """"
+4. """"",,,,,LA – System Integration,,,
+,"[Riso] Lesson Allocation – Calendar – Student Dots – ""Trial Student"" label visibility","Integration — Verify that a UI-created LA configured as 'Trial' propagates the correct student attribute so the ""Trial Student dot"" mark appears correctly on lessons in the Calendar view.","- Logged in as HQ or CM user
+- Student A has an active UI-created LA: Course X, Type = **Trial**
+- Student A is assigned to a published group lesson for Course X",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Calendar tab""
+2. ""Open or expand the lesson detail for the assigned course""
+3. ""Observe the visual indicators next to Student A's name""","1. ""Calendar view is displayed containing the active lesson event""
+2. ""Student list for the specific lesson opens""
+3. ""System correctly displays the """"Trial Student dot"""" indicating they are taking a trial""","1. """"
+2. """"
+3. ""LA Type used: Trial""",,,,,LA – System Integration,,,
+,"[Riso] Lesson Allocation – Calendar – Student Dots – ""New Student"" label visibility","Integration — Verify that a UI-created LA (as the student's first enrollment) correctly flags the student attribute so the ""New Student dot"" is indicated at their first lesson in the Calendar view.","- Logged in as HQ or CM user
+- Student A has a newly created active UI LA: Course X, Type = **Regular**
+- This applies to the very first lesson assigned to Student A upon starting the course",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Calendar tab""
+2. ""Open the detail or drawer of Student A's first assigned lesson event""
+3. ""Observe the visual indicators next to Student A's name""","1. ""Calendar view is displayed""
+2. ""Student Sessions list opens""
+3. ""System correctly displays the """"New Student dot"""" to mark the student's very first enrolled date""","1. """"
+2. """"
+3. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Assign Student – One-time lesson,"Integration — Verify that a student with a UI-created LA can be properly assigned to a One-time lesson, and the LA's Lesson Allocated count updates correctly.","- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X (`require_allocation = TRUE`)
+- A published **One-time** lesson exists for Course X within the LA duration",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the One-time lesson detail page (or drawer)""
+2. ""Click """"Add Students"""" and search for Student A""
+3. ""Select Student A and confirm assignment""
+4. ""Navigate to Contact → Course tab → LA detail for Student A""
+5. ""Check LA Report History""","1. ""Lesson details are displayed""
+2. ""Student A is listed""
+3. ""Student A is added to the One-time lesson""
+4. ""Lesson Allocated count increments by 1""
+5. ""The specific one-time lesson is recorded in the history tab""","1. """"
+2. """"
+3. ""Target: One-time lesson""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Assign Student – Recurring lesson – 'Only this' option,Integration — Verify that a student with a UI-created LA can be assigned to a single instance of a recurring lesson using the 'Only this' option.,"- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X
+- A published **Recurring** lesson series exists for Course X within the LA duration",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to a specific instance of the recurring lesson""
+2. ""Click """"Add Students"""", select Student A""
+3. ""Choose the """"**Only this**"""" lesson option and confirm""
+4. ""Check the next lesson in the recurring series""
+5. ""Check LA Report History""","1. ""Lesson details are displayed""
+2. ""Options for recurring assignment appear""
+3. ""Student A is assigned ONLY to the current lesson instance""
+4. ""Student A is NOT assigned to subsequent instances""
+5. ""Exactly 1 lesson instance is added to the allocated count and history""","1. """"
+2. """"
+3. ""Option: Only this""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Assign Student – Recurring lesson – 'This and the following' option,Integration — Verify that assigning a student with a UI-created LA using 'This and the following' correctly populates all subsequent instances in a recurring lesson series up to the LA end date.,"- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X
+- A published **Recurring** lesson series exists for Course X within the LA duration",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to a specific instance of the recurring lesson""
+2. ""Click """"Add Students"""", select Student A""
+3. ""Choose """"**This and the following**"""" option and confirm""
+4. ""Check subsequent lessons in the series""
+5. ""Check LA Report History""","1. ""Lesson details are displayed""
+2. ""Options for recurring assignment appear""
+3. ""Student A is assigned to the current and all subsequent instances in the series""
+4. ""Student A is present in all valid future lesson instances within the LA duration""
+5. ""Lesson Allocated count increments by the total number of newly assigned instances""","1. """"
+2. """"
+3. ""Option: This and following""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Assign Student – Recurring lesson – 'Specific number' option,Integration — Verify that assigning a student with a UI-created LA via 'Specific number' correctly assigns them to the exact count of subsequent recurring lessons.,"- Logged in as HQ or CM user
+- Student A has an active UI-created LA for Course X
+- A published **Recurring** lesson series exists for Course X",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to a specific instance of the recurring lesson""
+2. ""Click """"Add Students"""", select Student A""
+3. ""Choose """"**Specific number**"""" option, input '3', and confirm""
+4. ""View the 4th consecutive lesson instance""
+5. ""Check LA Report History""","1. ""Lesson details are displayed""
+2. ""Options for recurring assignment appear""
+3. ""Student A is assigned to the current lesson and the next 2 instances (total 3)""
+4. ""Student A is NOT assigned to the 4th instance""
+5. ""Lesson Allocated count strictly increases by 3""","1. """"
+2. """"
+3. ""Option: Specific number, 3""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Unassign Student – One-time lesson,Integration — Verify that unassigning a student with a UI-created LA from a One-time lesson correctly drops them from the lesson and deducts the allocation count.,"- Logged in as HQ or CM user
+- Student A is assigned to a published **One-time** lesson via their UI-created LA",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the One-time lesson detail where Student A is assigned""
+2. ""Click Remove/Unassign on Student A's row""
+3. ""Confirm unassignment""
+4. ""Check LA detail for Student A""","1. ""Student A is visible in Student Sessions""
+2. ""Confirmation modal is shown""
+3. ""Student A is removed from the lesson""
+4. ""Lesson Allocated count decrements by 1; the lesson is removed from Report History""","1. """"
+2. """"
+3. """"
+4. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Unassign Student – Recurring lesson – 'Only this' option,Integration — Verify that unassigning a student with a UI-created LA via 'Only this' drops them only from the specific recurring lesson instance selected.,"- Logged in as HQ or CM user
+- Student A is assigned to multiple instances of a published **Recurring** lesson series via their UI-created LA",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to a specific assigned instance of the recurring lesson""
+2. ""Click Remove/Unassign on Student A's row""
+3. ""Select """"**Only this**"""" lesson option and confirm""
+4. ""Navigate to the next instance in the recurring series""
+5. ""Check LA detail for Student A""","1. ""Student A is visible in Student Sessions""
+2. ""Modal prompts for unassign scope for recurring lesson""
+3. ""Student A is removed ONLY from this specific instance""
+4. ""Student A remains assigned to the subsequent instance""
+5. ""Lesson Allocated count is decremented by exactly 1""","1. """"
+2. """"
+3. ""Option: Only this""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Unassign Student – Recurring lesson – 'This and the following' option,Integration — Verify that unassigning a student with a UI-created LA via 'This and the following' drops them from the current and all future instances of the recurring series.,"- Logged in as HQ or CM user
+- Student A is assigned to multiple instances of a published **Recurring** lesson series via their UI-created LA",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to a specific assigned instance of the recurring lesson""
+2. ""Click Remove/Unassign on Student A's row""
+3. ""Select """"**This and the following**"""" option and confirm""
+4. ""Navigate to any subsequent instance in the recurring series""
+5. ""Check LA detail for Student A""","1. ""Student A is visible in Student Sessions""
+2. ""Modal prompts for unassign scope for recurring lesson""
+3. ""Student A is removed from this instance and all future instances in the series""
+4. ""Student A is no longer assigned to those future lessons""
+5. ""Lesson Allocated count is decremented by the total number of unassigned instances""","1. """"
+2. """"
+3. ""Option: This and following""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,[Riso] Lesson Allocation – Calendar – Bulk Collect Attendance – LA student in lesson,"Integration — Verify that bulk collecting attendance operates correctly for a student assigned to a lesson via a newly created UI LA, seamlessly applying the status to the LA reports.","- Logged in as HQ or CM user
+- Student A has a UI-created LA and is assigned to a past/in-progress lesson
+- There are multiple students in the lesson",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the lesson detail page (or bulk attendance feature via list)""
+2. ""Check the checkbox to select multiple/all students (including Student A)""
+3. ""Click 'Collect Attendance' action and set status to 'Attend'""
+4. ""Confirm the bulk attendance submission""
+5. ""Check LA Report History for Student A""","1. ""Student Sessions are listed""
+2. ""UI indicates multiple students are selected""
+3. ""Bulk action executes""
+4. ""Student A's attendance updates to 'Attend' along with the others""
+5. ""The updated attendance status ('Attend') reflects correctly inside the LA details""","1. """"
+2. """"
+3. ""Action: Bulk Attendance""
+4. """"
+5. """"",,,,,LA – System Integration,,,
+,,,,,,,,,,,,,,,,,,,,,LA Detail – Class-Related Items Hidden,2,,
+,[Riso] Lesson Allocation Detail – Class History Section – Not Displayed,AC 03.1 — Decision Table — Verify the Class History section is hidden on LA Detail in the Riso tenant.,"- Logged in as HQ or CM user on Riso Salesforce org
+- An existing LA is present
+- Navigate to the LA detail page",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Lesson Allocation Detail page""
+2. ""Inspect the page for a Class History section""","1. ""LA detail page is displayed""
+2. ""No Class History section or table is visible on the page""","1. """"
+2. """"",,,2,,,,
+,[Riso] Lesson Allocation Detail – Delete/Add Session Buttons – Not Displayed,AC 03.1 — Decision Table — Verify Delete Session and Add Session buttons are hidden on LA Detail in the Riso tenant.,"- Logged in as HQ or CM user on Riso Salesforce org
+- LA Detail page is open",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Lesson Allocation Detail page""
+2. ""Inspect for Delete Session and Add Session buttons""","1. ""LA detail content is displayed""
+2. ""Neither Delete Session nor Add Session control is visible""","1. """"
+2. """"",,,2,,,,
+,[Riso] Lesson Allocation Detail – Assign Class Button – Not Displayed,AC 03.1 — Decision Table — Verify the Assign Class button is hidden on LA Detail in the Riso tenant.,"- Logged in as HQ or CM user on Riso Salesforce org
+- LA Detail page is open",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Lesson Allocation Detail page""
+2. ""Inspect the page for an Assign Class button""","1. ""LA detail content is displayed""
+2. ""No Assign Class button is visible anywhere on the page""","1. """"
+2. """"",,,2,,,,
+,[Riso] Lesson Allocation Detail – Sync Lesson and Class Button – Not Displayed,AC 03.1 — Decision Table — Verify the Sync Lesson and Class button is hidden on LA Detail in the Riso tenant.,"- Logged in as HQ or CM user on Riso Salesforce org
+- LA Detail page is open",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Lesson Allocation Detail page""
+2. ""Inspect the page for a Sync Lesson and Class button""","1. ""LA detail content is displayed""
+2. ""No Sync Lesson and Class button is visible anywhere on the page""","1. """"
+2. """"",,,2,,,,
+,[Riso] Lesson Allocation Detail – Class Field on Header – Not Displayed,AC 03.1 — Decision Table (low-effort blue item) — Verify the Class field in the LA Detail header is hidden for the Riso tenant.,"- Logged in as HQ or CM user on Riso Salesforce org
+- LA Detail page is open",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Lesson Allocation Detail page""
+2. ""Inspect the header section for a Class field""","1. ""LA detail header area is displayed""
+2. ""No Class field is visible in the header section""","1. """"
+2. """"",,,2,,,,
+,,,,,,,,,,,,,,,,,,,,,LA Detail – Change Location,2,,
+,[Riso] Lesson Allocation Detail – Change Location – Functionality Retained,AC 03.2 — CRUD Testing / Regression — Verify that Change Location still works correctly for Riso tenants.,"- Logged in as HQ or CM user on Riso Salesforce org
+- Existing LA with a defined Location
+- LA Detail page is open",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Lesson Allocation Detail page""
+2. ""Click the Change Location action""
+3. ""Select a different valid Location""
+4. ""Confirm the change""
+5. ""Verify the updated Location is saved""","1. ""Current Location is displayed""
+2. ""Change Location modal opens successfully""
+3. ""New location is selectable; no error""
+4. ""Modal closes; LA detail updates to show the new Location""
+5. ""Refreshing shows the new Location persisted on the LA record""","1. """"
+2. """"
+3. ""New Location: B""
+4. """"
+5. """"",,,2,,,,
+,[Riso] Lesson Allocation Detail – Change Location – Class Fields Not Displayed,AC 03.2 — Regression (low-effort blue item) — Verify class-related fields inside the Change Location modal are hidden for the Riso tenant.,"- Logged in as HQ or CM user on Riso Salesforce org
+- LA Detail page is open; Change Location action is available",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Click Change Location on the LA Detail page""
+2. ""Inspect the modal for class-related fields""
+3. ""Proceed with location change""","1. ""Change Location modal opens""
+2. ""Class-related fields are hidden or disabled; only location-selection fields are shown""
+3. ""Change Location saves successfully; no class assignment required""","1. """"
+2. """"
+3. """"",,,2,,,,
+,,,,,,,,,,,,,,,,,,,,,LA Detail – Config & Control,2,,
+,[Riso] Lesson Allocation Detail – Class Items Hidden – Driven by Riso OOP Config,AC 03.3 — Decision Table — Verify all class-related UI items are hidden based on the Riso OOP feature config.,"- Riso OOP feature config is enabled for the Riso tenant
+- HQ or CM user logged in on Riso Salesforce org
+- LA Detail page is open",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the LA Detail page on the Riso tenant (OOP config enabled)""
+2. ""Open the same LA Detail on another tenant where OOP config is disabled""","1. ""Class History, Delete/Add Session, Assign Class, Sync Lesson and Class are all hidden""
+2. ""Class History, Delete/Add Session, Assign Class, Sync Lesson and Class are all visible on the other tenant""","1. """"
+2. """"",,,2,,,,

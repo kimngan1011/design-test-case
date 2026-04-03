@@ -1,0 +1,144 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,280,,"Lesson Allocation",,
+18829,"Lesson Allocation – Cancel Order with Past Effective Date – Slot-Based – LA Deleted","AC 06.2, AC 06.6 — State Transition / BVA — Validates that cancelling a Slot-Based product order with an effective date in the past deletes the LA entirely.","* User has created an order with product type = Slot-Based; Require Allocation flag = True; order start date = 2026-01-01
+* LA exists for the student with start date = 2026-01-01
+* User has created an individual lesson and added this student to the lesson",,,"high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Go to Student Detail → Click ""New Order Group"" → Select location → Save
+2. At Order Group Product, click ""Manage"" → Select the Slot-Based product → Click ""Cancel""
+3. Enter effective date = 2026-03-01 (past date < current date 2026-04-02)
+4. Click ""Save Draft""
+5. Click ""Submit""
+6. Navigate to Contact → Course tab → Lesson Allocation list
+7. Check lesson assignment","1. Order Group created
+2. Cancel order form opens
+3. Effective date field shows 2026-03-01; no inline error
+4. Order saved as draft with no error
+5. Order submitted successfully
+6. LA for this Slot-Based product is deleted; no entry visible
+7. Student is removed from lessons that were linked to this LA","""""
+""""
+""Effective date: 2026-03-01""
+""""
+""""
+""""
+""""",,,,,
+18830,"Lesson Allocation – Cancel Order with Past Effective Date – One-Time – LA Deleted","AC 06.2, AC 06.6 — State Transition / BVA — Validates that cancelling a One-Time product order with a past effective date deletes the LA entirely.","* User has created an order with product type = One-Time; Require Allocation flag = True; order start date = 2026-01-01
+* LA exists for the student with start date = 2026-01-01
+* User has created an individual lesson and added this student to the lesson",,,"high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Go to Student Detail → Click ""New Order Group"" → Select location → Save
+2. At Order Group Product, click ""Manage"" → Select the One-Time product → Click ""Cancel""
+3. Enter effective date = 2026-03-01 (past date < current date 2026-04-02)
+4. Click ""Save Draft""
+5. Click ""Submit""
+6. Navigate to Contact → Course tab → Lesson Allocation list
+7. Check lesson assignment","1. Order Group created
+2. Cancel order form opens
+3. Effective date field shows 2026-03-01; no inline error
+4. Order saved as draft with no error
+5. Order submitted successfully
+6. LA for this One-Time product is deleted; no entry visible
+7. Student is removed from lessons linked to this LA","""""
+""""
+""Effective date: 2026-03-01""
+""""
+""""
+""""
+""""",,,,,
+18831,"Lesson Allocation – Enrollment Order with Past Start Date – LA Created with Past Start Date","AC 02.2 — CRUD Testing — Validates that creating an enrollment application with a past start date results in an LA being created with start date = the past date.","* User has created a product offering with package types = One-Time, Schedule, Frequency, and Slot-Based; each product has Course A added with Require Allocation flag = True
+* User has created a student with a grade and location = product offering
+* User has created a recurring group lesson with class
+* Current date = 2026-04-02",,,"high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Go to Student Detail → Click ""Create Enrollment Application"" button
+2. At Order Group Product, click ""Manage"" → Click ""Add Product"" → Select the product offering and course offering → Assign a class
+3. Enter start date = 2026-01-15 (past date < current date 2026-04-02)
+4. Click ""Save Draft""
+5. Click ""Submit Enrollment""
+6. Navigate to Contact → Course tab → Require Lesson Allocation and Lesson Allocation lists
+7. Check LA duration on one of the created LAs
+8. Check total session count
+9. Check class assignment","1. Enrollment application form opens
+2. Product and course selected; class assigned
+3. Start date field shows 2026-01-15; no inline error
+4. Enrollment saved as draft with no error
+5. Enrollment submitted successfully
+6. LAs are created for each product type with start date = 2026-01-15
+7. Start date = 2026-01-15; end date = order end date
+8. Total session count = 0; no student session auto-created
+9. Class member created with start date & end date = LA duration","""""
+""Product with Require Allocation = True""
+""Start date: 2026-01-15""
+""""
+""""
+""""
+""""
+""""
+""""",,,,,
+18832,"Lesson Allocation – Update Slot – Past Effective Date – Purchased Slot Updated, Duration Unchanged","AC 05.1, AC 05.2, AC 05.3, AC 05.6 — BVA — Validates that updating slot/week on a Frequency product with a past effective date updates purchased slot and recalculates total session count while leaving LA duration unchanged.","* User has created an order with product type = Frequency; Require Allocation flag = True; order start date = 2026-01-01
+* LA exists; current purchased slot/week = 2
+* User has assigned the student to a group lesson by class
+* Current date = 2026-04-02",,,"high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Go to Student Detail → Click ""New Order Group"" → Select location → Save
+2. At Order Group Product, click ""Manage"" → Select the Frequency product → Click ""Update""
+3. Increase slot/week from 2 to 3 → Enter effective date = 2026-02-01 (past date < current date)
+4. Click ""Save Draft""
+5. Click ""Submit""
+6. Navigate to Contact → Course tab → Lesson Allocation
+7. Check LA duration
+8. Check total session count
+9. Check student session","1. Order Group created
+2. Update order form opens
+3. Slot/week field shows 3; effective date shows 2026-02-01; no inline error
+4. Order saved as draft with no error
+5. Order submitted successfully
+6. Purchased slot on LA updated to 3/week
+7. LA start date and end date are unchanged from original order
+8. Total session count recalculated based on new slot/week value
+9. No new student session auto-created","""""
+""""
+""Slot: 3; Effective date: 2026-02-01""
+""""
+""""
+""""
+""""
+""""
+""""",,,,,
+18833,"Lesson Allocation – Update Slot – Today Effective Date – Purchased Slot Updated, Duration Unchanged","AC 05.1, AC 05.2, AC 05.3, AC 05.6 — BVA — Validates slot update with effective date = current date (today boundary).","* User has created an order with product type = Frequency; Require Allocation flag = True; order start date = 2026-01-01
+* LA exists; current purchased slot/week = 2
+* User has assigned the student to a group lesson by class
+* Current date = 2026-04-02",,,"high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Go to Student Detail → Click ""New Order Group"" → Select location → Save
+2. At Order Group Product, click ""Manage"" → Select Frequency product → Click ""Update""
+3. Increase slot/week from 2 to 3 → Enter effective date = 2026-04-02 (= current date)
+4. Click ""Save Draft"" → Click ""Submit""
+5. Navigate to Contact → Course tab → Lesson Allocation
+6. Check LA duration
+7. Check total session count","1. Order Group created
+2. Update order form opens
+3. Slot/week = 3; effective date = 2026-04-02; no inline error
+4. Order submitted successfully
+5. Purchased slot on LA updated to 3/week
+6. LA start date and end date unchanged
+7. Total session count recalculated; no student session auto-created","""""
+""""
+""Slot: 3; Effective date: 2026-04-02""
+""""
+""""
+""""
+""""",,,,,
+18834,"Lesson Allocation – Update Slot – Future Effective Date – Purchased Slot Updated, Duration Unchanged","AC 05.1, AC 05.2, AC 05.3, AC 05.6 — BVA — Validates slot update with effective date in the future.","* User has created an order with product type = Frequency; Require Allocation flag = True; order start date = 2026-01-01
+* LA exists; current purchased slot/week = 2
+* User has assigned the student to a group lesson by class
+* Current date = 2026-04-02",,,"high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Go to Student Detail → Click ""New Order Group"" → Select location → Save
+2. At Order Group Product, click ""Manage"" → Select Frequency product → Click ""Update""
+3. Increase slot/week from 2 to 3 → Enter effective date = 2026-05-01 (future date > current date)
+4. Click ""Save Draft"" → Click ""Submit""
+5. Navigate to Contact → Course tab → Lesson Allocation
+6. Check LA duration
+7. Check total session count","1. Order Group created
+2. Update order form opens
+3. Slot/week = 3; effective date = 2026-05-01; no inline error
+4. Order submitted successfully
+5. Purchased slot on LA updated to 3/week
+6. LA start date and end date unchanged
+7. Total session count recalculated; no student session auto-created","""""
+""""
+""Slot: 3; Effective date: 2026-05-01""
+""""
+""""
+""""
+""""",,,,,
