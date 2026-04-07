@@ -1,0 +1,430 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted,cf_2,cf_3
+,[Aso] Syllabus in App – Syllabus menu – Student opens menu and sees syllabus list,"Integration: Student opens the Syllabus menu in the Learner App and the syllabus list page loads with published syllabuses.","Feature flag lesson.syllabus_master.is_enabled = true
+Student is enrolled with Grade = 2年 in Academic Year = 2026
+At least one Published Syllabus Master exists linked to the student's Curriculum Subject",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Tap Syllabus menu""
+3. ""Observe the syllabus list page""
+","1. ""App home screen displayed""
+2. ""Syllabus list page opens""
+3. ""Published syllabuses displayed as cards; Draft syllabuses not shown""
+","1. ""Role: Student\nGrade: 2年\nAcademic Year: 2026""
+2. """"
+3. ""Expected: only Published syllabus cards visible""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Search filter – Academic Year defaults to current and non-editable,"Decision Table: Academic Year filter defaults to the current academic year and student cannot modify it.","Feature flag enabled
+Student is enrolled in Academic Year = 2026
+Current system Academic Year = 2026",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Observe Academic Year filter value""
+4. ""Attempt to tap or change Academic Year field""
+","1. ""App login""
+2. ""Syllabus list page opens""
+3. ""Academic Year = 2026 (current academic year)""
+4. ""Academic Year field is read-only; student cannot change the value""
+","1. ""Role: Student""
+2. """"
+3. ""Expected: Academic Year = 2026""
+4. ""Expected: field is non-editable""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Search filter – Grade defaults to student current grade and non-editable,"Decision Table: Grade filter defaults to the student's current grade and student cannot modify it.","Feature flag enabled
+Student is enrolled with Grade = 2年",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Observe Grade filter value""
+4. ""Attempt to tap or change Grade field""
+","1. ""App login""
+2. ""Syllabus list page opens""
+3. ""Grade = 2年 (student's current grade)""
+4. ""Grade field is read-only; student cannot change the value""
+","1. ""Role: Student\nGrade: 2年""
+2. """"
+3. ""Expected: Grade = 2年""
+4. ""Expected: field is non-editable""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Search filter – Student searches syllabus by keyword – Filtered results shown,"Equivalence Partitioning: Student enters a keyword in the search field and the list filters to show matching published syllabuses.","Feature flag enabled
+Multiple Published Syllabus Masters exist:
+- Webプログラミング演習ⅢA シラバス (Published)
+- データベース演習 シラバス (Published)
+- ネットワーク基礎 シラバス (Draft)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Enter keyword: Webプログラミング in search field""
+4. ""Observe search results""
+","1. ""App login""
+2. ""Syllabus list page opens""
+3. ""Search field accepts input""
+4. ""Only Webプログラミング演習ⅢA シラバス displayed; other syllabuses filtered out; Draft syllabus not shown""
+","1. ""Role: Student""
+2. """"
+3. ""Search keyword: Webプログラミング""
+4. ""Expected: 1 result (Webプログラミング演習ⅢA シラバス)""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Search filter – No matching keyword – Empty result shown,"Negative Testing: Student searches with a keyword that matches no published syllabus.","Feature flag enabled
+Published syllabuses exist but none match the search keyword",,,medium,major,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Enter keyword: 存在しない科目 in search field""
+4. ""Observe search results""
+","1. ""App login""
+2. ""Syllabus list page opens""
+3. ""Search field accepts input""
+4. ""No results displayed; empty state message shown""
+","1. ""Role: Student""
+2. """"
+3. ""Search keyword: 存在しない科目""
+4. ""Expected: 0 results""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – JP label – Syllabus list title shows 科目一覧,"Localization: The syllabus list page title displays 「科目一覧」 instead of the previous 「シラバス」.","Feature flag enabled
+Student has Learner App access
+UI language: Japanese",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Observe the list page title text""
+","1. ""App login""
+2. ""Syllabus list page opens""
+3. ""Page title displays 「科目一覧」 (not 「シラバス」)""
+","1. ""Role: Student\nUI Language: Japanese""
+2. """"
+3. ""Expected: 科目一覧""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – JP label – Course section label shows 科目：,"Localization: The course section label on the syllabus list displays 「科目：」 instead of the previous 「コース：」.","Feature flag enabled
+Student has Learner App access
+UI language: Japanese",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Observe the course section label on each syllabus card""
+","1. ""App login""
+2. ""Syllabus list page opens""
+3. ""Course section label displays 「科目：」 (not 「コース：」)""
+","1. ""Role: Student\nUI Language: Japanese""
+2. """"
+3. ""Expected: 科目：""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Card layout – Semester shown instead of Academic Year,"Integration: Each syllabus card on the list shows the Semester value instead of the Academic Year.","Feature flag enabled
+Published Syllabus Master exists:
+- Syllabus Name: Webプログラミング演習ⅢA シラバス
+- Curriculum Subject Semester: 前期 (First Semester)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Locate the card for Webプログラミング演習ⅢA シラバス""
+4. ""Observe the field below Syllabus Name on the card""
+","1. ""App login""
+2. ""Syllabus list page opens""
+3. ""Card found""
+4. ""Card displays Semester = 前期; Academic Year is NOT shown on the card""
+","1. ""Role: Student""
+2. """"
+3. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+4. ""Expected: Semester = 前期 (not Academic Year)""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Card layout – Lecturers displayed below Semester,"Integration: Each syllabus card displays the Lecturers line below the Semester with correct lecturer names.","Feature flag enabled
+Published Syllabus Master exists:
+- Syllabus Name: Webプログラミング演習ⅢA シラバス
+- Lecturer: 川野 啓祐",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Locate the card for Webプログラミング演習ⅢA シラバス""
+4. ""Observe the Lecturers line on the card""
+","1. ""App login""
+2. ""Syllabus list page opens""
+3. ""Card found""
+4. ""Card displays Lecturers line below Semester with value: 川野 啓祐""
+","1. ""Role: Student""
+2. """"
+3. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+4. ""Expected: Lecturers = 川野 啓祐""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Card layout – Multiple lecturers displayed on card,"Equivalence Partitioning: Card shows all lecturer names when Syllabus Master has multiple lecturers.","Feature flag enabled
+Published Syllabus Master exists:
+- Syllabus Name: データベース演習 シラバス
+- Lecturers: Takuya Honma and Koki Misawa",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Locate the card for データベース演習 シラバス""
+4. ""Observe the Lecturers line""
+","1. ""App login""
+2. ""Syllabus list page opens""
+3. ""Card found""
+4. ""Lecturers line shows: Takuya Honma, Koki Misawa""
+","1. ""Role: Student""
+2. """"
+3. ""Syllabus: データベース演習 シラバス""
+4. ""Expected: Takuya Honma, Koki Misawa""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Card layout – Full card structure rendered top to bottom,"Integration: Each syllabus card displays all required elements in correct order: Curriculum/course name → Syllabus name → Semester → Lecturers.","Feature flag enabled
+Published Syllabus Master exists with complete data:
+- Curriculum Subject: Webプログラミング演習ⅢA
+- Syllabus Name: Webプログラミング演習ⅢA シラバス
+- Semester: 前期
+- Lecturer: 川野 啓祐",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Locate the card for Webプログラミング演習ⅢA シラバス""
+4. ""Observe the card fields from top to bottom""
+","1. ""App login""
+2. ""Syllabus list page opens""
+3. ""Card found""
+4. ""Card displays in order: (1) Curriculum/course name: Webプログラミング演習ⅢA (2) Syllabus name: Webプログラミング演習ⅢA シラバス (3) Semester: 前期 (4) Lecturers: 川野 啓祐""
+","1. ""Role: Student""
+2. """"
+3. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+4. ""Expected order: Curriculum → Syllabus Name → Semester → Lecturers""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Navigation – Tap card opens detail page then return to list,"Integration: Student taps a syllabus card to view the detail page and can navigate back to the list.","Feature flag enabled
+Published Syllabus Master exists: Webプログラミング演習ⅢA シラバス",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu and view list""
+3. ""Tap on the card for Webプログラミング演習ⅢA シラバス""
+4. ""Observe the detail page""
+5. ""Tap the back button""
+","1. ""App login""
+2. ""Syllabus list displayed""
+3. ""Syllabus detail page opens""
+4. ""Detail page shows Syllabus Name as header with all detail fields""
+5. ""Student returns to the syllabus list page""
+","1. ""Role: Student""
+2. """"
+3. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+4. ""Expected: detail page with header = Webプログラミング演習ⅢA シラバス""
+5. ""Expected: back to list""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Detail page – Header shows Syllabus Name not curriculum subject name,"Integration: The detail page header displays the Syllabus Name (e.g. 科目B) instead of the curriculum subject name.","Feature flag enabled
+Published Syllabus Master exists:
+- Syllabus Name: Webプログラミング演習ⅢA シラバス
+- Curriculum Subject: Webプログラミング演習ⅢA",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Tap on the card for Webプログラミング演習ⅢA シラバス""
+4. ""Observe the page header title""
+","1. ""App login""
+2. ""Syllabus list displayed""
+3. ""Detail page opens""
+4. ""Header title = Webプログラミング演習ⅢA シラバス (Syllabus Name); NOT Webプログラミング演習ⅢA (Curriculum Subject Name)""
+","1. ""Role: Student""
+2. """"
+3. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+4. ""Expected header: Webプログラミング演習ⅢA シラバス""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Detail page – All key fields displayed,"Integration: The detail page shows all required fields: 科目名, 必須/必須科目, 対象学年, 履修時間, 主な授業形態, 実施時期, 単位.","Feature flag enabled
+Published Syllabus Master exists with complete Curriculum Subject data:
+- 科目名: Webプログラミング演習ⅢA シラバス
+- Mandatory: true (必須)
+- Target Grade: 2年
+- Hour: 120時間
+- Lesson Format: 演習 (Exercise)
+- Semester: 前期 (First Semester)
+- Credit: 8単位",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus detail for Webプログラミング演習ⅢA シラバス""
+3. ""Observe all key fields in the detail section""
+","1. ""App login""
+2. ""Detail page opens""
+3. ""Fields displayed: 科目名 = Webプログラミング演習ⅢA シラバス, 必須科目 = 必須, 対象学年 = 2年, 履修時間 = 120時間, 主な授業形態 = 演習, 実施時期 = 前期, 単位 = 8単位""
+","1. ""Role: Student""
+2. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+3. ""Expected: 科目名=Webプログラミング演習ⅢA シラバス\n必須科目=必須\n対象学年=2年\n履修時間=120時間\n主な授業形態=演習\n実施時期=前期\n単位=8単位""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Detail page – Lesson Format translation displayed correctly,"Localization: The Lesson Format field value is translated correctly in Japanese (e.g. 講義 for Lecture or 演習 for Exercise).","Feature flag enabled
+Published Syllabus Master exists:
+- Curriculum Subject Lesson Format = 演習
+UI language: Japanese",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus detail for Webプログラミング演習ⅢA シラバス""
+3. ""Observe 主な授業形態 (Lesson Format) field value""
+","1. ""App login""
+2. ""Detail page opens""
+3. ""Lesson Format shows 演習 (Exercise) in correct JP translation""
+","1. ""Role: Student\nUI Language: Japanese""
+2. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+3. ""Expected: 主な授業形態 = 演習""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Detail page – Semester translation displayed correctly,"Localization: The Semester field value is translated correctly in Japanese (実施時期: 前期/後期/通年).","Feature flag enabled
+Published Syllabus Master exists:
+- Curriculum Subject Semester = 前期
+UI language: Japanese",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus detail for Webプログラミング演習ⅢA シラバス""
+3. ""Observe 実施時期 (Semester) field value""
+","1. ""App login""
+2. ""Detail page opens""
+3. ""Semester shows 前期 (First Semester) in correct JP translation""
+","1. ""Role: Student\nUI Language: Japanese""
+2. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+3. ""Expected: 実施時期 = 前期""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Detail page – No redundant 科目 label before Syllabus Name,"Localization: The detail section does not display a redundant 「科目」 label preceding the Syllabus Name in the header.","Feature flag enabled
+Published Syllabus Master exists: Webプログラミング演習ⅢA シラバス
+UI language: Japanese",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus detail for Webプログラミング演習ⅢA シラバス""
+3. ""Observe the header and detail section for redundant 科目 label""
+","1. ""App login""
+2. ""Detail page opens""
+3. ""Header shows Syllabus Name standalone (Webプログラミング演習ⅢA シラバス) without a redundant 科目 prefix label""
+","1. ""Role: Student\nUI Language: Japanese""
+2. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+3. ""Expected: no redundant 科目 label""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Detail page – Student opens syllabus detail from Lesson syllabus,"Integration: Student navigates to a specific syllabus detail page directly from the Lesson syllabus link.","Feature flag enabled
+Published lesson exists with syllabus linked to: Webプログラミング演習ⅢA シラバス
+Student is assigned to the lesson",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open a lesson that has syllabus linked""
+3. ""Tap on the syllabus link in the lesson""
+4. ""Observe the opened page""
+","1. ""App login""
+2. ""Lesson detail opens with syllabus info""
+3. ""Navigation to syllabus detail page""
+4. ""Syllabus detail page opens showing: Webプログラミング演習ⅢA シラバス with all key fields""
+","1. ""Role: Student""
+2. ""Lesson with syllabus: Webプログラミング演習ⅢA シラバス""
+3. """"
+4. ""Expected: detail page for Webプログラミング演習ⅢA シラバス""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Detail page – View-only mode – Student cannot edit fields,"Permission Matrix: Student can only view syllabus detail fields; no edit capability available.","Feature flag enabled
+Published Syllabus Master exists: Webプログラミング演習ⅢA シラバス",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus detail for Webプログラミング演習ⅢA シラバス""
+3. ""Attempt to tap on any field value""
+4. ""Look for any edit buttons or actions""
+","1. ""App login""
+2. ""Detail page opens""
+3. ""Fields are read-only; no edit mode activated""
+4. ""No edit buttons or save actions available on the detail page""
+","1. ""Role: Student""
+2. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+3. ""Expected: fields non-editable""
+4. ""Expected: no edit UI elements""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Feature flag disabled – Syllabus menu hidden,"Decision Table: When feature flag lesson.syllabus_master.is_enabled = false, the Syllabus menu is not visible in the Learner App.","Feature flag lesson.syllabus_master.is_enabled = false
+Student is enrolled and has Learner App access",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Look for Syllabus menu in the navigation""
+","1. ""App home screen displayed""
+2. ""Syllabus menu is NOT visible in the app navigation""
+","1. ""Role: Student\nFeature flag: lesson.syllabus_master.is_enabled = false""
+2. ""Expected: Syllabus menu hidden""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Status Draft to Publish – Syllabus becomes visible to student,"State Transition / Integration: After HQ Staff changes Syllabus Master from Draft to Publish, student can now see it in the Learner App.","Syllabus Master exists with Status = Draft (initially not visible to student)
+HQ Staff changes status to Publish",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student and confirm Syllabus ドラフトテストシラバス is NOT visible""
+2. ""HQ Staff changes Syllabus Master status from Draft to Publish""
+3. ""Student refreshes Syllabus list in Learner App""
+4. ""Search for ドラフトテストシラバス""
+","1. ""Syllabus not found in list""
+2. ""Status changed to Publish""
+3. ""List refreshed""
+4. ""ドラフトテストシラバス now appears in search results""
+","1. ""Syllabus: ドラフトテストシラバス\nInitial Status: Draft""
+2. ""New Status: Publish""
+3. """"
+4. ""Expected: visible to student""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Syllabus data updated on SF – Student sees updated data on mobile,"Data Integrity: After staff updates Syllabus Master data on SF, student sees the updated information in the Learner App.","Feature flag enabled
+Published Syllabus Master exists: Webプログラミング演習ⅢA シラバス
+Lecturer = 川野 啓祐 (original)
+Staff updates Lecturer to テスト担当者",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Staff updates Syllabus Master Lecturer from 川野 啓祐 to テスト担当者 on SF""
+2. ""Login to Learner App as student""
+3. ""Open Syllabus detail for Webプログラミング演習ⅢA シラバス""
+4. ""Observe the Lecturers field""
+","1. ""Lecturer updated on SF""
+2. ""App login""
+3. ""Detail page opens""
+4. ""Lecturers field shows テスト担当者 (updated value)""
+","1. ""Updated Lecturer: テスト担当者""
+2. ""Role: Student""
+3. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+4. ""Expected: Lecturer = テスト担当者""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Syllabus with empty optional fields – Detail page renders without error,"Edge Case: Syllabus Master with only required fields (no Lecturer, no Course Overview) renders detail page without errors.","Feature flag enabled
+Published Syllabus Master exists:
+- Syllabus Name: 最小データシラバス
+- Curriculum Subject: テスト科目A
+- Status: Publish
+- All optional fields blank (no Lecturer, no Course Overview, no Textbook, no Notes)",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Locate and tap the card for 最小データシラバス""
+4. ""Observe detail page fields""
+","1. ""App login""
+2. ""Syllabus list displayed""
+3. ""Detail page opens without error""
+4. ""Required fields shown; optional fields display as blank or with dash placeholder; page does not crash""
+","1. ""Role: Student""
+2. """"
+3. ""Syllabus: 最小データシラバス""
+4. ""Expected: no crash, optional fields blank or show placeholder""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Card with empty Lecturer – Card renders Lecturers line as blank,"Edge Case: Syllabus card without Lecturer data renders the Lecturers line as blank or omitted without layout breaking.","Feature flag enabled
+Published Syllabus Master exists:
+- Syllabus Name: 最小データシラバス
+- Lecturer: (blank)
+- Status: Publish",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Locate the card for 最小データシラバス""
+4. ""Observe the Lecturers line on the card""
+","1. ""App login""
+2. ""Syllabus list displayed""
+3. ""Card found""
+4. ""Lecturers line is blank or omitted; card layout remains intact""
+","1. ""Role: Student""
+2. """"
+3. ""Syllabus: 最小データシラバス""
+4. ""Expected: Lecturers blank, no layout break""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Multiple published syllabuses – All displayed in list,"Integration: When multiple Published Syllabus Masters match student's Academic Year and Grade, all are displayed in the list.","Feature flag enabled
+Student enrolled in Grade = 2年, Academic Year = 2026
+3 Published Syllabus Masters exist for this grade and year:
+- Webプログラミング演習ⅢA シラバス
+- データベース演習 シラバス
+- ネットワーク基礎 シラバス",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Count the syllabus cards displayed""
+","1. ""App login""
+2. ""Syllabus list page opens""
+3. ""3 syllabus cards displayed: Webプログラミング演習ⅢA シラバス, データベース演習 シラバス, ネットワーク基礎 シラバス""
+","1. ""Role: Student\nGrade: 2年\nAcademic Year: 2026""
+2. """"
+3. ""Expected: 3 cards visible""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Detail page – Lesson unit list backed by MANAERP__Detail__c,"Data Integrity / Integration: The lesson unit list on the syllabus detail page is sourced from MANAERP__Detail__c object (not MANAERP__Teaching_Material__c).","Feature flag enabled
+Published Syllabus Master exists with Syllabus Details created via MANAERP__Detail__c:
+- Lesson Code 1: 開発環境の構築、Java復習
+- Lesson Code 2: Webのしくみ、オブジェクト指向復習",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus detail for Webプログラミング演習ⅢA シラバス""
+3. ""Scroll to the lesson unit list section""
+4. ""Observe displayed lesson rows""
+","1. ""App login""
+2. ""Detail page opens""
+3. ""Lesson unit list section visible""
+4. ""Lesson rows displayed: Code=1 / 開発環境の構築、Java復習 and Code=2 / Webのしくみ、オブジェクト指向復習; data sourced from MANAERP__Detail__c""
+","1. ""Role: Student""
+2. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+3. """"
+4. ""Expected: rows from MANAERP__Detail__c\nCode=1: 開発環境の構築、Java復習\nCode=2: Webのしくみ、オブジェクト指向復習""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – iCD Task Code – Not displayed in Learner App,"Negative Testing: The iCD Task Code field is shown on PDFs but must NOT be displayed to students in the Learner App.","Feature flag enabled
+Published Syllabus Master exists with iCD Task Code = DV08.1.1 DV08.1.2",,,medium,major,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus detail for Webプログラミング演習ⅢA シラバス""
+3. ""Search for iCD Task Code or iCDタスクコード on the detail page""
+","1. ""App login""
+2. ""Detail page opens""
+3. ""iCD Task Code field and value (DV08.1.1 DV08.1.2) are NOT displayed anywhere on the detail page""
+","1. ""Role: Student""
+2. ""Syllabus: Webプログラミング演習ⅢA シラバス""
+3. ""Expected: iCD Task Code not visible""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Elective syllabus – Mandatory field shows 選択,"Equivalence Partitioning: When Curriculum Subject Mandatory = false, the detail page displays 選択 (Elective) instead of 必須 (Required).","Feature flag enabled
+Published Syllabus Master exists:
+- Syllabus Name: 選択科目テスト シラバス
+- Curriculum Subject Mandatory: false
+- Status: Publish",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus detail for 選択科目テスト シラバス""
+3. ""Observe the Mandatory/Elective field""
+","1. ""App login""
+2. ""Detail page opens""
+3. ""Field shows 選択 (Elective), not 必須 (Required)""
+","1. ""Role: Student""
+2. ""Syllabus: 選択科目テスト シラバス""
+3. ""Expected: 選択""
+",,,2260,2375,Syllabus in Learner App,,,no,,
+,[Aso] Syllabus in App – Semester picklist values – All values render on card correctly,"Equivalence Partitioning: Syllabus cards correctly display all Semester picklist values (前期, 後期, 通年).","Feature flag enabled
+3 Published Syllabus Masters exist:
+- Syllabus A: Semester = 前期
+- Syllabus B: Semester = 後期
+- Syllabus C: Semester = 通年",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to Learner App as student""
+2. ""Open Syllabus menu""
+3. ""Locate card for Syllabus A and observe Semester""
+4. ""Locate card for Syllabus B and observe Semester""
+5. ""Locate card for Syllabus C and observe Semester""
+","1. ""App login""
+2. ""Syllabus list displayed""
+3. ""Syllabus A card shows Semester = 前期""
+4. ""Syllabus B card shows Semester = 後期""
+5. ""Syllabus C card shows Semester = 通年""
+","1. ""Role: Student""
+2. """"
+3. ""Syllabus A: Expected Semester = 前期""
+4. ""Syllabus B: Expected Semester = 後期""
+5. ""Syllabus C: Expected Semester = 通年""
+",,,2260,2375,Syllabus in Learner App,,,no,,

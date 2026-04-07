@@ -1,0 +1,933 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted,cf_2,cf_3
+,,,,,,,,,,,,,,,,,,,,2446,19,Cancel Booked Event (App),1,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,US01 - Configure Cancellation Settings,1,,,,
+,Cancel Booked Event – Cancellation Settings – Allow Cancellation checkboxes default unchecked,"AC 01.1 - Equivalence Partitioning: Both Allow Cancellation checkboxes (Directly Added Participants and Booking System Participants) are un-selected by default on a new Master Event.","Admin has access to create a new Master Event",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Master Event creation page""
+2. ""Locate the Cancellation Settings section""
+3. ""Check Allow Cancellation for Directly Added Participants checkbox""
+4. ""Check Allow Cancellation for Booking System Participants checkbox""
+","1. ""Master Event creation page loads""
+2. ""Cancellation Settings section is displayed""
+3. ""Checkbox is unchecked (default = false)""
+4. ""Checkbox is unchecked (default = false)""
+","1. """"
+2. """"
+3. ""Expected: unchecked""
+4. ""Expected: unchecked""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Settings – Enable Allow Cancellation for Directly Added Participants,"AC 01.1 - Equivalence Partitioning: When selected, participants added through SF Assign To Event can cancel via mobile app.","Admin has access to Master Event settings",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Check Allow Cancellation for Directly Added Participants""
+3. ""Save settings""
+4. ""Re-open Master Event settings""
+","1. ""Settings page loads""
+2. ""Checkbox is checked""
+3. ""Settings saved successfully""
+4. ""Checkbox remains checked""
+","1. """"
+2. """"
+3. """"
+4. ""Allow_Cancel_Direct__c = true""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Settings – Enable Allow Cancellation for Booking System Participants,"AC 01.1 - Equivalence Partitioning: When selected, participants who booked via booking system can cancel via mobile app.","Admin has access to Master Event settings",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Check Allow Cancellation for Booking System Participants""
+3. ""Save settings""
+4. ""Re-open Master Event settings""
+","1. ""Settings page loads""
+2. ""Checkbox is checked""
+3. ""Settings saved successfully""
+4. ""Checkbox remains checked""
+","1. """"
+2. """"
+3. """"
+4. ""Allow_Cancel_Booked__c = true""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancel Button Visibility – Cancel Type = Cancel shows button on mobile,"AC 01.1 - Decision Table: Cancel button visible when Cancellation Type is Cancel and Event Activity Date/Time is in the future.","Master Event has:
+- Allow Cancellation for Booking System Participants = true
+- Cancellation Type = Cancel
+- Event Activity Date/Time is in the future
+- Student has booked the event via booking system",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner mobile app as student""
+2. ""Open the booked event detail""
+3. ""Check Cancel Reservation button""
+","1. ""App opens successfully""
+2. ""Event detail screen displayed""
+3. ""Cancel Reservation button is visible and enabled""
+","1. """"
+2. """"
+3. ""Cancel Type = Cancel""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancel Button Visibility – Cancel Type = Cancel Request shows button on mobile,"AC 01.1 - Decision Table: Cancel button visible when Cancellation Type is Cancel Request and Event Activity Date/Time is in the future.","Master Event has:
+- Allow Cancellation for Booking System Participants = true
+- Cancellation Type = Cancel Request
+- Event Activity Date/Time is in the future
+- Student has booked the event via booking system",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner mobile app as student""
+2. ""Open the booked event detail""
+3. ""Check Cancel Reservation button""
+","1. ""App opens successfully""
+2. ""Event detail screen displayed""
+3. ""Cancel Reservation button is visible and enabled""
+","1. """"
+2. """"
+3. ""Cancel Type = Cancel Request""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancel Button Visibility – Cancel Type = Do not allow hides button on mobile,"AC 01.1 - Decision Table: Cancel button hidden when Cancellation Type is Do not allow.","Master Event has:
+- Cancellation Type = Do not allow
+- Student has booked the event via booking system",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner mobile app as student""
+2. ""Open the booked event detail""
+3. ""Check for Cancel Reservation button""
+","1. ""App opens successfully""
+2. ""Event detail screen displayed""
+3. ""Cancel Reservation button is NOT visible""
+","1. """"
+2. """"
+3. ""Cancel Type = Do not allow""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Migration – Cancel Config ON migrates to Cancel Type = Cancel,"AC 01.1 - Data Integrity: For partners with Cancel Config = On, existing events migrate to Cancel Type = Cancel.","Partner has Cancel Config = On with existing events",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Run migration for partner with Cancel Config = On""
+2. ""Open existing Master Event settings""
+3. ""Check Cancellation Type value""
+","1. ""Migration completes successfully""
+2. ""Settings page loads""
+3. ""Cancellation Type = Cancel""
+","1. ""Cancel Config = On""
+2. """"
+3. ""Expected: Cancel""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Migration – Cancel Config OFF migrates to Cancel Type = Do not allow,"AC 01.1 - Data Integrity: For partners with Cancel Config = Off, existing events migrate to Cancel Type = Do not allow.","Partner has Cancel Config = Off with existing events",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Run migration for partner with Cancel Config = Off""
+2. ""Open existing Master Event settings""
+3. ""Check Cancellation Type value""
+","1. ""Migration completes successfully""
+2. ""Settings page loads""
+3. ""Cancellation Type = Do not allow""
+","1. ""Cancel Config = Off""
+2. """"
+3. ""Expected: Do not allow""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Type – Enabled when Allow Cancellation is selected,"AC 01.2 - Decision Table: Cancellation Type is enabled and required when one or both Allow Cancellation checkboxes are selected.","Admin has access to Master Event settings",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Check Allow Cancellation for Booking System Participants""
+3. ""Check Cancellation Type field state""
+4. ""Uncheck both Allow Cancellation checkboxes""
+5. ""Check Cancellation Type field state""
+","1. ""Settings page loads""
+2. ""Checkbox is checked""
+3. ""Cancellation Type is enabled and required""
+4. ""Both checkboxes are unchecked""
+5. ""Cancellation Type is disabled""
+","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Type – Do not allow disables cancel-related fields,"AC 01.2 - Decision Table: When Cancellation Type = Do not allow, other cancel-related fields are disabled.","Admin has access to Master Event settings
+Allow Cancellation checkbox is selected",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Set Cancellation Type to Do not allow""
+3. ""Check Cancellation Deadline field state""
+","1. ""Settings page loads""
+2. ""Cancellation Type = Do not allow""
+3. ""Cancellation Deadline field is disabled""
+","1. """"
+2. """"
+3. """"
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Type – Single select only,"AC 01.2 - Equivalence Partitioning: Only one Cancellation Type option can be selected at a time.","Admin has access to Master Event settings
+Allow Cancellation checkbox is selected",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Select Cancellation Type = Cancel""
+3. ""Change to Cancellation Type = Cancel Request""
+4. ""Check previously selected option""
+","1. ""Settings page loads""
+2. ""Cancel is selected""
+3. ""Cancel Request is selected""
+4. ""Cancel is deselected (single select only)""
+","1. """"
+2. """"
+3. """"
+4. """"
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Deadline – Enabled when Cancellation Type is Cancel or Cancel Request,"AC 01.3 - Decision Table: Cancellation Deadline fields enabled when Cancellation Type is Cancel or Cancel Request.","Admin has access to Master Event settings
+Allow Cancellation checkbox is selected",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Set Cancellation Type = Cancel""
+3. ""Check Cancellation Deadline field state""
+4. ""Set Cancellation Type = Cancel Request""
+5. ""Check Cancellation Deadline field state""
+","1. ""Settings page loads""
+2. ""Cancel selected""
+3. ""Cancellation Deadline field is enabled""
+4. ""Cancel Request selected""
+5. ""Cancellation Deadline field is enabled""
+","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Deadline – Default disabled,"AC 01.3 - Equivalence Partitioning: Cancellation Deadline is disabled by default.","Admin has access to Master Event settings",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings for a new event""
+2. ""Check Cancellation Deadline field state""
+","1. ""Settings page loads""
+2. ""Cancellation Deadline field is disabled (default)""
+","1. """"
+2. """"
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Deadline – 0 or null means deadline equals event date,"AC 01.3 - BVA: When cancellation deadline is 0 or null, deadline is the same as the event date.","Master Event has:
+- Cancellation Type = Cancel
+- Cancellation Deadline = 0
+- Event Date = 2026-04-01 09:00 (Event Timezone)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student who booked the event""
+2. ""Open event detail 1 hour before event start""
+3. ""Check Cancel Reservation button state""
+","1. ""App loads""
+2. ""Event detail displayed""
+3. ""Cancel Reservation button is visible and enabled (deadline = event date, current time is before event)""
+","1. """"
+2. ""Event Date = 2026-04-01 09:00, Cancellation Deadline = 0""
+3. ""Current time = 2026-04-01 08:00""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Deadline – Correct cutoff calculation,"AC 01.3 - BVA: Cancellation cutoff = Event Start Datetime minus Cancellation Deadline hours.","Master Event has:
+- Cancellation Type = Cancel
+- Cancellation Deadline = 24 hours
+- Event Date = 2026-04-01 08:00 (Event Timezone)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app at 2026-03-31 07:59 (before cutoff)""
+2. ""Open event detail and check Cancel Reservation button""
+3. ""Login to learner app at 2026-03-31 08:01 (after cutoff)""
+4. ""Open event detail and check Cancel Reservation button""
+","1. ""App loads""
+2. ""Cancel Reservation button is visible and enabled""
+3. ""App loads""
+4. ""Cancel Reservation button is disabled""
+","1. ""Current time = 2026-03-31 07:59""
+2. ""Cutoff = 2026-03-31 08:00""
+3. ""Current time = 2026-03-31 08:01""
+4. ""Cutoff = 2026-03-31 08:00""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Deadline – Update deadline for in-progress event shows warning,"AC 01.3 - State Transition: Warning message displayed when updating deadline for an event that has already started.","Master Event has activity events
+At least one activity event date <= current date",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Update Cancellation Deadline value""
+3. ""Save settings""
+","1. ""Settings page loads""
+2. ""New deadline value entered""
+3. ""Message displayed: This event is already in progress. Changes to the cancellation deadline will only apply to activities that have not yet started.""
+","1. """"
+2. ""New Cancellation Deadline = 48""
+3. """"
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Deadline – Update deadline confirm recomputes for unstarted activities,"AC 01.3 - State Transition: Clicking Confirm on the warning recomputes cancellation deadline for unstarted activity events only.","Master Event has:
+- 3 activity events: past, today, future
+- Current Cancellation Deadline = 24 hours",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Update Cancellation Deadline to 48 hours""
+3. ""Click Confirm on the warning message""
+4. ""Check the cancellation deadline of the future activity event""
+","1. ""Settings page loads""
+2. ""Warning message displayed""
+3. ""Deadline recomputed for unstarted activities""
+4. ""Future activity event has updated cancellation cutoff based on 48 hours""
+","1. """"
+2. ""New Cancellation Deadline = 48""
+3. """"
+4. ""Only future activities are recomputed""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Deadline – Update deadline cancel closes popup without change,"AC 01.3 - State Transition: Clicking Cancel on the warning dismisses the popup without recomputing.","Master Event has activity events that have already started
+Admin is updating Cancellation Deadline",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Update Cancellation Deadline to 48 hours""
+3. ""Click Cancel on the warning message""
+4. ""Check activity event cancellation deadlines""
+","1. ""Settings page loads""
+2. ""Warning message displayed""
+3. ""Popup closes""
+4. ""No cancellation deadlines are changed""
+","1. """"
+2. """"
+3. """"
+4. ""Original Cancellation Deadline unchanged""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Cancellation Deadline – Update for not-started event shows no warning,"AC 01.3 - Decision Table: No warning when the event has not started yet; deadline is recomputed silently.","Master Event has only future activity events
+No activity event date <= current date",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Update Cancellation Deadline to 48 hours""
+3. ""Save settings""
+","1. ""Settings page loads""
+2. ""New deadline value entered""
+3. ""No warning message displayed; Deadline recomputed for all activities""
+","1. """"
+2. ""New Cancellation Deadline = 48""
+3. """"
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Notification Settings – Response Notification field with default none,"AC 01.4 - Equivalence Partitioning: Response Notification field exists with default value none.","Admin has access to Master Event settings",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Locate Reminders and Notification Settings section""
+3. ""Check Response Notification field default value""
+","1. ""Settings page loads""
+2. ""Section displayed""
+3. ""Response Notification = none (default)""
+","1. """"
+2. """"
+3. ""Expected default: none""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Notification Settings – Set Response Notification to Cancel,"AC 01.4 - Equivalence Partitioning: Setting Response Notification to Cancel triggers SF notifications for both Cancel and Cancel Request actions.","Admin has access to Master Event settings",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Set Response Notification = Cancel""
+3. ""Save settings""
+4. ""Re-open Master Event settings""
+","1. ""Settings page loads""
+2. ""Cancel option selected""
+3. ""Settings saved successfully""
+4. ""Response Notification = Cancel""
+","1. """"
+2. """"
+3. """"
+4. """"
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Notification Settings – Cancel Notification set but cancellation settings not configured,"AC 01.4 - Decision Table: No notification triggered when Cancel Notification is set but cancellation settings are not configured (Cancel button not visible).","Master Event has:
+- Response Notification = Cancel
+- Cancellation Type = Do not allow (or Allow Cancellation unchecked)",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Open booked event detail""
+3. ""Confirm Cancel Reservation button is not visible""
+","1. ""App loads""
+2. ""Event detail displayed""
+3. ""Cancel Reservation button is NOT visible; No notification can be triggered""
+","1. """"
+2. """"
+3. ""Response Notification = Cancel, Cancel Type = Do not allow""
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Notification Settings – Tooltip displayed for Response Notification,"AC 01.4 - Equivalence Partitioning: Tooltip displays correct message for Response Notification field.","Admin has access to Master Event settings",,,low,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Master Event settings""
+2. ""Hover over Response Notification tooltip""
+","1. ""Settings page loads""
+2. ""Tooltip displays: Send a Salesforce notification when the mobile app user submits a response.""
+","1. """"
+2. """"
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Booking Info – Booking Start Date before current date disables Reserve button,"AC 01.5 - BVA: When current date < booking start date, Reserve button is disabled and message is shown.","Master Event has:
+- Booking Start Date = 2026-04-15
+- Current Date = 2026-04-10",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app""
+2. ""Navigate to the event""
+3. ""Check Reserve button state""
+4. ""Check displayed message""
+","1. ""App loads""
+2. ""Event detail displayed""
+3. ""Reserve button is disabled""
+4. ""Message: This event will be available for booking from 2026-04-15""
+","1. """"
+2. ""Booking Start Date = 2026-04-15""
+3. ""Current Date = 2026-04-10""
+4. """"
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,Cancel Booked Event – Event Master View – New sections and fields reflected,"AC 01.6 - Equivalence Partitioning: Event Master View displays Cancellation Settings, Reminders & Notifications, and Booking Settings sections.","Admin has access to Event Master View",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Event Master View""
+2. ""Check for Cancellation Settings section""
+3. ""Check for Reminders & Notifications section""
+4. ""Check for Booking Settings section""
+","1. ""Event Master View loads""
+2. ""Cancellation Settings section is displayed""
+3. ""Reminders & Notifications section is displayed""
+4. ""Booking Settings section is displayed""
+","1. """"
+2. """"
+3. """"
+4. """"
+",,,2446,,US01 - Configure Cancellation Settings,,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,US02 - Display Cancel Reservation Action,1,,,,
+,Cancel Booked Event – Cancel Button – Eligible booked participant sees enabled button,"AC 02.1 - Decision Table: Cancel Reservation button is visible and enabled for eligible booked participant.","Master Event has:
+- Cancel Type = Cancel
+- Allow_Cancel_Booked__c = true
+- Cancellation Deadline not expired
+- Event Date is in the future
+Student booked via booking system
+Response Status = Attend",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Open booked event detail""
+3. ""Check Cancel Reservation button""
+","1. ""App loads""
+2. ""Event detail screen displayed""
+3. ""Cancel Reservation button is visible and enabled""
+","1. """"
+2. """"
+3. ""Participant Source = Booked, Allow_Cancel_Booked__c = true""
+",,,2446,,US02 - Display Cancel Reservation Action,,,,,
+,Cancel Booked Event – Cancel Button – Eligible direct participant sees enabled button,"AC 02.1 - Decision Table: Cancel Reservation button visible and enabled for eligible directly added participant.","Master Event has:
+- Cancel Type = Cancel
+- Allow_Cancel_Direct__c = true
+- Cancellation Deadline not expired
+- Event Date is in the future
+Participant added manually in SF
+Response Status = Attend",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as participant""
+2. ""Open the event detail""
+3. ""Check Cancel Reservation button""
+","1. ""App loads""
+2. ""Event detail screen displayed""
+3. ""Cancel Reservation button is visible and enabled""
+","1. """"
+2. """"
+3. ""Participant Source = Direct, Allow_Cancel_Direct__c = true""
+",,,2446,,US02 - Display Cancel Reservation Action,,,,,
+,Cancel Booked Event – Cancel Button – Deadline is 0 hides Cancellation Deadline section,"AC 02.1 - Equivalence Partitioning: When cancellation deadline is empty or 0 and user is eligible, Cancellation Deadline section is hidden.","Master Event has:
+- Cancel Type = Cancel
+- Allow_Cancel_Booked__c = true
+- Cancellation Deadline = 0
+Student booked via booking system",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Open booked event detail""
+3. ""Check for Cancellation Deadline section""
+","1. ""App loads""
+2. ""Event detail screen displayed""
+3. ""Cancellation Deadline section is hidden""
+","1. """"
+2. """"
+3. ""Cancellation Deadline = 0""
+",,,2446,,US02 - Display Cancel Reservation Action,,,,,
+,Cancel Booked Event – Cancel Button – Disabled when deadline expired,"AC 02.2 - BVA: Cancel Reservation button is disabled when cancellation deadline has expired.","Master Event has:
+- Cancel Type = Cancel
+- Allow_Cancel_Booked__c = true
+- Cancellation Deadline = 24 hours
+- Event Date = 2026-04-01 08:00
+- Current Time = 2026-03-31 09:00 (after cutoff 2026-03-31 08:00)
+Student booked via booking system",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Open booked event detail""
+3. ""Check Cancel Reservation button""
+","1. ""App loads""
+2. ""Event detail screen displayed""
+3. ""Cancel Reservation button is disabled""
+","1. """"
+2. ""Cancellation Deadline = 24 hours, Event = 2026-04-01 08:00""
+3. ""Current Time = 2026-03-31 09:00, Cutoff = 2026-03-31 08:00""
+",,,2446,,US02 - Display Cancel Reservation Action,,,,,
+,Cancel Booked Event – Cancel Button – Disabled when event is in the past,"AC 02.2 - BVA: Cancel Reservation button is disabled when event is in the past.","Master Event has:
+- Cancel Type = Cancel
+- Allow_Cancel_Booked__c = true
+- Event Date = 2026-03-10 08:00 (past)
+- Current Date = 2026-03-16
+Student booked via booking system",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Open the past event detail""
+3. ""Check Cancel Reservation button""
+","1. ""App loads""
+2. ""Event detail screen displayed""
+3. ""Cancel Reservation button is disabled""
+","1. """"
+2. ""Event Date = 2026-03-10 (past)""
+3. ""Current Date = 2026-03-16""
+",,,2446,,US02 - Display Cancel Reservation Action,,,,,
+,Cancel Booked Event – Cancel Button – Hidden when participant not allowed to cancel,"AC 02.3 - Decision Table: Cancel Reservation button hidden when participant source does not match allowed cancellation settings.","Master Event has:
+- Cancel Type = Cancel
+- Allow_Cancel_Direct__c = false
+- Allow_Cancel_Booked__c = false
+Student booked via booking system",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Open booked event detail""
+3. ""Check for Cancel Reservation button""
+","1. ""App loads""
+2. ""Event detail screen displayed""
+3. ""Cancel Reservation button is NOT visible (hidden)""
+","1. """"
+2. """"
+3. ""Allow_Cancel_Direct__c = false, Allow_Cancel_Booked__c = false""
+",,,2446,,US02 - Display Cancel Reservation Action,,,,,
+,Cancel Booked Event – Cancel Button – Hidden for direct participant when only booking cancellation allowed,"AC 02.3 - Decision Table: Direct participant cannot cancel when only Allow_Cancel_Booked__c = true.","Master Event has:
+- Cancel Type = Cancel
+- Allow_Cancel_Direct__c = false
+- Allow_Cancel_Booked__c = true
+Participant added manually in SF (Direct)",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as direct participant""
+2. ""Open the event detail""
+3. ""Check for Cancel Reservation button""
+","1. ""App loads""
+2. ""Event detail screen displayed""
+3. ""Cancel Reservation button is NOT visible (hidden)""
+","1. """"
+2. """"
+3. ""Participant Source = Direct, Allow_Cancel_Direct__c = false""
+",,,2446,,US02 - Display Cancel Reservation Action,,,,,
+,Cancel Booked Event – Cancel Button – Not shown for already Canceled participant,"AC 02.1 - State Transition: Cancel button not shown when Response Status is already Canceled.","Master Event has:
+- Cancel Type = Cancel
+- Allow_Cancel_Booked__c = true
+Student has Response Status = Canceled",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Open the event detail""
+3. ""Check for Cancel Reservation button""
+","1. ""App loads""
+2. ""Event detail screen displayed with Canceled status""
+3. ""Cancel Reservation button is NOT visible""
+","1. """"
+2. ""Response Status = Canceled""
+3. """"
+",,,2446,,US02 - Display Cancel Reservation Action,,,,,
+,Cancel Booked Event – Cancel Button – Not shown for Cancel Requested participant,"AC 02.1 - State Transition: Cancel button not shown when Response Status is already Cancel Requested.","Master Event has:
+- Cancel Type = Cancel Request
+- Allow_Cancel_Booked__c = true
+Student has Response Status = Cancel Requested",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Open the event detail""
+3. ""Check for Cancel Reservation button""
+","1. ""App loads""
+2. ""Event detail screen displayed with Cancel Requested status""
+3. ""Cancel Reservation button is NOT visible""
+","1. """"
+2. ""Response Status = Cancel Requested""
+3. """"
+",,,2446,,US02 - Display Cancel Reservation Action,,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,US03 - Cancel Event Booking (Cancel Now),1,,,,
+,Cancel Booked Event – Cancel Now – Confirmation modal displayed with correct content,"AC 03.1 - Equivalence Partitioning: Cancel Reservation modal displays event info and required fields.","Master Event has Cancel Type = Cancel
+Student has booked the event
+Cancel Reservation button is enabled",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Open booked event detail""
+3. ""Tap Cancel Reservation button""
+4. ""Check modal content""
+","1. ""App loads""
+2. ""Event detail displayed""
+3. ""Cancel Reservation modal opens""
+4. ""Modal contains: confirmation message, Event Activity name, date/time, Cancellation Reason field, Cancellation Deadline Date""
+","1. """"
+2. """"
+3. """"
+4. ""EN: Are you sure you want to cancel your reservation to this event?""
+",,,2446,,US03 - Cancel Event Booking (Cancel Now),,,,,
+,Cancel Booked Event – Cancel Now – Confirm button disabled until reason selected,"AC 03.2 - Equivalence Partitioning: Confirm Cancellation button disabled until a cancellation reason is selected.","Cancel Reservation modal is displayed",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Cancel Reservation modal""
+2. ""Check Confirm Cancellation button state without selecting reason""
+3. ""Select a cancellation reason (e.g. Schedule conflict)""
+4. ""Check Confirm Cancellation button state""
+","1. ""Modal displayed""
+2. ""Confirm Cancellation button is disabled""
+3. ""Reason selected""
+4. ""Confirm Cancellation button is enabled""
+","1. """"
+2. """"
+3. ""Cancellation Reason = Schedule conflict""
+4. """"
+",,,2446,,US03 - Cancel Event Booking (Cancel Now),,,,,
+,Cancel Booked Event – Cancel Now – All cancellation reason options available,"AC 03.2 - Equivalence Partitioning: All 8 predefined cancellation reason options displayed.","Cancel Reservation modal is displayed",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Cancel Reservation modal""
+2. ""Open Cancellation Reason dropdown""
+3. ""List all available options""
+","1. ""Modal displayed""
+2. ""Dropdown opens""
+3. ""Options: Schedule conflict, Not feeling well / Health reason, School event / Exam, Family reason, Transportation issue, Forgot / Mistaken booking, No longer interested, Other""
+","1. """"
+2. """"
+3. ""8 predefined options""
+",,,2446,,US03 - Cancel Event Booking (Cancel Now),,,,,
+,Cancel Booked Event – Cancel Now – Other reason requires detail input,"AC 03.3 - Decision Table: Confirm button remains disabled when Other is selected but detail is empty.","Cancel Reservation modal is displayed",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Cancel Reservation modal""
+2. ""Select Other as cancellation reason""
+3. ""Leave Cancellation Reason Detail field empty""
+4. ""Check Confirm Cancellation button state""
+5. ""Enter reason detail text""
+6. ""Check Confirm Cancellation button state""
+","1. ""Modal displayed""
+2. ""Other selected""
+3. ""Detail field is empty""
+4. ""Confirm Cancellation button is disabled""
+5. ""Detail field populated""
+6. ""Confirm Cancellation button is enabled""
+","1. """"
+2. ""Cancellation Reason = Other""
+3. """"
+4. """"
+5. ""Detail = I will take this in another location.""
+6. """"
+",,,2446,,US03 - Cancel Event Booking (Cancel Now),,,,,
+,Cancel Booked Event – Cancel Now – Execute immediate cancellation with reason,"AC 03.4 - State Transition: System updates Response Status to Canceled and removes participant on Cancel Now.","Master Event has Cancel Type = Cancel
+Cancel Reservation modal displayed
+Cancellation Reason = Schedule conflict",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select cancellation reason: Schedule conflict""
+2. ""Tap Confirm Cancellation""
+3. ""Check success message""
+4. ""Check calendar screen""
+5. ""Check participant list in SF""
+","1. ""Reason selected""
+2. ""Cancellation processed""
+3. ""Message: Your reservation to this event is cancelled""
+4. ""Event card shows Canceled status on calendar""
+5. ""Participant removed from participant list; Event capacity updated""
+","1. ""Cancellation Reason = Schedule conflict""
+2. """"
+3. ""EN message""
+4. """"
+5. """"
+",,,2446,,US03 - Cancel Event Booking (Cancel Now),,,,,
+,Cancel Booked Event – Cancel Now – Execute with Other reason and detail saves correctly,"AC 03.4 - State Transition: Cancellation Reason Detail saved and appended with prefix when Other is selected.","Master Event has Cancel Type = Cancel
+Cancel Reservation modal displayed",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select Other as cancellation reason""
+2. ""Enter reason detail: I will take this in another location.""
+3. ""Tap Confirm Cancellation""
+4. ""Check participant record in SF""
+","1. ""Other selected""
+2. ""Detail entered""
+3. ""Cancellation processed, success message displayed""
+4. ""Cancellation Reason = Other, Cancellation Reason Detail = Cancel Reason: I will take this in another location.""
+","1. ""Cancellation Reason = Other""
+2. ""Detail = I will take this in another location.""
+3. """"
+4. """"
+",,,2446,,US03 - Cancel Event Booking (Cancel Now),,,,,
+,Cancel Booked Event – Cancel Now – Success message displayed in JP locale,"AC 03.4 - Equivalence Partitioning: JP success message displayed for Japanese locale user.","Master Event has Cancel Type = Cancel
+Student device language = Japanese
+Cancel Reservation modal displayed
+Cancellation Reason selected",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set device language to Japanese""
+2. ""Complete cancellation flow""
+3. ""Check success message""
+","1. ""Language set to JP""
+2. ""Cancellation processed""
+3. ""Message: イベントの予約がキャンセルされました""
+","1. ""Device Language = JP""
+2. """"
+3. """"
+",,,2446,,US03 - Cancel Event Booking (Cancel Now),,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,US04 - Cancel Reservation (Cancel Request),1,,,,
+,Cancel Booked Event – Cancel Request – Confirmation modal with correct message,"AC 04.1 - Equivalence Partitioning: Cancel Request modal shows correct confirmation message and event info.","Master Event has Cancel Type = Cancel Request
+Student has booked the event
+Cancel Reservation button is enabled",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Open booked event detail""
+3. ""Tap Cancel Reservation button""
+4. ""Check modal content""
+","1. ""App loads""
+2. ""Event detail displayed""
+3. ""Cancel Reservation modal opens""
+4. ""Modal contains: EN: Are you sure you want to send cancellation request for this event?, Event Activity name, date/time, Cancellation Reason field""
+","1. """"
+2. """"
+3. """"
+4. """"
+",,,2446,,US04 - Cancel Reservation (Cancel Request),,,,,
+,Cancel Booked Event – Cancel Request – Execute sets status to Cancel Requested and keeps participant,"AC 04.2 - State Transition: System sets Response Status to Cancel Requested and does NOT remove participant.","Master Event has Cancel Type = Cancel Request
+Cancel Reservation modal displayed
+Cancellation Reason selected",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select cancellation reason: Family reason""
+2. ""Tap Confirm Cancellation""
+3. ""Check success message""
+4. ""Check participant list in SF""
+5. ""Check calendar screen""
+","1. ""Reason selected""
+2. ""Request processed""
+3. ""Message: Your cancellation request has been submitted.""
+4. ""Participant REMAINS in participant list with Response Status = Cancel Requested""
+5. ""Event card shows Cancel Requested status on calendar""
+","1. ""Cancellation Reason = Family reason""
+2. """"
+3. ""EN message""
+4. """"
+5. """"
+",,,2446,,US04 - Cancel Reservation (Cancel Request),,,,,
+,Cancel Booked Event – Cancel Request – Cancellation Request Date stored,"AC 04.2 - Data Integrity: System stores the Cancellation Request Date when user sends the cancellation request.","Master Event has Cancel Type = Cancel Request
+Cancel Reservation modal displayed
+Cancellation Reason selected",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Complete cancel request flow at 2026-04-01 10:30""
+2. ""Check participant record in SF""
+","1. ""Request processed""
+2. ""Cancellation_Request_Date__c = 2026-04-01 10:30""
+","1. ""Current date/time = 2026-04-01 10:30""
+2. """"
+",,,2446,,US04 - Cancel Reservation (Cancel Request),,,,,
+,Cancel Booked Event – Cancel Request – JP success message displayed,"AC 04.2 - Equivalence Partitioning: JP success message for Cancel Request.","Master Event has Cancel Type = Cancel Request
+Student device language = Japanese
+Cancellation Reason selected",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set device language to Japanese""
+2. ""Complete cancel request flow""
+3. ""Check success message""
+","1. ""Language set to JP""
+2. ""Request processed""
+3. ""Message: キャンセルリクエストが送信されました""
+","1. ""Device Language = JP""
+2. """"
+3. """"
+",,,2446,,US04 - Cancel Reservation (Cancel Request),,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,US05 - Input Cancellation Reason,1,,,,
+,Cancel Booked Event – Reason Detail – Maximum 255 characters enforced,"AC 05.2 - BVA: Cancellation Reason Detail field enforces 255 character limit.","Cancel Reservation modal is displayed
+Cancellation Reason = Other",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select Other as cancellation reason""
+2. ""Enter exactly 255 characters in the detail field""
+3. ""Check field accepts the input""
+4. ""Enter 256 characters in the detail field""
+5. ""Check for validation error""
+","1. ""Other selected""
+2. ""255 characters entered""
+3. ""Input accepted, character counter shows 255/255""
+4. ""256th character entered""
+5. ""Inline error message is shown""
+","1. """"
+2. ""255 character string""
+3. """"
+4. ""256 character string""
+5. """"
+",,,2446,,US05 - Input Cancellation Reason,,,,,
+,Cancel Booked Event – Reason Detail – Character counter displayed,"AC 05.2 - Equivalence Partitioning: Character counter is displayed while entering Cancellation Reason Detail.","Cancel Reservation modal is displayed
+Cancellation Reason = Other",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select Other as cancellation reason""
+2. ""Type 10 characters in the detail field""
+3. ""Check character counter""
+","1. ""Other selected""
+2. ""Text entered""
+3. ""Character counter displays 10/255""
+","1. """"
+2. ""Text = 1234567890""
+3. """"
+",,,2446,,US05 - Input Cancellation Reason,,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,US06 - Check Cancellation Status,1,,,,
+,Cancel Booked Event – Calendar – Canceled event remains visible with Canceled status,"AC 06.1 - State Transition: After Cancel Now, event card remains on calendar with Canceled status and visual indicator.","Student has completed Cancel Now flow for an event",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Navigate to calendar""
+3. ""Locate the canceled event card""
+4. ""Tap the event card""
+","1. ""App loads""
+2. ""Calendar displayed""
+3. ""Event card visible with Canceled status text and visual indicator""
+4. ""Event detail page opens""
+","1. """"
+2. """"
+3. ""Response Status = Canceled""
+4. """"
+",,,2446,,US06 - Check Cancellation Status,,,,,
+,Cancel Booked Event – Calendar – Cancel Requested event remains visible with Cancel Requested status,"AC 06.1 - State Transition: After Cancel Request, event card remains on calendar with Cancel Requested status and visual indicator.","Student has completed Cancel Request flow for an event",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student""
+2. ""Navigate to calendar""
+3. ""Locate the cancel-requested event card""
+4. ""Tap the event card""
+","1. ""App loads""
+2. ""Calendar displayed""
+3. ""Event card visible with Cancel Requested status text and visual indicator""
+4. ""Event detail page opens""
+","1. """"
+2. """"
+3. ""Response Status = Cancel Requested""
+4. """"
+",,,2446,,US06 - Check Cancellation Status,,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,US07 - Receive Cancellation Notifications,1,,,,
+,Cancel Booked Event – Notification – Staff receives SF bell notification on Cancel Now,"AC 07.1 - Integration: Salesforce in-app notification sent to event staff when student completes Cancel Now.","Master Event has:
+- Response Notification = Cancel
+- Staff assigned as Master Participant - Master Staff
+Student has booked the event
+Cancel Type = Cancel",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student completes Cancel Now flow""
+2. ""Login to Salesforce as assigned staff""
+3. ""Check bell notification""
+4. ""Check notification content""
+","1. ""Cancellation processed""
+2. ""SF loaded""
+3. ""New notification received""
+4. ""Notification contains: Student name, Event Activity name, Cancellation type = Cancel, Cancellation reason and details""
+","1. """"
+2. """"
+3. """"
+4. """"
+",,,2446,,US07 - Receive Cancellation Notifications,,,,,
+,Cancel Booked Event – Notification – Staff receives SF bell notification on Cancel Request,"AC 07.1 - Integration: Salesforce in-app notification sent to event staff when student completes Cancel Request.","Master Event has:
+- Response Notification = Cancel
+- Staff assigned as Master Participant - Master Staff
+Student has booked the event
+Cancel Type = Cancel Request",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student completes Cancel Request flow""
+2. ""Login to Salesforce as assigned staff""
+3. ""Check bell notification""
+4. ""Check notification content""
+","1. ""Request processed""
+2. ""SF loaded""
+3. ""New notification received""
+4. ""Notification contains: Student name, Event Activity name, Cancellation type = Cancel Request, Cancellation reason and details""
+","1. """"
+2. """"
+3. """"
+4. """"
+",,,2446,,US07 - Receive Cancellation Notifications,,,,,
+,Cancel Booked Event – Notification – No notification when Response Notification = none,"AC 07.1 - Decision Table: No SF notification sent when Response Notification setting is none.","Master Event has:
+- Response Notification = none
+Student has booked the event
+Cancel Type = Cancel",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student completes Cancel Now flow""
+2. ""Login to Salesforce as assigned staff""
+3. ""Check bell notification""
+","1. ""Cancellation processed""
+2. ""SF loaded""
+3. ""No new notification related to cancellation""
+","1. """"
+2. """"
+3. ""Response Notification = none""
+",,,2446,,US07 - Receive Cancellation Notifications,,,,,
+,Cancel Booked Event – Notification – Notification sent immediately after cancellation,"AC 07.1 - Integration: Notification timing is immediately after cancellation is processed.","Master Event has:
+- Response Notification = Cancel
+- Staff assigned as Master Participant
+Student completes cancellation",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student completes Cancel Now at 10:00""
+2. ""Staff checks SF bell notification at 10:01""
+","1. ""Cancellation processed""
+2. ""Notification received (timing: immediately after processing)""
+","1. ""Cancellation time = 10:00""
+2. """"
+",,,2446,,US07 - Receive Cancellation Notifications,,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,US08 - Cancellation Status List,1,,,,
+,Cancel Booked Event – Participant List – Response column displays all statuses correctly,"AC 08.1 - Equivalence Partitioning: Each participant Response displays correct value in dedicated column.","Event has participants with different statuses:
+- Participant A: Attend
+- Participant B: Absent
+- Participant C: Canceled
+- Participant D: Cancel Requested",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to SF as staff""
+2. ""Open event participant list""
+3. ""Check Response column for each participant""
+","1. ""SF loaded""
+2. ""Participant list displayed""
+3. ""Participant A = Attend, Participant B = Absent, Participant C = Canceled, Participant D = Cancel Requested""
+","1. """"
+2. """"
+3. """"
+",,,2446,,US08 - Cancellation Status List,,,,,
+,Cancel Booked Event – Participant List – Requested Date displayed for canceled participants,"AC 08.1 - Data Integrity: Requested Date column shows date and time of cancellation request.","Event has a participant with Cancel Requested status
+Cancellation Request Date = 2026-04-01 10:30",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to SF as staff""
+2. ""Open event participant list""
+3. ""Check Requested Date for the Cancel Requested participant""
+","1. ""SF loaded""
+2. ""Participant list displayed""
+3. ""Requested Date = 2026-04-01 10:30""
+","1. """"
+2. """"
+3. ""Cancellation_Request_Date__c = 2026-04-01 10:30""
+",,,2446,,US08 - Cancellation Status List,,,,,
+,Cancel Booked Event – Participant Detail – Cancellation Reason and Detail visible,"AC 08.2 - Equivalence Partitioning: Cancellation Reason and Detail shown in participant detail view.","Event has a participant with Canceled status
+Cancellation Reason = Schedule conflict
+Cancellation Reason Detail = blank",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to SF as staff""
+2. ""Open event participant list""
+3. ""Click on the canceled participant""
+4. ""Check Cancellation Reason field""
+","1. ""SF loaded""
+2. ""Participant list displayed""
+3. ""Participant detail view opens""
+4. ""Cancellation Reason = Schedule conflict, Cancellation Reason Detail = blank""
+","1. """"
+2. """"
+3. """"
+4. """"
+",,,2446,,US08 - Cancellation Status List,,,,,
+,Cancel Booked Event – Participant Detail – Staff edits participant response and cancellation reason,"AC 08.3 - CRUD: Staff can edit Response and Cancellation Reason fields from participant detail.","Event has a participant with Cancel Requested status",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to SF as staff""
+2. ""Open participant detail for Cancel Requested participant""
+3. ""Edit Response to Attend""
+4. ""Save changes""
+","1. ""SF loaded""
+2. ""Participant detail opens""
+3. ""Response changed to Attend""
+4. ""Changes saved; Response = Attend""
+","1. """"
+2. """"
+3. ""New Response = Attend""
+4. """"
+",,,2446,,US08 - Cancellation Status List,,,,,
+,Cancel Booked Event – Participant List – Filter shows new Response options,"AC 08.3 - Equivalence Partitioning: Filter on Event Participant View All shows updated Response options.","Staff is viewing Event Participant list",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Click Event Participant - View All""
+2. ""Open the Filter""
+3. ""Check Response filter options""
+","1. ""Participant list opens""
+2. ""Filter panel opens""
+3. ""Options include: Attend, Absent, Cancel, Cancel Request""
+","1. """"
+2. """"
+3. """"
+",,,2446,,US08 - Cancellation Status List,,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,US09 - Handle Post-Cancellation Actions,1,,,,
+,Cancel Booked Event – Post-Cancellation – Staff manually removes participant from event,"AC 09.1 - CRUD: Staff can manually remove a Cancel Requested participant from the event (affects capacity).","Event has a participant with Cancel Requested status
+Current event capacity = 9/10",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to SF as staff""
+2. ""Open event participant list""
+3. ""Remove the Cancel Requested participant""
+4. ""Check event capacity""
+","1. ""SF loaded""
+2. ""Participant list displayed""
+3. ""Participant removed from the list""
+4. ""Event capacity updated to 8/10""
+","1. """"
+2. """"
+3. """"
+4. ""Previous capacity = 9/10""
+",,,2446,,US09 - Handle Post-Cancellation Actions,,,,,
+,Cancel Booked Event – Post-Cancellation – Staff sets participant as absent,"AC 09.1 - State Transition: Staff can change Cancel Requested participant status to Absent.","Event has a participant with Cancel Requested status",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to SF as staff""
+2. ""Open participant detail""
+3. ""Change Response to Absent""
+4. ""Save changes""
+","1. ""SF loaded""
+2. ""Participant detail opens""
+3. ""Response changed""
+4. ""Response = Absent saved; Participant remains in participant list""
+","1. """"
+2. """"
+3. ""New Response = Absent""
+4. """"
+",,,2446,,US09 - Handle Post-Cancellation Actions,,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,US10 - Re-book After Cancellation,1,,,,
+,Cancel Booked Event – Re-book – Student can re-book after cancellation with available capacity,"AC 10.1 - State Transition: Student who previously canceled can re-book the same event when capacity is available.","Student previously canceled an event (removed from participant list)
+Event has available capacity
+Event booking is still open",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to learner app as student who previously canceled""
+2. ""Navigate to the same event""
+3. ""Tap Reserve/Book button""
+4. ""Complete booking""
+5. ""Check participant list in SF""
+","1. ""App loads""
+2. ""Event detail displayed with available capacity""
+3. ""Booking flow starts""
+4. ""Booking confirmed""
+5. ""Student appears as new participant; New record has blank cancellation response, reason, details""
+","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+",,,2446,,US10 - Re-book After Cancellation,,,,,
+,Cancel Booked Event – Re-book – Previous cancellation record retained for audit,"AC 10.1 - Data Integrity: Previous cancellation record remains retained with original cancellation data for audit.","Student previously canceled an event
+Student has re-booked the same event",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to SF as staff""
+2. ""Check field tracking / history for the event participant""
+3. ""Verify previous cancellation record""
+","1. ""SF loaded""
+2. ""Field tracking history displayed""
+3. ""Previous record shows: original cancellation response, cancellation reason, cancellation reason details retained""
+","1. """"
+2. """"
+3. """"
+",,,2446,,US10 - Re-book After Cancellation,,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,Timezone and Evaluation,1,,,,
+,Cancel Booked Event – Timezone – Cancellation deadline evaluated in event timezone not user device timezone,"Data Entity A - Integration: Cancellation deadline is always evaluated in Event timezone regardless of user device timezone.","Master Event has:
+- Event Timezone = JST (UTC+9)
+- Event Date = 2026-04-01 08:00 JST
+- Cancellation Deadline = 24 hours
+- Cutoff = 2026-03-31 08:00 JST
+Student device timezone = PST (UTC-8)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set student device timezone to PST""
+2. ""Login to learner app at 2026-03-30 15:00 PST (= 2026-03-31 08:00 JST = cutoff)""
+3. ""Open event detail and check Cancel Reservation button""
+4. ""Login at 2026-03-30 15:01 PST (= 2026-03-31 08:01 JST = after cutoff)""
+5. ""Open event detail and check Cancel Reservation button""
+","1. ""Device timezone = PST""
+2. ""App loads""
+3. ""Cancel Reservation button is enabled (at exact cutoff boundary)""
+4. ""App loads""
+5. ""Cancel Reservation button is disabled (past cutoff in event timezone)""
+","1. ""Device TZ = PST""
+2. ""2026-03-30 15:00 PST = 2026-03-31 08:00 JST""
+3. """"
+4. ""2026-03-30 15:01 PST = 2026-03-31 08:01 JST""
+5. """"
+",,,2446,,Timezone and Evaluation,,,,,
+,,,,,,,,,,,,,,,,,,,,2446,,Localization,1,,,,
+,Cancel Booked Event – Localization – EN labels for Cancellation Settings on Master Event,"Localization - Equivalence Partitioning: English labels for all Cancellation Settings fields on Master Event.","Admin UI language = English",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set UI language to English""
+2. ""Open Master Event settings""
+3. ""Check section title""
+4. ""Check field labels: Cancellation Type, Cancellation Deadline, Response Notification""
+","1. ""Language set to EN""
+2. ""Settings page loads""
+3. ""Section title: Cancellation Setting""
+4. ""Labels: Cancellation Type, Cancellation Deadline, Response Notification""
+","1. ""UI Language = EN""
+2. """"
+3. """"
+4. """"
+",,,2446,,Localization,,,,,
+,Cancel Booked Event – Localization – JP labels for Cancellation Settings on Master Event,"Localization - Equivalence Partitioning: Japanese labels for all Cancellation Settings fields on Master Event.","Admin UI language = Japanese",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set UI language to Japanese""
+2. ""Open Master Event settings""
+3. ""Check section title""
+4. ""Check field labels""
+","1. ""Language set to JP""
+2. ""Settings page loads""
+3. ""Section title: キャンセル設定""
+4. ""Labels: キャンセルタイプ, キャンセル締切時間, キャンセル通知設定""
+","1. ""UI Language = JP""
+2. """"
+3. """"
+4. """"
+",,,2446,,Localization,,,,,
+,Cancel Booked Event – Localization – EN cancellation reason picklist values on mobile,"Localization - Equivalence Partitioning: English cancellation reason options on mobile app.","Student device language = English
+Cancel Reservation modal displayed",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set device language to English""
+2. ""Open Cancel Reservation modal""
+3. ""Check cancellation reason options""
+","1. ""Language set to EN""
+2. ""Modal displayed""
+3. ""Options: Schedule conflict, Not feeling well / Health reason, School event / Exam, Family reason, Transportation issue, Forgot / Mistaken booking, No longer interested, Other""
+","1. ""Device Language = EN""
+2. """"
+3. """"
+",,,2446,,Localization,,,,,
+,Cancel Booked Event – Localization – JP cancellation reason picklist values on mobile,"Localization - Equivalence Partitioning: Japanese cancellation reason options on mobile app.","Student device language = Japanese
+Cancel Reservation modal displayed",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set device language to Japanese""
+2. ""Open Cancel Reservation modal""
+3. ""Check cancellation reason options""
+","1. ""Language set to JP""
+2. ""Modal displayed""
+3. ""Options: 予定があわなくなった, 体調不良, 学校行事, 家庭の理由, 交通機関, 忘れた/予約ミス, 興味がなくなった, その他""
+","1. ""Device Language = JP""
+2. """"
+3. """"
+",,,2446,,Localization,,,,,
+,Cancel Booked Event – Localization – EN/JP confirmation messages for Cancel Now and Cancel Request,"Localization - Equivalence Partitioning: Confirmation and success messages in both EN and JP.","Student has access to Cancel Reservation modal",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set language to EN, open Cancel Now modal""
+2. ""Check confirmation message""
+3. ""Complete cancellation, check success message""
+4. ""Set language to JP, open Cancel Request modal""
+5. ""Check confirmation message""
+6. ""Complete request, check success message""
+","1. ""Modal opens""
+2. ""EN: Are you sure you want to cancel your reservation to this event?""
+3. ""EN: Your reservation to this event is cancelled""
+4. ""Modal opens""
+5. ""JP: イベントのキャンセルリクエストを送信してもよろしいですか？""
+6. ""JP: キャンセルリクエストが送信されました""
+","1. ""Language = EN, Cancel Type = Cancel""
+2. """"
+3. """"
+4. ""Language = JP, Cancel Type = Cancel Request""
+5. """"
+6. """"
+",,,2446,,Localization,,,,,

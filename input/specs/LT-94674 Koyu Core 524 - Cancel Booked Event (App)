@@ -1,0 +1,163 @@
+ID: https://manabie.atlassian.net/browse/LT-94674
+
+## Summary
+
+This epic enhances the Cancel Booked Event flow across Mobile App, Salesforce Core, and Experience Cloud. It provides 24/7 in-app cancellation for students/parents with two cancellation modes (Cancel Now / Cancel Request), mandatory cancellation reasons, deadline control, granular permission settings, staff notifications, and full audit visibility. The PRD was updated (v23) with revised AC 01.1 (Cancel Button visibility now controlled by Cancellation Type instead of Allow Cancellation checkboxes) and AC 01.5 (Open to Booking section).
+
+## Acceptance Criteria
+
+### US01 — Configure Cancellation Settings
+
+| AC | Description |
+|---|---|
+| AC 01.1 | **Mobile's Cancel Button (visibility control)** — Cancel button visible when: Cancellation Type = Cancel or Cancel Request AND Event Activity Date/Time is in the future. Existing Cancel Config no longer controls visibility. Migration: Cancel Config ON → Cancel Type = Cancel; Cancel Config OFF → Cancel Type = Do not allow. |
+| AC 01.2 | **Cancellation Type field** — Enabled by default. Options: Do not allow (hides cancel button, disables related fields), Cancel, Cancellation Request. Single select only. |
+| AC 01.3 | **Cancellation Deadline** — Disabled by default. Enabled when Cancel Type = Cancel or Cancel Request. Integer hours before Event Start Datetime (0–4 digits). If 0 or null, deadline = event date. Update warning for in-progress events; Confirm recomputes for unstarted activities; Cancel dismisses without change. |
+| AC 01.4 | **Reminders and Notification Settings** — Response Notification field (picklist: none (default), Cancel). Tooltip: "Send a Salesforce notification when the mobile app user submits a response." Cancel Notification set but cancellation not configured → no notification triggered. |
+| AC 01.5 | **Open to Booking** — Booking Information (read-only): Who can Reserve and Cancel, Reservation Deadline, Cancellation policy, Create application. Booking Period: Start Date (controls availability; if current < start → disable Reserve, show message), End Date (previously expiration date, no logic change). |
+| AC 01.6 | **Event Master View** — Updated to reflect new sections: Cancellation Settings, Reminders & Notifications, Booking Settings. |
+
+### US02 — Learner App | Display Cancel Reservation Action
+
+| AC | Description |
+|---|---|
+| AC 02.1 | **Cancel Button visible & enabled** — When: Cancel Type = Cancel or Cancel Request, Current Date > calculated actual cancellation deadline and Event Date, Response Status ≠ Canceled/Cancel Requested. **Deadline empty/0** → hide Cancellation Deadline section. |
+| AC 02.2 | **Cancel Button disabled** — When deadline expired OR event in the past. |
+| AC 02.3 | **Cancel Button hidden** — When participant not allowed to cancel based on source/settings. |
+
+### US03 — Cancel Event Booking (Cancel Now)
+
+| AC | Description |
+|---|---|
+| AC 03.1 | **Confirmation modal** — Displays: "Are you sure you want to cancel your reservation to this event?", Event Activity name, date/time, Cancellation reason + detail (if Other), Cancellation Deadline Date. |
+| AC 03.2 | **Mandatory reason** — 8 predefined options. Confirm button disabled until reason selected. |
+| AC 03.3 | **Other requires detail** — Confirm disabled when Other selected but detail empty. |
+| AC 03.4 | **Execute Cancel** — Response Status = Canceled, saves reason + detail, removes participant from list, updates capacity immediately. Success message: "Your reservation to this event is cancelled". Calendar reflects Canceled status. |
+
+### US04 — Cancel Reservation (Cancel Request)
+
+| AC | Description |
+|---|---|
+| AC 04.1 | **Confirmation modal** — Displays: "Are you sure you want to send cancellation request for this event?", Event Activity name, date/time, Cancellation reason. |
+| AC 04.2 | **Execute Cancel Request** — Response Status = Cancel Requested, saves reason + detail, does NOT remove participant from list. Success message: "Your cancellation request has been submitted." Stores Cancellation Request Date. No approval/rejection workflow. |
+
+### US05 — Input Cancellation Reason
+
+| AC | Description |
+|---|---|
+| AC 05.1 | **Reason options** — Schedule conflict, Health reason, School event / exam, Family reason, Transportation issue, Mistaken booking, No longer interested, Other. |
+| AC 05.2 | **Detail constraints** — Max 255 characters, character counter displayed, inline error if exceeded. |
+
+### US06 — Check Cancellation Status
+
+| AC | Description |
+|---|---|
+| AC 06.1 | **Calendar display** — Event remains visible with status text (Canceled / Cancel Requested) + visual indicator. User can tap to view details. |
+
+### US07 — Receive Cancellation Notifications
+
+| AC | Description |
+|---|---|
+| AC 07.1 | **Staff notification** — SF bell notification triggered by mobile-initiated cancellation. Recipients: Master Participant – Master Staff List. Content: student name, event activity name, cancellation type, reason + details. Triggered immediately. |
+
+### US08 — Cancellation Status List
+
+| AC | Description |
+|---|---|
+| AC 08.1 | **Participant list** — Response column: Attend, Absent, Canceled, Cancel Requested. Show Requested Date. |
+| AC 08.2 | **Participant detail** — Show Cancellation Reason + Detail. |
+| AC 08.3 | **Edit participant** — New response selections available. |
+| AC 08.3 | **Filter** — New response options on filter. |
+
+### US09 — Handle Post-Cancellation Actions
+
+| AC | Description |
+|---|---|
+| AC 09.1 | **Manual staff actions** — Remove participant, set absent, process refunds, contact student/parent. All manual, no automation. |
+
+### US10 — Re-book After Cancellation
+
+| AC | Description |
+|---|---|
+| AC 10.1 | **Allow re-booking** — After cancellation + removal from list + available capacity → booking allowed. Previous record retained for audit. New record has blank cancellation fields. |
+
+## Technical Design
+
+| Entity | Field | Type | Notes |
+|---|---|---|---|
+| Master Event | Cancellation_Deadline_Hours__c | Number (int, 0–4 digits) | Default 0. Evaluated in Event timezone. |
+| Master Event | Response_Notification_Setting__c | Picklist (none, Cancel) | Default none. |
+| Master Event | Allow_Cancel_Direct__c | Checkbox | Default false. |
+| Master Event | Allow_Cancel_Booked__c | Checkbox | Default true. |
+| Participant | Cancellation_Reason__c | Picklist | 8 predefined values. |
+| Participant | MANAERP__Response_Note__c | Text Area (255) | Reused existing field for cancellation detail. Required if "Other". |
+| Participant | Cancellation_Request_Date__c | Date | Timestamp of cancel request. |
+
+## Business Rules (Extracted)
+
+| # | AC | Business Rule |
+|---|---|---|
+| 1 | AC 01.1 | Cancel button visibility controlled by Cancellation Type (Cancel/Cancel Request) + future event date |
+| 2 | AC 01.1 | Migration: Cancel Config ON → Cancel Type = Cancel; OFF → Do not allow |
+| 3 | AC 01.2 | Cancellation Type enabled by default with 3 options; single select; Do not allow disables related fields |
+| 4 | AC 01.3 | Cancellation Deadline disabled by default, enabled when Cancel Type = Cancel/Cancel Request |
+| 5 | AC 01.3 | Cutoff = Event Start Datetime − Cancellation Deadline Hours (evaluated in Event timezone) |
+| 6 | AC 01.3 | Deadline 0 or null → deadline = event date |
+| 7 | AC 01.3 | Update deadline for in-progress event → warning message with Confirm/Cancel |
+| 8 | AC 01.3 | Confirm → recompute for unstarted activities only; Cancel → no change |
+| 9 | AC 01.4 | Response Notification: none (default) or Cancel; tooltip text |
+| 10 | AC 01.4 | Cancel Notification set but Cancel Type = Do not allow → no notification triggered |
+| 11 | AC 01.5 | Booking Start Date > current date → disable Reserve, show message |
+| 12 | AC 01.5 | Booking Information section read-only |
+| 13 | AC 02.1 | Button visible+enabled when: Cancel Type set, deadline not expired, event in future, status ≠ Canceled/Cancel Requested |
+| 14 | AC 02.1 | Deadline = 0 → hide Cancellation Deadline section on mobile |
+| 15 | AC 02.2 | Button disabled when deadline expired or event in past |
+| 16 | AC 02.3 | Button hidden when participant source not allowed |
+| 17 | AC 02.1 | Button not shown for already Canceled or Cancel Requested participant |
+| 18 | AC 03.1 | Cancel Now modal: confirmation message, event info, reason fields, deadline date |
+| 19 | AC 03.2 | 8 predefined cancellation reasons; confirm disabled until selected |
+| 20 | AC 03.3 | Other selected → detail required; confirm disabled if empty |
+| 21 | AC 03.4 | Cancel Now: status = Canceled, remove participant, update capacity, success toast |
+| 22 | AC 04.1 | Cancel Request modal: different confirmation message from Cancel Now |
+| 23 | AC 04.2 | Cancel Request: status = Cancel Requested, keep participant in list, store request date |
+| 24 | AC 05.2 | Reason detail max 255 chars; character counter; inline error on exceed |
+| 25 | AC 06.1 | Calendar shows canceled/requested event with visual indicator; tappable |
+| 26 | AC 07.1 | SF bell notification to staff list; content includes student name, event, type, reason |
+| 27 | AC 07.1 | Notification only for mobile-initiated actions; not for admin/manual/import updates |
+| 28 | AC 08.1 | Participant list: Response column (Attend, Absent, Canceled, Cancel Requested) + Requested Date |
+| 29 | AC 08.2 | Participant detail: show Cancellation Reason + Detail |
+| 30 | AC 08.3 | Edit participant: new response selection set |
+| 31 | AC 08.3 | Filter: new response options |
+| 32 | AC 09.1 | Post-cancellation actions are manual (no automation) |
+| 33 | AC 10.1 | Re-booking allowed after cancellation if removed + capacity available |
+| 34 | AC 10.1 | Previous record retained for audit; new record has blank cancellation fields |
+
+## Clarification Questions
+
+1. AC 01.1: For migration — are Allow_Cancel_Direct__c / Allow_Cancel_Booked__c checkboxes still used for permission control (AC 02.3), or does only Cancellation Type control everything now?
+2. AC 01.3: Cancellation Deadline field validation — should it reject negative values? What about non-integer input?
+3. AC 01.3: "0 to 4 digits" — does this mean max value is 9999 hours? Should there be a maximum validation?
+4. AC 02.1: "Current Date > the calculated actual cancellation deadline" — should this be Current Date < deadline (i.e., before deadline) for the button to be enabled?
+5. AC 03.4: When participant is removed (Cancel Now), is the participant record deleted or soft-deleted?
+6. AC 04.2: No approval/rejection provided — how does a Cancel Requested participant get resolved? Manual status change by staff only?
+7. AC 07.1: What exactly is the "Master Participant – Master Staff List"? Is this a related list on Master Event?
+8. AC 10.1: For re-booking, is a brand new participant record created, or is the old record reactivated?
+9. AC 05.2: The detail field reuses MANAERP__Response_Note__c (255 chars). If the user already entered a "Propose new time" note, is it overwritten?
+10. Localization: Should the confirm modal text match exactly the EN/JP strings in the Localization table?
+
+## Related Specs
+
+- `1-spec/[koyu] Core | 524 - Cancel Booked Event (App).md` — existing spec file (local copy of the same PRD)
+
+## Related Test Cases
+
+- `3-testcases/lesson-management/event/booking system/cancel-booked-event/cancel-booked-event.csv` — existing 933-line test case CSV covering original ACs (suite 2446)
+
+## QASE Coverage Gaps
+
+- Suite 2506 (Update - Cancel Booked Event) is empty — all updated ACs need new test cases
+- AC 01.1 updated: migration logic (Cancel Config → Cancel Type) needs test coverage
+- AC 01.5 new: Open to Booking section not covered in existing test cases
+- AC 05.2: Character limit (255) and inline error not covered explicitly
+- AC 08.3: Edit participant and Filter with new response options not well covered
+- AC 10.1: Re-booking after cancellation with audit trail needs coverage
