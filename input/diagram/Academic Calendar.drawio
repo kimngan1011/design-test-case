@@ -1,0 +1,144 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.6">
+  <diagram name="Page-1" id="eIts99agiWn8XL-wS1Ip">
+    <mxGraphModel dx="6426" dy="767" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="5000" pageHeight="10000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-9" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="rMQ-p9ALs9Ve5BDto-cp-8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="310" />
+              <mxPoint x="410" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-12" connectable="0" parent="rMQ-p9ALs9Ve5BDto-cp-9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="LOC 2" vertex="1">
+          <mxGeometry relative="1" x="0.619" y="-3" as="geometry">
+            <mxPoint x="-21" y="-3" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-13" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="rMQ-p9ALs9Ve5BDto-cp-2">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="310" />
+              <mxPoint x="430" y="230" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-14" connectable="0" parent="rMQ-p9ALs9Ve5BDto-cp-13" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="LOC 1" vertex="1">
+          <mxGeometry relative="1" x="0.1385" y="2" as="geometry">
+            <mxPoint x="49" y="2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-16" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="rMQ-p9ALs9Ve5BDto-cp-15">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="420" y="310" />
+              <mxPoint x="420" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-17" connectable="0" parent="rMQ-p9ALs9Ve5BDto-cp-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="LOC 3" vertex="1">
+          <mxGeometry relative="1" x="0.6828" y="-1" as="geometry">
+            <mxPoint x="-14" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Academic Calendar Master (ACM-2025)" vertex="1">
+          <mxGeometry height="60" width="120" x="260" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-2" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="ACM-2025-LOC 1" vertex="1">
+          <mxGeometry height="60" width="120" x="530" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-7" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="rMQ-p9ALs9Ve5BDto-cp-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-27" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="rMQ-p9ALs9Ve5BDto-cp-26" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-29" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="rMQ-p9ALs9Ve5BDto-cp-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="2025" vertex="1">
+          <mxGeometry height="60" width="120" x="70" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-8" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="ACM-2025-LOC 2" vertex="1">
+          <mxGeometry height="60" width="120" x="530" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-15" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="ACM-2025-LOC 3" vertex="1">
+          <mxGeometry height="60" width="120" x="530" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-19" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="rMQ-p9ALs9Ve5BDto-cp-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-20" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="rMQ-p9ALs9Ve5BDto-cp-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-21" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="rMQ-p9ALs9Ve5BDto-cp-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-22" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="rMQ-p9ALs9Ve5BDto-cp-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Closed Date" vertex="1">
+          <mxGeometry height="60" width="120" x="260" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-35" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="rMQ-p9ALs9Ve5BDto-cp-34" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-39" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="rMQ-p9ALs9Ve5BDto-cp-38" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="540" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-43" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="rMQ-p9ALs9Ve5BDto-cp-42" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-26" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Lesson" vertex="1">
+          <mxGeometry height="60" width="120" x="70" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-31" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="rMQ-p9ALs9Ve5BDto-cp-30" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-28" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Lesson Allocation" vertex="1">
+          <mxGeometry height="60" width="120" x="220" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-33" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="rMQ-p9ALs9Ve5BDto-cp-32" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-30" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Location -&amp;gt; AY -&amp;gt; ACI -&amp;gt; AW" vertex="1">
+          <mxGeometry height="60" width="120" x="220" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-32" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Calculate total session count for scheduled and frequency" vertex="1">
+          <mxGeometry height="60" width="120" x="220" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-37" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="rMQ-p9ALs9Ve5BDto-cp-36" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-34" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Location -&amp;gt; AY -&amp;gt; ACI -&amp;gt; Closed date" vertex="1">
+          <mxGeometry height="60" width="120" x="70" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-36" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Create/Edit lesson with closed date" vertex="1">
+          <mxGeometry height="60" width="120" x="70" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-41" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="rMQ-p9ALs9Ve5BDto-cp-40" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-38" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="PM -&amp;gt; Location -&amp;gt; AY -&amp;gt; ACI -&amp;gt; AW" vertex="1">
+          <mxGeometry height="60" width="120" x="-80" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-40" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Create/Edit individual lesson course schedule" vertex="1">
+          <mxGeometry height="60" width="120" x="-80" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-42" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Location -&amp;gt; AY -&amp;gt; Course -&amp;gt; PM -&amp;gt; AW" vertex="1">
+          <mxGeometry height="60" width="120" x="-240" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-44" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Create/Edit group lesson course schedule" vertex="1">
+          <mxGeometry height="60" width="120" x="-240" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="rMQ-p9ALs9Ve5BDto-cp-45" edge="1" parent="1" source="rMQ-p9ALs9Ve5BDto-cp-42" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="rMQ-p9ALs9Ve5BDto-cp-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

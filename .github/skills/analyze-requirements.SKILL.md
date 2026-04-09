@@ -85,7 +85,7 @@ Extract:
 
 ### Step 4 — Fetch Existing QASE Test Cases (Optional)
 
-*Note: A QASE link provided here should only be used to find existing, related test cases. Do NOT use this step for an empty parent suite meant for future import.*
+_Note: A QASE link provided here should only be used to find existing, related test cases. Do NOT use this step for an empty parent suite meant for future import._
 
 1. **Check Input**: Did the user explicitly provide a QASE link in their initial request?
 2. **If NO QASE link was provided**: Skip this entire step and proceed directly to Step 5.

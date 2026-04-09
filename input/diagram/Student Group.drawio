@@ -1,0 +1,89 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.7">
+  <diagram name="Page-1" id="gIyeR0l3LD_JJ6dLxqdp">
+    <mxGraphModel dx="6426" dy="767" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="5000" pageHeight="10000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="halaWZOVuuEjNOup2-Oz-5" edge="1" parent="1" source="halaWZOVuuEjNOup2-Oz-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="halaWZOVuuEjNOup2-Oz-4" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="330" />
+              <mxPoint x="320" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-6" edge="1" parent="1" source="halaWZOVuuEjNOup2-Oz-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="halaWZOVuuEjNOup2-Oz-4" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="330" />
+              <mxPoint x="320" y="290" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-9" connectable="0" parent="halaWZOVuuEjNOup2-Oz-6" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Staff&#39;s location" vertex="1">
+          <mxGeometry relative="1" x="0.4286" y="2" as="geometry">
+            <mxPoint x="-20" y="2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-8" edge="1" parent="1" source="halaWZOVuuEjNOup2-Oz-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="halaWZOVuuEjNOup2-Oz-7">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="330" />
+              <mxPoint x="320" y="390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-10" connectable="0" parent="halaWZOVuuEjNOup2-Oz-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Student group&#39;s location" vertex="1">
+          <mxGeometry relative="1" x="0.4" y="-1" as="geometry">
+            <mxPoint x="-11" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Student Group&lt;div&gt;(SG)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="180" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-4" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Student Group Staff Association" vertex="1">
+          <mxGeometry height="60" width="120" x="470" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-12" edge="1" parent="1" source="halaWZOVuuEjNOup2-Oz-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="halaWZOVuuEjNOup2-Oz-11" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-14" edge="1" parent="1" source="halaWZOVuuEjNOup2-Oz-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="halaWZOVuuEjNOup2-Oz-13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-17" edge="1" parent="1" source="halaWZOVuuEjNOup2-Oz-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="halaWZOVuuEjNOup2-Oz-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-18" edge="1" parent="1" source="halaWZOVuuEjNOup2-Oz-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="halaWZOVuuEjNOup2-Oz-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-20" edge="1" parent="1" source="halaWZOVuuEjNOup2-Oz-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="halaWZOVuuEjNOup2-Oz-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-7" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Student Group Members" vertex="1">
+          <mxGeometry height="60" width="120" x="470" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-11" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Bulk Assign Class" vertex="1">
+          <mxGeometry height="60" width="120" x="670" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-13" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="SG Detail" vertex="1">
+          <mxGeometry height="60" width="120" x="470" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-15" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Contact List" vertex="1">
+          <mxGeometry height="60" width="120" x="340" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-16" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Import SG Member" vertex="1">
+          <mxGeometry height="60" width="120" x="600" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-19" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Filter SG in LC Detail" vertex="1">
+          <mxGeometry height="60" width="120" x="670" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-22" edge="1" parent="1" source="halaWZOVuuEjNOup2-Oz-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="halaWZOVuuEjNOup2-Oz-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="halaWZOVuuEjNOup2-Oz-21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&quot;Manage Student Group&quot; PS" vertex="1">
+          <mxGeometry height="60" width="120" x="-30" y="300" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
