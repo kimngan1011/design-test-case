@@ -1,0 +1,96 @@
+[
+  {
+    "id": "PX-18831",
+    "title": "Lesson Allocation – Enrollment Order – Past Start Date – LA Created with Past Start Date",
+    "severity": "major",
+    "role": "Admin",
+    "start_url": "https://dev-staging.my.salesforce.com/",
+    "preconditions": "Student: Student Migrated Kim Ngan (26000036 / V7CZ66) exists. Products 'Product Ngan ... 2026' created with package types One-Time, Schedule, Frequency, Slot-Based; each has Course with Require Allocation = True. Recurring group lesson with class exists.",
+    "steps": [
+      {
+        "action": "navigate",
+        "target": "Student Detail page for Student Migrated Kim Ngan (26000036)",
+        "data": null,
+        "expected": null
+      },
+      {
+        "action": "click",
+        "target": "Create Enrollment Application button",
+        "data": null,
+        "expected": "Enrollment application form opens"
+      },
+      {
+        "action": "click",
+        "target": "Create Enrollment button",
+        "data": null,
+        "expected": null
+      },
+      {
+        "action": "click",
+        "target": "Manage Products button at Order Group Product",
+        "data": null,
+        "expected": null
+      },
+      {
+        "action": "click",
+        "target": "Add Product button",
+        "data": null,
+        "expected": null
+      },
+      {
+        "action": "select",
+        "target": "Product offering",
+        "data": "Product Ngan Frequency 2026",
+        "expected": null
+      },
+      {
+        "action": "select",
+        "target": "Course offering",
+        "data": "[2026] CM Ngan Test 06",
+        "expected": null
+      },
+      {
+        "action": "select",
+        "target": "Class",
+        "data": "Class 01",
+        "expected": "Product and course selected; class assigned"
+      },
+      {
+        "action": "fill",
+        "target": "Start date",
+        "data": "2026-04-02",
+        "expected": "Start date field shows 2026-04-02; no inline error"
+      },
+      {
+        "action": "click",
+        "target": "Save button",
+        "data": null,
+        "expected": null
+      },
+      {
+        "action": "click",
+        "target": "Save as Draft button",
+        "data": null,
+        "expected": "Enrollment saved as draft with no error"
+      },
+      {
+        "action": "click",
+        "target": "Application ID link",
+        "data": null,
+        "expected": null
+      },
+      {
+        "action": "click",
+        "target": "Submit Enrollment button",
+        "data": null,
+        "expected": "Enrollment submitted successfully"
+      },
+      {
+        "action": "navigate",
+        "target": "Contact page → Course tab → Require Lesson Allocation and Lesson Allocation lists",
+        "data": null,
+        "expected": "LAs are created for each product type with start date = 2026-04-02"
+      }
+    ]
+  }
+]

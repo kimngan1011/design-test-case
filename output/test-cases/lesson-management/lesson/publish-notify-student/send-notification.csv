@@ -1,0 +1,118 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,Publish and Notify Student,,,,,,,,,,,,,,,,,,2676,286,1,,,
+,,Publish and Notify Student | Send Notification,,,,,,,,,,,,,,,,,,2678,2676,1,,,
+,Publish and Notify – Draft Lesson – Button Clicked – Lesson published and confirmation modal shown,"AC 02.1 — State Transition Testing — Clicking ""Publish and notify student"" on a Draft lesson publishes the lesson and immediately shows the confirmation modal.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+A lesson exists with status = Draft with at least one student assigned
+User is logged into SF with lesson publish permission",,LT-96662,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Draft lesson
+2. Click the ""Publish and notify student"" button
+3. Observe the lesson status immediately after click
+4. Observe the modal dialog that appears
+5. Observe the modal action buttons","1. Lesson Detail page opens; status label shows ""Draft""
+2. Button click is registered
+3. Lesson status changes to Published
+4. Confirmation modal displayed with title ""Send Notification"" and message ""Would you like to send notifications about the publishing lesson to all allocated students?""
+5. Modal contains two buttons: ""Send"" and ""Don't Send""","1. Draft lesson ID
+2. """"
+3. """"
+4. """"
+5. """",,,,,,
+,Publish and Notify – Published Lesson – Button Clicked – Lesson status unchanged and confirmation modal shown""","AC 02.1 — State Transition Testing — Clicking ""Publish and notify student"" on a Published lesson does not change its status but shows the confirmation modal.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+A lesson exists with status = Published with at least one student assigned
+User is logged into SF with lesson publish permission",2678,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson; note current status
+2. Click the ""Publish and notify student"" button
+3. Observe the lesson status immediately after click
+4. Observe the modal dialog that appears
+5. Observe the modal action buttons","1. Lesson Detail page opens; status label shows ""Published""
+2. Button click is registered
+3. Lesson status remains Published (no change)
+4. Confirmation modal displayed with title ""Send Notification"" and message ""Would you like to send notifications about the publishing lesson to all allocated students?""
+5. Modal contains two buttons: ""Send"" and ""Don't Send""","1. Published lesson ID
+2. """"
+3. """"
+4. """"
+5. """",,,,,,
+,Publish and Notify – Confirmation Modal – All content elements displayed as designed""","AC 02.2 — Equivalence Partitioning — The confirmation modal displays the correct title, message, and action buttons.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+User is on the SF Lesson Detail page of a Published lesson
+User has clicked ""Publish and notify student"" and the modal is open",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to SF Lesson Detail (Published lesson) and click ""Publish and notify student""
+2. Observe the modal title
+3. Observe the modal message body
+4. Observe the primary action button
+5. Observe the secondary action button","1. Confirmation modal appears
+2. Modal title displays ""Send Notification"" (JP: おしらせ配信)
+3. Message reads: ""Would you like to send notifications about the publishing lesson to all allocated students?"" (JP: 授業に参加する生徒へ授業公開のおしらせを配信しますか？)
+4. Button labeled ""Send"" (JP: 今すぐ送る) is present
+5. Button labeled ""Don't Send"" (JP: 送らない) is present","1. Published lesson ID
+2. """"
+3. """"
+4. """"
+5. """",,,,,,
+,Publish and Notify – Published Lesson – Send Clicked – Notification delivered to assigned student and linked parents""","AC 02.1 + AC 02.2 — Decision Table — Clicking ""Send"" triggers real-time push notification delivery to the student and all linked parents.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Lesson: English Level 3 – Session 1 | status = Published | date: 2026-04-20 | 10:00–11:00
+Student A assigned to lesson; logged into Learner App on test device with push notifications enabled
+Parent A linked to Student A via Relationship; logged into Parent App on test device with push notifications enabled",,LT-96662,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student""
+3. Click ""Send"" in the modal
+4. On Student A's test device open the Learner App and check the notification inbox
+5. On Parent A's test device open the Parent App and check the notification inbox","1. Lesson Detail page opens; status = ""Published""
+2. Confirmation modal appears
+3. Modal closes
+4. Push notification received with title ""Lesson Published"" and body ""The schedule for English Level 3 – Session 1 has been published. Lesson Date: 2026-04-20 | 10:00 - 11:00. Tap the button below to view the lesson details.""
+5. Push notification received with title ""Lesson Published"" containing same lesson details","1. Published lesson: English Level 3 – Session 1
+2. """"
+3. """"
+4. Student A Learner App account
+5. Parent A Parent App account",,,,,,
+,Publish and Notify – Draft Lesson – Send Clicked – Lesson published and notification delivered to student and parents,"AC 02.1 + AC 02.2 — State Transition Testing + Decision Table — Clicking ""Send"" on a Draft lesson publishes the lesson and triggers push notification delivery.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Lesson: Math Level 2 – Session 5 | status = Draft | date: 2026-04-21 | 14:00–15:00
+Student B assigned; logged into Learner App
+Parent B linked to Student B via Relationship; logged into Parent App",,LT-96662,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Draft lesson
+2. Click ""Publish and notify student""
+3. Confirm lesson status in the modal is now Published
+4. Click ""Send"" in the modal
+5. Observe the lesson status on the detail page
+6. On Student B's test device check the Learner App notification inbox
+7. On Parent B's test device check the Parent App notification inbox","1. Lesson Detail page opens; status = ""Draft""
+2. Lesson status changes to Published; confirmation modal appears
+3. Lesson is in Published state
+4. Modal closes
+5. Lesson status shows ""Published""
+6. Push notification received with title ""Lesson Published"" containing lesson name ""Math Level 2 – Session 5"" date 2026-04-21 and time 14:00–15:00
+7. Push notification received with title ""Lesson Published"" containing same lesson details","1. Draft lesson: Math Level 2 – Session 5
+2. """"
+3. """"
+4. """"
+5. """"
+6. Student B Learner App account
+7. Parent B Parent App account",,,2678,,,,,
+,Publish and Notify – Published Lesson – Don't Send Clicked – No notification sent to student or parents,"AC 02.2 — Decision Table + Negative Testing — Clicking ""Don't Send"" dismisses the confirmation modal without sending any push notification.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+A Published lesson with Student A assigned
+Student A and Parent A have devices logged into the app with notifications enabled
+No pending notifications for this lesson on either device",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student""
+3. Click ""Don't Send"" in the modal
+4. Wait 30 seconds then check Student A's Learner App notification inbox
+5. Check Parent A's Parent App notification inbox","1. Lesson Detail page opens; status = ""Published""
+2. Confirmation modal appears
+3. Modal closes; no loading or sending indicator shown
+4. No new notification received for this lesson
+5. No new notification received for this lesson","1. Published lesson ID
+2. """"
+3. """"
+4. """"
+5. """",,,,,,
+,Publish and Notify – Draft Lesson – Don't Send Clicked – Lesson status remains Published after modal dismissed""","AC 02.2 + Gap #6 — State Transition Testing — When ""Don't Send"" is selected after clicking the button on a Draft lesson the lesson remains Published (NOT reverted to Draft). NOTE: Expected behavior to be confirmed with product team.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+A lesson exists with status = Draft with an assigned student
+User is logged into SF with lesson publish permission",2678,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Draft lesson
+2. Click ""Publish and notify student""
+3. Click ""Don't Send"" in the modal
+4. Observe the lesson status on the detail page
+5. Navigate away and return to the lesson detail page","1. Lesson Detail page opens; status = ""Draft""
+2. Lesson status changes to Published; confirmation modal appears
+3. Modal closes
+4. Lesson status remains Published (not reverted to Draft)
+5. Lesson status persists as ""Published""","1. Draft lesson ID
+2. """"
+3. """"
+4. """"
+5. """",,,,,,
+"

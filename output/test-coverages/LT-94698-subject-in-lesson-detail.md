@@ -7,25 +7,38 @@
 
 ## 1. Business Rules Extracted
 
-| #   | AC      | Business Rule                                                                        |
-| --- | ------- | ------------------------------------------------------------------------------------ |
-| 1   | AC 01.1 | User can set Subject on a lesson via Subject Master lookup                           |
-| 2   | AC 01.2 | Subject field is optional — lesson can be saved without a subject                    |
-| 3   | AC 01.3 | Subject is single-select — only one subject per lesson                               |
-| 4   | AC 02.1 | User can specify subject in CSV import; subject mapped to Subject Master             |
-| 5   | AC 03.1 | Subject displayed in SF Lesson Details, positioned above Location                    |
-| 6   | AC 03.2 | Subject displayed in SF Calendar Lesson Info                                         |
-| 7   | AC 03.3 | Subject displayed in BO Lesson Details, positioned above Location                    |
-| 8   | AC 03.4 | Subject displayed in BO Calendar Lesson Info                                         |
-| 9   | AC 03.5 | Subject displayed in Mobile Learning App                                             |
-| 10  | AC 04.1 | SF Lessons list supports search by Subject; Subject not added to list columns (core) |
-| 11  | AC 04.2 | BO Lesson Management supports search by Subject                                      |
-| 12  | AC 05.1 | SF Calendar supports filtering by Subject                                            |
-| 13  | AC 05.2 | BO Calendar supports filtering by Subject                                            |
-| 14  | AC 05.3 | BO Lesson Management supports Subject filter with cross-field validation             |
-| 15  | AC 06.1 | Aver custom page must NOT show Subject field                                         |
-| 16  | AC 06.2 | No teacher-subject validation — any teacher can be assigned regardless of subject    |
-| 17  | AC 06.3 | No course-subject relationship — subject is per-lesson, not per-course               |
+| #   | AC      | Business Rule                                                                                |
+| --- | ------- | -------------------------------------------------------------------------------------------- |
+| 1   | AC 01.1 | User can set Subject on a lesson via Subject Master lookup                                   |
+| 2   | AC 01.2 | Subject field is optional — lesson can be saved without a subject                            |
+| 3   | AC 01.3 | Subject is single-select — only one subject per lesson                                       |
+| 4   | AC 02.1 | User can specify subject in CSV import; subject mapped to Subject Master                     |
+| 5   | AC 03.1 | Subject displayed in SF Lesson Details, positioned above Location                            |
+| 6   | AC 03.2 | Subject displayed in SF Calendar Lesson Detail Drawer                                        |
+| 7   | AC 03.3 | Subject displayed in BO Lesson Details, positioned above Location                            |
+| 8   | AC 03.4 | Subject displayed in BO Calendar Lesson Detail Drawer                                        |
+| 9   | AC 03.5 | Subject displayed in Mobile Learning App                                                     |
+| 10  | AC 04.1 | SF Lessons list supports search by Subject; Subject not added to list columns (core)         |
+| 11  | AC 04.2 | BO Lesson Management supports search by Subject                                              |
+| 12  | AC 05.1 | SF Calendar supports filtering by Subject                                                    |
+| 13  | AC 05.2 | BO Calendar supports filtering by Subject                                                    |
+| 14  | AC 05.3 | BO Lesson Management supports Subject filter with cross-field validation                     |
+| 15  | AC 06.1 | Aver custom page must NOT show Subject field                                                 |
+| 16  | AC 06.2 | No teacher-subject validation — any teacher can be assigned regardless of subject            |
+| 17  | AC 06.3 | No course-subject relationship — subject is per-lesson, not per-course                       |
+| 18  | AC 01.1 | Create lesson from SF Calendar includes Subject field; subject saved and displayed correctly |
+| 19  | AC 01.1 | Edit lesson subject via SF Calendar Lesson Detail Drawer; subject updated correctly          |
+| 20  | AC 01.1 | Edit lesson subject via BO Calendar Lesson Detail Drawer; subject updated correctly          |
+| 21  | AC 01.1 | Edit lesson subject via BO Lesson Detail page; subject updated correctly                     |
+| 22  | AC 01.1 | Create recurring lesson with subject — all generated lessons in chain have subject set       |
+| 23  | AC 01.1 | Edit subject "Only this lesson" — only selected lesson updated; others unchanged             |
+| 24  | AC 01.1 | Edit subject "This and following" — selected + following lessons updated; prior unchanged    |
+| 25  | AC 01.1 | Edit subject "This and following" — Completed/Cancelled lessons are skipped                  |
+| 26  | AC 01.1 | Add lesson manually from Lesson Schedule — Subject field is blank by default                 |
+| 27  | AC 01.1 | Add lesson manually from Lesson Schedule — user can set subject; does not affect chain       |
+| 28  | AC 01.1 | Extend Recurring — newly extended lessons have blank subject (not inherited)                 |
+| 29  | AC 01.1 | Extend Recurring — user can set subject on extended lessons via "This and following"         |
+| 30  | AC 01.1 | Duplicate lesson with subject — Subject field pre-filled in create form                      |
 
 ---
 
@@ -50,6 +63,15 @@
 | 15  | AC 06.1 | Permission logic, Conditional logic   |
 | 16  | AC 06.2 | Permission logic                      |
 | 17  | AC 06.3 | Data integrity                        |
+| 22  | AC 01.1 | Validation logic, Recurring logic     |
+| 23  | AC 01.1 | Validation logic, Recurring logic     |
+| 24  | AC 01.1 | Validation logic, Recurring logic     |
+| 25  | AC 01.1 | Conditional logic, Recurring logic    |
+| 26  | AC 01.1 | Validation logic, Recurring logic     |
+| 27  | AC 01.1 | Validation logic, Recurring logic     |
+| 28  | AC 01.1 | Validation logic, Recurring logic     |
+| 29  | AC 01.1 | Validation logic, Recurring logic     |
+| 30  | AC 01.1 | Validation logic, Cross-system impact |
 
 ---
 
@@ -65,6 +87,10 @@
 | 6   | AC 03.2 | Cross-system                | Regression Analysis      | CRUD Testing        |
 | 7   | AC 03.3 | Cross-system                | Regression Analysis      | CRUD Testing        |
 | 8   | AC 03.4 | Cross-system                | Regression Analysis      | CRUD Testing        |
+| 18  | AC 01.1 | Validation, Cross-system    | Equivalence Partitioning | CRUD Testing        |
+| 19  | AC 01.1 | Validation, Cross-system    | Equivalence Partitioning | CRUD Testing        |
+| 20  | AC 01.1 | Validation, Cross-system    | Equivalence Partitioning | CRUD Testing        |
+| 21  | AC 01.1 | Validation, Cross-system    | Equivalence Partitioning | CRUD Testing        |
 | 9   | AC 03.5 | Cross-system                | Regression Analysis      | CRUD Testing        |
 | 10  | AC 04.1 | Conditional                 | Decision Table           | Negative Testing    |
 | 11  | AC 04.2 | Conditional                 | Decision Table           | Negative Testing    |
@@ -74,30 +100,52 @@
 | 15  | AC 06.1 | Permission, Conditional     | Permission Matrix        | Negative Testing    |
 | 16  | AC 06.2 | Permission                  | Permission Matrix        | Decision Table      |
 | 17  | AC 06.3 | Data integrity              | CRUD Testing             | Regression Analysis |
+| 22  | AC 01.1 | Validation, Recurring       | Equivalence Partitioning | Regression Analysis |
+| 23  | AC 01.1 | Validation, Recurring       | Equivalence Partitioning | Regression Analysis |
+| 24  | AC 01.1 | Validation, Recurring       | Equivalence Partitioning | Regression Analysis |
+| 25  | AC 01.1 | Conditional, Recurring      | Regression Analysis      | State Transition    |
+| 26  | AC 01.1 | Validation, Recurring       | Regression Analysis      | Negative Testing    |
+| 27  | AC 01.1 | Validation, Recurring       | Equivalence Partitioning | Regression Analysis |
+| 28  | AC 01.1 | Validation, Recurring       | Regression Analysis      | Negative Testing    |
+| 29  | AC 01.1 | Validation, Recurring       | Equivalence Partitioning | Regression Analysis |
+| 30  | AC 01.1 | Validation, Cross-system    | Equivalence Partitioning | Regression Analysis |
 
 ---
 
 ## 4. Coverage Strategy Table
 
-| AC      | Business Rule Summary                             | Logic Type                  | Test Technique           | Risk Level | Coverage Depth |
-| ------- | ------------------------------------------------- | --------------------------- | ------------------------ | ---------- | -------------- |
-| AC 01.1 | Set Subject via lookup on lesson                  | Validation, Cross-system    | Equivalence Partitioning | High       | Deep           |
-| AC 01.2 | Subject is optional                               | Validation, Conditional     | Equivalence Partitioning | Medium     | Standard       |
-| AC 01.3 | Single-select subject                             | Validation                  | Equivalence Partitioning | Medium     | Standard       |
-| AC 02.1 | Subject in CSV import                             | Validation, Data integrity  | Equivalence Partitioning | Critical   | Deep           |
-| AC 03.1 | Subject displayed in SF Lesson Details            | Cross-system                | Regression Analysis      | High       | Standard       |
-| AC 03.2 | Subject displayed in SF Calendar                  | Cross-system                | Regression Analysis      | Medium     | Standard       |
-| AC 03.3 | Subject displayed in BO Lesson Details            | Cross-system                | Regression Analysis      | High       | Standard       |
-| AC 03.4 | Subject displayed in BO Calendar                  | Cross-system                | Regression Analysis      | Medium     | Standard       |
-| AC 03.5 | Subject displayed in Mobile Learning App          | Cross-system                | Regression Analysis      | High       | Standard       |
-| AC 04.1 | SF search by Subject                              | Conditional                 | Decision Table           | Medium     | Standard       |
-| AC 04.2 | BO search by Subject                              | Conditional                 | Decision Table           | Medium     | Standard       |
-| AC 05.1 | SF Calendar filter by Subject                     | Conditional                 | Decision Table           | Medium     | Standard       |
-| AC 05.2 | BO Calendar filter by Subject                     | Conditional                 | Decision Table           | Medium     | Standard       |
-| AC 05.3 | BO Lesson Management Subject filter + cross-field | Conditional, Data integrity | Decision Table           | High       | Deep           |
-| AC 06.1 | Aver page must NOT show Subject                   | Permission, Conditional     | Permission Matrix        | High       | Standard       |
-| AC 06.2 | No teacher-subject validation                     | Permission                  | Permission Matrix        | Low        | Smoke          |
-| AC 06.3 | No course-subject relationship                    | Data integrity              | CRUD Testing             | Low        | Smoke          |
+| AC      | Business Rule Summary                                                       | Logic Type                  | Test Technique           | Risk Level | Coverage Depth |
+| ------- | --------------------------------------------------------------------------- | --------------------------- | ------------------------ | ---------- | -------------- |
+| AC 01.1 | Set Subject via lookup on lesson                                            | Validation, Cross-system    | Equivalence Partitioning | High       | Deep           |
+| AC 01.2 | Subject is optional                                                         | Validation, Conditional     | Equivalence Partitioning | Medium     | Standard       |
+| AC 01.3 | Single-select subject                                                       | Validation                  | Equivalence Partitioning | Medium     | Standard       |
+| AC 02.1 | Subject in CSV import                                                       | Validation, Data integrity  | Equivalence Partitioning | Critical   | Deep           |
+| AC 03.1 | Subject displayed in SF Lesson Details                                      | Cross-system                | Regression Analysis      | High       | Standard       |
+| AC 03.2 | Subject displayed in SF Calendar Lesson Detail Drawer                       | Cross-system                | Regression Analysis      | Medium     | Standard       |
+| AC 03.3 | Subject displayed in BO Lesson Details                                      | Cross-system                | Regression Analysis      | High       | Standard       |
+| AC 03.4 | Subject displayed in BO Calendar Lesson Detail Drawer                       | Cross-system                | Regression Analysis      | Medium     | Standard       |
+| AC 01.1 | Create lesson from SF Calendar with subject — field present, subject saved  | Validation, Cross-system    | Equivalence Partitioning | High       | Standard       |
+| AC 01.1 | Edit lesson subject via SF Calendar Lesson Detail Drawer                    | Validation, Cross-system    | Equivalence Partitioning | High       | Standard       |
+| AC 01.1 | Edit lesson subject via BO Calendar Lesson Detail Drawer                    | Validation, Cross-system    | Equivalence Partitioning | High       | Standard       |
+| AC 01.1 | Edit lesson subject via BO Lesson Detail page                               | Validation, Cross-system    | Equivalence Partitioning | High       | Standard       |
+| AC 03.5 | Subject displayed in Mobile Learning App                                    | Cross-system                | Regression Analysis      | High       | Standard       |
+| AC 04.1 | SF search by Subject                                                        | Conditional                 | Decision Table           | Medium     | Standard       |
+| AC 04.2 | BO search by Subject                                                        | Conditional                 | Decision Table           | Medium     | Standard       |
+| AC 05.1 | SF Calendar filter by Subject                                               | Conditional                 | Decision Table           | Medium     | Standard       |
+| AC 05.2 | BO Calendar filter by Subject                                               | Conditional                 | Decision Table           | Medium     | Standard       |
+| AC 05.3 | BO Lesson Management Subject filter + cross-field                           | Conditional, Data integrity | Decision Table           | High       | Deep           |
+| AC 06.1 | Aver page must NOT show Subject                                             | Permission, Conditional     | Permission Matrix        | High       | Standard       |
+| AC 06.2 | No teacher-subject validation                                               | Permission                  | Permission Matrix        | Low        | Smoke          |
+| AC 06.3 | No course-subject relationship                                              | Data integrity              | CRUD Testing             | Low        | Smoke          |
+| AC 01.1 | Recurring create — all lessons get subject from create form                 | Validation, Recurring       | Equivalence Partitioning | High       | Standard       |
+| AC 01.1 | Edit "Only this" — only selected lesson updated                             | Validation, Recurring       | Equivalence Partitioning | High       | Standard       |
+| AC 01.1 | Edit "This and following" — following lessons updated, prior unchanged      | Validation, Recurring       | Equivalence Partitioning | High       | Standard       |
+| AC 01.1 | Edit "This and following" — Completed/Cancelled lessons skipped             | Conditional, Recurring      | Regression Analysis      | Medium     | Standard       |
+| AC 01.1 | Add lesson from Schedule — Subject blank by default                         | Validation, Recurring       | Regression Analysis      | Medium     | Standard       |
+| AC 01.1 | Add lesson from Schedule — user sets subject; chain unaffected              | Validation, Recurring       | Equivalence Partitioning | Medium     | Standard       |
+| AC 01.1 | Extend Recurring — extended lessons have blank subject                      | Validation, Recurring       | Regression Analysis      | Medium     | Standard       |
+| AC 01.1 | Extend Recurring — set subject on extended lessons via "This and following" | Validation, Recurring       | Equivalence Partitioning | Medium     | Standard       |
+| AC 01.1 | Duplicate lesson — Subject pre-filled from source                           | Validation, Cross-system    | Equivalence Partitioning | Medium     | Standard       |
 
 ---
 
@@ -122,27 +170,32 @@
 
 ### 🟡 Medium Risk
 
-| Area                                 | Risk Reason                                         | Recommended Approach                        |
-| ------------------------------------ | --------------------------------------------------- | ------------------------------------------- |
-| Optional field (AC 01.2)             | Edge case — empty subject must not cause errors     | Standard: save without subject              |
-| Single-select (AC 01.3)              | UI constraint — must not allow multiple selections  | Standard: confirm single-select behavior    |
-| SF/BO Calendar display (AC 03.2/3.4) | Secondary surface — less frequently used            | Standard: confirm subject in lesson info    |
-| Search (AC 04.1/04.2)                | Functional but lower risk — typical search behavior | Standard: search match, search empty result |
-| Calendar filters (AC 05.1/05.2)      | Functional — standard filter behavior               | Standard: filter with subject, clear filter |
+| Area                                   | Risk Reason                                                                                               | Recommended Approach                                                                |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Optional field (AC 01.2)               | Edge case — empty subject must not cause errors                                                           | Standard: save without subject                                                      |
+| Single-select (AC 01.3)                | UI constraint — must not allow multiple selections                                                        | Standard: confirm single-select behavior                                            |
+| SF/BO Calendar display (AC 03.2/3.4)   | Secondary surface — less frequently used                                                                  | Standard: confirm subject in lesson detail drawer                                   |
+| Calendar Create/Edit subject (AC 01.1) | Calendar is a common entry point for lesson management; missed subject field could lead to incorrect data | Standard: create from SF calendar, edit on SF/BO calendar drawer, edit on BO detail |
+| Search (AC 04.1/04.2)                  | Functional but lower risk — typical search behavior                                                       | Standard: search match, search empty result                                         |
+| Calendar filters (AC 05.1/05.2)        | Functional — standard filter behavior                                                                     | Standard: filter with subject, clear filter                                         |
 
 ---
 
 ## 6. Coverage Gaps
 
-| Gap Area                           | Existing Test Case                       | Overlap | New Coverage Needed                               |
-| ---------------------------------- | ---------------------------------------- | ------- | ------------------------------------------------- |
-| Subject field CRUD on lesson       | None                                     | None    | Full: set, edit, clear subject                    |
-| Subject in CSV import              | `import-lesson.md` (TC-1031, TC-1034)    | Partial | Add subject column to CSV import tests            |
-| Subject display (SF/BO/Mobile)     | `edit-lesson-bo.md`, `edit-lesson-sf.md` | None    | New: subject display on all surfaces              |
-| Subject search                     | None                                     | None    | Full: SF and BO search by subject                 |
-| Subject filter                     | None                                     | None    | Full: SF Calendar, BO Calendar, BO Lesson filters |
-| Aver exclusion                     | None                                     | None    | New: confirm subject NOT on Aver page             |
-| Create lesson form — Subject field | `create-lesson-list.md` (TC-5644)        | None    | Verify Subject appears in create lesson form      |
+| Gap Area                                     | Existing Test Case                       | Overlap | New Coverage Needed                                          |
+| -------------------------------------------- | ---------------------------------------- | ------- | ------------------------------------------------------------ |
+| Subject field CRUD on lesson                 | None                                     | None    | Full: set, edit, clear subject                               |
+| Subject in CSV import                        | `import-lesson.md` (TC-1031, TC-1034)    | Partial | Add subject column to CSV import tests                       |
+| Subject display (SF/BO/Mobile)               | `edit-lesson-bo.md`, `edit-lesson-sf.md` | None    | New: subject display on all surfaces                         |
+| Subject search                               | None                                     | None    | Full: SF and BO search by subject                            |
+| Subject filter                               | None                                     | None    | Full: SF Calendar, BO Calendar, BO Lesson filters            |
+| Aver exclusion                               | None                                     | None    | New: confirm subject NOT on Aver page                        |
+| Create lesson form — Subject field           | `create-lesson-list.md` (TC-5644)        | None    | Verify Subject appears in create lesson form                 |
+| Create lesson from SF Calendar with Subject  | None                                     | None    | ✅ New TC: create lesson from SF Calendar with subject       |
+| Edit lesson subject on SF Calendar drawer    | None                                     | None    | ✅ New TC: edit subject via SF Calendar Lesson Detail Drawer |
+| Edit lesson subject on BO Calendar drawer    | None                                     | None    | ✅ New TC: edit subject via BO Calendar Lesson Detail Drawer |
+| Edit lesson subject on BO Lesson Detail page | None                                     | None    | ✅ New TC: edit subject via BO Lesson Detail page            |
 
 ---
 

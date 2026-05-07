@@ -1,0 +1,141 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,2759,,[Nichibei] Lesson Booking System,1,,
+,,,,,,,,,,,,,,,,,,,,2763,2759,Cancel Booking,1,,
+20906,[Nichibei] Lesson Booking – Cancel Entry Point – Booking List – Cancel button visible for booked lesson,AC 04.1 — BR-3: Decision Table: Cancel button must appear on a booked lesson card in the Booking List.,"Student user has a booked lesson (Booking_Flag=TRUE) in their Booking List, within the cancellation deadline.",,,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as student user and open ""Lesson Booking"" menu""
+2. ""View the booked lesson card""","1. ""Booking List screen shown""
+2. """"Cancel"""" button is visible on the card""""""","1. """"
+2. """"",,,2763,2759,Cancel Booking,,,
+20907,[Nichibei] Lesson Booking – Cancel Entry Point – Lesson List – Cancel button visible for booked lesson,AC 04.1 — BR-3: Decision Table: Cancel button must appear for a booked lesson (Booking_Flag=TRUE) when viewed in the Lesson List screen.,"Student user has a booked lesson (Booking_Flag=TRUE), within the cancellation deadline. Student navigates to the Lesson List view.",,,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as student user and open Lesson List""
+2. ""Find the booked lesson""","1. ""Lesson List screen shown""
+2. """"Cancel"""" button is visible on the lesson entry""""""","1. """"
+2. """"",,,2763,2759,Cancel Booking,,,
+20908,[Nichibei] Lesson Booking – Cancel Entry Point – Lesson List – No Cancel button for staff-allocated lesson,AC 04.1 — BR-11: Decision Table: Cancel button must NOT appear for staff-allocated lessons (Booking_Flag=OFF) in the Lesson List.,Student user has a staff-allocated lesson (Booking_Flag=FALSE) in the Lesson List.,,,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as student user and open Lesson List""
+2. ""View the staff-allocated lesson card""","1. ""Lesson List screen shown""
+2. ""No """"Cancel"""" button shown on the staff-allocated lesson""","1. """"
+2. """"",,,2763,2759,Cancel Booking,,,
+20909,[Nichibei] Lesson Booking – Cancel Deadline – Within deadline – Cancel button enabled,AC 04.2 — BR-22: BVA: Cancel button must be enabled when current time is before the cancellation deadline (lesson start − 2 hours).,Student has booked a lesson. Current time < (lesson start − 2 hours). Lesson start = 14:00 JST; deadline = 12:00 JST; current = 09:00 JST.,,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Booking List""
+2. ""View the Cancel button""","1. ""Booked lesson card visible""
+2. ""Cancel button is enabled and tappable""","1. """"
+2. ""Lesson start = 14:00 JST; deadline = 12:00 JST (2 h before start); current = 09:00 JST""",,,2763,2759,Cancel Booking,,,
+20910,AC 04.2 — BR-22: BVA: Cancel button must be disabled with tooltip when current time is past the cancellation deadline.,Student has booked a lesson. Current time > (lesson start − 2 hours). Lesson start = 11:00 JST; deadline = 09:00 JST; current = 10:00 JST.,,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Booking List""
+2. ""View the Cancel button""
+3. ""Tap or hover the disabled Cancel button""","1. ""Booked lesson card visible""
+2. ""Cancel button is disabled (greyed out)""
+3. ""Tooltip shown: \\""Cancellation not available within 2 hours of start time\""\""""""""","1. """"
+2. ""Lesson start = 11:00 JST; deadline = 09:00 JST (2 h before start); current = 10:00 JST""
+3. """"",,,2763,2759,Cancel Booking,,,
+20911,[Nichibei] Lesson Booking – Cancel Dialog – Correct content displayed,"AC 04.3 — Equivalence Partitioning: Cancel confirmation dialog must show the correct title, message, and buttons.",Student has a booked lesson within cancellation deadline.,,,,low,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Booking List and tap the Cancel button on a booked lesson""
+2. ""View dialog title""
+3. ""View dialog message""
+4. ""View dialog buttons""","1. ""Cancellation confirmation dialog opens""
+2. ""Title reads: """"Cancel Booking?""""""
+3. ""Message reads: """"Are you sure you want to cancel this reservation?""""""
+4. ""Two buttons: """"×"""" (secondary / close) and """"Cancel Reservation"""" (destructive, red)""","1. """"
+2. """"
+3. """"
+4. """"",,,2763,2759,Cancel Booking,,,
+20912,[Nichibei] Lesson Booking – Cancel Booking – Student Session deleted after cancellation,AC 04.4 — BR-23: CRUD Testing: Confirming cancellation must delete the Student Session record from Salesforce.,Student has a booked lesson within cancellation deadline.,,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Booking List, tap Cancel on a booked lesson""
+2. ""Tap ""Cancel Reservation""""
+3. ""Verify in Salesforce""
+4. ""Return to Booking List""","1. ""Cancellation dialog shown""
+2. ""Cancellation processed""
+3. ""Student Session record for (student, lesson) is deleted""
+4. ""Cancelled lesson is no longer shown in Booking List""","1. """"
+2. """"
+3. """"
+4. """"",,,2763,2759,Cancel Booking,,,
+20913,[Nichibei] Lesson Booking – Cancel Booking – Return to Booking List after cancellation,"AC 04.4 — BR-23: State Transition: After confirming cancellation, app navigates back to Booking List and the lesson is removed.",Student has a booked lesson within cancellation deadline. Booking List has only that 1 lesson.,,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Booking List and tap Cancel on the booked lesson""
+2. ""Tap ""Cancel Reservation""""
+3. ""View Booking List""","1. ""Cancellation dialog shown""
+2. ""App returns to updated Booking List""
+3. ""The cancelled lesson is no longer in the list; empty state shown""","1. """"
+2. """"
+3. """"",,,2763,2759,Cancel Booking,,,
+20914,[Nichibei] Lesson Booking – Cancel Booking – Auto-published lesson stays Published after cancellation,"AC 04.4 — BR-32: State Transition: When a Draft lesson was auto-published via booking and the student cancels, the lesson must remain in Published status — NOT revert to Draft.",A Draft lesson (Bookable_Flag=TRUE) exists. Student books it → lesson auto-published to Published. Student then cancels the booking.,,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Confirm lesson status = Draft before booking""
+2. ""Student books the Draft lesson; confirm it is auto-published""
+3. ""Student cancels the booking""
+4. ""Verify lesson status in Salesforce after cancellation""","1. ""Lesson status = Draft in Salesforce""
+2. ""Lesson status = Published after booking""
+3. ""Cancellation confirmed; Student Session deleted""
+4. ""Lesson status remains = Published (not reverted to Draft)""","1. """"
+2. """"
+3. """"
+4. """"",,,2763,2759,Cancel Booking,,,
+20915,[Nichibei] Lesson Booking – Cancel Booking – Dismiss dialog – Booking not cancelled,"AC 04.3 — Decision Table: Tapping """"×"""" on the cancel dialog dismisses it without cancelling the booking.",Student has a booked lesson within cancellation deadline.,,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Booking List and tap Cancel on a booked lesson""
+2. ""Tap """"×"""" (close/secondary button)""
+3. ""View Booking List""
+4. ""Verify in Salesforce""","1. ""Cancellation dialog shown""
+2. ""Dialog dismissed""
+3. ""The lesson is still present in Booking List; no cancellation occurred""
+4. ""Student Session record still exists""","1. """"
+2. """"
+3. """"
+4. """"",,,2,1,Cancel Booking,,,,[Nichibei] Lesson Booking – Cancel Deadline – Device timezone ahead of lesson timezone – Deadline uses lesson timezone,"AC 04.2 — BR-26: BVA (Timezone): When the student's device timezone is AHEAD of the lesson's timezone, the cancellation deadline must still be evaluated in the LESSON timezone. If within deadline in lesson timezone, Cancel button must be enabled.","Lesson timezone = UTC+9 (JST). Student's device timezone = UTC+11 (AEST).
+Lesson start = today at 10:00 JST. Cancellation deadline = 08:00 JST.
+Current time = 07:30 JST (within deadline) = 09:30 AEST.",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Confirm current JST time = 07:30 (within 08:00 JST cancellation deadline)""
+2. ""Open Booking List""
+3. ""View Cancel button on the lesson card""
+4. ""Tap Cancel and tap ""Cancel Reservation""""","1. ""Within cancellation deadline in lesson timezone""
+2. ""Booked lesson card visible""
+3. ""Cancel button is enabled and tappable""
+4. ""Cancellation succeeds; lesson removed from Booking List""","1. ""Current time: 07:30 JST / 09:30 AEST; Deadline: 08:00 JST""
+2. """"
+3. """"
+4. """"",,,2763,2759,Cancel Booking,,,
+20916,[Nichibei] Lesson Booking – Cancel Deadline – Device timezone behind lesson timezone – Deadline uses lesson timezone,"AC 04.2 — BR-26: BVA (Timezone): When the student's device timezone is BEHIND the lesson's timezone, Cancel button must be DISABLED if the cancellation deadline has passed in lesson timezone, even if the device clock shows the student is still within the deadline.","Lesson timezone = UTC+9 (JST). Student's device timezone = UTC+7 (ICT).
+Lesson start = today at 10:00 JST. Cancellation deadline = 08:00 JST.
+Current time = 08:30 JST (past deadline) = 06:30 ICT.",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Confirm current JST time = 08:30 (past 08:00 JST cancellation deadline), device shows 06:30 ICT""
+2. ""Open Booking List""
+3. ""View Cancel button on the lesson card""
+4. ""Tap the disabled Cancel button""","1. ""Past cancellation deadline in lesson timezone despite device showing otherwise""
+2. ""Booked lesson card visible""
+3. ""Cancel button is DISABLED (greyed out)""
+4. ""Tooltip shown: \\""Cancellation not available within 2 hours of start time\""\""""""""","1. ""Current time: 08:30 JST / 06:30 ICT; Deadline: 08:00 JST""
+2. """"
+3. """"
+4. """"",,,2,1,Cancel Booking,,,[Nichibei] Lesson Booking – Multi-Account – Student 1 cancels own booking after switch from Student 2 – Correct session removed,"AC 04.1 — BR-23: Session Isolation: After two students book lessons on the same device, Student 1 switches back and cancels their own booking. Only Student 1's session must be deleted; Student 2's booking must remain intact.","1. Confirm Student 1's Booking List shows Lesson 1; Student 2's Booking List shows Lesson 2 in SF
+2. Login as Student 2 → open Booking List
+3. Switch account to Student 1 on the same device
+4. Open Booking List → tap Cancel on Lesson 1 → tap ""Cancel Reservation""
+5. Verify in Salesforce: Student Session (Student 1, Lesson 1)
+6. Verify in Salesforce: Student Session (Student 2, Lesson 2)","1. ""Both Student Sessions exist""
+2. ""Lesson 2 shown in Booking List""
+3. ""Student 1 home screen shown""
+4. ""Cancellation Success; Lesson 1 removed from Student 1's Booking List""
+5. ""Session deleted""
+6. ""Session still exists with Booking_Flag=TRUE""","1. ""Student 1 → Lesson 1; Student 2 → Lesson 2""
+2. ""Student 2""
+3. """"
+4. """"
+5. """"
+6. """"",,,2770,2763,Multi-Account – Session Isolation,,,
+20917,"AC 04.1 / AC 06.1 — BR-23/BR-29: Session Isolation: After a student cancels a booking and switches to a parent account on the same device, the parent must NOT be able to access cancellation features.","1. Login as Student → open Booking List → tap Cancel on Lesson 1 → tap ""Cancel Reservation""
+2. Switch account to Parent on the same device
+3. Navigate to Lesson Booking menu area
+4. Verify in Salesforce: Student Session (Student, Lesson 1)","1. ""Cancellation succeeds; Lesson 1 removed from Booking List""
+2. ""Parent home screen shown""
+3. ""Lesson Booking menu is NOT visible for Parent""
+4. ""Session deleted (cancelled by Student); no new session created by Parent""","1. ""Student account""
+2. ""Parent account""
+3. """"
+4. """"",,,2770,2763,Multi-Account – Session Isolation,,,
+20918,"AC 01.1 — BR-1: When staff deletes a Student Session from Salesforce, the student's Booking List must no longer display that lesson on the next refresh.","1. Confirm Student A's Booking List in app shows Lesson 1
+2. Staff deletes Student Session (Student A, Lesson 1) directly from Salesforce
+3. Student A refreshes Booking List in app
+4. Verify in Salesforce","1. ""Lesson 1 visible""
+2. ""Session removed from SF""
+3. ""Lesson 1 no longer appears in Booking List""
+4. ""No Student Session with Booking_Flag=TRUE for (Student A, Lesson 1)""","1. ""Student A; Lesson 1""
+2. ""Staff; SF""
+3. """"
+4. """"",,,2771,2763,Manual Remove – Interaction,,,
+20919,AC 01.1 / AC 04.1 — BR-1/BR-3: A session created by staff (Booking_Flag=FALSE) must NOT appear in the student's Booking List. Student has no Cancel button for that session.,"1. Confirm Student Session (Student A, Lesson 1) exists in SF with Booking_Flag=FALSE
+2. Login as Student A → open Booking List
+3. Verify Student A cannot cancel Lesson 1 via app
+4. Verify in Salesforce","1. ""Session exists; staff-assigned""
+2. ""Lesson 1 is NOT shown in Booking List""
+3. ""No Cancel button or entry for Lesson 1 in Booking List""
+4. ""Student Session for (Student A, Lesson 1) remains intact with Booking_Flag=FALSE""","1. ""Student A; Lesson 1; Booking_Flag=FALSE""
+2. """"
+3. """"
+4. """"",,,2771,2763,Manual Remove – Interaction,,,

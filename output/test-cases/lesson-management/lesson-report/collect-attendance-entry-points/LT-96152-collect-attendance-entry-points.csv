@@ -1,0 +1,88 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,2684,292,Collect Attendance Entry Points,1,,
+,"Lesson Report BO – Report Tab – Published lesson – Collect Attendance popup opens","AC 01.1 / AC 01.3 — Decision Table — Confirm the Lesson Detail -> Report tab exposes Collect Attendance and opens the existing popup for an attendance-eligible lesson.","- Logged in to BO as a user who can already collect attendance
+- A published lesson exists with at least one student session and an auto-created lesson report
+- The same lesson can already open Collect Attendance from the existing BO flow",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the lesson on BO and switch to the Report tab""
+2. ""Observe the action area on the Report tab""
+3. ""Click Collect Attendance""
+4. ""Observe the popup content""","1. ""Report tab is displayed for the selected lesson""
+2. ""Collect Attendance button is visible and enabled""
+3. ""The existing Collect Attendance popup opens""
+4. ""Student list and attendance fields match the current collect-attendance popup structure""","1. ""Lesson Status: Published""
+2. """"
+3. """"
+4. """"",,,2684,292,Collect Attendance Entry Points,,,
+,"Lesson Report BO – Lesson Report Detail – Published lesson – Collect Attendance popup opens","AC 01.2 / AC 01.3 — Decision Table — Confirm Lesson Report Detail exposes Collect Attendance and opens the existing popup for an attendance-eligible lesson.","- Logged in to BO as a user who can already collect attendance
+- A published lesson exists with at least one student session and an accessible Lesson Report Detail page",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Report Detail for a student in a published lesson""
+2. ""Observe the action area on Lesson Report Detail""
+3. ""Click Collect Attendance""
+4. ""Observe the popup content""","1. ""Lesson Report Detail is displayed""
+2. ""Collect Attendance button is visible and enabled""
+3. ""The existing Collect Attendance popup opens""
+4. ""Popup shows the same attendance fields and editable controls as the current BO flow""","1. ""Lesson Status: Published""
+2. """"
+3. """"
+4. """"",,,2684,292,Collect Attendance Entry Points,,,
+,"Lesson Report BO – Report Tab – Draft lesson – Collect Attendance button disabled","AC 01.4 — Negative Testing — Confirm the new Report tab entry point does not bypass the current Draft-state guard.","- Logged in to BO as a user who can already collect attendance
+- A draft lesson exists with a lesson report visible on the Report tab",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the draft lesson on BO and switch to the Report tab""
+2. ""Observe the Collect Attendance action""
+3. ""Attempt to click the disabled button""","1. ""Report tab is displayed""
+2. ""Collect Attendance button is visible but disabled""
+3. ""No popup opens and lesson attendance remains unchanged""","1. ""Lesson Status: Draft""
+2. """"
+3. """"",,,2684,292,Collect Attendance Entry Points,,,
+,"Lesson Report BO – Lesson Report Detail – Completed lesson – Collect Attendance button disabled","AC 01.4 — Negative Testing — Confirm the new Lesson Report Detail entry point does not bypass the current Completed-state guard.","- Logged in to BO as a user who can already collect attendance
+- A completed lesson exists with an accessible Lesson Report Detail page",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Report Detail for a student in a completed lesson""
+2. ""Observe the Collect Attendance action""
+3. ""Attempt to click the disabled button""","1. ""Lesson Report Detail is displayed""
+2. ""Collect Attendance button is visible but disabled""
+3. ""No popup opens and saved attendance data is unchanged""","1. ""Lesson Status: Completed""
+2. """"
+3. """"",,,2684,292,Collect Attendance Entry Points,,,
+,"Lesson Report BO – Report Tab – Absent attendance saved – Student session and mobile updated","AC 01.5 — Regression Analysis — Confirm saving attendance from Lesson Detail -> Report tab uses the same persistence and sync flow as the current collect-attendance path.","- Logged in to BO as a user who can already collect attendance
+- A published lesson exists with at least one student session and an auto-created lesson report
+- Student A can log in to Mobile and view the lesson",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the lesson on BO, switch to the Report tab, and click Collect Attendance""
+2. ""Set Attendance Status to Absent""
+3. ""Select Attendance Reason, Attendance Notice, and enter Attendance Note""
+4. ""Click Save""
+5. ""View the student row on BO lesson detail""
+6. ""Open Mobile and view the same lesson""","1. ""Collect Attendance popup opens""
+2. ""Absent-dependent fields become available""
+3. ""Values are accepted in the popup""
+4. ""Success message is shown and the popup closes""
+5. ""Student session shows Absent, Traffic Issue, No Contact, and the saved note""
+6. ""Mobile shows the updated attendance status for the student""","1. ""Lesson Status: Published""
+2. ""Attendance Status: Absent""
+3. ""Reason: Traffic Issue; Notice: No Contact; Note: Student absent due to traffic""
+4. """"
+5. """"
+6. """"",,,2684,292,Collect Attendance Entry Points,,,
+,"Lesson Report BO – Lesson Report Detail – Late attendance saved – Lesson allocation and report detail updated","AC 01.5 — Regression Analysis — Confirm saving attendance from Lesson Report Detail updates the same downstream records as the current collect-attendance path.","- Logged in to BO as a user who can already collect attendance
+- A published lesson exists with at least one student session, lesson allocation history, and an accessible Lesson Report Detail page",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Report Detail and click Collect Attendance""
+2. ""Set Attendance Status to Late""
+3. ""Select Attendance Reason and Attendance Notice, then enter Attendance Note""
+4. ""Click Save""
+5. ""Refresh Lesson Report Detail""
+6. ""Open the student's lesson allocation report history""","1. ""Collect Attendance popup opens""
+2. ""Late-dependent fields become available""
+3. ""Values are accepted in the popup""
+4. ""Success message is shown and the popup closes""
+5. ""Lesson Report Detail shows the updated Late attendance information""
+6. ""Report history reflects the updated attendance values for the lesson""","1. ""Lesson Status: Published""
+2. ""Attendance Status: Late""
+3. ""Reason: School Event; Notice: On The Day; Note: Arrived late after school event""
+4. """"
+5. """"
+6. """"",,,2684,292,Collect Attendance Entry Points,,,
+,"Lesson Report BO – Lesson Report Detail – Existing attendance record – Saved values prefilled on reopen","AC 01.5 — Equivalence Partitioning — Confirm reopening Collect Attendance from the new surface preserves previously saved reason, notice, and note values.","- Logged in to BO as a user who can already collect attendance
+- A published lesson exists with attendance already saved for the selected student
+- Saved attendance includes status, reason, notice, and note",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Report Detail for the student with existing attendance""
+2. ""Click Collect Attendance""
+3. ""Observe the prefilled attendance values""
+4. ""Close and reopen the popup from the same page""","1. ""Lesson Report Detail is displayed""
+2. ""Collect Attendance popup opens""
+3. ""Status, reason, notice, and note show the previously saved values""
+4. ""The same saved values remain prefilled""","1. ""Existing Attendance: Leave Early""
+2. """"
+3. ""Reason: Family Reason; Notice: In Advance""
+4. ""Note: Left early due to family emergency""",,,2684,292,Collect Attendance Entry Points,,,

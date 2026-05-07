@@ -1,0 +1,58 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,Publish and Notify Student,,,,,,,,,,,,,,,,,,2676,286,1,,,
+,,Publish and Notify Student | Deep-link Navigation,,,,,,,,,,,,,,,,,,2681,2676,1,,,
+,Notification Deep-link – Logged-in Student – Tap notification opens correct Lesson Detail page in app,AC 03.1 — Regression Analysis — When a logged-in student taps the push notification the Learner App deep-links directly to the correct Lesson Detail page.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson: English Level 3 – Session 1 | date: 2026-04-20 | 10:00–11:00
+Student A assigned; logged into Learner App on Device 1 with push enabled
+Student A has received the Lesson Published notification",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. On Device 1 locate the ""Lesson Published"" push notification for ""English Level 3 – Session 1"" in the notification tray
+2. Tap the push notification
+3. Observe the screen that loads
+4. Observe the lesson details displayed on the page","1. Push notification is visible with correct title and lesson name
+2. Learner App opens
+3. App navigates to the Lesson Detail page of English Level 3 – Session 1
+4. Lesson name = English Level 3 – Session 1; date = 2026-04-20; start = 10:00; end = 11:00; status = Published","1. Student A's device notification tray
+2. """"
+3. """"
+4. """",,,,,,
+,Notification Deep-link – Logged-in Parent – Tap notification opens correct Lesson Detail page in app""",AC 03.1 — Regression Analysis — When a logged-in parent taps the push notification the Parent App deep-links directly to the correct Lesson Detail page.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson: English Level 3 – Session 1 | date: 2026-04-20 | 10:00–11:00
+Student A assigned; Parent A linked to Student A via Relationship; logged into Parent App on Device 2 with push enabled
+Parent A has received the Lesson Published notification",2681,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. On Device 2 locate the ""Lesson Published"" push notification in the notification tray
+2. Tap the push notification
+3. Observe the screen that loads
+4. Observe the lesson details displayed","1. Push notification visible with title ""Lesson Published"" and lesson name
+2. Parent App opens
+3. App navigates to the Lesson Detail page of English Level 3 – Session 1 within Student A's context
+4. Lesson name = English Level 3 – Session 1; date = 2026-04-20; start = 10:00; end = 11:00; status = Published","1. Parent A's device notification tray
+2. """"
+3. """"
+4. """",,,,,,
+,Notification Deep-link – User Not Logged In – Tap notification redirects to login then Lesson Detail page""",AC 03.1 + Gap #11 — Decision Table — A user not logged in who taps the push notification is taken to the login screen then redirected to the Lesson Detail page after login. NOTE: Confirm expected redirect behavior with product team after execution.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson with Student A assigned; Lesson Published notification has been sent
+Device 1 has the Learner App installed but Student A is not currently logged in
+Push notification still present in the notification tray",,LT-96662,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. On Device 1 (not logged in) locate the ""Lesson Published"" push notification in the notification tray
+2. Tap the push notification
+3. Log in with Student A's credentials
+4. Observe the screen after successful login","1. Push notification is visible
+2. Learner App opens to the login screen
+3. Login succeeds
+4. App navigates to the Lesson Detail page of the notified lesson (not the app home screen)","1. Student A's device (logged out)
+2. """"
+3. Student A credentials
+4. """",,,,,,
+,Notification Deep-link – Parent Viewing Different Student Context – Tap Student A notification shows Student A lesson detail""",AC 03.1 + Gap #10 — Decision Table — When a parent viewing Student B taps a notification for Student A's lesson the app switches to Student A's context and shows the correct lesson detail. NOTE: Confirm expected switching behavior with product team after execution.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Parent F has two students: Student A and Student B via Relationship records
+Student A's lesson published and Lesson Published notification sent to Parent F
+Parent F logged into Parent App on Device 1; currently viewing Student B's context",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. On Device 1 confirm the Parent App is open and Student B's context is currently active
+2. Locate the ""Lesson Published"" push notification for Student A's lesson in the notification tray
+3. Tap the push notification
+4. Observe the active student context after navigation
+5. Observe the screen that loads","1. Parent App shows Student B's information
+2. Push notification visible with Student A's lesson name
+3. App responds to the tap
+4. App switches to Student A's context (Student A shown as active student)
+5. App navigates to the Lesson Detail page of Student A's published lesson (not Student B's lesson)","1. Parent F account; Student B context active
+2. Student A's lesson notification
+3. """"
+4. """"
+5. Student A's lesson detail",,,,,,

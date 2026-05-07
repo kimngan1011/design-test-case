@@ -1,0 +1,46 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,Publish and Notify Student,,,,,,,,,,,,,,,,,,2676,286,1,,,
+,,Publish and Notify Student | Button Visibility,,,,,,,,,,,,,,,,,,2677,2676,1,,,
+,"Publish and Notify Button – Draft Lesson – ""Publish and notify student"" button visible","AC 01.1 — Decision Table — The ""Publish and notify student"" button is visible on the SF Lesson Detail page when lesson status is Draft.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+A lesson exists with status = Draft and has an assigned student
+User is logged into SF with a profile that has lesson publish permission",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Draft lesson
+2. Observe the action buttons area at the top of the page","1. Lesson Detail page opens; status label shows ""Draft""
+2. ""Publish and notify student"" button is visible","1. Draft lesson ID with assigned student
+2. """",,,,,,
+,Publish and Notify Button – Published Lesson – """"Publish and notify student"""" button visible""","AC 01.1 — Decision Table — The ""Publish and notify student"" button is visible on the SF Lesson Detail page when lesson status is Published.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+A lesson exists with status = Published and has an assigned student
+User is logged into SF with lesson publish permission",2677,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Observe the action buttons area","1. Lesson Detail page opens; status label shows ""Published""
+2. ""Publish and notify student"" button is visible","1. Published lesson ID with assigned student
+2. """",,,,,,
+,Publish and Notify Button – Completed Lesson – """"Publish and notify student"""" button not visible""","AC 01.1 — Decision Table + Negative Testing — The ""Publish and notify student"" button is hidden when lesson status is Completed.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+A lesson exists with status = Completed
+User is logged into SF with lesson publish permission",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Completed lesson
+2. Observe the action buttons area","1. Lesson Detail page opens; status label shows ""Completed""
+2. ""Publish and notify student"" button is not present on the page","1. Completed lesson ID
+2. """",,,,,,
+,Publish and Notify Button – Cancelled Lesson – """"Publish and notify student"""" button not visible""","AC 01.1 — Decision Table + Negative Testing — The ""Publish and notify student"" button is hidden when lesson status is Cancelled.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+A lesson exists with status = Cancelled
+User is logged into SF with lesson publish permission",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Cancelled lesson
+2. Observe the action buttons area","1. Lesson Detail page opens; status label shows ""Cancelled""
+2. ""Publish and notify student"" button is not present on the page","1. Cancelled lesson ID
+2. """",,,,,,
+,Publish and Notify Button – User Without Custom Permission – Button not visible regardless of lesson status""","PRD — Decision Table — When the logged-in SF user does not have the custom permission "Publish Lesson With Notification", the button does not appear on any lesson regardless of status.","User is logged into SF without the "Publish Lesson With Notification" custom permission (not a member of the Renseikai OOP Permission Set)
+A lesson exists with status = Draft and an assigned student
+User is logged into SF with lesson publish permission",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Draft lesson
+2. Observe the action buttons area
+3. Navigate to the SF Lesson Detail page of a Published lesson
+4. Observe the action buttons area","1. Lesson Detail page opens; status = ""Draft""
+2. ""Publish and notify student"" button is not present
+3. Lesson Detail page opens; status = ""Published""
+4. ""Publish and notify student"" button is not present","1. Draft lesson ID
+2. """"
+3. Published lesson ID in same org
+4. """",,,,,,
+,Publish and Notify Button – Partner Without OOP Permission Set – Button not visible on SF Lesson Detail page""","PRD — Permission Matrix — The ""Publish and notify student"" button is not visible for SF users who do not have the custom permission "Publish Lesson With Notification" (e.g. partner org whose OOP PS does not include this permission).","Logged into SF under a partner org without the "Publish Lesson With Notification" custom permission (e.g. non-Renseikai partner, or user not assigned the OOP PS)
+A lesson exists with status = Draft in that org
+User has lesson publish permission in that org",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of a Draft lesson in the non-Renseikai org
+2. Observe the action buttons area","1. Lesson Detail page opens; status = ""Draft""
+2. ""Publish and notify student"" button is not present","1. Non-Renseikai org Draft lesson ID
+2. """",,,,,,
+"

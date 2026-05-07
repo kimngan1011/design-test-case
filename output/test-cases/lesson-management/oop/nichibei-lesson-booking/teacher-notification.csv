@@ -1,0 +1,73 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,2759,,[Nichibei] Lesson Booking System,1,,
+,,,,,,,,,,,,,,,,,,,,2764,2759,Teacher Notifications,1,,
+20922,[Nichibei] Lesson Booking – Teacher Notification – Booking – SF notification sent within 30s,"AC 05.1 — BR-21: CRUD Testing: When a student books a lesson via app, the assigned teacher must receive a Salesforce notification within 30 seconds with the correct message.",A bookable Published lesson exists with Teacher A assigned. Student user books the lesson via the app.,,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student books an available lesson via app (tap Reserve → Confirm)""
+2. ""Check Teacher A's Salesforce notification inbox within 30 seconds""
+3. ""Read the notification message""","1. ""Booking Success Screen shown""
+2. ""SF notification received by Teacher A""
+3. ""Message reads: """"[Student Name] has reserved [Lesson Name]""""""","1. """"
+2. """"
+3. ""Student Name = test student; Lesson Name = test lesson""",,,2764,2759,Teacher Notifications,,,
+20923,[Nichibei] Lesson Booking – Teacher Notification – Cancellation – SF notification sent within 30s,"AC 05.2 — BR-24: CRUD Testing: When a student cancels a booking via app, the assigned teacher must receive a Salesforce notification within 30 seconds with the correct message.",A lesson has Teacher A assigned. Student user has an existing booking for this lesson and cancels it via the app.,,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student cancels a booked lesson via app (tap Cancel → Cancel Reservation)""
+2. ""Check Teacher A's Salesforce notification inbox within 30 seconds""
+3. ""Read the notification message""","1. ""Cancellation confirmed; booking removed from list""
+2. ""SF notification received by Teacher A""
+3. ""Message reads: """"[Student Name] has cancelled [Lesson Name]""""""","1. """"
+2. """"
+3. ""Student Name = test student; Lesson Name = test lesson""",,,2764,2759,Teacher Notifications,,,
+20924,[Nichibei] Lesson Booking – Teacher Notification – Staff SF assignment – No notification sent,"AC 03.4 — BR-21: Regression Analysis: When staff assigns a student to a lesson via Salesforce (not via app booking), NO SF teacher notification must be triggered.",A lesson with Teacher A assigned. A staff user assigns a student to the lesson via Salesforce Lesson Detail (not via app booking flow).,,,,high,major,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Staff user assigns a student to the lesson via Salesforce""
+2. ""Check Teacher A's Salesforce notification inbox""
+3. ""Confirm notification log""","1. ""Student Session created by staff in SF""
+2. ""No new notification received by Teacher A""
+3. ""No booking notification event created for staff-triggered assignment""","1. """"
+2. """"
+3. """"",,,2764,2759,Teacher Notifications,,,
+20925,"AC 05.1 — BR-24: Notification Isolation: When two students on the same device each book a different lesson (with different teachers), each teacher must receive a notification for their own lesson only.","1. Login as Student 1 → Browse Lessons → Reserve Lesson 1 → Confirm
+2. Switch account to Student 2 on the same device
+3. Browse Lessons → Reserve Lesson 2 → Confirm
+4. Check Teacher A's SF notification inbox within 30 seconds
+5. Check Teacher B's SF notification inbox within 30 seconds
+6. Verify no cross-notifications","1. ""Booking Success Screen shown""
+2. ""Student 2 home screen shown""
+3. ""Booking Success Screen shown""
+4. ""Teacher A receives: [Student 1 name] has reserved [Lesson 1 name]""
+5. ""Teacher B receives: [Student 2 name] has reserved [Lesson 2 name]""
+6. ""Teacher A has no notification about Lesson 2; Teacher B has no notification about Lesson 1""","1. ""Student 1; Lesson 1; Teacher A""
+2. """"
+3. ""Student 2; Lesson 2; Teacher B""
+4. """"
+5. """"
+6. """"",,,2772,2764,Multi-Account – Notification Isolation,,,
+20926,"AC 05.2 — BR-24: Notification Isolation: When two students on the same device each cancel a different booking, each teacher must receive a cancellation notification for their own lesson only.","1. Login as Student 1 → Booking List → Cancel Lesson 1 → ""Cancel Reservation""
+2. Switch account to Student 2 on the same device
+3. Booking List → Cancel Lesson 2 → ""Cancel Reservation""
+4. Check Teacher A's SF notification inbox within 30 seconds
+5. Check Teacher B's SF notification inbox within 30 seconds
+6. Verify no cross-notifications","1. ""Cancellation Success; Lesson 1 removed""
+2. ""Student 2 home screen shown""
+3. ""Cancellation Success; Lesson 2 removed""
+4. ""Teacher A receives: [Student 1 name] has cancelled [Lesson 1 name]""
+5. ""Teacher B receives: [Student 2 name] has cancelled [Lesson 2 name]""
+6. ""Teacher A has no notification about Lesson 2; Teacher B has no notification about Lesson 1""","1. ""Student 1; Lesson 1; Teacher A""
+2. """"
+3. ""Student 2; Lesson 2; Teacher B""
+4. """"
+5. """"
+6. """"",,,2772,2764,Multi-Account – Notification Isolation,,,
+20927,"AC 03.4 / AC 04.4 — BR-21/BR-24: SF teacher notifications are triggered ONLY by app flows. When staff manually deletes a Student Session, no cancellation notification must be sent to the teacher.","1. Confirm Student Session (Student A, Lesson 1) exists in SF
+2. Staff deletes Student Session (Student A, Lesson 1) directly from Salesforce
+3. Check Teacher A's SF notification inbox within 30 seconds
+4. Confirm notification log","1. ""Session present; Teacher A assigned""
+2. ""Session removed from SF by staff""
+3. ""No new notification received by Teacher A""
+4. ""No cancellation notification event created for staff-triggered removal""","1. ""Student A; Lesson 1; Teacher A""
+2. ""Staff; SF""
+3. """"
+4. """"",,,2773,2764,Manual Remove – Notification,,,
+20928,"AC 03.4 — BR-21: When staff manually assigns a student to a lesson via Salesforce, no booking notification must be sent to the teacher. Notification is app-booking-triggered only.","1. Staff user creates Student Session for (Student A, Lesson 1) directly in Salesforce
+2. Check Teacher A's SF notification inbox within 30 seconds
+3. Confirm notification log","1. ""Student Session created; Booking_Flag=FALSE""
+2. ""No new notification received by Teacher A""
+3. ""No booking notification event created for staff-triggered assignment""","1. ""Staff; Student A; Lesson 1""
+2. """"
+3. """"",,,2773,2764,Manual Remove – Notification,,,

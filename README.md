@@ -54,13 +54,16 @@ Copilot will pause after each phase and ask for confirmation before continuing.
 
 ```
 .github/
-  copilot-instructions.md     # Registers all skills with Copilot
+  copilot-instructions.md     # Registers all skills/agents with Copilot
+
+.claude/
+  agents/
+    analyze-requirement.agent.md     # Phase 1 — master agent (7 phases, 9 sub-skills)
   skills/
-    full-workflow.SKILL.md           # End-to-end pipeline skill
-    analyze-requirements.SKILL.md    # Phase 1
-    define-test-coverage.SKILL.md    # Phase 2
-    generate-test-cases.SKILL.md     # Phase 3
-    import-to-qase.SKILL.md          # Phase 4
+    full-workflow/SKILL.md           # End-to-end pipeline skill
+    define-test-coverage/SKILL.md    # Phase 2
+    generate-test-cases/SKILL.md     # Phase 3
+    import-to-qase/SKILL.md          # Phase 4
 
 input/
   specs/                      # Spec files produced by Phase 1

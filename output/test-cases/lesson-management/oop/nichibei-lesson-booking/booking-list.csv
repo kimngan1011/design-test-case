@@ -1,0 +1,51 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,2759,,[Nichibei] Lesson Booking System,1,,
+,,,,,,,,,,,,,,,,,,,,2760,2759,Booking List,1,,
+20853,[Nichibei] Lesson Booking – Booking List – Student with booked lessons – All shown,AC 01.1 — BR-1: Decision Table: Booking List shows only Booking_Flag=TRUE sessions with lesson_date >= today. Verify booked lessons are displayed.,"Student user has:
+- Active Lesson Allocation (LA)
+- 2 booked lessons with Booking_Flag=TRUE and lesson_date >= today
+- 1 staff-allocated lesson with Booking_Flag=FALSE",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as student user""
+2. ""Open ""Lesson Booking"" menu""
+3. ""View lesson cards displayed""","1. ""Home screen shown""
+2. ""Booking List screen shown""
+3. ""Only 2 booked lessons (Booking_Flag=TRUE, date >= today) are shown; staff-allocated lesson is NOT shown""","1. """"
+2. """"
+3. """"",,,2760,2759,Booking List,,,
+20854,[Nichibei] Lesson Booking – Booking List – No bookings – Empty state shown,AC 01.1 — BR-1: Decision Table: Verify empty state is shown when student has no booked lessons.,Student user has an active LA but no booked lessons (Booking_Flag=TRUE),,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as student user""
+2. ""Open ""Lesson Booking"" menu""
+3. ""View lesson list area""","1. ""Home screen shown""
+2. ""Booking List screen shown""
+3. ""Empty state message is shown; no lesson cards displayed""","1. """"
+2. """"
+3. """"",,,2760,2759,Booking List,,,
+20855,[Nichibei] Lesson Booking – Booking List – Past booked lesson – Not shown,AC 01.1 — BR-1: Boundary Value Analysis: A booked lesson with lesson_date < today must NOT appear in the Booking List.,"Student user has:
+- 1 booked lesson with lesson_date = yesterday (past)
+- 1 booked lesson with lesson_date = today",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as student user and open ""Lesson Booking"" menu""
+2. ""View lesson cards displayed""","1. ""Booking List screen shown""
+2. ""Only the lesson with lesson_date = today is shown; the past lesson is NOT shown""","1. """"
+2. ""lesson_date(past) = yesterday; lesson_date(present) = today""",,,2760,2759,Booking List,,,
+20856,[Nichibei] Lesson Booking – Browse Lessons Button – Student has active LA – Button visible,AC 01.1 — BR-2: Decision Table: Browse Lessons (+) button must be visible when student has an active Lesson Allocation.,Student user has 1 active Lesson Allocation,,,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as student user""
+2. ""Open ""Lesson Booking"" menu""
+3. ""View the Browse Lessons button (+)""","1. ""Home screen shown""
+2. ""Booking List screen shown""
+3. ""Button is visible and tappable""","1. """"
+2. """"
+3. """"",,,2760,2759,Booking List,,,
+20857,[Nichibei] Lesson Booking – Browse Lessons Button – Student has no active LA – Button hidden,AC 01.1 — BR-2: Decision Table: Browse Lessons (+) button must NOT be visible when student has no active Lesson Allocation.,Student user has no active Lesson Allocation (expired or never created),,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as student user""
+2. ""Open ""Lesson Booking"" menu""
+3. ""View the Booking List header area""","1. ""Home screen shown""
+2. ""Booking List screen shown""
+3. ""Browse Lessons (+) button is NOT visible""","1. """"
+2. """"
+3. """"",,,2760,2759,Booking List,,,
+20858,[Nichibei] Lesson Booking – Booking List Cancel Button – Within cancellation deadline – Button enabled,AC 01.1 — BR-3 / BR-22: BVA: Cancel button on a booking card must be enabled when current time is before the cancellation deadline.,Student user has a booked lesson where current time < (lesson start − 2 hours). Lesson start = 14:00 JST; deadline = 12:00 JST; current = 09:00 JST.,,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as student user and open ""Lesson Booking"" menu""
+2. ""View the Cancel button on the booked lesson card""","1. ""Booking List screen shown""
+2. ""Cancel button is enabled and tappable""","1. """"
+2. ""Lesson start = 14:00 JST; deadline = 12:00 JST (2 h before start); current = 09:00 JST""",,,2760,2759,Booking List,,,
+20859,AC 01.1 — BR-3 / BR-22: BVA: Cancel button on a booking card must be disabled with tooltip when current time is past the cancellation deadline.,Student user has a booked lesson where current time > (lesson start − 2 hours). Lesson start = 11:00 JST; deadline = 09:00 JST; current = 10:00 JST.,,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as student user and open ""Lesson Booking"" menu""
+2. ""View the Cancel button on the booked lesson card""
+3. ""Tap or hover the disabled Cancel button""","1. ""Booking List screen shown""
+2. ""Cancel button is disabled (greyed out)""
+3. ""Tooltip shown: \\""Cancellation not available within 2 hours of start time\""\""""""""","1. """"
+2. ""Lesson start = 11:00 JST; deadline = 09:00 JST (2 h before start); current = 10:00 JST""
+3. """"",,,2760,2759,Booking List,,,

@@ -1,7 +1,7 @@
 # Manabie Scheduling — E2E Scenarios
 
 > **Purpose:** Cross-feature end-to-end scenarios covering the full user workflow across SF → BO → Mobile App. Each scenario integrates multiple features to maximize coverage per test.
-> **Last updated:** 2026-04-07
+> **Last updated:** 2026-05-05
 > **Coverage:** 4,191 test cases across Lesson Management, Calendar, Event, Customization, and Master Data.
 
 ---
@@ -500,20 +500,24 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 
 > **Theme:** Renseikai-specific: attendance collection, bulk update, error message configuration.
 
-| #   | Platform | Action                                                                                               |
-| --- | -------- | ---------------------------------------------------------------------------------------------------- |
-| 1   | [SF]     | Staff creates lessons and assigns students                                                           |
-| 2   | [SF]     | Staff verifies **class name uniqueness** check (Renseikai rule)                                      |
-| 3   | [SF]     | Staff **collects attendance on SF** (Renseikai-specific flow)                                        |
-| 4   | [BO]     | Teacher **collects attendance on BO** (Renseikai-specific flow)                                      |
-| 5   | [BO]     | Teacher uses **Bulk Update Attendance** from Calendar view (select multiple students, update status) |
-| 6   | [SF]     | Staff **configures lesson student session error messages** (custom error display per org)            |
-| 7   | [SF]     | Staff triggers a student assignment that violates a rule → verifies configured error message         |
-| 8   | [SF]     | Staff verifies **Confirmation Alert** for mismatch scenarios                                         |
-| 9   | [SF]     | Staff **assigns a teacher** to the lesson                                                            |
-| 10  | [SF]     | Staff **publishes** the lesson                                                                       |
-| 11  | [BO]     | Teacher views lesson with assigned students on **BO Calendar**                                       |
-| 12  | [Mobile] | Student views the lesson on **Learner App** schedule                                                 |
+| #   | Platform | Action                                                                                                                                                                                                |
+| --- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [SF]     | Staff creates lessons and assigns students                                                                                                                                                            |
+| 2   | [SF]     | Staff verifies **class name uniqueness** check (Renseikai rule)                                                                                                                                       |
+| 3   | [SF]     | Staff **collects attendance on SF** (Renseikai-specific flow)                                                                                                                                         |
+| 4   | [BO]     | Teacher **collects attendance on BO** (Renseikai-specific flow)                                                                                                                                       |
+| 5   | [BO]     | Teacher uses **Bulk Update Attendance** from Calendar view (select multiple students, update status)                                                                                                  |
+| 6   | [SF]     | Staff **configures lesson student session error messages** (custom error display per org)                                                                                                             |
+| 7   | [SF]     | Staff triggers a student assignment that violates a rule → verifies configured error message                                                                                                          |
+| 8   | [SF]     | Staff verifies **Confirmation Alert** for mismatch scenarios                                                                                                                                          |
+| 9   | [SF]     | Staff **assigns a teacher** to the lesson                                                                                                                                                             |
+| 10  | [SF]     | Staff **publishes** the lesson                                                                                                                                                                        |
+| 11  | [BO]     | Teacher views lesson with assigned students on **BO Calendar**                                                                                                                                        |
+| 12  | [Mobile] | Student views the lesson on **Learner App** schedule                                                                                                                                                  |
+| 13  | [BO]     | Teacher opens a **Published, attendance-eligible lesson** → navigates to **Lesson Detail → Report tab** → clicks **Collect Attendance** → verifies existing popup opens (AC 01.1)                     |
+| 14  | [BO]     | Teacher saves attendance values (status, reason, notice, note) from the Report tab → **reopens** popup → verifies previously saved values are pre-filled (AC 01.5)                                    |
+| 15  | [BO]     | Teacher opens **Lesson Report Detail** page → clicks **Collect Attendance** → saves; verifies student-session, report-history, and Mobile attendance reflect the same saved values (AC 01.2, AC 01.5) |
+| 16  | [BO]     | Teacher opens a **Draft lesson** → verifies **Collect Attendance** button is **disabled** on both Report tab and Lesson Report Detail surfaces (AC 01.4)                                              |
 
 **Features covered:**
 
@@ -525,6 +529,9 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 - Master Data > Renseikai Class Name Unique check (8 cases)
 - Lesson Teacher > Assign in lesson detail (27 cases)
 - Lesson Mobile > View lesson (6 cases)
+- Lesson on BO > Collect Attendance > Report tab entry point (LT-96152)
+- Lesson on BO > Collect Attendance > Lesson Report Detail entry point (LT-96152)
+- Lesson on BO > Collect Attendance > Disabled state on Draft lesson — new surfaces (LT-96152)
 
 ---
 
@@ -559,24 +566,35 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 
 > **Theme:** Riso-specific: LA management on UI and subject display.
 
-| #   | Platform | Action                                                                                     |
-| --- | -------- | ------------------------------------------------------------------------------------------ |
-| 1   | [SF]     | Staff creates/updates **Lesson Allocation** via Riso UI                                    |
-| 2   | [SF]     | Staff verifies LA fields: duration, slot type, require allocation flag                     |
-| 3   | [SF]     | Staff creates a lesson and verifies **Subject displayed in Lesson Detail** (Riso-specific) |
-| 4   | [SF]     | Staff assigns teacher with **eligible subject** matching lesson subject                    |
-| 5   | [SF]     | Staff assigns students → LA consumption tracked                                            |
-| 6   | [SF]     | Staff updates LA duration → class member auto-reassignment triggered                       |
-| 7   | [SF]     | Staff **publishes** the lesson                                                             |
-| 8   | [BO]     | Teacher views lesson with subject info on **BO Calendar**                                  |
-| 9   | [Mobile] | Student views the lesson on **Learner App** schedule                                       |
+| #   | Platform | Action                                                                                                                                                                             |
+| --- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [SF]     | Staff creates/updates **Lesson Allocation** via Riso UI                                                                                                                            |
+| 2   | [SF]     | Staff verifies LA fields: duration, slot type, require allocation flag                                                                                                             |
+| 3   | [SF]     | Staff creates a lesson and verifies **Subject displayed in Lesson Detail** (Riso-specific)                                                                                         |
+| 4   | [SF]     | Staff opens **Add Teacher popup** → verifies **Monthly Lesson Count (今月の授業数)** column is visible for all teachers in list (AC 01.2 — LT-96673)                               |
+| 5   | [SF]     | Staff assigns teacher with **eligible subject** matching lesson subject                                                                                                            |
+| 6   | [SF]     | Staff assigns students → LA consumption tracked                                                                                                                                    |
+| 7   | [SF]     | Staff updates LA duration → class member auto-reassignment triggered                                                                                                               |
+| 8   | [SF]     | Staff **publishes** the lesson                                                                                                                                                     |
+| 9   | [BO]     | Teacher views lesson with subject info on **BO Calendar**                                                                                                                          |
+| 10  | [Mobile] | Student views the lesson on **Learner App** schedule                                                                                                                               |
+| 11  | [SF]     | Staff creates a **recurring lesson** (3 occurrences) with **Subject set** → verifies all 3 generated lessons display the same subject in Lesson Detail (AC 01.1)                   |
+| 12  | [SF]     | Staff edits Subject on occurrence 2 using **"Only this lesson"** → verifies only occurrence 2 updated; occurrences 1 and 3 unchanged (AC 01.1)                                     |
+| 13  | [SF]     | Staff edits Subject on occurrence 2 using **"This and the following"** → verifies occurrences 2–3 updated; occurrence 1 unchanged (AC 01.1)                                        |
+| 14  | [SF]     | Staff adds a lesson via **"Add Lesson"** on Lesson Schedule Detail → verifies **Subject field is blank** by default; sets subject manually; verifies chain is unaffected (AC 01.1) |
+| 15  | [SF]     | Staff **duplicates** a lesson that has a subject → verifies **Subject field is pre-filled** in the create form for the duplicate (AC 01.1)                                         |
 
 **Features covered:**
 
 - Customization > Riso > Lesson Allocation (80 cases)
 - Customization > Riso > Subject in Lesson Detail (25 cases)
+- Customization > Riso > Monthly Lesson Count in Add Teacher popup (LT-96673)
 - Lesson Allocation > Update Slot (13 cases)
 - Lesson Mobile > View lesson (6 cases)
+- Customization > Riso > Subject in Lesson Detail > Recurring lesson subject — create (LT-94698)
+- Customization > Riso > Subject in Lesson Detail > Edit scope: "Only this" / "This and following" (LT-94698)
+- Customization > Riso > Subject in Lesson Detail > Add lesson from Schedule (blank default) (LT-94698)
+- Customization > Riso > Subject in Lesson Detail > Duplicate lesson prefill (LT-94698)
 
 ---
 
@@ -1060,6 +1078,73 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 
 ---
 
+## E2E-37: [Renseikai] Publish Lesson and Notify Students
+
+> **Theme:** Renseikai-specific Publish & Notify feature: Draft → Published status transition via new button, confirmation modal, push notification delivery to students and parents, deep-link navigation, and permission guard.
+
+| #   | Platform | Action                                                                                                                                                                                     |
+| --- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | [SF]     | Staff creates a **Draft lesson**; assigns a student (who has a linked parent contact via Relationship) and a teacher (AC 01.1)                                                             |
+| 2   | [SF]     | Staff opens Lesson Detail → verifies **"Publish and Notify"** button is **visible** on a Draft lesson (AC 01.1)                                                                            |
+| 3   | [SF]     | Staff clicks **"Publish and Notify"** → verifies lesson status changes to **Published immediately** before modal appears (AC 02.1)                                                         |
+| 4   | [SF]     | Verify **confirmation modal** shown with message "Would you like to send notifications about the publishing lesson to all allocated students?" and **Send / Don't Send** options (AC 02.2) |
+| 5   | [SF]     | Staff clicks **"Send"** → notification flow triggered; verify both the student and their linked parent contact are included as recipients (AC 02.1)                                        |
+| 6   | [System] | Verify notification content: title = "Lesson Published" (JP: 授業公開のおしらせ), body contains lesson name + date + start/end time + CTA link (AC 02.1)                                   |
+| 7   | [Mobile] | Student logs into Learner App → receives **push notification** for the published lesson (AC 02.1)                                                                                          |
+| 8   | [Mobile] | Student **taps the notification** → navigates to the correct Lesson Detail page (deep-link verified) (AC 03.1)                                                                             |
+| 9   | [SF]     | Staff opens a **Published lesson** → clicks "Publish and Notify" → clicks **"Don't Send"** → verifies **no notification sent** (AC 02.2)                                                   |
+| 10  | [SF]     | Verify that after "Don't Send" on a formerly-Draft lesson the lesson **remains Published** — status is NOT reverted to Draft (Gap #6)                                                      |
+| 11  | [SF]     | Staff opens a **Completed lesson** → verifies **"Publish and Notify"** button is **hidden** (AC 01.1)                                                                                      |
+| 12  | [SF]     | Staff logs in as user **without** "Publish Lesson With Notification" permission → verifies button is **not visible** on Lesson Detail (PRD)                                                |
+
+**Features covered:**
+
+- Customization > Renseikai > Publish and notify student > Button visibility (AC 01.1)
+- Customization > Renseikai > Publish and notify student > Draft → Published transition (AC 02.1)
+- Customization > Renseikai > Publish and notify student > Confirmation modal (AC 02.2)
+- Customization > Renseikai > Publish and notify student > Notification recipients — student + parents (AC 02.1)
+- Customization > Renseikai > Publish and notify student > Don't Send — lesson stays Published (Gap #6)
+- Customization > Renseikai > Publish and notify student > Deep-link navigation (AC 03.1)
+- Customization > Renseikai > Publish and notify student > Permission guard (PRD)
+
+---
+
+## E2E-38: [Nichibei] Lesson Self-Booking & Cancellation
+
+> **Theme:** Nichibei-only Lesson Booking System — student browses bookable lessons on the Learner App, reserves a lesson (including auto-publish of a Draft lesson), verifies teacher notification, then cancels the booking and verifies clean removal.
+
+| #   | Platform | Action                                                                                                                                                              |
+| --- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [SF]     | Staff creates a **Draft lesson** with **Bookable Flag = ON**; assigns a teacher; sets location matching student's active LA (AC 06.1)                               |
+| 2   | [SF]     | Staff enables the **Lesson Booking feature** for the org in partner settings (BR-28)                                                                                |
+| 3   | [Mobile] | Student logs into Learner App → opens **Lesson Booking** menu → verifies **Booking List is empty** (empty state shown) (AC 01.1)                                    |
+| 4   | [Mobile] | Student taps **Browse Lessons (+)** → verifies the Draft lesson appears in the browse list (Bookable Flag ON + location match + within deadline) (AC 02.2, AC 02.4) |
+| 5   | [Mobile] | Student applies **filters** (location, date range) → verifies filter narrows results correctly (AC 02.3)                                                            |
+| 6   | [Mobile] | Student taps **Reserve** on the lesson → verifies **Booking Confirmation Screen** shows correct lesson details (AC 03.1)                                            |
+| 7   | [Mobile] | Student taps **Confirm Reservation** → verifies **Booking Success Screen** appears (AC 03.2, AC 03.4)                                                               |
+| 8   | [System] | Verify **Student Session** created with `Booking_Flag = TRUE`; verify lesson status auto-changed from **Draft → Published** (AC 03.2)                               |
+| 9   | [SF]     | Verify **SF notification** received by assigned teacher within 30 seconds: "[Student Name] has reserved [Lesson Name]" (AC 03.4, AC 05.1)                           |
+| 10  | [Mobile] | Verify booked lesson now appears in student's **Booking List** with enabled **Cancel** button (within deadline) (AC 01.1, AC 03.4)                                  |
+| 11  | [Mobile] | Student taps **Cancel** → verifies **Cancel Confirmation Dialog** appears with destructive action button (AC 04.3)                                                  |
+| 12  | [Mobile] | Student taps **Cancel Reservation** → verifies lesson removed from Booking List (AC 04.4)                                                                           |
+| 13  | [System] | Verify **Student Session** deleted; lesson status remains **Published** (does NOT revert to Draft) (AC 04.4, BR-32)                                                 |
+| 14  | [SF]     | Verify **SF cancellation notification** received by assigned teacher within 30 seconds: "[Student Name] has cancelled [Lesson Name]" (AC 04.4, AC 05.2)             |
+| 15  | [Mobile] | Verify **Reserve button** reappears on the lesson in Browse screen (student no longer allocated, lesson still Bookable) (AC 02.4)                                   |
+
+**Features covered:**
+
+- Customization > Nichibei > Lesson Booking > Booking List screen (AC 01.1)
+- Customization > Nichibei > Lesson Booking > Browse & Filter (AC 02.2, AC 02.3)
+- Customization > Nichibei > Lesson Booking > Reserve button states (AC 02.4)
+- Customization > Nichibei > Lesson Booking > Booking Confirmation & Success (AC 03.1, AC 03.2)
+- Customization > Nichibei > Lesson Booking > Auto-publish Draft → Published (silent) (AC 03.2, BR-30)
+- Customization > Nichibei > Lesson Booking > Teacher SF notification on booking (AC 03.4, AC 05.1)
+- Customization > Nichibei > Lesson Booking > Cancel flow (AC 04.1–04.4)
+- Customization > Nichibei > Lesson Booking > Teacher SF notification on cancellation (AC 05.2)
+- Customization > Nichibei > Lesson Booking > Lesson stays Published after last booking cancelled (BR-32)
+
+---
+
 ## Coverage Matrix
 
 | E2E Scenario                                                                  | Qase Cases Covered | Key Domains                                                    |
@@ -1100,6 +1185,8 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 | E2E-34: Automated Reports — Lesson Creation & Student Assignment Flows        |                ~45 | Lesson Report, Auto-create                                     |
 | E2E-35: Automated Reports — Bulk Assign, Report Lifecycle & Mobile Attendance |                ~50 | Lesson Report, BO, Mobile Attendance                           |
 | E2E-36: Change Lesson — Move Student Session via Calendar                     |                ~20 | Calendar SF Change Lesson, Student Session, Mobile             |
+| E2E-37: [Renseikai] Publish Lesson and Notify Students                        |                ~25 | Renseikai, Notifications, Deep-link, Permission                |
+| E2E-38: [Nichibei] Lesson Self-Booking & Cancellation                         |               ~new | Nichibei, Self-Booking, Mobile, LA, Points, Auto-publish       |
 
 > **Note:** Some test cases are covered by multiple E2E scenarios (shared features like Calendar views, LA updates). The total unique coverage exceeds 4,191 when cross-references are included.
 >
@@ -1115,3 +1202,5 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 > - E2E-32/33 ← original E2E-24 (21 steps)
 > - E2E-34/35 ← original E2E-25 (20 steps)
 > - E2E-36 ← new: Change Lesson gap coverage (Calendar SF > Change Lesson, 11 cases)
+> - E2E-37 ← new: Renseikai Publish & Notify (LT-96662)
+> - E2E-38 ← new: Nichibei Lesson Self-Booking & Cancellation (LT-96620)

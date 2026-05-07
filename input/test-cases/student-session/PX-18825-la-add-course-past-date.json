@@ -1,0 +1,90 @@
+[
+  {
+    "id": "PX-18825",
+    "title": "Lesson Allocation – Add Associated Course – Past Effective Date ≥ Product Start Date – New Course LA Created",
+    "severity": "major",
+    "role": "Admin",
+    "start_url": "https://dev-staging.my.salesforce.com/",
+    "preconditions": "Student Migrated Kim Ngan (26000036 / V7CZ66) has an active enrolled location ([E2E] Center 1B). A product (package type = Schedule) with Course A (Require Allocation = True) exists; an order has been submitted with product start date = 2026-04-01; Course A LA exists with start date = 2026-04-01. Course B has been added to the product offering (Require Allocation = True).",
+    "steps": [
+      {
+        "action": "navigate",
+        "target": "Student Detail page for Student Migrated Kim Ngan (26000036)",
+        "data": null,
+        "expected": null
+      },
+      {
+        "action": "click",
+        "target": "New Order Group button",
+        "data": null,
+        "expected": "New Order Group dialog opens"
+      },
+      {
+        "action": "select",
+        "target": "Location",
+        "data": "[E2E] Center 1B",
+        "expected": null
+      },
+      {
+        "action": "click",
+        "target": "Save button",
+        "data": null,
+        "expected": "Order Group is created"
+      },
+      {
+        "action": "click",
+        "target": "Manage Products button at Order Group Product",
+        "data": null,
+        "expected": null
+      },
+      {
+        "action": "select",
+        "target": "Product in Ordered Product section",
+        "data": "Product Ngan Frequency 2026",
+        "expected": null
+      },
+      {
+        "action": "click",
+        "target": "Update button",
+        "data": null,
+        "expected": "Update order form opens showing current product"
+      },
+      {
+        "action": "select",
+        "target": "Course",
+        "data": "[2026] CM Ngan Test 07",
+        "expected": null
+      },
+      {
+        "action": "fill",
+        "target": "Effective date",
+        "data": "2026-04-05",
+        "expected": null
+      },
+      {
+        "action": "select",
+        "target": "Class for Course",
+        "data": "Class 01",
+        "expected": null
+      },
+      {
+        "action": "click",
+        "target": "Save button",
+        "data": null,
+        "expected": null
+      },
+      {
+        "action": "click",
+        "target": "Save as Draft button",
+        "data": null,
+        "expected": null
+      },
+      {
+        "action": "click",
+        "target": "Submit button",
+        "data": null,
+        "expected": "Order submitted successfully"
+      }
+    ]
+  }
+]

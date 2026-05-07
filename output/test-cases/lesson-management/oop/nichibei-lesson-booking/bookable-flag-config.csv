@@ -1,0 +1,56 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,2759,,[Nichibei] Lesson Booking System,1,,
+,,,,,,,,,,,,,,,,,,,,2765,2759,Bookable Flag & Access Control,1,,
+20929,[Nichibei] Lesson Booking – Bookable Flag – New lesson – Default OFF,"AC 06.1 — CRUD Testing: When creating a new lesson in Salesforce, the Bookable Flag checkbox must default to OFF (unchecked).",Staff user with Lesson edit permission is creating a new lesson in Salesforce.,,,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Salesforce and navigate to create a new Lesson""
+2. ""View the Bookable Flag field""","1. ""Lesson creation form opened""
+2. ""Bookable Flag checkbox is unchecked (OFF) by default""","1. """"
+2. """"",,,2765,2759,Bookable Flag & Access Control,,,
+20930,[Nichibei] Lesson Booking – Bookable Flag – Turned ON – Lesson appears in Browse,"AC 06.1 — BR-5: State Transition: After turning Bookable Flag ON for a lesson, it becomes visible in the student's Browse Lessons list (assuming all other visibility conditions are met).","A lesson at student's LA location (Published, date = 2026-05-12) has Bookable_Flag=FALSE. Student cannot see it in Browse.",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Confirm lesson is NOT visible in Browse Lessons (Bookable_Flag=FALSE)""
+2. ""Staff turns Bookable Flag ON for the lesson in Salesforce""
+3. ""Student refreshes Browse Lessons""","1. ""Lesson not shown in Browse""
+2. ""Flag updated to TRUE""
+3. ""Lesson is now visible in Browse Lessons""","1. """"
+2. """"
+3. """"",,,2765,2759,Bookable Flag & Access Control,,,
+20931,[Nichibei] Lesson Booking – Bookable Flag – Turned OFF – Existing sessions unaffected,"AC 06.1 — BR-25: CRUD Testing / Negative Testing: When staff turns Bookable Flag OFF for a lesson that already has booked Student Sessions, the existing sessions must NOT be deleted.",A lesson has Bookable_Flag=TRUE and 2 existing Student Sessions (2 students have booked).,,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Confirm 2 Student Sessions exist in Salesforce for the lesson""
+2. ""Staff turns Bookable Flag OFF for the lesson in Salesforce""
+3. ""Verify Student Sessions in Salesforce after flag change""
+4. ""Verify Booking List for affected students""","1. ""Sessions present with Booking_Flag=TRUE""
+2. ""Flag updated to FALSE""
+3. ""Both Student Sessions still exist; no sessions deleted""
+4. ""Both students still see the lesson in their Booking List""","1. """"
+2. """"
+3. """"
+4. """"",,,2765,2759,Bookable Flag & Access Control,,,
+20932,[Nichibei] Lesson Booking – Bookable Flag – Turned OFF – Lesson no longer shown in Browse,"AC 06.1 — BR-5: State Transition: After turning Bookable Flag OFF, the lesson must NOT appear in new Browse searches.","A lesson at student's LA location (Published, date = 2026-05-12) has Bookable_Flag=TRUE and is visible in Browse.",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Confirm lesson IS visible in Browse Lessons (Bookable_Flag=TRUE)""
+2. ""Staff turns Bookable Flag OFF in Salesforce""
+3. ""Student refreshes Browse Lessons""","1. ""Lesson shown in Browse""
+2. ""Flag updated to FALSE""
+3. ""Lesson is no longer visible in Browse Lessons""","1. """"
+2. """"
+3. """"",,,2765,2759,Bookable Flag & Access Control,,,
+20933,[Nichibei] Lesson Booking – Bookable Flag – Flag change history tracked in Salesforce,AC 06.1 — CRUD Testing: Changes to the Bookable Flag field must be tracked via Salesforce field history.,A lesson exists with Bookable_Flag=FALSE.,,,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Turn Bookable Flag ON for the lesson in Salesforce""
+2. ""Turn Bookable Flag OFF for the lesson in Salesforce""
+3. ""Open Salesforce field history for the lesson's Bookable Flag""","1. ""Flag updated to TRUE""
+2. ""Flag updated to FALSE""
+3. ""History log shows both changes (FALSE→TRUE, TRUE→FALSE) with timestamp and user""","1. """"
+2. """"
+3. """"",,,2765,2759,Bookable Flag & Access Control,,,
+20934,[Nichibei] Lesson Booking – Access Control – Feature disabled – Lesson Booking menu hidden,"PRD/Config — BR-28: Decision Table: When the Lesson Booking feature is disabled for the partner, the Lesson Booking menu must NOT appear in the student's app navigation.",Lesson Booking feature flag is set to DISABLED for the Nichibei partner org.,,,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as a student user (Nichibei org, feature disabled)""
+2. ""View app navigation / main menu""","1. ""App home screen shown""
+2. """"Lesson Booking"""" menu entry is NOT visible""""""","1. ""Feature flag = disabled""
+2. """"",,,2765,2759,Bookable Flag & Access Control,,,
+20935,[Nichibei] Lesson Booking – Access Control – Feature enabled – Lesson Booking menu visible,"PRD/Config — BR-28: Decision Table: When the Lesson Booking feature is enabled for the partner, the Lesson Booking menu must appear in the student's app navigation.",Lesson Booking feature flag is set to ENABLED for the Nichibei partner org.,,,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as a student user (Nichibei org, feature enabled)""
+2. ""View app navigation / main menu""","1. ""App home screen shown""
+2. """"Lesson Booking"""" menu entry IS visible""""""","1. ""Feature flag = enabled""
+2. """"",,,2765,2759,Bookable Flag & Access Control,,,
+20936,[Nichibei] Lesson Booking – Access Control – Parent user – Lesson Booking menu not accessible,Confirmed — BR-29: Permission Matrix: Parent users must NOT have access to the Lesson Booking feature. The menu must not appear for parent accounts.,Lesson Booking feature is enabled. A parent user account is linked to a student.,,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Login to app as a parent user (Nichibei org, feature enabled)""
+2. ""View app navigation / main menu""
+3. ""Login to app as the linked student user""
+4. ""View app navigation / main menu""","1. ""App home screen shown""
+2. """"Lesson Booking"""" menu entry is NOT visible for parent"""""
+"3. """"App home screen shown"""""
+"4. """"""""""Lesson Booking"""" menu entry IS visible for student""""""","1. ""Role = Parent""
+2. """"
+3. ""Role = Student""
+4. """"",,,2765,2759,Bookable Flag & Access Control,,,

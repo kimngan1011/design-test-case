@@ -1,0 +1,53 @@
+[
+  {
+    "id": "TC-001",
+    "title": "Create one-time individual lesson with required fields",
+    "severity": "critical",
+    "role": "CM",
+    "start_url": "/lesson-list",
+    "preconditions": "Master data exists (Academic Year, Course, Location, Classroom)",
+    "steps": [
+      { "action": "login", "target": null, "data": null, "expected": null },
+      { "action": "navigate", "target": "/lesson-list", "data": null, "expected": null },
+      { "action": "click", "target": "Create Lesson button", "data": null, "expected": null },
+      { "action": "fill", "target": "Lesson Name", "data": "Auto Test Lesson 001", "expected": null },
+      { "action": "select", "target": "Teaching Medium", "data": "Offline", "expected": null },
+      { "action": "select", "target": "Teaching Method", "data": "Individual", "expected": null },
+      { "action": "fill", "target": "Start Date", "data": "2026-04-15", "expected": null },
+      { "action": "fill", "target": "Start Time", "data": "09:00", "expected": null },
+      { "action": "fill", "target": "End Time", "data": "10:00", "expected": null },
+      { "action": "select", "target": "Location", "data": "Centre A", "expected": null },
+      { "action": "click", "target": "Save button", "data": null, "expected": "Lesson created with Draft status" }
+    ]
+  },
+  {
+    "id": "TC-002",
+    "title": "Verify validation error when Start Date equals End Date for recurring lesson",
+    "severity": "major",
+    "role": "CM",
+    "start_url": "/lesson-list",
+    "preconditions": "Master data exists",
+    "steps": [
+      { "action": "click", "target": "Create Lesson button", "data": null, "expected": null },
+      { "action": "fill", "target": "Lesson Name", "data": "Auto Test Recurring", "expected": null },
+      { "action": "select", "target": "Recurrence Pattern", "data": "Weekly", "expected": null },
+      { "action": "fill", "target": "Start Date", "data": "2026-04-15", "expected": null },
+      { "action": "fill", "target": "End Date", "data": "2026-04-15", "expected": null },
+      { "action": "click", "target": "Save button", "data": null, "expected": "Validation error: End date must be after start date" }
+    ]
+  },
+  {
+    "id": "TC-003",
+    "title": "Teacher views lesson detail on Back Office",
+    "severity": "normal",
+    "role": "Teacher",
+    "start_url": "/lesson-management",
+    "preconditions": "A published lesson exists with teacher assigned",
+    "steps": [
+      { "action": "login", "target": null, "data": null, "expected": null },
+      { "action": "navigate", "target": "/lesson-management", "data": null, "expected": null },
+      { "action": "click", "target": "First lesson in list", "data": null, "expected": null },
+      { "action": "verify", "target": null, "data": null, "expected": "Lesson detail page shows lesson name, date, time, students" }
+    ]
+  }
+]

@@ -1,0 +1,27 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,Publish and Notify Student,,,,,,,,,,,,,,,,,,2676,286,1,,,
+,,Publish and Notify Student | Notification Content,,,,,,,,,,,,,,,,,,2679,2676,1,,,
+,Notification Content – English – Title and body match lesson details,"AC 02.1 — Equivalence Partitioning — The push notification title and body content match the defined EN template with the correct lesson name, date, and time.","User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson: Science Basics – Session 3 | date: 2026-04-20 | 09:00–10:30
+Student G assigned; logged into Learner App (EN locale) on Device 1 with push enabled",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student"" then click ""Send""
+3. On Device 1 open the Learner App and expand the received push notification
+4. Read the notification body text fully","1. Lesson Detail page opens; status = ""Published""
+2. Modal closes
+3. Notification title is exactly: ""Lesson Published""
+4. Notification body is exactly: ""The schedule for Science Basics – Session 3 has been published. Lesson Date: 2026-04-20 | 09:00 - 10:30. Tap the button below to view the lesson details.""","1. Lesson: Science Basics – Session 3
+2. """"
+3. """"
+4. """",,,,,,
+,Notification Content – Japanese – JP title and body match translation table""",AC 02.1 — Equivalence Partitioning — The push notification title and body content match the defined JP translation table.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson: 数学基礎 – 第3回 | date: 2026-04-20 | 09:00–10:30
+Student H assigned; logged into Learner App (JP locale) on Device 2 with push enabled",2679,LT-96662,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student"" then click ""Send""
+3. On Device 2 (JP locale) open the Learner App and expand the received push notification
+4. Read the notification body text fully","1. Lesson Detail page opens; status = ""Published""
+2. Modal closes
+3. Notification title is exactly: ""授業公開のおしらせ""
+4. Notification body is exactly: ""数学基礎 – 第3回 の授業が公開されました。授業日: 2026-04-20 | 09:00 - 10:30. 授業詳細を見るにはボタンをタップしてください。"""",1. Lesson: 数学基礎 – 第3回"
+"2. """"""""",,,,,,,,,,,,,,,,,,,,,,,,,
+"3. """"""""",,,,,,,,,,,,,,,,,,,,,,,,,
+"4. """"""""",,,,,,,,,,,,,,,,,,,,,,,,,

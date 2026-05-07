@@ -1,0 +1,108 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,Publish and Notify Student,,,,,,,,,,,,,,,,,,2676,286,1,,,
+,,Publish and Notify Student | Notification Recipients,,,,,,,,,,,,,,,,,,2680,2676,1,,,
+,Notification Recipients – Student with One Parent – Student and parent both receive notification,AC 02.1 — CRUD Testing + Decision Table — When a lesson has one assigned student with one linked parent both receive the push notification after Send is clicked.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Lesson: English Level 3 – Session 1 | Published | date: 2026-04-20 | 10:00–11:00
+Student A assigned; logged into Learner App on Device 1 with push enabled
+Parent A linked to Student A via Relationship record; logged into Parent App on Device 2 with push enabled",,LT-96662,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student""
+3. Click ""Send""
+4. On Device 1 open the Learner App and check notification inbox
+5. On Device 2 open the Parent App and check notification inbox","1. Lesson Detail page opens; status = ""Published""
+2. Confirmation modal appears
+3. Modal closes
+4. Student A receives push notification with title ""Lesson Published""
+5. Parent A receives push notification with title ""Lesson Published"" for the same lesson","1. Lesson: English Level 3 – Session 1
+2. """"
+3. """"
+4. Student A account (Device 1)
+5. Parent A account (Device 2)",,,2680,,,,,
+,Notification Recipients – Student with Multiple Parents – Student and all linked parents receive notification,AC 02.1 — CRUD Testing + Decision Table — When a student has multiple parent Relationship records all linked parents receive the push notification.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson with Student C assigned
+Parent C1 and Parent C2 both linked to Student C via separate Relationship records
+Student C on Device 1 (Learner App); Parent C1 on Device 2 (Parent App); Parent C2 on Device 3 (Parent App)",,LT-96662,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student"" and then click ""Send""
+3. On Device 1 (Student C) check the Learner App notification inbox
+4. On Device 2 (Parent C1) check the Parent App notification inbox
+5. On Device 3 (Parent C2) check the Parent App notification inbox","1. Lesson Detail page opens; status = ""Published""
+2. Modal closes
+3. Student C receives push notification with title ""Lesson Published""
+4. Parent C1 receives push notification with title ""Lesson Published""
+5. Parent C2 receives push notification with title ""Lesson Published""","1. Lesson ID with Student C assigned
+2. """"
+3. Student C Learner App account
+4. Parent C1 Parent App account
+5. Parent C2 Parent App account",,,2680,,,,,
+,Notification Recipients – Student with No Linked Parent – Only student receives notification,AC 02.1 + Gap #3 — Decision Table + Negative Testing — When the assigned student has no parent Relationship records only the student is notified and no error occurs. NOTE: Confirm expected behavior with product team after execution.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson with Student D assigned
+Student D has no linked parent Contacts via any Relationship record
+Student D logged into Learner App on Device 1 with push enabled",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student""
+3. Click ""Send""
+4. On Device 1 check the Learner App notification inbox for Student D","1. Lesson Detail page opens; status = ""Published""
+2. Confirmation modal appears without error
+3. Modal closes; no error message or warning shown on SF page
+4. Student D receives push notification with title ""Lesson Published""","1. Lesson ID with Student D assigned (no parent)
+2. """"
+3. """"
+4. Student D Learner App account",,,2680,,,,,
+,"Notification Recipients – Parent/Student Has No Device Token – Notification silently skipped, other recipients still notified",AC 02.1 + Gap #4 — Decision Table + Negative Testing — When a recipient has no device token the notification is silently skipped and other recipients with valid tokens still receive it.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson with Student E assigned
+Parent E linked to Student E via Relationship but has never logged into the Parent App (no device token)
+Student E logged into Learner App on Device 1 with push enabled",,LT-96662,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student""
+3. Click ""Send""
+4. On Device 1 check the Learner App notification inbox for Student E
+5. Confirm Parent E has never logged in; verify no error shown on SF to the operator","1. Lesson Detail page opens; status = ""Published""
+2. Confirmation modal appears
+3. Modal closes; no error message shown on SF page
+4. Student E receives push notification with title ""Lesson Published""
+5. No error banner or failure message shown to the SF user; Parent E does not receive a notification","1. Lesson ID with Student E assigned
+2. """"
+3. """"
+4. Student E Learner App account
+5. Parent E contact (no app login)",,,2680,,,,,
+,Notification Recipients – Multiple Students Under Same Parent – Parent receives notification for each student's lesson separately,Gap from coverage — Decision Table — Triggering notification for Student F1's lesson sends a notification specific to that lesson only and does not affect Student F2. NOTE: Confirm expected behavior with product team after execution.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Parent F linked to both Student F1 and Student F2 via Relationship records
+Lesson X assigned to Student F1 only (not Student F2); status = Published
+Parent F logged into Parent App on Device 1
+Student F1 on Device 2 (Learner App)",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of Lesson X (Published assigned to Student F1)
+2. Click ""Publish and notify student"" then click ""Send""
+3. On Device 1 check Parent F's Parent App notification inbox
+4. On Device 2 check Student F1's Learner App notification inbox","1. Lesson Detail page opens
+2. Modal closes
+3. Parent F receives one push notification referencing Lesson X (Student F1's lesson); notification does not reference Student F2
+4. Student F1 receives push notification with title ""Lesson Published""","1. Lesson X ID — assigned to Student F1 only
+2. """"
+3. Parent F Parent App account
+4. Student F1 Learner App account",,,2680,,,,,
+,Notification Recipients – Multiple Students Switch Account Same Device – Notification delivered only to the account whose student is assigned,Gap — Decision Table — When multiple student accounts are logged into the same device via switch account only the assigned student's account receives the notification. NOTE: Confirm expected behavior with product team after execution.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Device 1 has two student accounts via switch account: Student F1 (active) and Student F2
+Published lesson assigned to Student F1 only (Student F2 not assigned)
+Push notifications enabled for both accounts on Device 1",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson (assigned to Student F1)
+2. Click ""Publish and notify student"" then click ""Send""
+3. On Device 1 check the notification inbox while Student F1 is the active account
+4. Switch to Student F2's account on Device 1 and check the notification inbox","1. Lesson Detail page opens; status = ""Published""
+2. Modal closes
+3. Student F1's account receives a push notification with title ""Lesson Published""
+4. Student F2's account does not receive a push notification for this lesson","1. Lesson ID — assigned to Student F1 only
+2. """"
+3. Device 1 — Student F1 account active
+4. Device 1 — Student F2 account",,,2680,,,,,
+,Notification Recipients – Student and Parent Switch Account Same Device – Notification delivered only to the account matching the recipient role,Gap — Decision Table — When a student account and a parent account are both logged into the same device via switch account the notification is delivered to the correct account by role and does not bleed to unrelated accounts. NOTE: Confirm expected behavior with product team after execution.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Device 1 has two accounts via switch account: Student A (Learner App active) and Parent A (Parent App)
+Published lesson assigned to Student A; Parent A linked to Student A via Relationship
+Push notifications enabled for both accounts on Device 1",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student"" then click ""Send""
+3. On Device 1 check the notification inbox while Student A is the active account
+4. Switch to Parent A's account on Device 1 and check the notification inbox
+5. Confirm notifications are scoped to the correct role; verify no notification on any unrelated account","1. Lesson Detail page opens; status = ""Published""
+2. Modal closes
+3. Student A's Learner App account receives a push notification with title ""Lesson Published""
+4. Parent A's Parent App account also receives a push notification with title ""Lesson Published"" for the same lesson
+5. Each notification is scoped to the correct account; no unexpected notification on unrelated accounts","1. Lesson ID — assigned to Student A
+2. """"
+3. Device 1 — Student A active
+4. Device 1 — Parent A account
+5. """",,,,,,
+",,,2680,,,,,

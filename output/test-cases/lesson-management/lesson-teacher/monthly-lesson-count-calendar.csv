@@ -1,0 +1,102 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,[Riso] Monthly Lesson Count – Calendar Teacher Details,,,,,,,,,,,,,,,,,,2706,2458,[Riso] Monthly Lesson Count – Calendar Teacher Details,1,,
+,"[Riso] Calendar Teacher Details – Monthly Lesson Count – Count Shown When Teacher Selected","AC 01.3 — Regression Analysis — The Monthly Lesson Count field is visible in the Teacher Details right panel when a teacher is selected on the SF Lesson Calendar.","- Org is Riso OOP; today is April 2026
+- Teacher A is assigned to 4 lessons in April 2026 (Published)
+- User is logged in as CM or HQ",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the SF Lesson Calendar""
+2. ""On the left side teacher panel, select Teacher A""
+3. ""Observe the Teacher Details right panel""","1. ""SF Calendar opens, showing the current month (April 2026)""
+2. ""Teacher Details panel opens on the right""
+3. ""Monthly Lesson Count (今月の授業数) field is visible and shows 4""","1. """"
+2. """"
+3. """"",,,,,,,
+,"[Riso] Calendar Teacher Details – Monthly Lesson Count – Count Uses Today's Month Not Calendar View Month","AC 01.3 — Decision Table — When the calendar shows a different month from today, Monthly Lesson Count still reflects today's month count.","- Org is Riso OOP; today is April 2026
+- Teacher B has 6 lessons in April 2026 (Published) and 2 lessons in February 2026 (Published)",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the SF Lesson Calendar""
+2. ""Select Teacher B in the left panel""
+3. ""Navigate the calendar to February 2026 (click previous month twice)""
+4. ""Observe Teacher B Monthly Lesson Count in Teacher Details""","1. ""Calendar opens in April 2026 view""
+2. ""Teacher Details displays with Monthly Lesson Count = 6 (April count)""
+3. ""Calendar view changes to show February 2026 lessons""
+4. ""Count = 6 (still April 2026 count — NOT 2)""","1. """"
+2. """"
+3. """"
+4. """"",,,,,,,
+,"[Riso] Calendar Teacher Details – Monthly Lesson Count – Navigation to Next Month Does Not Change Count","AC 01.3 — State Transition Testing — Navigating forward in the calendar does not change the Monthly Lesson Count.","- Org is Riso OOP; today is April 2026
+- Teacher C has 3 lessons in April 2026 (Published) and 7 lessons in May 2026 (Published)
+- Teacher C is selected; count = 3 is visible",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open SF Calendar in April 2026 view; select Teacher C""
+2. ""Click next month to navigate to May 2026""
+3. ""Observe Teacher C Monthly Lesson Count""
+4. ""Click next month again to navigate to June 2026""
+5. ""Observe Teacher C Monthly Lesson Count""","1. ""Teacher Details shows Monthly Lesson Count = 3""
+2. ""Calendar view changes to May 2026""
+3. ""Count = 3 (April — unchanged; NOT 7)""
+4. ""Calendar view changes to June 2026""
+5. ""Count = 3 (April — still unchanged)""","1. """"
+2. """"
+3. """"
+4. """"
+5. """"",,,,,,,
+,"[Riso] Calendar Teacher Details – Monthly Lesson Count – Navigation to Previous Month Does Not Change Count","AC 01.3 — State Transition Testing — Navigating backward in the calendar does not change the Monthly Lesson Count.","- Org is Riso OOP; today is April 2026
+- Teacher D has 5 lessons in April 2026 (Published) and 1 lesson in March 2026 (Published)
+- Teacher D is selected; count = 5 is visible",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open SF Calendar in April 2026 view; select Teacher D""
+2. ""Click previous month to navigate to March 2026""
+3. ""Observe Teacher D Monthly Lesson Count""","1. ""Teacher Details shows Monthly Lesson Count = 5""
+2. ""Calendar view changes to March 2026""
+3. ""Count = 5 (April — unchanged; NOT 1)""","1. """"
+2. """"
+3. """"",,,,,,,
+,"[Riso] Calendar Teacher Details – Monthly Lesson Count – Zero Lessons in Today's Month Shows 0","AC 01.3 — Boundary Value Analysis — A teacher with no lessons in today's month shows 0 in the Monthly Lesson Count panel, not blank.","- Org is Riso OOP; today is April 2026
+- Teacher E has no lessons in April 2026 (no assignments of any status)
+- Teacher E has lessons in other months",,,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to SF Lesson Calendar""
+2. ""Select Teacher E in the left panel""
+3. ""Observe the Monthly Lesson Count field""","1. ""Calendar opens""
+2. ""Teacher Details panel opens""
+3. ""Count = 0 — the field is not blank, not empty, not a dash""","1. """"
+2. """"
+3. """"",,,,,,,
+,"[Riso] Calendar Teacher Details – Monthly Lesson Count – Count Includes All Locations","AC 01.3 — Decision Table — The count includes lessons from all of the teacher's locations.","- Org is Riso OOP; today is April 2026
+- Teacher F has 3 lessons at Location A in April 2026 (Published) and 2 lessons at Location B in April 2026 (Published)
+- User is viewing SF Calendar scoped to Location A",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to SF Calendar for Location A""
+2. ""Select Teacher F in the left panel""
+3. ""Observe Monthly Lesson Count""","1. ""Calendar opens showing Location A lessons""
+2. ""Teacher Details panel opens""
+3. ""Count = 5 (3 from Location A + 2 from Location B)""","1. ""Location A""
+2. """"
+3. """"",,,,,,,
+,"[Riso] Calendar Teacher Details – Monthly Lesson Count – Timezone Boundary Last Day of Month","AC 01.3 — Boundary Value Analysis — A lesson on the last day of today's month at late evening local time (JST) is counted in today's month, not the next month.","- Org is Riso OOP (Japan Standard Time, UTC+9); today is April 2026
+- Teacher G is assigned to a lesson: Date Apr 30 2026, Time 23:30 JST (= May 1 00:30 UTC), Status: Published
+- Teacher G has no other lessons in April or May 2026",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to SF Calendar in April 2026""
+2. ""Select Teacher G in the left panel""
+3. ""Observe Monthly Lesson Count""","1. ""Calendar displays April 2026""
+2. ""Teacher Details panel opens""
+3. ""Count = 1 (April 30 23:30 JST lesson is counted in April, not May)""","1. """"
+2. """"
+3. """"",,,,,,,
+,"[Riso] Calendar Teacher Details – Monthly Lesson Count – Switch Between Selected Teachers Updates Count","AC 01.3 — State Transition Testing — When multiple teachers are selected on the Calendar and the user switches focus between them, the Monthly Lesson Count in Teacher Details updates to reflect the newly focused teacher's count.","- Org is Riso OOP; today is April 2026
+- Teacher A has 4 lessons in April 2026 (Published)
+- Teacher B has 9 lessons in April 2026 (Published)
+- Both Teacher A and Teacher B are visible in the Calendar left panel",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the SF Lesson Calendar""
+2. ""Select Teacher A in the left panel to view details""
+3. ""Select Teacher B in the left panel to view details""
+4. ""Select Teacher A again in the left panel""","1. ""Calendar opens in April 2026 view""
+2. ""Teacher Details panel opens for Teacher A; Count = 4""
+3. ""Teacher Details panel updates to Teacher B; Count = 9""
+4. ""Teacher Details panel switches back to Teacher A; Count = 4""","1. """"
+2. """"
+3. """"
+4. """"",,,,,,,
+,"[Riso] Calendar Teacher Details – Monthly Lesson Count – Each Teacher's Count Is Independent","AC 01.3 — Decision Table — When multiple teachers are active as calendar filters, the Monthly Lesson Count shown for each teacher reflects only that individual teacher's lesson count for today's month, not the combined total.","- Org is Riso OOP; today is April 2026
+- Teacher A has 4 lessons in April 2026 (Published)
+- Teacher B has 9 lessons in April 2026 (Published)
+- Both Teacher A and Teacher B are selected as calendar filters",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to SF Calendar; enable both Teacher A and B as calendar filters""
+2. ""Click on Teacher A's row in the left panel to open details""
+3. ""Click on Teacher B's row in the left panel to open details""","1. ""Calendar shows lessons from both teachers on the grid""
+2. ""Teacher Details shows Teacher A Monthly Lesson Count = 4 (NOT 13)""
+3. ""Teacher Details shows Teacher B Monthly Lesson Count = 9 (NOT 13)""","1. """"
+2. """"
+3. """"",,,,,,,
+,"[Riso] Calendar Teacher Details – Monthly Lesson Count – Deselect Teacher Clears Panel","AC 01.3 — State Transition Testing — When the currently viewed teacher is deselected from the Calendar left panel, the Teacher Details panel (and the Monthly Lesson Count) is no longer shown.","- Org is Riso OOP; today is April 2026
+- Teacher A has 4 lessons in April 2026 (Published)
+- Teacher A is selected and Teacher Details showing count = 4",,,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open SF Calendar; select Teacher A to view details""
+2. ""Deselect Teacher A from the left panel""","1. ""Teacher Details panel shows Monthly Lesson Count = 4""
+2. ""Teacher Details panel closes or hides; Monthly Lesson Count is no longer visible""","1. """"
+2. """"",,,,,,,

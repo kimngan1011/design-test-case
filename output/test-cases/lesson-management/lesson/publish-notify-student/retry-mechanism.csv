@@ -1,0 +1,57 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,Publish and Notify Student,,,,,,,,,,,,,,,,,,2676,286,1,,,
+,,Publish and Notify Student | Retry Mechanism,,,,,,,,,,,,,,,,,,2682,2676,1,,,
+,Notification Retry – First Attempt Fails – System retries up to 3 times before stopping,AC 02.3 — Negative Testing — When the first notification delivery attempt fails the system automatically retries up to 3 times. NOTE: Requires simulated failure via backend/mock tooling.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson with Student A assigned
+Notification delivery pipeline configured to fail on all attempts (simulated failure)
+Access to system logs or admin dashboard",,LT-96662,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student"" then click ""Send""
+3. Observe the SF page for any visible failure indicator
+4. In the system audit log / admin dashboard verify retry attempts
+5. Verify no further retry beyond 3 attempts","1. Lesson Detail page opens
+2. Modal closes without error shown to SF user
+3. No error banner or blocking UI shown to the operator
+4. Exactly 3 delivery attempts logged each marked failed with short interval between attempts
+5. No 4th attempt logged; retry loop stopped","1. Published lesson ID
+2. """"
+3. """"
+4. System audit log or admin dashboard
+5. System audit log",,,2682,,,,,
+,Notification Retry – Retry Succeeds – Only one notification delivered to recipient,AC 02.3 — Negative Testing + Regression Analysis — When delivery fails on attempt 1 but succeeds on attempt 2 the recipient receives exactly one push notification (no duplicates). NOTE: Requires simulated failure on attempt 1 and success on attempt 2.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson with Student A assigned
+Notification delivery configured to fail on attempt 1 and succeed on attempt 2
+Student A logged into Learner App on Device 1 with push enabled",,LT-96662,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student"" then click ""Send""
+3. Wait for retry interval to elapse (backend delivers on 2nd attempt)
+4. On Device 1 check Student A's Learner App notification inbox
+5. In the system audit log verify attempt records","1. Lesson Detail page opens
+2. Modal closes
+3. System completes delivery on attempt 2
+4. Student A receives exactly one push notification with title ""Lesson Published"" — no duplicate
+5. Log shows attempt 1: FAILED attempt 2: SUCCESS; no further attempts","1. Published lesson ID
+2. """"
+3. """"
+4. Student A Learner App account
+5. System audit log",,,2682,,,,,
+,Notification Retry – All Attempts Logged – Each attempt recorded in system audit log,AC 02.3 — Regression Analysis — Every notification delivery attempt (success or failure) is recorded in the system audit log. Smoke test. NOTE: Requires access to backend logs or admin dashboard.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson with Student A assigned
+Access to system audit log or admin dashboard",,LT-96662,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student"" then click ""Send""
+3. In the system audit log locate the log entry for this notification event","1. Lesson Detail page opens
+2. Modal closes; notification delivered successfully on first attempt
+3. Log entry exists for the notification attempt with status SUCCESS timestamp lesson ID and recipient ID","1. Published lesson ID
+2. """"
+3. System audit log",,,2682,,,,,
+,Notification Retry – All 3 Attempts Fail – Failure event logged in system,AC 02.3 — Negative Testing — When all 3 delivery attempts fail a clear failure event is logged in the error log or admin dashboard. NOTE: Requires simulated failure on all 3 attempts via backend tooling.,"User is logged into SF with the "Publish Lesson With Notification" custom permission (member of the Renseikai OOP Permission Set)
+Published lesson with Student A assigned
+Notification delivery pipeline configured to fail on all 3 attempts
+Access to system error log or admin dashboard",,LT-96662,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the Published lesson
+2. Click ""Publish and notify student"" then click ""Send""
+3. Wait for all 3 retry attempts to complete
+4. In the system error log / admin dashboard locate the failure record","1. Lesson Detail page opens
+2. Modal closes; no error shown to SF user in the UI
+3. No notification delivered to the recipient device
+4. Clear failure log entry exists indicating all 3 attempts failed; log includes lesson ID recipient ID and failure reason for each attempt","1. Published lesson ID
+2. """"
+3. """"
+4. System error log / admin dashboard",,,2682,,,,,
