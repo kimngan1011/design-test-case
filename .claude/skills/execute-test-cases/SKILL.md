@@ -28,6 +28,7 @@ optimization rules, error handling, and report format. Follow these rules strict
 ## Environment Registry
 
 Read credentials from memory:
+
 ```
 /Users/manabie/.claude/projects/-Users-manabie-design-test-case/memory/environments.md
 ```
@@ -45,6 +46,7 @@ determines which account to use.
 ### Step 1 — Parse Input
 
 Extract from user's message:
+
 - **JSON file path** — must exist in `input/test-cases/`
 - **Environment name** — e.g. `renseikai-rehearsal2`, `staging`
 
@@ -55,25 +57,26 @@ If either missing, ask in ONE prompt.
 Read environments.md → find env → extract role accounts.
 
 **Session token reuse (bypass verification code):**
+
 - Session storage path: `input/sessions/<env>-<role>.json`
 - If session file exists → restore cookies via `browser_run_code`:
   ```js
   async (page) => {
-    const fs = require('fs');
-    const cookies = JSON.parse(fs.readFileSync('<session-file>', 'utf8'));
+    const fs = require("fs");
+    const cookies = JSON.parse(fs.readFileSync("<session-file>", "utf8"));
     await page.context().addCookies(cookies);
-    return 'Session restored';
-  }
+    return "Session restored";
+  };
   ```
 - After restoring, navigate to start_url and take snapshot to verify session is valid (check for login page vs app page)
 - If session invalid or missing → proceed with full login → after successful login, save cookies:
   ```js
   async (page) => {
-    const fs = require('fs');
+    const fs = require("fs");
     const cookies = await page.context().cookies();
-    fs.writeFileSync('<session-file>', JSON.stringify(cookies));
-    return 'Session saved';
-  }
+    fs.writeFileSync("<session-file>", JSON.stringify(cookies));
+    return "Session saved";
+  };
   ```
 - If login requires a verification code → pause, ask user for the code, then continue and save session
 
@@ -81,11 +84,12 @@ Read environments.md → find env → extract role accounts.
 
 1. Read JSON file (1 tool call)
 2. **Group by `role`** to minimize re-logins
-3. Within each group, sort by severity: critical → major → normal → minor
+3. Within each group, sort by severity: critical → major → minor → trivial
 
 ### Step 4 — Present Execution Plan
 
 Show summary table and wait for user confirmation:
+
 ```
 | # | ID | Title | Steps | Role | Severity |
 Proceed? (yes / yes but skip <ID> / no)

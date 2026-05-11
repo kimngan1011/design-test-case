@@ -1113,23 +1113,25 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 
 > **Theme:** Nichibei-only Lesson Booking System — student browses bookable lessons on the Learner App, reserves a lesson (including auto-publish of a Draft lesson), verifies teacher notification, then cancels the booking and verifies clean removal.
 
-| #   | Platform | Action                                                                                                                                                              |
-| --- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | [SF]     | Staff creates a **Draft lesson** with **Bookable Flag = ON**; assigns a teacher; sets location matching student's active LA (AC 06.1)                               |
-| 2   | [SF]     | Staff enables the **Lesson Booking feature** for the org in partner settings (BR-28)                                                                                |
-| 3   | [Mobile] | Student logs into Learner App → opens **Lesson Booking** menu → verifies **Booking List is empty** (empty state shown) (AC 01.1)                                    |
-| 4   | [Mobile] | Student taps **Browse Lessons (+)** → verifies the Draft lesson appears in the browse list (Bookable Flag ON + location match + within deadline) (AC 02.2, AC 02.4) |
-| 5   | [Mobile] | Student applies **filters** (location, date range) → verifies filter narrows results correctly (AC 02.3)                                                            |
-| 6   | [Mobile] | Student taps **Reserve** on the lesson → verifies **Booking Confirmation Screen** shows correct lesson details (AC 03.1)                                            |
-| 7   | [Mobile] | Student taps **Confirm Reservation** → verifies **Booking Success Screen** appears (AC 03.2, AC 03.4)                                                               |
-| 8   | [System] | Verify **Student Session** created with `Booking_Flag = TRUE`; verify lesson status auto-changed from **Draft → Published** (AC 03.2)                               |
-| 9   | [SF]     | Verify **SF notification** received by assigned teacher within 30 seconds: "[Student Name] has reserved [Lesson Name]" (AC 03.4, AC 05.1)                           |
-| 10  | [Mobile] | Verify booked lesson now appears in student's **Booking List** with enabled **Cancel** button (within deadline) (AC 01.1, AC 03.4)                                  |
-| 11  | [Mobile] | Student taps **Cancel** → verifies **Cancel Confirmation Dialog** appears with destructive action button (AC 04.3)                                                  |
-| 12  | [Mobile] | Student taps **Cancel Reservation** → verifies lesson removed from Booking List (AC 04.4)                                                                           |
-| 13  | [System] | Verify **Student Session** deleted; lesson status remains **Published** (does NOT revert to Draft) (AC 04.4, BR-32)                                                 |
-| 14  | [SF]     | Verify **SF cancellation notification** received by assigned teacher within 30 seconds: "[Student Name] has cancelled [Lesson Name]" (AC 04.4, AC 05.2)             |
-| 15  | [Mobile] | Verify **Reserve button** reappears on the lesson in Browse screen (student no longer allocated, lesson still Bookable) (AC 02.4)                                   |
+| #   | Platform | Action                                                                                                                                                                                                                                                                     |
+| --- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [SF]     | Staff creates a **Draft lesson** with **Bookable Flag = ON**; assigns a teacher; sets location matching student's active LA (AC 06.1)                                                                                                                                      |
+| 2   | [SF]     | Staff enables the **Lesson Booking feature** for the org in partner settings (BR-28)                                                                                                                                                                                       |
+| 3   | [Mobile] | Student logs into Learner App → opens **Lesson Booking** menu → verifies **Booking List is empty** (empty state shown) (AC 01.1)                                                                                                                                           |
+| 4   | [Mobile] | Student taps **Browse Lessons (+)** → verifies the Draft lesson appears in the browse list (Bookable Flag ON + location match + within deadline) (AC 02.2, AC 02.4)                                                                                                        |
+| 5   | [Mobile] | Student applies **filters** (location, date range) → verifies filter narrows results correctly (AC 02.3)                                                                                                                                                                   |
+| 6   | [Mobile] | Student taps **Reserve** on the lesson → verifies **Booking Confirmation Screen** shows correct lesson details (AC 03.1)                                                                                                                                                   |
+| 7   | [Mobile] | Student taps **Confirm Reservation** → verifies **Booking Success Screen** appears (AC 03.2, AC 03.4)                                                                                                                                                                      |
+| 8   | [System] | Verify **Student Session** created with `Booking_Flag = TRUE`; verify lesson status auto-changed from **Draft → Published** (AC 03.2)                                                                                                                                      |
+| 9   | [SF]     | Verify **SF notification** received by assigned teacher within 30 seconds: "[Student Name] has reserved [Lesson Name]" (AC 03.4, AC 05.1)                                                                                                                                  |
+| 10  | [Mobile] | Verify booked lesson now appears in student's **Booking List** with enabled **Cancel** button (within deadline) (AC 01.1, AC 03.4)                                                                                                                                         |
+| 11  | [Mobile] | Student taps **Cancel** → verifies **Cancel Confirmation Dialog** appears with destructive action button (AC 04.3)                                                                                                                                                         |
+| 12  | [Mobile] | Student taps **Cancel Reservation** → verifies lesson removed from Booking List (AC 04.4)                                                                                                                                                                                  |
+| 13  | [System] | Verify **Student Session** deleted; lesson status remains **Published** (does NOT revert to Draft) (AC 04.4, BR-32)                                                                                                                                                        |
+| 14  | [SF]     | Verify **SF cancellation notification** received by assigned teacher within 30 seconds: "[Student Name] has cancelled [Lesson Name]" (AC 04.4, AC 05.2)                                                                                                                    |
+| 15  | [Mobile] | Verify **Reserve button** reappears on the lesson in Browse screen (student no longer allocated, lesson still Bookable) (AC 02.4)                                                                                                                                          |
+| 16  | [BO]     | Staff opens BO Lesson List — verify **Lesson Status filter defaults to "Published"**; locate the auto-published lesson row; click **Collect Attendance** entry point on the lesson row (AC 01.1 + AC 03.1 — LT-96616)                                                      |
+| 17  | [BO]     | Within Collect Attendance page: verify the student's booking remark is shown as a **read-only inline field** per student row ("Booking Note: …"); verify **Save button** and **radio buttons** (Attend/Absent/…) are present and functional (AC 02.1 + AC 03.3 — LT-96616) |
 
 **Features covered:**
 
@@ -1142,51 +1144,83 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 - Customization > Nichibei > Lesson Booking > Cancel flow (AC 04.1–04.4)
 - Customization > Nichibei > Lesson Booking > Teacher SF notification on cancellation (AC 05.2)
 - Customization > Nichibei > Lesson Booking > Lesson stays Published after last booking cancelled (BR-32)
+- Lesson Management > BO > Lesson List > Status filter default Published (AC 01.1 — LT-96616)
+- Lesson Management > BO > Collect Attendance > Entry point from Lesson List (AC 03.1 — LT-96616)
+- Lesson Management > BO > Collect Attendance > Booking remark shown read-only per student row (AC 02.1 + AC 03.3 — LT-96616)
+
+---
+
+## E2E-39: [Nichibei] BO Lesson List — Filter Default & Collect Attendance Entry Point
+
+> **Theme:** LT-96616 — BO staff opens Lesson List with Published default filter (persistent), navigates to Collect Attendance from Lesson List, verifies student remark field is read-only while page retains full save capability. Also covers Limit Teacher interaction.
+
+| #   | Platform | Action                                                                                                                                                                                                                                 |
+| --- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [BO]     | Staff opens BO **Lesson List** — verify **Lesson Status filter is pre-set to "Published"** without any manual action (AC 01.1 — LT-96655)                                                                                              |
+| 2   | [BO]     | Navigate away to Lesson Detail and return to Lesson List — verify filter **retains "Published"** (persistent across navigation) (AC 01.1 + BR2 — LT-96655)                                                                             |
+| 3   | [BO]     | Manually clear the filter — verify list updates (all statuses shown); close and reopen Lesson List — verify filter **resets to "Published"** (AC 01.1 + BR2)                                                                           |
+| 4   | [BO]     | Change filter to **"Draft"** — verify list updates to show Draft lessons only (AC 01.2 — LT-96655)                                                                                                                                     |
+| 5   | [BO]     | Login as **Limit Teacher** — open Lesson List — verify filter defaults to "Published" AND only **assigned lessons** shown (Limit Teacher scope + Published default both active simultaneously) (AC 01.1 + BR3 — LT-96655)              |
+| 6   | [BO]     | Filter to **"Published"** — locate a Published lesson row — verify **Collect Attendance entry point** is visible/enabled on the row (AC 03.1 — LT-96657)                                                                               |
+| 7   | [BO]     | Filter to **"Draft"** — verify Collect Attendance entry point is **NOT available** on Draft lesson rows (AC 03.1 + BR8 — LT-96657)                                                                                                     |
+| 8   | [BO]     | Return to Published filter — click Collect Attendance entry point — Collect Attendance page opens — verify student row shows **booking remark as read-only inline field** (e.g. "Booking Note: [text]") (AC 02.1 + AC 02.2 — LT-96656) |
+| 9   | [BO]     | On the same Collect Attendance page — verify **Save button** and **radio buttons** (Attend / Absent / Late / Leave Early) are **present and functional**; verify remark field **cannot be edited** (AC 03.3 — LT-96657)                |
+
+**Features covered:**
+
+- Lesson Management > BO > Lesson List > Status filter default Published + persistent (AC 01.1 — LT-96655)
+- Lesson Management > BO > Lesson List > Status filter editable (AC 01.2 — LT-96655)
+- Lesson Management > BO > Lesson List > Limit Teacher + Published default (BR3 — LT-96655)
+- Lesson Management > BO > Collect Attendance > Entry point from Lesson List (Published only) (AC 03.1 — LT-96657)
+- Lesson Management > BO > Collect Attendance > Entry point blocked for Draft lessons (AC 03.1 + BR8 — LT-96657)
+- Lesson Management > BO > Collect Attendance > Student remark shown read-only per student row (AC 02.1/02.2 — LT-96656)
+- Lesson Management > BO > Collect Attendance > Page retains full save capability; remark is read-only (AC 03.3 — LT-96657)
 
 ---
 
 ## Coverage Matrix
 
-| E2E Scenario                                                                  | Qase Cases Covered | Key Domains                                                    |
-| ----------------------------------------------------------------------------- | -----------------: | -------------------------------------------------------------- |
-| E2E-01: Lesson Lifecycle — Create, Teach, Report, View                        |               ~996 | Lesson, Calendar, BO, Mobile                                   |
-| E2E-02: Recurring Lesson — Create, Edit Chain, Delete, Calendar Drag          |               ~320 | Lesson CRUD, Calendar, Scheduling                              |
-| E2E-03: Class Auto-Assignment — Setup & Effective Date Logic                  |                ~80 | Class, Student Session, Effective Date                         |
-| E2E-04: Class Auto-Assignment — Import, Multiple Classes & Verification       |                ~60 | Class, Import, Multiple Classes, LA                            |
-| E2E-05: Online Lesson with Zoom                                               |               ~416 | Zoom, Lesson, BO                                               |
-| E2E-06: Event Master — Setup, Activity Event & Calendar                       |               ~165 | Event, Calendar                                                |
-| E2E-07: Event Master — Booking, Mobile Interaction & Status                   |               ~175 | Booking, Mobile, Event Status                                  |
-| E2E-08: External Booking & Koyu Auto-Create Application                       |               ~323 | Booking, Koyu, Event                                           |
-| E2E-09: Lesson Allocation — New Order, Change Course & Void                   |                ~60 | LA, Order, SPO                                                 |
-| E2E-10: Lesson Allocation — LOA, Add Course & Lesson Assignment               |                ~55 | LA, LOA, Add Course, Mobile                                    |
-| E2E-11: Point Consumption — Priority Chain & Edge Cases                       |               ~150 | Nichibei, Points, Priority                                     |
-| E2E-12: Point Consumption — Publish, Reporting & Reallocation                 |                ~90 | Nichibei, Reports, Reallocation                                |
-| E2E-13: Aver Lesson Report & Subject Flow                                     |               ~419 | Aver, Report, Mobile                                           |
-| E2E-14: Aso Curriculum & Syllabus with Student Groups                         |               ~279 | Aso, Syllabus, Student Group                                   |
-| E2E-15: Academic Calendar & Closed Dates Impact                               |                ~92 | Master Data, Calendar                                          |
-| E2E-16: Teacher Access & Cross-Location Visibility                            |               ~295 | Teacher, BO, Permissions                                       |
-| E2E-17: Renseikai — Attendance & Error Configuration                          |                ~71 | Renseikai, Attendance                                          |
-| E2E-18: EEA Dual Lesson — Paired Locations                                    |               ~111 | Dual Lesson, EEA                                               |
-| E2E-19: Riso — Lesson Allocation & Subject in Detail                          |               ~118 | Riso, LA, Subject                                              |
-| E2E-20: Withus Juku — Custom Event Management                                 |                ~91 | Withus Juku, Event                                             |
-| E2E-21: Extend Recurring Lesson                                               |                ~64 | Extend, Recurring                                              |
-| E2E-22: Import Lesson & CSV Operations                                        |                ~58 | Import, Bulk                                                   |
-| E2E-23: Student Reallocation & Trial Lessons                                  |               ~220 | Reallocation (full flow), Trial (session update), Risk, Mobile |
-| E2E-24: Configuration, Translation & Live Lesson                              |                ~28 | Config, i18n, Live                                             |
-| E2E-25: Create Lesson via Calendar & Non-Weekly Recurrence Types              |                ~65 | Create Lesson, Recurrence, Custom+Count, Reports               |
-| E2E-26: Create Lesson — Recurrence Verification & End-to-End Lifecycle        |                ~55 | Teacher, Students, Mobile                                      |
-| E2E-27: Assign Student — Recurring Scope Selectors                            |                ~50 | Student Session, Recurring Scope                               |
-| E2E-28: Assign Student — Calendar, BO Platforms & Mobile Verification         |                ~50 | Student Session, Calendar, BO                                  |
-| E2E-29: Modify & Unassign Student — Setup & Recurring Scope Removals          |                ~55 | Student Session, Unassign, Recurring                           |
-| E2E-30: Modify & Unassign Student — Class Change & LA Detail Removals         |                ~55 | Student Session, Class Change, LA                              |
-| E2E-31: Modify & Unassign Student — Lesson Schedule, Order, Calendar & BO     |                ~65 | Student Session, Order, Calendar, BO                           |
-| E2E-32: Teacher Assignment — All Methods & Unassign via Lesson Detail/List    |                ~55 | Lesson Teacher, Assignment Methods, Teacher List Unassign      |
-| E2E-33: Teacher Unassignment — All Methods, One-Time & BO Assignment          |                ~55 | Lesson Teacher, BO Assign, Unassign One-Time, Mobile           |
-| E2E-34: Automated Reports — Lesson Creation & Student Assignment Flows        |                ~45 | Lesson Report, Auto-create                                     |
-| E2E-35: Automated Reports — Bulk Assign, Report Lifecycle & Mobile Attendance |                ~50 | Lesson Report, BO, Mobile Attendance                           |
-| E2E-36: Change Lesson — Move Student Session via Calendar                     |                ~20 | Calendar SF Change Lesson, Student Session, Mobile             |
-| E2E-37: [Renseikai] Publish Lesson and Notify Students                        |                ~25 | Renseikai, Notifications, Deep-link, Permission                |
-| E2E-38: [Nichibei] Lesson Self-Booking & Cancellation                         |               ~new | Nichibei, Self-Booking, Mobile, LA, Points, Auto-publish       |
+| E2E Scenario                                                                        | Qase Cases Covered | Key Domains                                                                     |
+| ----------------------------------------------------------------------------------- | -----------------: | ------------------------------------------------------------------------------- |
+| E2E-01: Lesson Lifecycle — Create, Teach, Report, View                              |               ~996 | Lesson, Calendar, BO, Mobile                                                    |
+| E2E-02: Recurring Lesson — Create, Edit Chain, Delete, Calendar Drag                |               ~320 | Lesson CRUD, Calendar, Scheduling                                               |
+| E2E-03: Class Auto-Assignment — Setup & Effective Date Logic                        |                ~80 | Class, Student Session, Effective Date                                          |
+| E2E-04: Class Auto-Assignment — Import, Multiple Classes & Verification             |                ~60 | Class, Import, Multiple Classes, LA                                             |
+| E2E-05: Online Lesson with Zoom                                                     |               ~416 | Zoom, Lesson, BO                                                                |
+| E2E-06: Event Master — Setup, Activity Event & Calendar                             |               ~165 | Event, Calendar                                                                 |
+| E2E-07: Event Master — Booking, Mobile Interaction & Status                         |               ~175 | Booking, Mobile, Event Status                                                   |
+| E2E-08: External Booking & Koyu Auto-Create Application                             |               ~323 | Booking, Koyu, Event                                                            |
+| E2E-09: Lesson Allocation — New Order, Change Course & Void                         |                ~60 | LA, Order, SPO                                                                  |
+| E2E-10: Lesson Allocation — LOA, Add Course & Lesson Assignment                     |                ~55 | LA, LOA, Add Course, Mobile                                                     |
+| E2E-11: Point Consumption — Priority Chain & Edge Cases                             |               ~150 | Nichibei, Points, Priority                                                      |
+| E2E-12: Point Consumption — Publish, Reporting & Reallocation                       |                ~90 | Nichibei, Reports, Reallocation                                                 |
+| E2E-13: Aver Lesson Report & Subject Flow                                           |               ~419 | Aver, Report, Mobile                                                            |
+| E2E-14: Aso Curriculum & Syllabus with Student Groups                               |               ~279 | Aso, Syllabus, Student Group                                                    |
+| E2E-15: Academic Calendar & Closed Dates Impact                                     |                ~92 | Master Data, Calendar                                                           |
+| E2E-16: Teacher Access & Cross-Location Visibility                                  |               ~295 | Teacher, BO, Permissions                                                        |
+| E2E-17: Renseikai — Attendance & Error Configuration                                |                ~71 | Renseikai, Attendance                                                           |
+| E2E-18: EEA Dual Lesson — Paired Locations                                          |               ~111 | Dual Lesson, EEA                                                                |
+| E2E-19: Riso — Lesson Allocation & Subject in Detail                                |               ~118 | Riso, LA, Subject                                                               |
+| E2E-20: Withus Juku — Custom Event Management                                       |                ~91 | Withus Juku, Event                                                              |
+| E2E-21: Extend Recurring Lesson                                                     |                ~64 | Extend, Recurring                                                               |
+| E2E-22: Import Lesson & CSV Operations                                              |                ~58 | Import, Bulk                                                                    |
+| E2E-23: Student Reallocation & Trial Lessons                                        |               ~220 | Reallocation (full flow), Trial (session update), Risk, Mobile                  |
+| E2E-24: Configuration, Translation & Live Lesson                                    |                ~28 | Config, i18n, Live                                                              |
+| E2E-25: Create Lesson via Calendar & Non-Weekly Recurrence Types                    |                ~65 | Create Lesson, Recurrence, Custom+Count, Reports                                |
+| E2E-26: Create Lesson — Recurrence Verification & End-to-End Lifecycle              |                ~55 | Teacher, Students, Mobile                                                       |
+| E2E-27: Assign Student — Recurring Scope Selectors                                  |                ~50 | Student Session, Recurring Scope                                                |
+| E2E-28: Assign Student — Calendar, BO Platforms & Mobile Verification               |                ~50 | Student Session, Calendar, BO                                                   |
+| E2E-29: Modify & Unassign Student — Setup & Recurring Scope Removals                |                ~55 | Student Session, Unassign, Recurring                                            |
+| E2E-30: Modify & Unassign Student — Class Change & LA Detail Removals               |                ~55 | Student Session, Class Change, LA                                               |
+| E2E-31: Modify & Unassign Student — Lesson Schedule, Order, Calendar & BO           |                ~65 | Student Session, Order, Calendar, BO                                            |
+| E2E-32: Teacher Assignment — All Methods & Unassign via Lesson Detail/List          |                ~55 | Lesson Teacher, Assignment Methods, Teacher List Unassign                       |
+| E2E-33: Teacher Unassignment — All Methods, One-Time & BO Assignment                |                ~55 | Lesson Teacher, BO Assign, Unassign One-Time, Mobile                            |
+| E2E-34: Automated Reports — Lesson Creation & Student Assignment Flows              |                ~45 | Lesson Report, Auto-create                                                      |
+| E2E-35: Automated Reports — Bulk Assign, Report Lifecycle & Mobile Attendance       |                ~50 | Lesson Report, BO, Mobile Attendance                                            |
+| E2E-36: Change Lesson — Move Student Session via Calendar                           |                ~20 | Calendar SF Change Lesson, Student Session, Mobile                              |
+| E2E-37: [Renseikai] Publish Lesson and Notify Students                              |                ~25 | Renseikai, Notifications, Deep-link, Permission                                 |
+| E2E-38: [Nichibei] Lesson Self-Booking & Cancellation                               |               ~new | Nichibei, Self-Booking, Mobile, LA, Points, Auto-publish, BO Collect Attendance |
+| E2E-39: [Nichibei] BO Lesson List — Filter Default & Collect Attendance Entry Point |               ~new | Nichibei, Lesson List Filter, Collect Attendance, Entry Point, Limit Teacher    |
 
 > **Note:** Some test cases are covered by multiple E2E scenarios (shared features like Calendar views, LA updates). The total unique coverage exceeds 4,191 when cross-references are included.
 >
@@ -1203,4 +1237,5 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 > - E2E-34/35 ← original E2E-25 (20 steps)
 > - E2E-36 ← new: Change Lesson gap coverage (Calendar SF > Change Lesson, 11 cases)
 > - E2E-37 ← new: Renseikai Publish & Notify (LT-96662)
-> - E2E-38 ← new: Nichibei Lesson Self-Booking & Cancellation (LT-96620)
+> - E2E-38 ← new: Nichibei Lesson Self-Booking & Cancellation (LT-96620) — extended: BO Collect Attendance verification steps (LT-96616)
+> - E2E-39 ← new: Nichibei BO Lesson List — Filter Default & Collect Attendance Entry Point (LT-96616)

@@ -66,14 +66,14 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 ","1. """"
 2. ""Last existing lesson code = 10, Expected = 11""
 ",,,1,,[Nichibei] Extend the Recurring End Date,,,
-,Verify Day of Week auto-calculated from Date,AC 01.2 - Verify Day of the Week is automatically derived from the auto-calculated Date.,Admin has created a recurring lesson schedule with End Date = 2026-03-13 (Friday),,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Schedule, click ""Extend Recurrence""""
+,Verify Day of Week auto-calculated from Date,AC 01.2 - Verify Day of the Week is automatically derived from the auto-calculated Date.,Admin has created a recurring lesson schedule with End Date = 2026-03-13 (Friday),,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Schedule, click ""Extend Recurrence""""
 2. ""Check Day of the Week field""
 ","1. ""Lesson Creation Form opens, Date = 2026-03-20""
 2. ""Day of the Week = Friday (matching 2026-03-20)""
 ","1. ""End Date = 2026-03-13 (Friday)""
 2. ""Expected: Friday""
 ",,,1,,[Nichibei] Extend the Recurring End Date,,,
-,Verify Lesson Type defaults to Regular and Lesson Capacity is blank,"AC 01.2 - Equivalence Partitioning: Lesson Type = Regular (editable), Lesson Capacity = blank (optional).",Admin has created a recurring lesson schedule,,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Schedule, click ""Extend Recurrence""""
+,Verify Lesson Type defaults to Regular and Lesson Capacity is blank,"AC 01.2 - Equivalence Partitioning: Lesson Type = Regular (editable), Lesson Capacity = blank (optional).",Admin has created a recurring lesson schedule,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Schedule, click ""Extend Recurrence""""
 2. ""Check Lesson Type field""
 3. ""Check Lesson Capacity field""
 4. ""Change Lesson Type to a different value""
@@ -87,7 +87,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 4. """"
 ",,,1,,[Nichibei] Extend the Recurring End Date,,,
 ,Verify Classroom is searchable dropdown,AC 01.2 - Verify Classroom field is a searchable dropdown showing available classrooms.,"Admin has created a recurring lesson schedule
-Multiple classrooms available at the location: Room A, Room B, Room C",,,medium,normal,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Schedule, click ""Extend Recurrence""""
+Multiple classrooms available at the location: Room A, Room B, Room C",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Schedule, click ""Extend Recurrence""""
 2. ""Click on Classroom dropdown""
 3. ""Type ""Room A"" in the search field""
 4. ""Select Room A from the filtered result""

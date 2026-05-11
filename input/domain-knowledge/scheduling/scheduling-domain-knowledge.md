@@ -530,6 +530,27 @@ Steps execute atomically: validate → create Student Session (`Booking_Flag = T
 - Turning OFF does not cascade — existing Student Sessions are unaffected
 - Also available on Lesson Schedule for CSV bulk import (low priority MVP)
 
+#### BO Lesson List Enhancements — LT-96616 (2026-05-11)
+
+**Lesson Status Filter Default:**
+
+- Filter defaults to "Published" on every Lesson List page load
+- PERSISTENT — retains user-selected value across navigation; resets to "Published" only when user manually clears the filter
+- For Limit Teacher profile: Published default applies together with the Limit Teacher scope filter (both active simultaneously — teacher sees only their assigned Published lessons)
+
+**Collect Attendance — Student Attendance Response Display (LT-96656):**
+
+- Collect Attendance page EXTENDED: student-submitted `Attendance_Response_Remark` shown as a read-only inline field per student row (reuses existing UI — no new column on Lesson List)
+- Sources: Booking flow (prefixed `"Booking Note: "` per LT-96620) + Submit Attendance on Mobile — displayed as a single field with no visual distinction between sources
+- Blank when no student has submitted a response
+- Staff attendance recording (radio buttons + Save) remains fully functional
+
+**Collect Attendance — New Entry Point from Lesson List (LT-96657):**
+
+- New entry point on BO Lesson List row opens the existing Collect Attendance page
+- Available for **Published lessons ONLY** — hidden/disabled for Draft, Completed, and Cancelled
+- Page retains full collect attendance functionality; only the student-submitted remark field is read-only
+
 ---
 
 ### 2.2 Calendar
@@ -986,6 +1007,7 @@ When enabled:
 | BO Area | Behavior |
 |---------|----------|
 | **Lesson List** | Teacher sees only own lessons; Teacher Name filter auto-set and **disabled** |
+| **Lesson List — Status Filter** | Published default (per LT-96616) applies WITH the Limit Teacher scope; teacher sees only their assigned Published lessons |
 | **Calendar** | "Show my Schedule" checked and **disabled** |
 | **Calendar Teacher Filter** | Disabled; cannot search other teachers' lessons |
 | **Lesson Detail** | Can only open own lessons |

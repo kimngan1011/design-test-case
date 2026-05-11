@@ -94,22 +94,22 @@ Build a final map: `local suite name → real Qase suite_id`.
 
 For each test case extracted in Step 2, construct the import payload:
 
-| Field           | Source               | Rules                                                           |
-| --------------- | -------------------- | --------------------------------------------------------------- |
-| `title`         | Test case title      | Max 255 characters; strip markdown formatting                   |
-| `description`   | Description field    | Plain text; strip markdown bold/italic                          |
-| `preconditions` | Preconditions block  | Plain text; preserve bullet structure as newlines               |
-| `steps`         | Table rows           | Array of `{ action, expected_result, data }` objects            |
-| `suite_id`      | Resolved from Step 4 | Real Qase suite ID (integer)                                    |
-| `severity`      | Severity field       | Map: critical→critical, major→major, normal→normal, minor→minor |
-| `priority`      | Priority field       | Map: high→high, medium→medium, low→low                          |
-| `type`          | Fixed                | `functional`                                                    |
-| `behavior`      | Fixed                | `undefined`                                                     |
-| `automation`    | Fixed                | `is-not-automated`                                              |
-| `status`        | Fixed                | `draft`                                                         |
-| `is_flaky`      | Fixed                | `false`                                                         |
-| `layer`         | Fixed                | `unknown`                                                       |
-| `steps_type`    | Fixed                | `classic`                                                       |
+| Field           | Source               | Rules                                                                                                                      |
+| --------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `title`         | Test case title      | Max 255 characters; strip markdown formatting                                                                              |
+| `description`   | Description field    | Plain text; strip markdown bold/italic                                                                                     |
+| `preconditions` | Preconditions block  | Plain text; preserve bullet structure as newlines                                                                          |
+| `steps`         | Table rows           | Array of `{ action, expected_result, data }` objects                                                                       |
+| `suite_id`      | Resolved from Step 4 | Real Qase suite ID (integer)                                                                                               |
+| `severity`      | Severity field       | Map: critical→critical, major→major, normal→minor, minor→minor (**"normal" is not a valid Qase slug — map it to "minor"**) |
+| `priority`      | Priority field       | Map: high→high, medium→medium, low→low                                                                                     |
+| `type`          | Fixed                | `functional`                                                                                                               |
+| `behavior`      | Fixed                | `undefined`                                                                                                                |
+| `automation`    | Fixed                | `is-not-automated`                                                                                                         |
+| `status`        | Fixed                | `draft`                                                                                                                    |
+| `is_flaky`      | Fixed                | `false`                                                                                                                    |
+| `layer`         | Fixed                | `unknown`                                                                                                                  |
+| `steps_type`    | Fixed                | `classic`                                                                                                                  |
 
 **Multi-line content formatting rule (CRITICAL):**
 When any field (`preconditions`, `description`, step `action`, step `expected_result`, step `data`) contains multiple items or lines:

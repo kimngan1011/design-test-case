@@ -23,6 +23,7 @@ Lesson,Create Lesson Allocation (New Order Group),TRUE,TRUE,FALSE,Depends on Ord
 Lesson,Update Lesson Allocation,TRUE,TRUE,FALSE,Depends on Order team permission
 Lesson,Delete Lesson Allocation,TRUE,TRUE,FALSE,Depends on Order team permission
 Lesson,Reprocess Lesson Allocation,TRUE,TRUE,FALSE,
+Lesson,Create Working Hours,TRUE,TRUE,FALSE,
 Lesson Report,View Lesson Report,TRUE,TRUE,TRUE,
 Lesson Report,Edit Lesson Report,TRUE,TRUE,TRUE,
 Lesson Report,Change Lesson Report Status,TRUE,TRUE,TRUE,

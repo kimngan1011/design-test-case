@@ -159,8 +159,10 @@ Map from Risk Level in the coverage file:
 | ---------- | -------- |
 | Critical   | critical |
 | High       | major    |
-| Medium     | normal   |
-| Low        | minor    |
+| Medium     | minor    |
+| Low        | trivial  |
+
+> **Note:** `normal` is NOT a valid Qase severity slug. Use `minor` for medium-risk cases and `trivial` for low-risk cases.
 
 #### Priority
 
@@ -212,7 +214,7 @@ Use this exact structure per file:
 | 1   | ...    | ...             | ...       |
 | 2   | ...    | ...             | ...       |
 
-**Severity:** <critical / major / normal / minor>
+**Severity:** <critical / major / minor / trivial>
 **Priority:** <high / medium / low>
 
 ---
