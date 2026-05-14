@@ -1,0 +1,313 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,,,Deduplicate Student Session,,,
+,Student Assignment – Staff Submits via Lesson Detail While Another Staff Submits via Calendar Simultaneously – Only One Session Created,"AC 01 / BR-03 / BR-05 — Negative Testing. Simulates two staff members adding the same student to the same lesson from different surfaces at the same moment. Only one student_session must be created; the second concurrent insert is silently rejected at DB level.","- Staff User A has Lesson X detail open, Add Student popup open, Student A selected (not yet submitted)
+- Staff User B has SF Calendar open, Lesson X popup open, Add Student popup open, Student A selected (not yet submitted)
+- Student A is not yet assigned to Lesson X",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Staff User A and Staff User B both click Add at the same moment""
+2. ""Wait for both responses to return""
+3. ""Count student_session records for (Student A, Lesson X)""
+4. ""Open Lesson X detail page""
+","1. ""Both requests are submitted to the server concurrently""
+2. ""At least one response succeeds; the other is silently ignored — no error screen shown to either user""
+3. ""Exactly 1 record""
+4. ""Student A appears once in the Student Sessions list""
+","1. ""Student A on both sessions""
+2. """"
+3. """"
+4. """"
+",,,,, Concurrent Add — Lesson Detail + Calendar (Same Time) | Qase ID: 2793,,
+,Student Assignment – Staff Adds via Calendar While Class Auto-Assign Queue Is Running – Only One Session Created,"AC 01 / BR-05 / BR-18 / F-11 — Negative Testing. This is the exact root cause scenario of the 2026-04-07 incident. Staff manually adds a class student from the Calendar popup while the class auto-assign queue is simultaneously creating sessions for all class members including that student.","- A group lesson with Class A (35 students including Student A) has been created — class auto-assign queue triggered but not yet completed
+- Staff User is on the SF Calendar lesson popup with the Add Student popup open and Student A selected (not yet submitted)",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""While the class auto-assign queue is still running, Staff User clicks Add for Student A in the Calendar popup""
+2. ""Wait for the queue job to finish""
+3. ""Count student_session records for (Student A, Lesson X)""
+4. ""Verify the other 34 class students each have exactly 1 session""
+","1. ""The manual add request is submitted concurrently with the queue""
+2. ""The queue completes without error — the already-inserted session is silently skipped""
+3. ""Exactly 1 record — the first insert won; the second was rejected at DB level""
+4. ""Each of the 34 students has exactly 1 session — the queue did not fail or skip them""
+","1. ""Student A""
+2. """"
+3. """"
+4. """"
+",,,,, Concurrent Add — Lesson Detail + Calendar (Same Time) | Qase ID: 2793,,
+,Student Assignment – Staff Adds via Lesson Detail While Class Auto-Assign Queue Is Running – Only One Session Created,"AC 01 / BR-03 / BR-04 — Negative Testing. Same concurrent scenario but via the Lesson Detail surface instead of Calendar. Staff adds a student via the Lesson Detail Add Students button while the background class auto-assign queue is mid-run.","- A group lesson with Class A (including Student A) has been created — class auto-assign queue triggered but not yet completed
+- Staff User is on Lesson X detail page, Add Student popup open, Student A selected (not yet submitted)",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""While the queue is still running, Staff User clicks Add for Student A on Lesson Detail""
+2. ""Wait for the queue job to complete""
+3. ""Count student_session records for (Student A, Lesson X)""
+","1. ""The manual add is submitted concurrently with the queue""
+2. ""Queue completes without error""
+3. ""Exactly 1 record""
+","1. ""Student A""
+2. """"
+3. """"
+",,,,, Concurrent Add — Lesson Detail + Calendar (Same Time) | Qase ID: 2793,,
+,Student Assignment – Class Member Import Triggers Queue + Staff Manually Adds Same Student Simultaneously – Only One Session Created,"AC 01 / BR-04 / BR-14 — Regression Analysis + Negative Testing. Staff imports a class member list (triggering the Master Queue), and at the same time another staff manually adds one of those students from the lesson detail. The queue must silently skip the already-inserted student without failing.","- Lesson X is linked to Class A (5 students including Student A)
+- Staff User A is about to import the class member list (CSV)
+- Staff User B has Lesson X detail page open and Student A selected in the Add Student popup (not yet submitted)",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Staff User A imports the class member list — the Master Queue starts assigning sessions for all 5 students""
+2. ""Staff User B immediately clicks Add for Student A in the Lesson Detail popup (before queue finishes)""
+3. ""Wait for the queue job to complete""
+4. ""Count student_session records for (Student A, Lesson X)""
+5. ""Count student_session records for the other 4 class students on Lesson X""
+","1. ""Queue job starts""
+2. ""Manual add submitted concurrently""
+3. ""Queue job completes successfully — not failed by the duplicate""
+4. ""Exactly 1 record""
+5. ""Each has exactly 1 record — queue processed them correctly""
+","1. ""Class A CSV""
+2. ""Student A""
+3. """"
+4. """"
+5. """"
+",,,,, Concurrent Add — Class Import Triggers Queue + Manual Add (Same Time) | Qase ID: 2794,,
+,Student Assignment – Create LA with Class Triggers Queue + Staff Adds Same Student from Calendar Simultaneously – Only One Session Created,"AC 01 / BR-04 — Regression Analysis. Creating a new LA with a class assignment triggers the Master Queue to auto-assign sessions for all class members. If staff concurrently adds one of those class students from the Calendar popup while the queue is still running, only one session must exist.","- Lesson X is already created and linked to Class A (including Student A)
+- Staff User A is about to create a new LA for Class A (LA creation will trigger the Master Queue for Lesson X)
+- Staff User B has the SF Calendar lesson popup for Lesson X open and Student A selected in Add Student popup (not yet submitted)
+- Student A does NOT yet have a student_session for Lesson X",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Staff User A creates the LA for Class A — the Master Queue is triggered and starts assigning sessions for all class members including Student A""
+2. ""Staff User B clicks Add for Student A from the Calendar popup while the queue is still running""
+3. ""Wait for the queue to complete""
+4. ""Count student_session records for (Student A, Lesson X)""
+","1. ""Queue job starts""
+2. ""Concurrent add submitted""
+3. ""Queue completes without error — the duplicate insert is silently rejected at DB level""
+4. ""Exactly 1 record""
+","1. ""Class A, Lesson X""
+2. ""Student A""
+3. """"
+4. """"
+",,,,, Concurrent Add — Class Import Triggers Queue + Manual Add (Same Time) | Qase ID: 2794,,
+,Student Assignment – Lesson Import with Class Assignment Triggers Queue + Staff Adds Same Student from Calendar Simultaneously – Only One Session Created,"AC 01 / BR-04 / BR-14 — Regression Analysis + Negative Testing. Importing a lesson file that includes a class assignment triggers the Master Queue to auto-assign sessions for all class members. If staff concurrently adds one of those class students from the Calendar popup while the queue is still running, only one session must exist.","- A lesson import file is prepared with Lesson X assigned to Class A (including Student A)
+- Staff User A is about to upload the lesson import file
+- Staff User B has the SF Calendar lesson popup for Lesson X open and Student A selected in Add Student popup (not yet submitted)
+- Student A does NOT yet have a student_session for Lesson X",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Staff User A uploads the lesson import file — Lesson X is created with Class A, and the Master Queue is triggered to assign sessions for all class members""
+2. ""Staff User B clicks Add for Student A from the Calendar popup while the queue is still running""
+3. ""Wait for the queue to complete""
+4. ""Count student_session records for (Student A, Lesson X)""
+5. ""Count student_session records for the other class members on Lesson X""
+","1. ""Queue job starts; Lesson X created""
+2. ""Concurrent add submitted""
+3. ""Queue completes without error — the duplicate insert is silently rejected at DB level""
+4. ""Exactly 1 record""
+5. ""Each has exactly 1 record — queue processed them correctly""
+","1. ""Lesson import file with Lesson X + Class A""
+2. ""Student A""
+3. """"
+4. """"
+5. """"
+",,,,, Concurrent Add — Class Import Triggers Queue + Manual Add (Same Time) | Qase ID: 2794,,
+,Student Assignment – This and Following Running + Another Staff Adds Same Student on a Later Lesson Simultaneously – No Duplicate,"AC 01 / BR-08 — State Transition Testing + Negative Testing. This and Following creates sessions across a chain of lessons. If a second staff concurrently adds the same student directly to one of those future lessons at the same moment, only one session must exist on that lesson.","- Recurring lesson chain: Lesson 1 (Jan 1), Lesson 2 (Jan 8), Lesson 3 (Jan 15)
+- Student A is not yet assigned to any lesson in the chain
+- Staff User A is on Lesson 1 with This and the following lessons selected for Student A (not yet submitted)
+- Staff User B has Lesson 2 detail page open with Student A selected in Add Student popup (not yet submitted)",,,high,major,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Staff User A and Staff User B both click Add at the same moment""
+2. ""Wait for both operations to complete""
+3. ""Count student_session records for (Student A, Lesson 1)""
+4. ""Count student_session records for (Student A, Lesson 2)""
+5. ""Count student_session records for (Student A, Lesson 3)""
+","1. ""Both requests submitted concurrently: This and following for Lessons 1-3, and direct add for Lesson 2""
+2. ""Both complete without error""
+3. ""Exactly 1 record""
+4. ""Exactly 1 record — not duplicated by the concurrent insert""
+5. ""Exactly 1 record""
+","1. ""Student A""
+2. """"
+3. """"
+4. """"
+5. """"
+",,,,,Concurrent Add — This and Following + Direct Add (Same Time),,
+,Concurrent Add – Duplicate Rejected – LA Lesson Allocated Count Not Double-Incremented,"AC 01 / BR-19 — CRUD Testing + Regression Analysis. When two concurrent inserts race for the same (student, lesson) slot and the second is rejected, the Lesson Allocation Lessons Allocated count must only increment once.","- Student A has an active LA with Lessons Allocated count = 5
+- Student A is not yet assigned to Lesson X
+- Two staff sessions are both about to add Student A to Lesson X simultaneously",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Note the LA Lessons Allocated count for Student A""
+2. ""Two staff submit concurrent Add requests for Student A on Lesson X at the same time""
+3. ""Count student_session records for (Student A, Lesson X)""
+4. ""Check the LA Lessons Allocated count for Student A""
+","1. ""Count = 5""
+2. ""Both requests processed""
+3. ""Exactly 1 record""
+4. ""Count = 6 — incremented exactly once, not twice""
+","1. """"
+2. ""Student A""
+3. """"
+4. """"
+",,,,, Data Integrity After Concurrent Rejection | Qase ID: 2796,,
+,Concurrent Add – Duplicate Rejected – No Extra Lesson Report Detail Created,"AC 01 / BR-20 — CRUD Testing + Regression Analysis. When concurrent inserts race and the duplicate is rejected, only one Lesson Report Detail record must be created.","- Student A is not yet assigned to Lesson X
+- No Lesson Report Detail exists for (Student A, Lesson X)
+- Two staff sessions are both about to add Student A to Lesson X simultaneously",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Two staff submit concurrent Add requests for Student A on Lesson X at the same time""
+2. ""Count student_session records for (Student A, Lesson X)""
+3. ""Count lesson_report_detail records for (Student A, Lesson X)""
+","1. ""Both requests processed""
+2. ""Exactly 1 record""
+3. ""Exactly 1 record — not duplicated""
+","1. ""Student A""
+2. """"
+3. """"
+",,,,, Data Integrity After Concurrent Rejection | Qase ID: 2796,,
+,Student Assignment – BO Teacher and Full-Access Staff Add Same Student Simultaneously – Only One Session Created,"AC 01 / BR-03 / F-08 / F-10 — Permission Matrix + Negative Testing. Both BO Teacher and full_access staff roles can assign students. Verifies that concurrent adds from these two different roles produce exactly one session.","- BO Teacher User A has Lesson X detail open, Student A selected in Add Student popup (not submitted)
+- Full-Access Staff User B has the SF Calendar lesson popup open, Student A selected in Add Student popup (not submitted)
+- Student A is not yet assigned to Lesson X",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Both users click Add at the same moment""
+2. ""Wait for both responses""
+3. ""Count student_session records for (Student A, Lesson X)""
+","1. ""Both requests submitted concurrently""
+2. ""Both complete without error screens""
+3. ""Exactly 1 record""
+","1. ""Student A""
+2. """"
+3. """"
+",,,,, BO Teacher Role — Concurrent Assignment | Qase ID: 2797,,
+,Reallocate Student – Move to New Lesson – No Constraint Violation and One Session on Target,"AC 01 / F-15 — CRUD Testing. Reallocation deletes the source session then creates a session on the target lesson. Verifies the new DB constraint does not block the target insert since the source was deleted first.","- Student A is assigned to Lesson X (source) — 1 student_session exists
+- Student A is NOT assigned to Lesson Y (target)",,,medium,minor,functional,positive,is-not-automated,draft,no,unknown,classic,"1. ""Initiate reallocation of Student A from Lesson X to Lesson Y""
+2. ""Confirm the reallocation""
+3. ""Count student_session records for (Student A, Lesson X)""
+4. ""Count student_session records for (Student A, Lesson Y)""
+","1. ""Reallocation form opens""
+2. ""Reallocation completes without error""
+3. ""0 records — source session removed""
+4. ""Exactly 1 record on target""
+","1. """"
+2. ""Lesson Y""
+3. """"
+4. """"
+",,,,, Reallocation Compatibility | Qase ID: 2798,,
+,,,,,,,,,,,,,,,,,,,,,,, [Nichibei] Concurrent Booking — App + Staff (Same Time) | Qase ID: 2799,,
+,[Nichibei] Student Books via App While Staff Assigns Same Student via SF Simultaneously – Only One Session Created and No Extra Point Charge,"AC 01 / BR-09 / BR-21 — CRUD Testing + Regression Analysis. Simulates a Nichibei student tapping Reserve on the app at the exact same moment a staff member assigns that student from SF. Only one student_session must be created and only one point consumed.","- Nichibei partner feature is enabled
+- Lesson X has Booking Flag = TRUE, date >= today + X days, capacity available, location matches Student A active LA
+- Student A has an active LA with 10 remaining bookable points
+- Student A is NOT yet assigned to Lesson X
+- Student A is logged in to the student/parent app with Reserve button visible for Lesson X
+- Staff User is logged in to SF Calendar with Add Student popup open for Lesson X, Student A selected (not yet submitted)",,,high,major,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Student A taps Reserve on Lesson X in the app and Staff User clicks Add for Student A in the Calendar popup at the same moment""
+2. ""Wait for both responses""
+3. ""Count student_session records for (Student A, Lesson X)""
+4. ""Check Student A remaining bookable points on the LA""
+","1. ""Both requests are submitted concurrently""
+2. ""At least one succeeds; the other is silently rejected — no error screen on either side""
+3. ""Exactly 1 record""
+4. ""Points = 9 — exactly one point consumed, not two""
+","1. ""Student A""
+2. """"
+3. """"
+4. """"
+",,,,,, [Nichibei] Concurrent Booking — App + Staff (Same Time) | Qase ID: 2799,,
+,[Nichibei] Student Books via App While Class Auto-Assign Queue Runs Simultaneously – Only One Session Created and No Extra Point Charge,"AC 01 / BR-09 / BR-04 / BR-21 — Regression Analysis. The class auto-assign queue creates sessions for class members while a student simultaneously self-books from the app. If the student is in the class, only one session must be created and only one point charged.","- Nichibei partner feature is enabled
+- Lesson X is linked to Class A; Student A is a member of Class A
+- Student A has an active LA with 10 remaining bookable points
+- Lesson X has Booking Flag = TRUE and is available for self-booking
+- Class auto-assign queue for Lesson X has been triggered but not yet completed
+- Student A has the Reserve button visible in the app",,,high,major,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Student A taps Reserve on Lesson X while the class auto-assign queue is still running""
+2. ""Wait for the queue to complete""
+3. ""Count student_session records for (Student A, Lesson X)""
+4. ""Check Student A remaining bookable points""
+","1. ""The booking request races with the queue session insert for Student A""
+2. ""Queue completes without error""
+3. ""Exactly 1 record""
+4. ""Points = 9 — only one point consumed (whichever insert won)""
+","1. ""Student A""
+2. """"
+3. """"
+4. """"
+",,,,,, [Nichibei] Concurrent Booking — App + Staff (Same Time) | Qase ID: 2799,,
+,[Nichibei] Atomic Booking – Concurrent Insert Causes Mid-Flow Rejection – No Orphaned Data,"AC 01 / BR-09 / F-06 — Regression Analysis. The Nichibei atomic booking flow is: validate → create session → save remarks → auto-publish. If a concurrent insert wins the race and the app session insert is rejected mid-flow, the entire booking must be rolled back atomically — no orphaned session, remark, or premature publish.","- Nichibei partner feature is enabled
+- Lesson X is a Draft lesson, Booking Flag = TRUE
+- Student A has a valid active LA with 10 available points
+- Student A is logged in and has Reserve visible for Lesson X
+- Staff User is on SF Calendar, Add Student popup open, Student A selected, about to submit at the same time Student A taps Reserve",,,high,major,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Student A taps Reserve on Lesson X and Staff User clicks Add simultaneously — the staff-side insert wins the race""
+2. ""Check student_session records for (Student A, Lesson X)""
+3. ""Check attendance_response_remark for (Student A, Lesson X)""
+4. ""Check the publish status of Lesson X""
+5. ""Check Student A remaining bookable points""
+","1. ""Both requests submitted; the staff-side insert wins the race; the app-side insert is rejected mid-flow by the DB constraint""
+2. ""Exactly 1 record (the staff-assigned session)""
+3. ""No Booking Note: remark was created (app booking rolled back before the remark step)""
+4. ""Lesson X remains Draft — it was NOT auto-published (app booking rolled back before auto-publish)""
+5. ""Points remain at 10 — no point consumed for the rejected app booking""
+","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+",,,,,, [Nichibei] Concurrent Booking — App + Staff (Same Time) | Qase ID: 2799,,
+,,,,,,,,,,,,,,,,,,,,,,Deduplicate Lesson Teacher,,,
+,Teacher Assignment – Staff Submits via Lesson Detail While Another Staff Submits via Calendar Simultaneously – Only One Teacher Record Created,"AC 02 / BR-10 / BR-12 — Negative Testing. Simulates two staff members assigning the same teacher to the same lesson from different surfaces at the same moment. Only one lesson_teacher record must be created; the second concurrent insert is silently rejected at DB level.","- Staff User A has Lesson X detail open, Add Teacher popup open, Teacher A selected (not yet submitted)
+- Staff User B has SF Calendar open, Lesson X popup open, Add Teacher popup open, Teacher A selected (not yet submitted)
+- Teacher A is NOT yet assigned to Lesson X",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Staff User A and Staff User B both click Add at the same moment""
+2. ""Wait for both responses""
+3. ""Count lesson_teacher records for (Teacher A, Lesson X)""
+4. ""Open Lesson X detail page""
+","1. ""Both requests are submitted to the server concurrently""
+2. ""At least one succeeds; the other is silently ignored — no error screen shown to either user""
+3. ""Exactly 1 record""
+4. ""Teacher A appears once in the Lesson Teacher section""
+","1. ""Teacher A on both sessions""
+2. """"
+3. """"
+4. """"
+",,,,, Concurrent Assign — Lesson Detail + Calendar (Same Time) | Qase ID: 2800,,
+,Teacher Assignment – Rejected Concurrent Duplicate – Clashing Alert NOT Triggered,"AC 02 / BR-10 / F-18 — Regression Analysis. When two concurrent teacher inserts race and the second is rejected by the DB constraint, no new teacher record is created — therefore the clashing alert must NOT fire for the rejected insert.","- Staff User A and Staff User B both submit concurrent Add requests for Teacher A on Lesson X (same time)
+- Teacher A is not yet assigned to Lesson X",,,high,critical,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Both staff submit concurrent Add requests for Teacher A on Lesson X""
+2. ""Observe whether a clashing alert or warning dialog appears for either user""
+3. ""Count lesson_teacher records for (Teacher A, Lesson X)""
+","1. ""One insert wins; the other is rejected by the DB constraint""
+2. ""No clashing alert is triggered for the rejected insert — because no new teacher record was created""
+3. ""Exactly 1 record""
+","1. ""Teacher A""
+2. """"
+3. """"
+",,,,, Concurrent Assign — Lesson Detail + Calendar (Same Time) | Qase ID: 2800,,
+,Teacher Assignment – Lesson Import Running + Staff Manually Assigns Same Teacher via Lesson Detail Simultaneously – Only One Record Created,"AC 02 / BR-12 — Regression Analysis + Negative Testing. A lesson import file (which includes teacher assignments) is being processed while another staff member manually assigns the same teacher via the Lesson Detail popup at the same time.","- Lesson X has no teacher assigned yet
+- Staff User A is about to upload a lesson import file that includes Teacher A assigned to Lesson X
+- Staff User B has Lesson X detail page open with Teacher A selected in the Add Teacher popup (not yet submitted)",,,high,major,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Staff User A uploads the lesson import file — import starts processing and assigns Teacher A to Lesson X""
+2. ""Staff User B immediately clicks Add for Teacher A in the Lesson Detail popup (before import finishes)""
+3. ""Wait for the import to complete""
+4. ""Count lesson_teacher records for (Teacher A, Lesson X)""
+","1. ""Import job starts""
+2. ""Manual add submitted concurrently with import""
+3. ""Import completes without unhandled error""
+4. ""Exactly 1 record""
+","1. ""Lesson import file with Teacher A for Lesson X""
+2. ""Teacher A""
+3. """"
+4. """"
+",,,,, Concurrent Assign — Lesson Import + Manual Add (Same Time) | Qase ID: 2801,,
+,Teacher Assignment – This and Following Running + Another Staff Assigns Same Teacher on a Later Lesson Simultaneously – No Duplicate,"AC 02 / BR-12 — State Transition Testing + Negative Testing. This and Following creates teacher assignments across a chain of lessons. If a second staff concurrently assigns the same teacher directly to one of those future lessons at the same moment, only one record must exist on that lesson.","- Recurring lesson chain: Lesson 1 (Jan 1), Lesson 2 (Jan 8), Lesson 3 (Jan 15)
+- Teacher A is NOT yet assigned to any lesson in the chain
+- Staff User A is on Lesson 1 with This and the following lessons selected for Teacher A (not yet submitted)
+- Staff User B has Lesson 2 detail page open with Teacher A selected in Add Teacher popup (not yet submitted)",,,high,major,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Staff User A and Staff User B both click Add at the same moment""
+2. ""Wait for both operations to complete""
+3. ""Count lesson_teacher records for (Teacher A, Lesson 1)""
+4. ""Count lesson_teacher records for (Teacher A, Lesson 2)""
+5. ""Count lesson_teacher records for (Teacher A, Lesson 3)""
+","1. ""Both requests submitted concurrently: This and following for Lessons 1-3, and direct add for Lesson 2""
+2. ""Both complete without error""
+3. ""Exactly 1 record""
+4. ""Exactly 1 record — not duplicated""
+5. ""Exactly 1 record""
+","1. ""Teacher A""
+2. """"
+3. """"
+4. """"
+5. """"
+",,,,,Concurrent Assign — This and Following + Direct Add (Same Time),,
+,,,,,,,,,,,,,,,,,,,,,,Deduplicate — Reallocation,,,
+,Reallocate Student – Move to New Lesson – No Constraint Violation and One Session on Target,"AC 01 / F-15 — CRUD Testing. Reallocation deletes the source session then creates a session on the target lesson. Verifies the DB unique constraint does not block the target insert since the source was deleted first.","- Student A is assigned to Lesson X (source) — 1 student_session exists
+- Student A is NOT assigned to Lesson Y (target)",,,medium,minor,functional,positive,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the reallocation flow for Student A""
+2. ""Select Lesson Y as the target lesson and confirm""
+3. ""Count student_session records for (Student A, Lesson X)""
+4. ""Count student_session records for (Student A, Lesson Y)""
+","1. ""Reallocation screen opens with Lesson X as the current lesson""
+2. ""Reallocation completes without error""
+3. ""0 records — source session removed""
+4. ""Exactly 1 record on target""
+","1. """"
+2. ""Lesson Y""
+3. """"
+4. """"
+",,,,, Student Reallocation — Constraint Compatibility | Qase ID: 2803,,
+,Reallocate Student – Staff Reallocates While Another Staff Concurrently Assigns Same Student to Target Lesson – Only One Session on Target,"AC 01 / F-15 — Negative Testing. Concurrent scenario: Staff A reallocates Student A to Lesson Y while Staff B is simultaneously directly assigning Student A to Lesson Y. Only one session must exist on Lesson Y after both complete.","- Student A is assigned to Lesson X (source)
+- Student A is NOT assigned to Lesson Y (target)
+- Staff User A is about to confirm reallocation of Student A to Lesson Y (not yet submitted)
+- Staff User B has Lesson Y detail page open with Student A selected in Add Student popup (not yet submitted)",,,medium,minor,functional,negative,is-not-automated,draft,no,unknown,classic,"1. ""Staff User A confirms the reallocation to Lesson Y and Staff User B clicks Add for Student A on Lesson Y at the same moment""
+2. ""Wait for both to complete""
+3. ""Count student_session records for (Student A, Lesson Y)""
+","1. ""Both requests submitted concurrently""
+2. ""Both complete without unhandled errors""
+3. ""Exactly 1 record — not duplicated""
+","1. ""Student A / Lesson Y""
+2. """"
+3. """"
+",,,,, Student Reallocation — Constraint Compatibility | Qase ID: 2803,,

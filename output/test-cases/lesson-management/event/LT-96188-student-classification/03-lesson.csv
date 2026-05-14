@@ -1,0 +1,37 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted,cf_2,cf_3
+,,,,,,,,,,,,,,,,,,,,,,,LT-96188 – Student Classification,2825,,,,
+,,,,,,,,,,,,,,,,,,,,,,,Lesson,2828,,,,
+,"[Renseikai] Add Student Filter (Lesson Detail) – Student Classification – Filter Presence – Filter appears below Type filter","AC 02.4 — CRUD Testing — Confirms the Student Classification filter is present in the Add Student popup in Lesson Detail, positioned directly below the Type filter.","PBT-2485 deployed in Renseikai org. Logged in as HQ or CM Staff to the Salesforce org. A lesson exists that allows adding students. The Add Student popup is accessible from Lesson Detail.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Lesson Detail page from the Lesson Calendar""
+2. ""Click Add Student to open the student search popup""
+3. ""Observe the filter fields in the popup""
+4. ""Identify the position of the Student Classification filter""","1. ""Lesson Detail page opens""
+2. ""Add Student popup opens""
+3. ""Filter fields are visible""
+4. ""The Student Classification multi-select filter appears directly below the Type filter""","1. """"
+2. """"
+3. """"
+4. """"",,,,,Lesson,,,,
+,"[Renseikai] Add Student Filter (Lesson Detail) – Student Classification – Default State – All students returned when no classification selected","AC 02.4 — Decision Table — Confirms that with no classification selected in the Add Student filter, all students of all types are returned.","PBT-2485 deployed in Renseikai org. Logged in as HQ or CM Staff to the Salesforce org. Students of all classification types exist: 在籍生, 元在籍生, 問合生, 季節講習生, and null. Add Student popup open from Lesson Detail.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Add Student popup from Lesson Detail""
+2. ""Confirm the Student Classification filter has no value selected""
+3. ""Click Search""","1. ""Popup opens with all filter fields empty""
+2. ""Student Classification filter is empty""
+3. ""Student list returns students of all classification types (在籍生, 元在籍生, 問合生, 季節講習生, null)""","1. """"
+2. """"
+3. """"",,,,,Lesson,,,,
+,"[Renseikai] Add Student Filter (Lesson Detail) – Student Classification – Single Value Selected – Only matching students returned","AC 02.4 — Decision Table, Equivalence Partitioning — Confirms that selecting one classification value returns only students with that classification.","PBT-2485 deployed in Renseikai org. Logged in as HQ or CM Staff to the Salesforce org. Students with 季節講習生 and 在籍生 exist. Add Student popup open from Lesson Detail.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Add Student popup from Lesson Detail""
+2. ""Select 季節講習生 in the Student Classification filter""
+3. ""Click Search""","1. ""Popup opens""
+2. ""季節講習生 is selected""
+3. ""Student list shows only students with Student Classification = 季節講習生""","1. """"
+2. ""季節講習生""
+3. """"",,,,,Lesson,,,,
+,"[Renseikai] Add Student Filter (Lesson Detail) – Student Classification – Two Values Selected – OR logic returns students of both types","AC 02.4 — Decision Table — Confirms that selecting two classification values returns students matching either value (OR logic).","PBT-2485 deployed in Renseikai org. Logged in as HQ or CM Staff to the Salesforce org. Students with 在籍生, 季節講習生, and 問合生 exist. Add Student popup open from Lesson Detail.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Add Student popup from Lesson Detail""
+2. ""Select 在籍生 in the Student Classification filter""
+3. ""Also select 季節講習生 in the same filter""
+4. ""Click Search""","1. ""Popup opens""
+2. ""在籍生 is selected""
+3. ""Both 在籍生 and 季節講習生 are shown as selected""
+4. ""Student list includes students with 在籍生 AND students with 季節講習生; students with 問合生 or 元在籍生 are not shown""","1. """"
+2. ""在籍生""
+3. ""季節講習生""
+4. """"",,,,,Lesson,,,,

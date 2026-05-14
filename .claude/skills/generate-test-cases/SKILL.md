@@ -130,7 +130,16 @@ Follow format: `[Feature] – [Sub-feature] – Condition – Expected Behavior`
 
 - List all system state requirements before the test starts
 - Include specific test data values that must exist (user role, entity state, field values)
-- Use bullet points; be explicit — "Admin has created a recurring lesson schedule with End Date = 2026-03-10"
+- Use bullet points; be explicit — "HQ Staff has created a recurring lesson schedule with End Date = 2026-03-10"
+
+**Actor rule (CRITICAL):**
+
+- **Never use "Admin" as the default actor.** The default actor is `HQ or CM Staff`.
+- Only use "Admin" if the test case explicitly requires admin-only access AND the user specifically mentions it in the ticket or instructions.
+- Examples of correct actor phrasing:
+  - ✅ `Logged in as HQ or CM Staff to the Salesforce org`
+  - ✅ `Logged in as HQ Staff to the Back Office`
+  - ❌ `Logged in as Admin to the Renseikai Salesforce org` — do not use unless Admin role is explicitly specified
 
 #### Step Actions
 

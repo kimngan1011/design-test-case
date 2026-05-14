@@ -1,0 +1,74 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,[Riso] Bulk Publish by Student – Notification Trigger,,,,,,,,,,,,,,,,,,,,[Riso] Bulk Publish by Student – Notification Trigger,2785,,2788
+,"[Riso] Bulk Publish Notification – All Lessons Published Successfully – Notification Sent to All Affected Students and Parents","AC 02.1 — State Transition Testing — When the Bulk Publish job completes with full success (all Draft lessons published, no failures), push notifications are sent to all affected students and their linked parents.","- User is logged into SF as a Riso HQ Admin
+- The period contains 2 Draft lessons: Lesson A (Student A) and Lesson B (Student B)
+- Student A is linked to Parent A; Student B is linked to Parent B
+- All 4 devices are logged in with push notifications enabled
+- Bulk Publish modal submitted with 'Apply to selected students' activated for Student A and Student B",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Submit the Bulk Publish request""
+2. ""Wait for the async job to complete (click Refresh to confirm published)""
+3. ""On Student A's device, check the Learner App notification inbox""
+4. ""On Parent A's device, check the Parent App notification inbox""
+5. ""On Student B's device, check the Learner App notification inbox""
+6. ""On Parent B's device, check the Parent App notification inbox""","1. ""Success message appears; user redirected to Calendar""
+2. ""Calendar shows Lesson A and Lesson B as Published""
+3. ""A push notification is received for the published period""
+4. ""A push notification is received for the published period""
+5. ""A push notification is received for the published period""
+6. ""A push notification is received for the published period""","1. """"
+2. """"
+3. ""Student A Learner App""
+4. ""Parent A Parent App""
+5. ""Student B Learner App""
+6. ""Parent B Parent App""",,,,,,,
+,"[Riso] Bulk Publish Notification – Partial Failure (Completed with Errors) – Notification Sent Only for Successfully Published Students","AC 02.1 — Decision Table — When the Bulk Publish job completes with some failures (Completed with Errors), notifications are sent only for students whose lessons were successfully published. Students with failed lessons do not receive a notification.","- User is logged into SF as a Riso HQ Admin
+- The period contains 2 Draft lessons: Lesson A (Student A) — will succeed; Lesson B (Student B) — will fail (simulated)
+- Student A is linked to Parent A; Student B is linked to Parent B
+- All 4 devices are logged in with push notifications enabled",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Submit the Bulk Publish request""
+2. ""Wait for the job to complete; check Bulk Action Monitoring""
+3. ""On Student A's device, check the Learner App notification inbox""
+4. ""On Parent A's device, check the Parent App notification inbox""
+5. ""On Student B's device, check the Learner App notification inbox""
+6. ""On Parent B's device, check the Parent App notification inbox""","1. ""Success message appears; user redirected to Calendar""
+2. ""Job Status shows Completed with Errors; Success = 1, Failed = 1""
+3. ""Student A receives a push notification for the published period""
+4. ""Parent A receives a push notification for the published period""
+5. ""Student B does not receive a push notification (lesson failed to publish)""
+6. ""Parent B does not receive a push notification""","1. """"
+2. """"
+3. ""Student A Learner App""
+4. ""Parent A Parent App""
+5. ""Student B Learner App""
+6. ""Parent B Parent App""",,,,,,,
+,"[Riso] Bulk Publish Notification – All Lessons Already Published – No Notification Sent","AC 02.1 — Decision Table + Negative Testing — When the Bulk Publish job is submitted but all lessons in scope are already Published, Completed, or Cancelled (0 Draft lessons), the job skips silently and no push notification is sent.","- User is logged into SF as a Riso HQ Admin
+- The period contains 2 lessons for the selected student, both with status Published (no Draft lessons)
+- Student A is linked to Parent A; both devices have push notifications enabled
+- Bulk Publish modal submitted with 'Apply to selected students' activated for Student A",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Submit the Bulk Publish request""
+2. ""Wait for the job to complete; check the Calendar after Refresh""
+3. ""On Student A's device, wait 60 seconds and check the Learner App notification inbox""
+4. ""On Parent A's device, check the Parent App notification inbox""","1. ""Success message appears; user redirected to Calendar""
+2. ""Lesson statuses remain Published — no change (no Draft lessons to process)""
+3. ""No new push notification is received for this period""
+4. ""No new push notification is received""","1. """"
+2. """"
+3. ""Student A Learner App""
+4. ""Parent A Parent App""",,,,,,,
+,"[Riso] Bulk Publish Notification – Cross-Type Dedup – Lesson Already Notified via Individual Publish and Notify Is Excluded from Bulk Notification","AC 02.1 — Regression Analysis + Decision Table — If a lesson was already published and notified via the individual 'Publish and Notify Student' button (LT-96662), it is excluded from the bulk notification batch; the student and parent do not receive a duplicate notification for that lesson.","- User is logged into SF as a Riso HQ Admin
+- Calendar period contains: Lesson A (already published and notified via individual flow) and Lesson B (Draft, not individually notified)
+- Student A assigned to both lessons; linked to Parent A
+- Both Student A's and Parent A's devices are logged in with push notifications enabled
+- Bulk Publish submitted for the period with Student A in filter and checkbox activated",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Use the individual 'Publish and Notify Student' button on Lesson A to publish and notify""
+2. ""Submit the Bulk Publish request for the same period (Lesson A + Lesson B in scope)""
+3. ""Wait for the Bulk Publish job to complete""
+4. ""On Student A's device, check the Learner App notification inbox after the Bulk job completes""
+5. ""On Parent A's device, check the Parent App notification inbox""
+6. ""Count total notifications for Lesson A on Student A's device""","1. ""Lesson A is Published; Student A and Parent A receive notification via the individual flow""
+2. ""Success message appears""
+3. ""Bulk job processes the period""
+4. ""Student A receives exactly 1 new notification from the Bulk Publish job — for Lesson B only. No duplicate notification for Lesson A.""
+5. ""Parent A receives exactly 1 new notification from Bulk job — for Lesson B period. No duplicate for Lesson A.""
+6. ""Student A has received notification for Lesson A exactly once (from the individual flow, step 1)""","1. ""Lesson A""
+2. """"
+3. """"
+4. ""Student A Learner App""
+5. ""Parent A Parent App""
+6. """"",,,,,,,

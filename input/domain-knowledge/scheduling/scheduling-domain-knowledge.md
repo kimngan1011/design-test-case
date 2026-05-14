@@ -1277,3 +1277,35 @@ Event Master
 | Configuration           |     3 |  0.1% |
 | Lesson Master           |     3 |  0.1% |
 | Live Lesson             |     2 |  0.0% |
+
+---
+
+## 8. Bulk Publish (Riso) — Domain Rules (LT-98532, confirmed 2026-05-12)
+
+### 8.1 "Apply to Selected Students" Checkbox
+
+- The **"Apply to selected students"** checkbox is present in ALL SF Calendar Bulk Publish modal variants (weekly view, daily view, teacher view)
+- **State is driven solely by the SF Calendar student filter:**
+  - 0 students in filter → checkbox **DISABLED**
+  - 1+ students in filter → checkbox **ENABLED** (unchecked by default)
+- When checkbox is **activated**: location field locked to calendar's current location (disabled, read-only); user cannot add extra locations
+- **The student filter cannot be modified while the Bulk Publish modal is open.** User must close modal, update filter, then reopen.
+- When checkbox is **not activated** (with students in filter): existing publish-all behavior retained
+
+### 8.2 Notification Trigger and Deduplication
+
+- Bulk publish notifications (LT-98532) are a **separate notification path** from per-lesson "Publish and Notify" (LT-96662)
+- **Cross-type deduplication:** Before sending a bulk notification for a lesson, the system checks if that lesson was already published+notified via LT-96662. If yes, the lesson is **excluded from the bulk notification** — no duplicate notification sent
+- **Partial failure ("Completed with Errors"):** Notifications ARE sent for students of **successfully published lessons** only
+- **0 Draft lessons in scope:** Job skips silently — no notification, no user-facing warning
+- **Student with no Parent Contact:** Student is **skipped entirely** — no notification sent to student or parents
+
+### 8.3 Bulk Action Monitoring (Riso-only)
+
+- Config-gated: "Bulk Action Monitoring config" (ON = Riso, OFF = others)
+- Permission-gated: "Bulk Action Monitoring permission" (HQ Admin or CM only)
+- For Bulk Publish: **1 monitoring record per student+location pairing**
+- Records from the same batch (same user trigger) are grouped by Batch ID
+- Job statuses: Pending → Processing → Completed / Completed with Errors / Failed
+- Processed Count = Success + Failed (auto-calculated)
+- Data retention: **2 weeks** then auto-purged

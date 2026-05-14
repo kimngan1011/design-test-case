@@ -1,0 +1,87 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,[Riso] Bulk Publish by Student – Publish Modal,,,,,,,,,,,,,,,,,,,,[Riso] Bulk Publish by Student – Publish Modal,2785,,2786
+,"[Riso] Bulk Publish Modal – 0 Students in Calendar Filter – ""Apply to selected students"" checkbox is disabled","AC 01.2 — Decision Table — When no student is selected in the Calendar filter before opening the Bulk Publish modal, the ""Apply to selected students"" checkbox appears but cannot be activated.","- User is logged into SF as a Riso HQ Admin
+- The SF Calendar page is open for a specific period
+- No student is selected in the Calendar student filter (filter is empty / ""All students"")
+- At least one Draft lesson exists in the calendar period",,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the SF Calendar, confirm the student filter shows no selected student""
+2. ""Click the Bulk Publish button""
+3. ""Observe the 'Apply to selected students' checkbox in the modal""
+4. ""Attempt to click the disabled checkbox""","1. ""Calendar page is loaded; student filter shows 'All students' or no selection""
+2. ""Bulk Publish modal opens""
+3. ""Checkbox is visible but disabled (grayed out, not clickable)""
+4. ""Checkbox state does not change; no error shown""","1. """"
+2. """"
+3. """"
+4. """"",,,,,,,
+,"[Riso] Bulk Publish Modal – 0 Students in Filter – Location Field Remains Editable with Multi-Location Support","AC 01.2 — Decision Table — When the ""Apply to selected students"" checkbox is disabled (0 students in filter), the Location field remains editable and the user can select multiple locations.","- User is logged into SF as a Riso HQ Admin
+- SF Calendar is open with no student selected in the filter
+- At least 2 locations exist and are accessible to the user",,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the SF Calendar with no student in the filter, then click Bulk Publish""
+2. ""Observe the Location field in the modal""
+3. ""Click the Location field and add a second location""
+4. ""Confirm both locations are shown in the Location field""","1. ""Bulk Publish modal opens; 'Apply to selected students' checkbox is disabled""
+2. ""Location field is editable (not locked, not read-only); shows the calendar's current location by default""
+3. ""Second location is added successfully to the field""
+4. ""Location field displays both selected locations""","1. """"
+2. """"
+3. ""Location: Branch B""
+4. """"",,,,,,,
+,"[Riso] Bulk Publish Modal – 1+ Students in Calendar Filter – Checkbox Appears Enabled and Unchecked by Default","AC 01.3 — Decision Table — When at least one student is selected in the Calendar filter before opening the Bulk Publish modal, the ""Apply to selected students"" checkbox is enabled and unchecked by default.","- User is logged into SF as a Riso HQ Admin
+- SF Calendar is open
+- At least 1 student (Student A) is selected in the Calendar student filter
+- At least one Draft lesson for Student A exists in the calendar period",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""On the SF Calendar, select Student A in the student filter""
+2. ""Click the Bulk Publish button""
+3. ""Observe the 'Apply to selected students' checkbox""","1. ""Calendar view updates to show Student A's lessons; student filter shows 'Student A'""
+2. ""Bulk Publish modal opens""
+3. ""Checkbox is enabled (clickable, not grayed out) and unchecked by default""","1. ""Student A name""
+2. """"
+3. """"",,,,,,,
+,"[Riso] Bulk Publish Modal – Checkbox Activated – Location Field Locked to Current Calendar Location","AC 01.3 — Decision Table — When the user activates the ""Apply to selected students"" checkbox, the Location field is immediately locked to the calendar's current location and becomes read-only.","- User is logged into SF as a Riso HQ Admin
+- SF Calendar is open; student filter has 1+ students selected
+- The calendar's current location is ""Hanoi Branch""
+- Bulk Publish modal is open; checkbox is currently unchecked",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Bulk Publish modal (checkbox enabled, unchecked)""
+2. ""Tick the 'Apply to selected students' checkbox""
+3. ""Observe the Location field immediately after activating the checkbox""
+4. ""Attempt to click or change the Location field""","1. ""Modal is open; Location field shows calendar's current location and is editable""
+2. ""Checkbox becomes checked""
+3. ""Location field is locked to 'Hanoi Branch'; field shows disabled / read-only state""
+4. ""Location field cannot be edited; the value 'Hanoi Branch' remains unchanged""","1. ""Location: Hanoi Branch""
+2. """"
+3. """"
+4. """"",,,,,,,
+,"[Riso] Bulk Publish Modal – Checkbox Activated – Cannot Add Extra Locations","AC 01.3 — Negative Testing — When the ""Apply to selected students"" checkbox is activated, the option to add extra locations to the Location field is disabled.","- User is logged into SF as a Riso HQ Admin
+- SF Calendar is open; student filter has 1+ students selected
+- Bulk Publish modal is open; the 'Apply to selected students' checkbox has been activated (checked)",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Confirm the checkbox is currently checked in the modal""
+2. ""Attempt to open the Location field dropdown to add a second location""
+3. ""Confirm no additional location can be added""","1. ""Checkbox shows checked state; Location field is locked to the calendar's location""
+2. ""Location field dropdown does not open; the add location control is absent or disabled""
+3. ""Only the single locked location is shown in the Location field""","1. """"
+2. """"
+3. """"",,,,,,,
+,"[Riso] Bulk Publish Modal – Checkbox NOT Activated – All Lessons in Period Published (Existing Behavior Preserved)","AC 01.3 — Regression Analysis — When the ""Apply to selected students"" checkbox is NOT activated (even with students in the filter), Bulk Publish works exactly as before LT-98532: all lessons at the selected period and location are published regardless of student.","- User is logged into SF as a Riso HQ Admin
+- SF Calendar is open; 1+ students are selected in the student filter
+- Bulk Publish modal is open; 'Apply to selected students' checkbox is enabled but unchecked
+- The period contains 3 Draft lessons: 2 for Student A, 1 for Student B (not in the filter)",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Bulk Publish modal with checkbox unchecked""
+2. ""Complete all required fields and click Save""
+3. ""Refresh the calendar""
+4. ""Observe the status of Student A's 2 Draft lessons""
+5. ""Observe the status of Student B's 1 Draft lesson (not in student filter)""","1. ""Modal is open; checkbox is enabled but unchecked""
+2. ""Modal closes; success message appears; user is redirected to the calendar view""
+3. ""Calendar loads updated lesson statuses""
+4. ""Both lessons are now Published""
+5. ""Student B's lesson is also Published — all lessons in the period were published regardless of the student filter""","1. """"
+2. """"
+3. """"
+4. """"
+5. """"",,,,,,,
+,"[Riso] Bulk Publish Modal – Student Filter Cannot Be Changed While Modal Is Open","AC 01.3 — Decision Table — After the Bulk Publish modal is opened, the Calendar student filter cannot be modified until the modal is closed.","- User is logged into SF as a Riso HQ Admin
+- SF Calendar is open; 1+ students selected in the student filter
+- Bulk Publish modal is currently open",,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Bulk Publish modal""
+2. ""While the modal is open, attempt to change the Calendar student filter (e.g. add or remove a student)""
+3. ""Close the Bulk Publish modal by clicking Cancel""
+4. ""Attempt to change the Calendar student filter after the modal is closed""","1. ""Modal is open and visible on top of the calendar""
+2. ""The student filter cannot be edited; it is blocked or the Calendar behind the modal is not interactive""
+3. ""Modal closes""
+4. ""Student filter is now editable and can be changed""","1. """"
+2. """"
+3. """"
+4. """"",,,,,,,

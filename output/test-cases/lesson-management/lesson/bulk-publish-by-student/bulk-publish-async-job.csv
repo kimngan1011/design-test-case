@@ -1,0 +1,105 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,[Riso] Bulk Publish by Student – Async Job,,,,,,,,,,,,,,,,,,,,[Riso] Bulk Publish by Student – Async Job,2785,,2787
+,"[Riso] Bulk Publish – Submit – Success Message Displayed and User Redirected to Calendar","AC 01.4 — Equivalence Partitioning — After completing the Bulk Publish modal and clicking Save, a success message is shown and the user is redirected to the previous calendar view.","- User is logged into SF as a Riso HQ Admin
+- SF Calendar is open; at least 1 Draft lesson exists in the selected period
+- Bulk Publish modal is filled in with all required fields
+- 'Apply to selected students' checkbox may be activated or not (behavior is the same)",,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Complete all required fields in the Bulk Publish modal""
+2. ""Click Save""
+3. ""Read the success message text""
+4. ""Observe the page after the message dismisses""","1. ""All fields are filled; form is valid""
+2. ""Modal closes; a success message appears""
+3. ""Message reads: Bulk publish lesson request has been submitted successfully. Changes will be applied shortly""
+4. ""User is back on the Calendar page at the same period and location as before opening the modal""","1. ""Period: May 1–31, 2026; Location: Hanoi Branch""
+2. """"
+3. """"
+4. """"",,,,,,,
+,"[Riso] Bulk Publish – After Submit – Lesson Status Not Immediately Updated on Calendar","AC 01.4 — State Transition Testing — Immediately after submitting the Bulk Publish request, the Calendar still shows Draft status for the lessons because the job runs asynchronously.","- User is logged into SF as a Riso HQ Admin
+- The period contains at least 2 Draft lessons (Lesson X and Lesson Y)
+- Bulk Publish modal submitted and success message has appeared
+- User is back on the Calendar view",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""After the success message, observe Lesson X on the Calendar immediately""
+2. ""Observe Lesson Y on the Calendar immediately""
+3. ""Wait a few seconds without clicking Refresh""","1. ""Lesson X still shows status Draft — not yet updated""
+2. ""Lesson Y still shows status Draft — not yet updated""
+3. ""Lesson statuses do not automatically update on screen""","1. ""Lesson X (Draft)""
+2. ""Lesson Y (Draft)""
+3. """"",,,,,,,
+,"[Riso] Bulk Publish – Click Refresh – Calendar Shows Updated Published Status","AC 01.4 — State Transition Testing — After clicking the Refresh button on the Calendar, the lesson statuses update to Published reflecting the completed async job.","- User is logged into SF as a Riso HQ Admin
+- Bulk Publish request has been submitted; the async job has had sufficient time to complete (at least a few seconds)
+- User is on the Calendar page; lessons still show Draft (no Refresh yet)",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Observe the Calendar before Refresh — note Lesson X showing Draft""
+2. ""Click the Refresh button on the Calendar""
+3. ""Observe Lesson X after Refresh""
+4. ""Observe Lesson Y after Refresh""","1. ""Lesson X shows Draft""
+2. ""Calendar reloads data from the server""
+3. ""Lesson X status is now Published""
+4. ""Lesson Y status is now Published""","1. ""Lesson X""
+2. """"
+3. """"
+4. """"",,,,,,,
+,"[Riso] Bulk Publish – Student-Scoped Publish – Only Draft Lessons of Selected Students Are Published","AC 01.4 — State Transition Testing — When the 'Apply to selected students' checkbox is activated, only the Draft lessons belonging to the students in the Calendar filter are published; lessons of students outside the filter remain Draft.","- User is logged into SF as a Riso HQ Admin
+- SF Calendar period contains: Lesson A (Draft) assigned to Student A (in the filter); Lesson B (Draft) assigned to Student B (NOT in the filter)
+- Student A is selected in the Calendar student filter
+- Bulk Publish modal: 'Apply to selected students' checkbox activated, all required fields complete",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Submit the Bulk Publish modal with checkbox activated""
+2. ""Click Refresh on the Calendar""
+3. ""Observe Lesson A (Student A's Draft lesson)""
+4. ""Observe Lesson B (Student B's Draft lesson — outside the filter)""","1. ""Success message appears; user redirected to Calendar""
+2. ""Calendar reloads""
+3. ""Lesson A status is now Published""
+4. ""Lesson B status is still Draft — not affected by the publish""","1. """"
+2. """"
+3. ""Lesson A""
+4. ""Lesson B""",,,,,,,
+,"[Riso] Bulk Publish – Student-Scoped Publish – Published, Completed, and Cancelled Lessons Not Changed","AC 01.4 — State Transition Testing + Negative Testing — When the Bulk Publish job runs, lessons that are already Published, Completed, or Cancelled remain in their existing status and are not altered.","- User is logged into SF as a Riso HQ Admin
+- SF Calendar period contains, all assigned to Student A (in the filter): Lesson A (Draft), Lesson B (Published), Lesson C (Completed), Lesson D (Cancelled)
+- Bulk Publish modal submitted with 'Apply to selected students' activated",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Submit the Bulk Publish modal and click Refresh after the job completes""
+2. ""Observe Lesson A (Draft)""
+3. ""Observe Lesson B (Published)""
+4. ""Observe Lesson C (Completed)""
+5. ""Observe Lesson D (Cancelled)""","1. ""Calendar shows updated data""
+2. ""Lesson A is now Published""
+3. ""Lesson B remains Published — status unchanged""
+4. ""Lesson C remains Completed — status unchanged""
+5. ""Lesson D remains Cancelled — status unchanged""","1. """"
+2. ""Lesson A""
+3. ""Lesson B""
+4. ""Lesson C""
+5. ""Lesson D""",,,,,,,
+,"[Riso] Bulk Publish – Period-Scoped Publish – Draft Lessons Outside the Selected Period Are Not Published","AC 01.4 — Boundary Value Analysis — When the Bulk Publish job runs for a selected period, only Draft lessons whose dates fall within that period are published. Draft lessons of the same student that fall outside the period boundary remain unchanged.","- User is logged into SF as a Riso HQ Admin
+- Student A is selected in the Calendar student filter
+- Bulk Publish period is set to May 1, 2026 ~ May 31, 2026
+- Draft lessons for Student A: Lesson A on May 15, 2026 (within period); Lesson B on June 5, 2026 (after end date); Lesson C on April 28, 2026 (before start date)
+- 'Apply to selected students' checkbox activated; all required fields complete",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Submit the Bulk Publish modal with period May 1–31, 2026""
+2. ""Click Refresh on the Calendar""
+3. ""Navigate to May 2026 and observe Lesson A (May 15)""
+4. ""Navigate to June 2026 and observe Lesson B (June 5)""
+5. ""Navigate to April 2026 and observe Lesson C (April 28)""","1. ""Success message appears; user redirected to Calendar""
+2. ""Calendar reloads""
+3. ""Lesson A status is now Published""
+4. ""Lesson B status is still Draft — not affected because it is outside the publish period""
+5. ""Lesson C status is still Draft — not affected because it is outside the publish period""","1. ""Period: May 1–31, 2026""
+2. """"
+3. ""Lesson A — May 15, 2026""
+4. ""Lesson B — June 5, 2026""
+5. ""Lesson C — April 28, 2026""",,,,,,,
+,"[Riso] Bulk Publish – Location-Scoped Publish – Only Lessons at the Calendar's Selected Location Are Published; Lessons of the Same Students at Other Locations Remain Draft","AC 01.3 + AC 01.4 — Decision Table + Boundary Value Analysis — When the 'Apply to selected students' checkbox is activated, the Location field is locked to the calendar's current location. Only Draft lessons of the selected students at that locked location are published. Draft lessons of the same students at any other location are not affected.","- User is logged into SF as a Riso HQ Admin
+- SF Calendar is set to location Hanoi Branch and period May 1–31, 2026
+- Two students selected in filter: Student A and Student B
+- Draft lessons within the period: Lesson A1 (Student A, Hanoi Branch); Lesson A2 (Student A, Osaka Branch); Lesson B1 (Student B, Hanoi Branch); Lesson B2 (Student B, Tokyo Branch)
+- 'Apply to selected students' checkbox activated; Location field shows Hanoi Branch (locked, read-only)",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Confirm the Location field in the modal shows Hanoi Branch and is read-only""
+2. ""Submit the Bulk Publish modal""
+3. ""Click Refresh on the Calendar""
+4. ""Observe Lesson A1 (Student A, Hanoi Branch)""
+5. ""Observe Lesson B1 (Student B, Hanoi Branch)""
+6. ""Navigate to the Osaka Branch calendar view and observe Lesson A2""
+7. ""Navigate to the Tokyo Branch calendar view and observe Lesson B2""","1. ""Location field displays Hanoi Branch; field is disabled and cannot be changed""
+2. ""Success message appears; user redirected to Calendar""
+3. ""Calendar reloads""
+4. ""Lesson A1 status is now Published""
+5. ""Lesson B1 status is now Published""
+6. ""Lesson A2 status is still Draft — not published because it is at a different location""
+7. ""Lesson B2 status is still Draft — not published because it is at a different location""","1. ""Calendar location: Hanoi Branch""
+2. """"
+3. """"
+4. ""Lesson A1""
+5. ""Lesson B1""
+6. ""Lesson A2""
+7. ""Lesson B2""",,,,,,,

@@ -1081,6 +1081,8 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 ## E2E-37: [Renseikai] Publish Lesson and Notify Students
 
 > **Theme:** Renseikai-specific Publish & Notify feature: Draft → Published status transition via new button, confirmation modal, push notification delivery to students and parents, deep-link navigation, and permission guard.
+>
+> ⚠️ **Test isolation note (LT-98532):** Do NOT execute this scenario during the same period as a Riso Bulk Publish (LT-98532) test run. The cross-type deduplication rule (BR-15) means lessons published via E2E-37 will be excluded from bulk notification in E2E-40. Run these scenarios in separate time periods or isolated data sets to avoid notification interference.
 
 | #   | Platform | Action                                                                                                                                                                                     |
 | --- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -1178,6 +1180,98 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 
 ---
 
+## E2E-40: [Riso] Bulk Publish Lessons for Selected Students
+
+> **Theme:** LT-98532 — SF Calendar student filter → Bulk Publish modal with new "Apply to selected students" checkbox. Covers checkbox state logic, location lock, student-scoped publish, async job behavior, and success message.
+
+| #   | Platform | Action                                                                                                                                                                                                                     |
+| --- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [SF]     | Staff creates multiple Draft lessons at a single location; assigns 2 specific students (Student A and Student B) to some lessons; other lessons have no student filter match (AC 01.1)                                     |
+| 2   | [SF]     | Staff opens SF Calendar with **no students** in the filter → opens Bulk Publish modal → verifies "Apply to selected students" checkbox is **DISABLED** (AC 01.2 — BR-01)                                                   |
+| 3   | [SF]     | With no students in filter: verify Location field is **editable** and user can add multiple locations (AC 01.2 — BR-02)                                                                                                    |
+| 4   | [SF]     | Staff adds **Student A** to the Calendar student filter → opens Bulk Publish modal → verifies "Apply to selected students" checkbox is **ENABLED** but **unchecked by default** (AC 01.3 — BR-03)                          |
+| 5   | [SF]     | With Student A in filter (checkbox not activated): submit Bulk Publish → verify all Draft lessons in the period at the location are published (existing behavior retained) (AC 01.3 — BR-06)                               |
+| 6   | [SF]     | Staff re-creates Draft lessons. With Student A in filter, opens Bulk Publish modal → **activates checkbox** → verifies Location field is **locked** to calendar's current location (disabled, read-only) (AC 01.3 — BR-04) |
+| 7   | [SF]     | Verify user **cannot add extra locations** while checkbox is activated (AC 01.3 — BR-05)                                                                                                                                   |
+| 8   | [SF]     | Fill required fields (Start Date, End Date) → click Save → verify **success message** shown: "Bulk publish lesson request has been submitted successfully. Changes will be applied shortly" (AC 01.4 — BR-08)              |
+| 9   | [SF]     | Verify user is **redirected** to previous calendar view after submission (AC 01.4 — BR-09)                                                                                                                                 |
+| 10  | [SF]     | Immediately after submit: verify Calendar **does NOT** show lessons as Published yet (async job running — BR-10)                                                                                                           |
+| 11  | [SF]     | Click **Refresh** on the Calendar → verify Student A's lessons now show as **Published**; verify Student B's lessons (not in filter) remain in their original status (AC 01.4 — BR-11)                                     |
+
+**Features covered:**
+
+- Calendar SF > Bulk Publish > Checkbox DISABLED when 0 students in filter (AC 01.2 — LT-98532)
+- Calendar SF > Bulk Publish > Checkbox ENABLED unchecked by default when 1+ students in filter (AC 01.3 — LT-98532)
+- Calendar SF > Bulk Publish > Location locked when checkbox activated (AC 01.3 — LT-98532)
+- Calendar SF > Bulk Publish > Extra locations disabled when checkbox activated (AC 01.3 — LT-98532)
+- Calendar SF > Bulk Publish > Existing behavior retained when checkbox not activated (AC 01.3 — LT-98532)
+- Calendar SF > Bulk Publish > Success message + redirect (AC 01.4 — LT-98532)
+- Calendar SF > Bulk Publish > Async job — calendar not updated until Refresh (AC 01.4 — LT-98532)
+- Calendar SF > Bulk Publish > Only Draft → Published; student-scoped (AC 01.4 — LT-98532)
+
+---
+
+## E2E-41: [Riso] Mobile Notification after Bulk Publish
+
+> **Theme:** LT-98532 — Push notification delivery after bulk publish: trigger conditions, deduplication (within-batch and cross-type), recipient edge cases (parent-less student, partial failure), notification content, and deep-link.
+>
+> ⚠️ **Test isolation note:** Run this scenario with fresh Draft lessons not previously published via LT-96662 "Publish and Notify" (to avoid cross-type deduplication in step 9 masking other assertions).
+
+| #   | Platform | Action                                                                                                                                                                                                                                                                                       |
+| --- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [SF]     | Staff sets up: 3 Draft lessons at location X, all assigned to Student A (with linked Parent P) and Student B (with no linked Parent Contact) (AC 02.1)                                                                                                                                       |
+| 2   | [SF]     | Staff sets Calendar filter to Student A + Student B → activates "Apply to selected students" checkbox → submits Bulk Publish                                                                                                                                                                 |
+| 3   | [System] | Wait for bulk publish job to complete (Job Status = Completed in Bulk Action Monitoring)                                                                                                                                                                                                     |
+| 4   | [Mobile] | Student A logs into Learner App → verifies **1 push notification** received titled "Lesson Schedule has been Published" (AC 02.1 — BR-16, BR-19)                                                                                                                                             |
+| 5   | [Mobile] | Parent P logs into Parent App → verifies **1 push notification** received (AC 02.1 — BR-17)                                                                                                                                                                                                  |
+| 6   | [Mobile] | Student B (no linked parent): verify **no notification** sent to Student B or any parent (AC 02.1 — BR-18: student with no parent skipped entirely)                                                                                                                                          |
+| 7   | [Mobile] | Student A taps notification → verify **notification content**: title = "Lesson Schedule has been Published"; Line 1 = "Lesson schedules for the following period have been published"; Line 2 = correct period in format "Month Day, Year ~ Month Day, Year" (AC 02.2 — BR-19, BR-20, BR-21) |
+| 8   | [Mobile] | Verify **deep-link**: Calendar opens at the **month of the published start date** (AC 02.2 — BR-22)                                                                                                                                                                                          |
+| 9   | [SF]     | **Cross-type deduplication:** Individually publish+notify Lesson X via LT-96662 "Publish and Notify" button → then run bulk publish for the same period including Lesson X → verify Student A receives **no duplicate notification** for Lesson X (AC 02.1 — BR-15)                          |
+| 10  | [SF]     | **0 Draft lessons edge case:** Run bulk publish when all lessons in scope are already Published → verify **job skips silently** — no notification sent, no error shown to user (AC 02.1 — BR-14)                                                                                             |
+
+**Features covered:**
+
+- Customization > Riso > Bulk Publish Notification > Recipients: student + parents (AC 02.1 — LT-98532)
+- Customization > Riso > Bulk Publish Notification > Student with no parent skipped entirely (AC 02.1 — LT-98532)
+- Customization > Riso > Bulk Publish Notification > Notification content: title + body lines + period format (AC 02.2 — LT-98532)
+- Customization > Riso > Bulk Publish Notification > Deep-link to Calendar at correct month (AC 02.2 — LT-98532)
+- Customization > Riso > Bulk Publish Notification > Cross-type dedup with LT-96662 (AC 02.1 — LT-98532)
+- Customization > Riso > Bulk Publish Notification > 0 Draft lessons — silent skip (AC 02.1 — LT-98532)
+
+---
+
+## E2E-42: [Riso] Bulk Action Monitoring
+
+> **Theme:** LT-98532 — Bulk Action Monitoring view: job record creation per student+location pairing, batch grouping, job status progression, filters, and permission guard.
+
+| #   | Platform | Action                                                                                                                                                                                                                                    |
+| --- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [SF]     | Verify "Bulk Action Monitoring config" = ON for Riso; verify config = OFF for another partner (AC 03.1 — BR-23)                                                                                                                           |
+| 2   | [SF]     | Staff with "Bulk Action Monitoring permission" (HQ Admin) navigates to Bulk Action Monitoring → page accessible (AC 03.1 — BR-23)                                                                                                         |
+| 3   | [SF]     | Staff without "Bulk Action Monitoring permission" → verify page is **not accessible** (AC 03.1 — BR-23)                                                                                                                                   |
+| 4   | [SF]     | Trigger Bulk Publish for 2 students (A, B) at 1 location → navigate to Bulk Action Monitoring → verify **2 job records created** (1 per student+location pairing), both sharing the same **Batch ID** (AC 03.1 — BR-24)                   |
+| 5   | [SF]     | Verify job records display all required fields: Job ID, Batch ID, Action = "Bulk Publish", Job Status, Location, Student name, Lesson Start/End Date, Total Lessons, Processed Count, Success, Failed, Created By, Created Time (AC 03.2) |
+| 6   | [SF]     | Verify job records grouped together in the list (same Batch ID) and list sorted by **Created Time descending** (AC 03.1 — BR-24)                                                                                                          |
+| 7   | [SF]     | Observe status progression: verify record shows **Pending → Processing → Completed** (or Completed with Errors) as job runs (AC 03.3)                                                                                                     |
+| 8   | [SF]     | Verify **Processed Count** = Success + Failed (auto-calculated); verify after completion Success + Failed = Total Lessons (AC 03.3 — BR-25)                                                                                               |
+| 9   | [SF]     | **Completed with Errors:** Trigger bulk publish where some lessons fail → verify Job Status = **"Completed with Errors"** and Failed Count > 0 (AC 03.4 — BR-25)                                                                          |
+| 10  | [SF]     | Apply **filters**: filter by Action = "Bulk Publish" → verify only Bulk Publish records shown; filter by Job Status = "Completed" → verify filtered results (AC 03.6)                                                                     |
+| 11  | [SF]     | Apply **Created Date** filter = "This week" → verify default and custom range work (AC 03.6)                                                                                                                                              |
+| 12  | [SF]     | Apply **Location** filter → verify only records for the user's assigned locations are available in the dropdown (AC 03.6)                                                                                                                 |
+
+**Features covered:**
+
+- Customization > Riso > Bulk Action Monitoring > Config gate + permission guard (AC 03.1 — LT-98532)
+- Customization > Riso > Bulk Action Monitoring > Job records per student+location pairing (AC 03.1 — LT-98532)
+- Customization > Riso > Bulk Action Monitoring > Batch grouping + sort by Created Time (AC 03.1 — LT-98532)
+- Customization > Riso > Bulk Action Monitoring > All fields per record (AC 03.2 — LT-98532)
+- Customization > Riso > Bulk Action Monitoring > Job status lifecycle: Pending → Processing → Completed (AC 03.3 — LT-98532)
+- Customization > Riso > Bulk Action Monitoring > Completed with Errors status (AC 03.4 — LT-98532)
+- Customization > Riso > Bulk Action Monitoring > Filters: Action, Job Status, Created Date, Location (AC 03.6 — LT-98532)
+
+---
+
 ## Coverage Matrix
 
 | E2E Scenario                                                                        | Qase Cases Covered | Key Domains                                                                     |
@@ -1221,6 +1315,9 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 | E2E-37: [Renseikai] Publish Lesson and Notify Students                              |                ~25 | Renseikai, Notifications, Deep-link, Permission                                 |
 | E2E-38: [Nichibei] Lesson Self-Booking & Cancellation                               |               ~new | Nichibei, Self-Booking, Mobile, LA, Points, Auto-publish, BO Collect Attendance |
 | E2E-39: [Nichibei] BO Lesson List — Filter Default & Collect Attendance Entry Point |               ~new | Nichibei, Lesson List Filter, Collect Attendance, Entry Point, Limit Teacher    |
+| E2E-40: [Riso] Bulk Publish Lessons for Selected Students                           |               ~new | Riso, Bulk Publish, Calendar Student Filter, Checkbox, Async job                |
+| E2E-41: [Riso] Mobile Notification after Bulk Publish                               |               ~new | Riso, Push Notification, Deduplication, Partial failure, Deep-link, Parent      |
+| E2E-42: [Riso] Bulk Action Monitoring                                               |               ~new | Riso, Bulk Action Monitoring, Job Status, Batch Grouping, Filters               |
 
 > **Note:** Some test cases are covered by multiple E2E scenarios (shared features like Calendar views, LA updates). The total unique coverage exceeds 4,191 when cross-references are included.
 >
@@ -1239,3 +1336,6 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 > - E2E-37 ← new: Renseikai Publish & Notify (LT-96662)
 > - E2E-38 ← new: Nichibei Lesson Self-Booking & Cancellation (LT-96620) — extended: BO Collect Attendance verification steps (LT-96616)
 > - E2E-39 ← new: Nichibei BO Lesson List — Filter Default & Collect Attendance Entry Point (LT-96616)
+> - E2E-40 ← new: Riso Bulk Publish Lessons for Selected Students — SF Calendar checkbox + async job (LT-98532)
+> - E2E-41 ← new: Riso Mobile Notification after Bulk Publish — deduplication, recipients, content, deep-link (LT-98532)
+> - E2E-42 ← new: Riso Bulk Action Monitoring — job records, status lifecycle, filters, permission guard (LT-98532)

@@ -1,0 +1,122 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,[Riso] Bulk Publish by Student – Bulk Action Monitoring,,,,,,,,,,,,,,,,,,,,[Riso] Bulk Publish by Student – Bulk Action Monitoring,2785,,2791
+,"[Riso] Bulk Action Monitoring – Riso User with Permission – Monitoring Page Is Accessible","AC 03.1 — Permission Matrix — A Riso HQ Admin or CM user with the 'Bulk Action Monitoring' permission can access the Bulk Action Monitoring page.","- Bulk Action Monitoring config is ON for the Riso partner
+- User A is a Riso HQ Admin with the 'Bulk Action Monitoring' permission assigned
+- User B is a Riso CM with the 'Bulk Action Monitoring' permission assigned",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Log into SF as User A (Riso HQ Admin with permission) and navigate to the Bulk Action Monitoring page""
+2. ""Log out and log in as User B (Riso CM with permission); navigate to the Bulk Action Monitoring page""","1. ""Bulk Action Monitoring page loads successfully; job records are visible""
+2. ""Bulk Action Monitoring page loads successfully; job records are visible""","1. ""User A credentials""
+2. ""User B credentials""",,,,,,,
+,"[Riso] Bulk Action Monitoring – Riso User Without Permission – Monitoring Page Is Not Accessible","AC 03.1 — Permission Matrix + Negative Testing — A Riso user who does not have the 'Bulk Action Monitoring' permission cannot access the monitoring page, even though the config is ON for the Riso partner.","- Bulk Action Monitoring config is ON for the Riso partner
+- User C is a Riso staff member without the 'Bulk Action Monitoring' permission",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Log into SF as User C (Riso user, no monitoring permission)""
+2. ""Attempt to navigate to the Bulk Action Monitoring page""","1. ""Login succeeds""
+2. ""Page is not accessible; either the menu item is hidden or an Access Denied message is shown""","1. ""User C credentials""
+2. """"",,,,,,,
+,"[Riso] Bulk Action Monitoring – Non-Riso Partner – Monitoring Page Not Available","AC 03.1 — Permission Matrix + Negative Testing — A user from a partner for which the Bulk Action Monitoring config is OFF cannot access the monitoring page regardless of their role.","- Bulk Action Monitoring config is OFF for Partner X (a non-Riso partner)
+- User D is an HQ Admin at Partner X",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Log into SF as User D (Partner X HQ Admin)""
+2. ""Attempt to navigate to the Bulk Action Monitoring page""","1. ""Login succeeds""
+2. ""Page is not accessible; menu item is hidden or Access Denied""","1. ""User D credentials""
+2. """"",,,,,,,
+,"[Riso] Bulk Action Monitoring – Bulk Publish – One Record Created per Student+Location Pairing","AC 03.1 — CRUD Testing — After a Bulk Publish job completes, exactly one monitoring record is created for each student+location pairing in the batch. Multiple students in the same batch each get their own record.","- User is logged into SF as a Riso HQ Admin with 'Bulk Action Monitoring' permission
+- Bulk Publish was submitted for a period with 3 students (Student A, Student B, Student C) all at 'Hanoi Branch'
+- The 'Apply to selected students' checkbox was activated",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""After the Bulk Publish job completes, navigate to the Bulk Action Monitoring page""
+2. ""Observe the number of records created for this batch""
+3. ""Confirm each record shows the same Batch ID (grouped together)""","1. ""Monitoring page loads""
+2. ""Exactly 3 records are present — one for each student+location pairing (Student A / Hanoi Branch, Student B / Hanoi Branch, Student C / Hanoi Branch)""
+3. ""All 3 records share the same Batch ID""","1. """"
+2. """"
+3. """"",,,,,,,
+,"[Riso] Bulk Action Monitoring – Job Record Fields – All Required Fields Populated Correctly","AC 03.2 — Equivalence Partitioning — Every Bulk Publish monitoring record contains all required fields populated with correct values.","- User is logged into SF as a Riso HQ Admin with 'Bulk Action Monitoring' permission
+- A Bulk Publish job was completed for Student A at 'Hanoi Branch' for the period May 1–31, 2026
+- The job created 5 lessons; all 5 published successfully; created by User A",,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Bulk Action Monitoring page and open the record for Student A's batch""
+2. ""Confirm the Action field""
+3. ""Confirm the Job Status field""
+4. ""Confirm the Location field""
+5. ""Confirm the Student field""
+6. ""Confirm the Lesson Start Date and Lesson End Date fields""
+7. ""Confirm the Total Lessons field""
+8. ""Confirm the Success count""
+9. ""Confirm the Failed count""
+10. ""Confirm the Processed Count field""
+11. ""Confirm Created By and Created Time fields""","1. ""Record detail is displayed""
+2. ""Field shows Bulk Publish""
+3. ""Field shows Completed""
+4. ""Field shows Hanoi Branch""
+5. ""Field shows Student A""
+6. ""Start Date = May 1, 2026; End Date = May 31, 2026""
+7. ""Field shows 5""
+8. ""Field shows 5""
+9. ""Field shows 0""
+10. ""Field shows 5 (= 5 Success + 0 Failed)""
+11. ""Created By shows User A's name; Created Time shows the time the job was submitted""","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+6. """"
+7. """"
+8. """"
+9. """"
+10. """"
+11. """"",,,,,,,
+,"[Riso] Bulk Action Monitoring – Job Status Lifecycle – Pending to Processing to Completed","AC 03.3 — State Transition Testing — A Bulk Publish job progresses through the expected status lifecycle: Pending to Processing to Completed.","- User is logged into SF as a Riso HQ Admin with 'Bulk Action Monitoring' permission
+- A Bulk Publish request has just been submitted (job is in the queue)",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Immediately after submitting the Bulk Publish request, navigate to Bulk Action Monitoring""
+2. ""Refresh the Bulk Action Monitoring page while the job is being processed""
+3. ""Refresh again after the job finishes""
+4. ""Confirm Processed Count = Success + Failed (e.g. 3 success + 0 failed = 3)""","1. ""The record for this job shows Job Status = Pending""
+2. ""Job Status transitions to Processing""
+3. ""Job Status is now Completed""
+4. ""Processed Count = 3""","1. """"
+2. """"
+3. """"
+4. """"",,,,,,,
+,"[Riso] Bulk Action Monitoring – Processed Count – Auto-Calculated as Success Plus Failed","AC 03.3 — Equivalence Partitioning — The Processed Count field in a monitoring record always equals the sum of Success Count and Failed Count.","- User is logged into SF as a Riso HQ Admin with 'Bulk Action Monitoring' permission
+- A Bulk Publish job completed with: Total Lessons = 5, Success = 3, Failed = 2 (partial failure simulated)",,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Bulk Action Monitoring and open the record for the partial-failure batch""
+2. ""Read the Success field""
+3. ""Read the Failed field""
+4. ""Read the Processed Count field""","1. ""Record is displayed""
+2. ""Shows 3""
+3. ""Shows 2""
+4. ""Shows 5 (= 3 + 2)""","1. """"
+2. """"
+3. """"
+4. """"",,,,,,,
+,"[Riso] Bulk Action Monitoring – Partial Failure – Job Status Becomes ""Completed with Errors""","AC 03.4 — Decision Table — When a Bulk Publish job finishes processing all lessons but at least one lesson failed to publish, the Job Status is set to 'Completed with Errors'.","- User is logged into SF as a Riso HQ Admin with 'Bulk Action Monitoring' permission
+- A Bulk Publish job completed with some failures (Failed Count > 0; all lessons were attempted)",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Bulk Action Monitoring and find the record for the batch with partial failure""
+2. ""Read the Job Status field""
+3. ""Confirm the Failed count is greater than 0""
+4. ""Confirm the Success count is greater than 0""","1. ""Record is displayed""
+2. ""Job Status = Completed with Errors""
+3. ""Failed count shows a number > 0""
+4. ""Success count shows a number > 0 (not all failed)""","1. """"
+2. """"
+3. """"
+4. """"",,,,,,,
+,"[Riso] Bulk Action Monitoring – System Error – Job Status Becomes ""Failed""","AC 03.4 — Negative Testing — When the Bulk Publish job is terminated by a system error before all lessons are processed, the Job Status is set to 'Failed'.","- User is logged into SF as a Riso HQ Admin with 'Bulk Action Monitoring' permission
+- A Bulk Publish job was submitted and a system error terminated it before completion (simulated via backend tooling)",,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Bulk Action Monitoring and find the record for the failed batch""
+2. ""Read the Job Status field""
+3. ""Confirm the job was terminated early (not all lessons were processed)""","1. ""Record is displayed""
+2. ""Job Status = Failed""
+3. ""Processed Count is less than Total Lessons""","1. """"
+2. """"
+3. """"",,,,,,,
+,"[Riso] Bulk Action Monitoring – Default Filters – Created Date Defaults to This Week and Location Defaults to User's Assigned Location","AC 03.6 — Decision Table — When the Bulk Action Monitoring page opens, the default filter state shows records for 'this week' and the user's assigned location(s) only.","- User is logged into SF as a Riso CM with permission; CM is assigned to 'Hanoi Branch' only
+- Job records exist for the current week at 'Hanoi Branch' and also records from last week
+- A record also exists for 'Saigon Branch' (a location the CM is not assigned to) created this week",,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Bulk Action Monitoring page""
+2. ""Observe the Created Date filter default value""
+3. ""Observe the records shown""
+4. ""Observe the Location filter and the records shown""","1. ""Page loads with default filters applied""
+2. ""Filter is pre-set to This week""
+3. ""Only records from the current week are displayed; records from last week are not shown""
+4. ""Only records for Hanoi Branch are shown; records for Saigon Branch are not visible""","1. """"
+2. """"
+3. """"
+4. """"",,,,,,,
+,"[Riso] Bulk Action Monitoring – Data Retention – Records Purged After 2 Weeks","AC 03.5 — Boundary Value Analysis (Smoke) — Job records that were created more than 2 weeks ago are automatically removed from the Bulk Action Monitoring page.","- User is logged into SF as a Riso HQ Admin with 'Bulk Action Monitoring' permission
+- A Bulk Publish job record was created exactly 15 days ago (1 day past the 2-week retention window)
+- Another job record was created exactly 14 days ago (at the boundary of retention)",,,,low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Bulk Action Monitoring; set Created Date filter to show all time or the past month""
+2. ""Search for the record created 15 days ago""
+3. ""Search for the record created 14 days ago""","1. ""Page loads with all accessible records""
+2. ""The record is no longer present (purged after 2-week retention)""
+3. ""The record is still present (within the 2-week retention window)""","1. """"
+2. ""Record from day -15""
+3. ""Record from day -14""",,,,,,,
