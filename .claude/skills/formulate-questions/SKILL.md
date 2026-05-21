@@ -81,7 +81,7 @@ Write `temp/clarification_questions.json`:
       "ac_ref": "AC 01.1",
       "priority": 1,
       "question": "AC 01.1 states the Publish & Notify button is visible when lesson status is Draft. The existing spec (LT-96662) additionally states it is visible when status is Published. Which is correct — visible for Draft only, or visible for both Draft and Published?",
-      "evidence": "input/specs/LT-96662 Renseikai.../spec.md, Business Rule #2: Button visible for Published status"
+      "evidence": "epics/LT-96662-publish-notify-student/spec.md, Business Rule #2: Button visible for Published status"
     },
     {
       "id": 2,
@@ -89,7 +89,7 @@ Write `temp/clarification_questions.json`:
       "ac_ref": "AC 02.1",
       "priority": 2,
       "question": "Based on the 2026-04-13 Aso incident (duplicate records from dual assignment paths), AC 02.1 introduces a new notification trigger via button click. Does the existing lesson publish flow (Draft→Published status change) already send any push notification in any configuration? If yes, deduplication logic is required.",
-      "evidence": "input/domain-knowledge/scheduling/lesson-learned/core.md, 2026-04-13 — dual-path assignment causing duplicate records"
+      "evidence": "knowledge/domain-knowledge/scheduling/lesson-learned/core.md, 2026-04-13 — dual-path assignment causing duplicate records"
     },
     {
       "id": 3,
@@ -105,7 +105,7 @@ Write `temp/clarification_questions.json`:
       "ac_ref": null,
       "priority": 6,
       "question": "Centre Staff role appears in domain knowledge for lesson management operations, but no AC defines whether Centre Staff can see or click the Publish & Notify button. Should Centre Staff have access to this button?",
-      "evidence": "input/domain-knowledge/scheduling/scheduling-domain-knowledge.md — Centre Staff listed as lesson management role; no AC mentions this role"
+      "evidence": "knowledge/domain-knowledge/scheduling/lesson-management/lesson-teacher.md — Centre Staff listed as lesson management role; no AC mentions this role"
     }
   ]
 }

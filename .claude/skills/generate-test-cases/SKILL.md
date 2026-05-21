@@ -4,294 +4,94 @@ description: >
   **WORKFLOW SKILL** — Generate structured test cases from a test coverage file.
   USE FOR: producing test cases after the coverage matrix is defined; writing preconditions,
   step actions, expected results, and test data; creating md and CSV output files.
-  INPUT: test coverage file path from `output/test-coverages/` + test-case-rules.md.
-  OUTPUT: `.md` test case file saved to `output/test-cases/` matching the suggested suite
-  structure from the coverage file.
+  INPUT: test coverage file path `epics/<epic-folder>/test-coverage.md`.
+  OUTPUT: `.md` + `.csv` test case files saved to `epics/<epic-folder>/test-cases/` matching the
+  suggested suite structure from the coverage file.
   DO NOT USE FOR: analyzing requirements (use analyze-requirements skill) or defining coverage
   strategy (use define-test-coverage skill).
 ---
 
 # Skill: Generate Test Cases
 
-You are a senior QA automation architect working on the Manabie lesson-management system.
-
----
+Senior QA automation architect. Convert a populated `test-coverage.md` into concrete test cases — one MD + one CSV per suite — saved alongside the epic's other artifacts.
 
 ## Input
+- Coverage file: `epics/<epic-folder>/test-coverage.md`.
+- Existing test cases in `epics/<epic-folder>/test-cases/` (to avoid duplicates).
 
-- **Coverage file** — path to a coverage `.md` in `output/test-coverages/` (e.g. `output/test-coverages/LT-90573-extend-recurring-lesson.md`)
-- **Rules file** — always read `input/templates/test-case-rules.md` before writing any test case
+## References
+- Design rules (titles, language, actor, severity/priority, anchoring, fields) → `.claude/references/test-case-rules.md`
+- Generation patterns per technique + depth/risk overrides → `.claude/references/test-case-generation-patterns.md`
+- MD + CSV output template → `.claude/references/test-case-output-template.md`
+- Qase CSV header reference → `.claude/references/qase-format.csv`
+- Epic folder convention → `.claude/references/epic-folder-convention.md`
 
 ---
 
 ## Workflow
 
-### Step 1 — Read All Required Files
+### Step 1 — Read inputs (parallel)
+1. **Coverage file**, extract:
+   - Section 1 Business Rules (numbered, with AC IDs)
+   - Section 4 Coverage Strategy (AC → technique → risk → depth)
+   - Section 5 High-Risk Areas
+   - Section 6 Coverage Gaps (Overlap = Full → skip; ✅ → must cover)
+   - Section 7 Suggested Test Suite Structure
+2. **Design rules**: `.claude/references/test-case-rules.md`.
+3. **Existing test cases** in `epics/<epic-folder>/test-cases/` — to avoid duplication.
 
-Read the following files in parallel before writing a single test case:
+### Step 2 — Apply design rules
+Before writing any TC, internalize `.claude/references/test-case-rules.md`:
+- Title format `[Feature] – [Sub-feature] – [Component] – Condition – Expected Behavior`.
+- Forbidden words: Verify, Check, Test, Properly, Correctly, Successfully.
+- One TC = one logical validation.
+- OOP prefix `[TenantName]` for tenant-specific cases; Core has no prefix.
+- Default actor `HQ or CM Staff` (NOT "Admin" unless explicit).
+- Human-readable language; no jargon, API names, DB columns, selectors.
 
-1. The **coverage file** — extract:
-   - Section 1: Business Rules table (all numbered rules with AC IDs)
-   - Section 4: Coverage Strategy table (AC → technique → risk level → depth)
-   - Section 5: High-Risk Areas
-   - Section 6: Coverage Gaps (to know what is NOT yet covered by existing TCs)
-   - Section 7: Suggested Test Suite Structure (folder/file layout to follow)
+### Step 3 — Generate test cases per AC
+Iterate each AC row in Section 4. For each:
+1. Apply the technique pattern from `.claude/references/test-case-generation-patterns.md` (EP, BVA, Decision Table, State Transition, Pairwise, CRUD, Permission Matrix, Regression, Negative, Component, Scenario).
+2. Honor **Coverage Depth** (Deep / Standard / Smoke) and **Risk Level** overrides (Critical/High always adds negative + boundary).
+3. **Skip rule**: if Section 6 marks Overlap = Full, do NOT regenerate — reference the existing TC ID.
 
-2. `input/templates/test-case-rules.md` — internalize all design rules before writing a single test case title or step. Rules must be applied throughout.
+### Step 4 — Write each test case
+Produce every required field per `.claude/references/test-case-rules.md` §9:
+- Title, Description (AC ID + technique + summary), Preconditions (with actor + explicit data), Step Actions, Step Results, Steps Data, Severity, Priority.
+- **Severity/Priority mapping**: Critical→`critical`/`high`, High→`major`/`high`, Medium→`minor`/`medium`, Low→`trivial`/`low`. (`normal` is NOT a valid Qase slug.)
+- **Test Data Anchoring Rule**: for any date/time/config-driven TC, Step 1's Test Data MUST declare base values (`today = YYYY-MM-DD; ...`); later steps show derived calculations. Forbidden vague values: "today/yesterday/tomorrow/near midnight/current config" without an anchor.
 
-3. **Existing test cases** in the same feature folder (from the suite structure in Section 7) — to avoid duplicating coverage already present.
+### Step 5 — Group into suites
+Follow Section 7 of the coverage file. One `.md` file = one suite. Within each file, group cases under `## Suite: <Suite Name>`. Order: happy path → edge → negative → cross-system.
 
----
+### Step 6 — Write the Markdown file
+Save to `epics/<epic-folder>/test-cases/<filename>.md` using the layout in `.claude/references/test-case-output-template.md`.
 
-### Step 2 — Apply Test Case Design Rules
-
-Before generating any test case, enforce these rules from `test-case-rules.md`:
-
-**Title format:**
-
-```
-[Feature] – [Sub-feature] – [Component] – Condition – Expected Behavior
-```
-
-Examples:
-
-- `Extend Recurrence Form – Date Field – End Date + 7 Days – Auto-calculated and non-editable`
-- `Extend Recurrence – New Lessons – Duplicate Date Exists – Lesson not created for that date`
-
-**Forbidden title words:** Verify, Check, Test, Properly, Correctly, Successfully
-
-**One test case = one logical validation** — do not combine two business rules or two conditions into a single test case.
-
-**Avoid UI-only test cases** — the test must represent a user scenario, system behavior, or business rule.
-
-**OOP prefix rule:**
-
-- Core tests → no prefix
-- Tenant-specific tests (Nichibei, Renseikai, etc.) → prefix with `[TenantName]`
-
-**Human-readable language:**
-
-- Test cases must be written in plain, human-readable language so that non-technical readers (PMs, business stakeholders, new joiners) can understand them without domain or engineering background.
-- Avoid jargon, internal code names, API/endpoint names, database column names, CSS selectors, or implementation details in titles, preconditions, actions, and expected results.
-- Describe user-visible actions and outcomes (e.g. "Click the **Save** button", "The **End Date** field shows `2026-03-17`") instead of system-internal behavior (e.g. "POST /lessons returns 200").
-- Prefer short, simple sentences. Spell out acronyms on first use within a test case if they are not common business terms.
+### Step 7 — Write the CSV file
+Alongside the MD, save `epics/<epic-folder>/test-cases/<filename>.csv` using:
+- Header row from `.claude/references/qase-format.csv`.
+- Fixed field values + formatting rules from `.claude/references/test-case-output-template.md`.
 
 ---
 
-### Step 3 — Generate Test Cases per AC
+## Quality gate
 
-Work through each AC row in the Coverage Strategy table. For each AC:
+Before saving, verify (see `.claude/references/test-case-rules.md` for full rules):
+- Every AC row in Section 4 has at least one TC.
+- Every Critical/High risk area in Section 5 has at least one negative or boundary TC.
+- Every ✅ "New Coverage Needed" gap in Section 6 is covered.
+- No "Overlap = Full" rule has been duplicated.
+- No title contains forbidden words.
+- Every TC has concrete preconditions with explicit data + actor.
+- Every date/time/config TC follows the Test Data Anchoring Rule (no vague values).
+- Every step has a deterministic expected result and a data entry (may be `""`).
+- Severity + priority match the Risk Level mapping.
+- OOP/tenant TCs are prefixed `[TenantName]`.
+- Language is human-readable — no jargon, API names, DB columns, selectors.
+- Both `.md` and `.csv` are saved to the epic's `test-cases/` folder.
 
-1. **Check the test technique** and apply the correct generation pattern:
-
-| Technique                    | Generation pattern                                                                                            |
-| ---------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| **Equivalence Partitioning** | One TC per valid partition + one TC per invalid partition                                                     |
-| **Boundary Value Analysis**  | TC for: exact boundary (reject), one below boundary (reject), one above boundary (accept), far above (accept) |
-| **Decision Table**           | One TC per meaningful combination of conditions and outcomes                                                  |
-| **State Transition Testing** | TC for each valid transition + TC for each invalid/blocked transition                                         |
-| **Pairwise Testing**         | Construct the minimum set of combinations that covers all pairs of input values                               |
-| **CRUD Testing**             | TC for Create, Read, Update, Delete — include happy path and conflict/error path                              |
-| **Permission Matrix**        | One TC per role per action (allowed + denied)                                                                 |
-| **Regression Analysis**      | Identify existing TC IDs at risk; write new TCs that exercise the changed flow                                |
-| **Negative Testing**         | TC for each invalid input, blocked action, or error state                                                     |
-
-2. **Check Coverage Depth** (from Section 4 of coverage file):
-   - `Deep` → generate BVA boundaries, multiple decision table rows, cross-surface verifications
-   - `Standard` → happy path + 1–2 negative cases
-   - `Smoke` → primary happy path only
-
-3. **Check Risk Level**:
-   - `Critical` / `High` → always generate negative and boundary test cases even if not the primary technique
-   - `Medium` / `Low` → stick to the selected technique at standard depth
-
-4. **Skip rules:** Do NOT generate a test case for a business rule that is already fully covered by an existing TC listed in Section 6 (Overlap = Full).
-
----
-
-### Step 4 — Write Each Test Case
-
-For each test case, produce all of the following fields. No field may be left blank unless explicitly marked optional.
-
-#### Title
-
-Follow format: `[Feature] – [Sub-feature] – Condition – Expected Behavior`
-
-- Concise, specific, no forbidden words
-- Must describe the observable outcome, not the action being performed
-
-#### Description
-
-- Reference the AC ID (e.g. `AC 01.2`)
-- Name the test technique used (e.g. `BVA`, `Decision Table`, `Negative Testing`)
-- One sentence describing what this test case validates
-
-#### Preconditions
-
-- List all system state requirements before the test starts
-- Include specific test data values that must exist (user role, entity state, field values)
-- Use bullet points; be explicit — "HQ Staff has created a recurring lesson schedule with End Date = 2026-03-10"
-
-**Actor rule (CRITICAL):**
-
-- **Never use "Admin" as the default actor.** The default actor is `HQ or CM Staff`.
-- Only use "Admin" if the test case explicitly requires admin-only access AND the user specifically mentions it in the ticket or instructions.
-- Examples of correct actor phrasing:
-  - ✅ `Logged in as HQ or CM Staff to the Salesforce org`
-  - ✅ `Logged in as HQ Staff to the Back Office`
-  - ❌ `Logged in as Admin to the Renseikai Salesforce org` — do not use unless Admin role is explicitly specified
-
-#### Step Actions
-
-- Number each step
-- Each step = one atomic user action or system trigger
-- Use present tense: "Open...", "Click...", "Enter...", "Navigate to..."
-- Include the exact value the user enters in the step (or reference Steps Data)
-
-#### Step Results (Expected Results)
-
-- One result per step
-- State the exact observable outcome: field value, UI element state, status label, error message text
-- Be deterministic — "Date field shows 2026-03-17" not "Date field is correct"
-
-#### Steps Data
-
-- One data entry per step (can be empty string `""` if no data for that step)
-- For BVA: state the exact boundary value being used
-- For Decision Table: state the combination being tested
-
-#### Severity
-
-Map from Risk Level in the coverage file:
-
-| Risk Level | Severity |
-| ---------- | -------- |
-| Critical   | critical |
-| High       | major    |
-| Medium     | minor    |
-| Low        | trivial  |
-
-> **Note:** `normal` is NOT a valid Qase severity slug. Use `minor` for medium-risk cases and `trivial` for low-risk cases.
-
-#### Priority
-
-Map from Risk Level:
-
-| Risk Level | Priority |
-| ---------- | -------- |
-| Critical   | high     |
-| High       | high     |
-| Medium     | medium   |
-| Low        | low      |
-
----
-
-### Step 5 — Group Test Cases into Suites
-
-Follow the **Suggested Test Suite Structure** from Section 7 of the coverage file.
-
-- Each `.md` file = one suite
-- Within each file, group test cases under `## Suite: <Suite Name>` headings
-- Order test cases: happy path → edge cases → negative cases → cross-system
-
----
-
-### Step 6 — Write the Markdown Output File
-
-Save the `.md` file to the path specified in Section 7 of the coverage file:
-
+## Example invocation
 ```
-output/test-cases/<module>/<feature>/<filename>.md
+Generate test cases from epics/LT-99999-feature-name/test-coverage.md
 ```
-
-Use this exact structure per file:
-
-```markdown
-# Test Cases: <TICKET-ID> — <Feature Name>
-
-## Suite: <Suite Name>
-
-### <Test Case Title>
-
-**Description:** <AC ID> — <Technique> — <one-sentence summary>
-
-**Preconditions:**
-<bullet list of preconditions with explicit test data>
-
-| #   | Action | Expected Result | Test Data |
-| --- | ------ | --------------- | --------- |
-| 1   | ...    | ...             | ...       |
-| 2   | ...    | ...             | ...       |
-
-**Severity:** <critical / major / minor / trivial>
-**Priority:** <high / medium / low>
-
----
-```
-
----
-
-### Step 7 — Write the CSV Output File
-
-In addition to the `.md` file, produce a Qase-compatible CSV file saved alongside the `.md`:
-
-```
-output/test-cases/<module>/<feature>/<filename>.csv
-```
-
-Follow the **strict Qase CSV format** from `input/templates/qase-format.csv`:
-
-```
-v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,
-automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,
-milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
-```
-
-Fixed field values for all rows:
-
-- `type`: `functional`
-- `behavior`: `undefined`
-- `automation`: `is-not-automated`
-- `status`: `draft`
-- `is_flaky`: `no`
-- `layer`: `unknown`
-- `steps_type`: `classic`
-
-CSV formatting rules:
-
-- Escape commas inside text fields with double-quotes
-- Steps (actions, results, data) are newline-separated using `\n` inside the cell
-- Each step value is wrapped in double-quotes: `"1. ""Step action here"""`
-- Do not include markdown formatting inside CSV cells
-- Do not include explanation rows outside of data rows
-
----
-
-## Quality Checks
-
-Before saving any file, verify:
-
-- [ ] Every AC row in Section 4 of the coverage file has at least one test case generated
-- [ ] Every `Critical` and `High` risk area from Section 5 has at least one negative or boundary test case
-- [ ] Every `✅ New Coverage Needed` gap in Section 6 has at least one new test case
-- [ ] No business rule from Section 6 marked "Overlap = Full" has been duplicated
-- [ ] No test case title contains forbidden words: Verify, Check, Test, Properly, Correctly, Successfully
-- [ ] Every test case has explicit preconditions with concrete test data values
-- [ ] Every step has a deterministic expected result (exact value, not "correct" or "as expected")
-- [ ] Every step has a corresponding data entry (may be empty string `""`)
-- [ ] Severity and priority are assigned based on the risk level in the coverage file
-- [ ] OOP/tenant-specific test cases are prefixed with `[TenantName]`
-- [ ] Test cases are written in plain human-readable language — no jargon, API names, DB columns, or selectors; readable by non-technical stakeholders
-- [ ] Both `.md` and `.csv` files are saved to the correct folder
-
----
-
-## Example Invocation
-
-```
-Generate test cases from output/test-coverages/LT-99999-feature-name.md
-```
-
-The skill will read the coverage file and test-case-rules.md, apply technique-specific generation
-patterns per AC, write all test cases with complete preconditions, steps, results, and test data,
-then save `.md` and `.csv` files to the path defined in the coverage file's suggested suite structure.
+The skill reads the coverage file + design rules, applies technique-specific patterns per AC, writes all TCs with complete preconditions/steps/results/data, and saves `.md` + `.csv` files under the same epic folder.

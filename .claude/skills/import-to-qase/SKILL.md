@@ -5,7 +5,7 @@ description: >
   USE FOR: uploading newly generated test cases to Qase; creating missing suites in Qase;
   restructuring an existing .md or .csv test case file to match Qase import format;
   syncing local test case files with Qase after generation.
-  INPUT: Qase project URL or project code + test case file path (.md or .csv from `output/test-cases/`).
+  INPUT: Qase project URL or project code + test case file path (.md or .csv from `epics/<epic-folder>/test-cases/`).
   OUTPUT: all test cases created in Qase under the correct suite hierarchy; .csv file updated
   with real Qase suite IDs.
   DO NOT USE FOR: generating test cases (use generate-test-cases skill); analyzing requirements
@@ -14,222 +14,92 @@ description: >
 
 # Skill: Import Test Cases to Qase
 
-You are a senior QA engineer responsible for maintaining the Qase test management project for the Manabie lesson-management system.
-
----
+Senior QA engineer. Push a local `.md`/`.csv` test case file into Qase, creating missing suites and deduplicating against existing cases.
 
 ## Input
+- Qase link or project code (e.g. `https://app.qase.io/project/LM` → `LM`).
+- Test case file path: `.md` or `.csv` under `epics/<epic-folder>/test-cases/`.
 
-- **Qase link** — a URL like `https://app.qase.io/project/LM` or just the project code (e.g. `LM`)
-- **Test case file** — path to a `.md` or `.csv` file in `output/test-cases/` (e.g. `output/test-cases/lesson-management/lesson/extend-recurring/LT-90573-extend-recurring-lesson.md`)
+## References
+- Field mapping + multi-line rules + summary template → `.claude/references/qase-import-rules.md`
+- Qase CSV header → `.claude/references/qase-format.csv`
+- TC output structure (input format) → `.claude/references/test-case-output-template.md`
 
 ---
 
 ## Workflow
 
-### Step 0 — Prompt for Parent QASE Suite Link
+### Step 0 — Require parent suite link
+If the user did not provide a suite URL with `suite=<ID>` (e.g. `https://app.qase.io/project/LM?suite=42`), **STOP** and ask:
+> "Please provide the QASE suite link where you want to import these new test cases. This will be used as the parent suite."
 
-1. If the user did not provide a specific QASE suite link (with a `suite=` parameter, e.g., `https://app.qase.io/project/LM?suite=42`) in their initial input, you **MUST STOP** and ask the user:
-   > "Please provide the QASE suite link where you want to import these new test cases. This will be used as the parent suite."
-2. Wait for the user to provide the link before proceeding to Step 1.
+Wait for the link before proceeding.
 
----
+### Step 1 — Parse project code + parent suite ID
+- Project code: uppercase segment after `/project/` (e.g. `LM`).
+- Target parent suite ID: the `suite=` query value. All root suites from the file MUST nest under this parent.
 
-### Step 1 — Parse the Qase Project Code
+### Step 2 — Read the test case file
+**`.md`:**
+- `## Suite:` → suite name.
+- `### <title>` → TC title.
+- `**Description:**` → description.
+- `**Preconditions:**` → preconditions block.
+- Table rows `| # | Action | Expected Result | Test Data |` → steps.
+- `**Severity:**` / `**Priority:**` → severity / priority.
 
-1. From the Qase link, extract the **project code** — the uppercase segment after `/project/` (e.g. `LM` from `https://app.qase.io/project/LM`).
-2. If only a project code is given, use it directly.
-3. From the suite URL provided (e.g. `.../project/LM?suite=42`), extract the **target parent suite ID**. All root suites from the file MUST be nested under this parent suite.
+**`.csv`:**
+- Rows with only `suite_id`/`suite_parent_id`/`suite` filled → suite definition rows.
+- Rows with `title` filled → TC rows.
+- Map columns per Qase schema (see qase-import-rules.md).
 
----
+### Step 3 — Fetch existing suites
+`mcp_qase_list_suites` for the project. Paginate (`offset`) until exhausted. Build `suite title → suite ID` map.
 
-### Step 2 — Read the Test Case File
+### Step 4 — Resolve suite hierarchy
+For each suite name in the file:
+1. Look up in the map from Step 3.
+2. **Exists** → record its `suite_id`.
+3. **Does not exist** → `mcp_qase_create_suite` with `code`, `title`, and `parent_id` (real ID of parent; omit if root-of-batch — root sits under the user-provided target parent).
+4. **Order:** create parent suites before children. Preserve file hierarchy in Qase.
 
-Read the input file fully.
+Build final map: `local suite name → real Qase suite_id`.
 
-**If the file is a `.md`:** extract the following per test case:
+### Step 5 — Prepare TC payloads
+Construct payloads per TC using the field mapping in `.claude/references/qase-import-rules.md`. **Apply the multi-line content rule** (real newlines or `<br>`, no literal `\n` strings).
 
-- `## Suite:` heading → suite name
-- `### <title>` heading → test case title
-- `**Description:**` → description
-- `**Preconditions:**` → preconditions block
-- Table rows `| # | Action | Expected Result | Test Data |` → steps
-- `**Severity:**` → severity
-- `**Priority:**` → priority
+### Step 6 — Check for duplicates
+For each suite batch, `mcp_qase_list_cases` with `code`, `suite_id`, `search=<title>`. If a case with identical title exists in the same suite:
+- **Skip** and log: `SKIP: "<title>" already exists in suite "<suite name>" (ID: <existing_id>)`.
 
-**If the file is a `.csv`:** parse all rows:
+### Step 7 — Import
+Group cases by suite. For each suite batch:
+1. `mcp_qase_bulk_create_cases` with `code` and `cases` (filtered after Step 6).
+2. Record returned case IDs.
+3. On batch failure, retry individual cases; log failures with title + error.
 
-- Rows where only `suite_id`, `suite_parent_id`, and `suite` are filled → suite definition rows
-- Rows where `title` is filled → test case rows
-- Map all column values per the Qase CSV schema (see Step 5)
+### Step 8 — Update CSV with real suite IDs
+Find the companion `.csv` (same path as `.md`, or use the input `.csv`). Replace placeholder suite IDs with real Qase IDs from Step 4. Save.
 
----
-
-### Step 3 — Fetch Existing Suites from Qase
-
-1. Call `mcp_qase_list_suites` with the project code to retrieve all existing suites.
-2. Build a lookup map: `suite title → suite ID` (e.g. `"Extend Recurrence Button" → 101`).
-3. If the suite list is paginated (more than 100 suites), paginate using `offset` until all suites are retrieved.
-
----
-
-### Step 4 — Resolve Suite Hierarchy
-
-For each suite name found in the test case file:
-
-1. Look up the suite name in the map from Step 3.
-2. **If the suite exists** in Qase → record its real `suite_id`.
-3. **If the suite does not exist** → create it using `mcp_qase_create_suite`:
-   - `code`: project code
-   - `title`: suite name
-   - `parent_id`: parent suite's real ID (if the suite is nested; otherwise omit)
-   - After creation, record the returned `suite_id`.
-4. **Suite nesting rule:** create parent suites before child suites. The hierarchy found in the file (suite → sub-suite) must be preserved in Qase.
-
-Build a final map: `local suite name → real Qase suite_id`.
+### Step 9 — Report summary
+Print the summary using the template in `.claude/references/qase-import-rules.md`.
 
 ---
 
-### Step 5 — Prepare Test Cases for Import
+## Quality checks
+- All suite names resolved to real Qase IDs (no placeholders).
+- Each child suite has its parent created first.
+- No duplicate cases created.
+- Every case has `suite_id` set (no orphans at root).
+- Steps are `{ action, expected_result, data }` arrays, not flat strings.
+- No literal `\n`/`/n`/`\\n` text remains; multi-line uses real newlines or `<br>`.
+- At least one imported case spot-checked in Qase UI for line breaks.
+- Local `.csv` updated with real suite IDs.
+- Summary printed with counts and failures.
 
-For each test case extracted in Step 2, construct the import payload:
-
-| Field           | Source               | Rules                                                                                                                      |
-| --------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `title`         | Test case title      | Max 255 characters; strip markdown formatting                                                                              |
-| `description`   | Description field    | Plain text; strip markdown bold/italic                                                                                     |
-| `preconditions` | Preconditions block  | Plain text; preserve bullet structure as newlines                                                                          |
-| `steps`         | Table rows           | Array of `{ action, expected_result, data }` objects                                                                       |
-| `suite_id`      | Resolved from Step 4 | Real Qase suite ID (integer)                                                                                               |
-| `severity`      | Severity field       | Map: critical→critical, major→major, normal→minor, minor→minor (**"normal" is not a valid Qase slug — map it to "minor"**) |
-| `priority`      | Priority field       | Map: high→high, medium→medium, low→low                                                                                     |
-| `type`          | Fixed                | `functional`                                                                                                               |
-| `behavior`      | Fixed                | `undefined`                                                                                                                |
-| `automation`    | Fixed                | `is-not-automated`                                                                                                         |
-| `status`        | Fixed                | `draft`                                                                                                                    |
-| `is_flaky`      | Fixed                | `false`                                                                                                                    |
-| `layer`         | Fixed                | `unknown`                                                                                                                  |
-| `steps_type`    | Fixed                | `classic`                                                                                                                  |
-
-**Multi-line content formatting rule (CRITICAL):**
-When any field (`preconditions`, `description`, step `action`, step `expected_result`, step `data`) contains multiple items or lines:
-
-1. **Use real newlines** — the text sent to Qase MUST contain actual newline characters (`\n` rendered as a real line break), NOT the literal two-character string `\n` or `/n`.
-2. **Sanitize before import:** scan every text field for literal `\n`, `/n`, or `\\n` substrings and replace them with real newline characters.
-3. **Preserve bullet/numbered list structure:** if the source has bullet points (`- item`) or numbered items (`1. item`), keep them as separate lines joined by real newlines.
-4. **HTML alternative:** if the Qase API accepts HTML, use `<br>` tags instead of newline characters for line breaks within a field. Prefer `<br>` when the field renders as HTML in Qase UI.
-5. **Verification after import:** after creating test cases, spot-check at least one case in Qase (via `mcp_qase_get_case`) to confirm multi-line fields render with proper line breaks — not showing literal `\n` text.
-
-**Step formatting rule:**
-Each step is an object: `{ action: "...", expected_result: "...", data: "..." }`
-
-- `action` = the "Action" column value
-- `expected_result` = the "Expected Result" column value
-- `data` = the "Test Data" column value (empty string `""` if blank)
-
----
-
-### Step 6 — Check for Duplicates
-
-Before creating any test case, call `mcp_qase_list_cases` with:
-
-- `code`: project code
-- `suite_id`: the resolved suite ID for this batch
-- `search`: the test case title (or a distinctive substring)
-
-If an existing case with an identical title is found in the same suite:
-
-- **Skip** that test case and log: `SKIP: "<title>" already exists in suite "<suite name>" (ID: <existing_id>)`
-- Do NOT create a duplicate.
-
----
-
-### Step 7 — Import Test Cases to Qase
-
-Group test cases by suite (to minimize API calls). For each suite batch:
-
-1. Call `mcp_qase_bulk_create_cases` with:
-   - `code`: project code
-   - `cases`: array of test case objects (from Step 5, filtered by Step 6)
-
-2. After each batch, record the returned case IDs.
-
-3. If a batch fails, retry individual cases using the same payload. Log any failures with the test case title and error message.
-
----
-
-### Step 8 — Update the CSV File with Real Suite IDs
-
-After all suites and test cases are created, update the companion `.csv` file to reflect the real Qase suite IDs:
-
-1. Find the `.csv` file at the same path as the `.md` (or use the `.csv` directly if that was the input).
-2. Replace all placeholder suite IDs (e.g. `100`, `101`) in the suite definition rows and test case rows with the real Qase suite IDs from Step 4.
-3. Save the updated `.csv` file.
-
-This keeps the local file in sync with Qase for future reference.
-
----
-
-### Step 9 — Report Summary
-
-After completing the import, output a summary:
-
-```
-## Import Summary
-
-**Project:** <project code>
-**File:** <file path>
-**Date:** <today's date>
-
-### Suites
-| Suite Name | Status | Qase Suite ID |
-|---|---|---|
-| Extend Recurrence Button | Created | 101 |
-| Extend Recurrence Form   | Existed | 88  |
-
-### Test Cases
-| Title | Suite | Status | Qase Case ID |
-|---|---|---|---|
-| Extend Recurrence Button – Recurring Lesson – Button Visible | Extend Recurrence Button | Created | 1042 |
-| Extend Recurrence Form – Date Field – Auto-calculated       | Extend Recurrence Form   | Skipped (duplicate) | — |
-
-### Totals
-- Suites created: X
-- Suites already existed: X
-- Test cases created: X
-- Test cases skipped (duplicates): X
-- Test cases failed: X
-```
-
----
-
-## Quality Checks
-
-Before finishing, verify:
-
-- [ ] All suite names from the file are resolved to real Qase suite IDs (no placeholder integers remain)
-- [ ] No parent suite is missing — each child suite has its parent created first
-- [ ] No duplicate test cases created — titles deduplicated per suite
-- [ ] Every test case has `suite_id` set (no orphaned test cases at root level)
-- [ ] Steps are structured as `{ action, expected_result, data }` arrays — not flat strings
-- [ ] No literal `\n`, `/n`, or `\\n` text remains in any field — all multi-line content uses real newlines or `<br>` tags
-- [ ] Spot-checked at least one imported case to confirm line breaks render correctly in Qase UI
-- [ ] The local `.csv` file is updated with real Qase suite IDs after import
-- [ ] Import summary is printed with counts and any failures listed
-
----
-
-## Example Invocations
-
-```
-Import test cases to Qase from output/test-cases/lesson-management/lesson/extend-recurring/LT-90573-extend-recurring-lesson.md
-Qase project: LM
-```
-
+## Example
 ```
 Import test cases to Qase.
 Qase: https://app.qase.io/project/LM?suite=100
-File: output/test-cases/lesson-management/lesson/extend-recurring/LT-90573-extend-recurring-lesson.csv
+File: epics/LT-90573-extend-recurring-lesson/test-cases/extend-recurring.csv
 ```
-
-The skill will parse the project code, fetch existing suites, create missing ones, deduplicate against existing test cases, bulk-create all new cases under the correct suite hierarchy, update the local CSV with real suite IDs, and print a full import summary.

@@ -1,6 +1,6 @@
 # design-test-case
 
-A GitHub Copilot-powered workspace for automating the full QA test design pipeline — from a Jira ticket to test cases imported into Qase.
+A Claude Code–powered workspace for automating the full QA test design pipeline — from a Jira ticket to test cases imported into Qase.
 
 ## Demo
 
@@ -10,16 +10,16 @@ A GitHub Copilot-powered workspace for automating the full QA test design pipeli
 
 ## Overview
 
-This workspace uses a set of Copilot Agent Skills to guide you through four phases of QA work:
+This workspace uses a set of Claude Code Skills and Agents to guide you through four phases of QA work. Each Jira epic gets its own folder under `epics/` that contains the spec, test coverage, and test cases for that epic.
 
 ```
 Jira Ticket
     ↓
-Phase 1 — Analyze Requirements    →  input/specs/
+Phase 1 — Analyze Requirements    →  epics/<TICKET-ID>-<slug>/spec.md
     ↓
-Phase 2 — Define Test Coverage    →  output/test-coverages/
+Phase 2 — Define Test Coverage    →  epics/<TICKET-ID>-<slug>/test-coverage.md
     ↓
-Phase 3 — Generate Test Cases     →  output/test-cases/
+Phase 3 — Generate Test Cases     →  epics/<TICKET-ID>-<slug>/test-cases/
     ↓
 Phase 4 — Import to Qase          →  Qase project (suites + cases)
 ```
@@ -37,48 +37,58 @@ Process ticket https://manabie.atlassian.net/browse/LT-XXXXX end-to-end.
 Import to Qase: https://app.qase.io/project/PX?suite=YYYY
 ```
 
-Copilot will pause after each phase and ask for confirmation before continuing.
+Claude will pause after each phase and ask for confirmation before continuing.
 
 ### Run a single phase
 
-| Goal                  | Example prompt                                                        |
-| --------------------- | --------------------------------------------------------------------- |
-| Analyze a Jira ticket | `Analyze ticket LT-XXXXX`                                             |
-| Define test coverage  | `Define test coverage for LT-XXXXX`                                   |
-| Generate test cases   | `Generate test cases for LT-XXXXX`                                    |
-| Import to Qase        | `Import test cases to Qase https://app.qase.io/project/PX?suite=YYYY` |
+| Goal | Example prompt |
+|---|---|
+| Analyze a Jira ticket | `Analyze ticket LT-XXXXX` |
+| Define test coverage | `Define test coverage for LT-XXXXX` |
+| Generate test cases | `Generate test cases for LT-XXXXX` |
+| Import to Qase | `Import test cases to Qase https://app.qase.io/project/PX?suite=YYYY` |
 
 ---
 
 ## Workspace Structure
 
 ```
-.github/
-  copilot-instructions.md     # Registers all skills/agents with Copilot
-
 .claude/
-  agents/
-    analyze-requirement.agent.md     # Phase 1 — master agent (7 phases, 9 sub-skills)
-  skills/
-    full-workflow/SKILL.md           # End-to-end pipeline skill
-    define-test-coverage/SKILL.md    # Phase 2
-    generate-test-cases/SKILL.md     # Phase 3
-    import-to-qase/SKILL.md          # Phase 4
+  agents/                              # Orchestrator agents (≤150 lines each)
+    analyze-requirement.agent.md       # Phase 1 master agent (7 internal phases)
+    full-qa-pipeline.agent.md          # End-to-end pipeline
+    review-e2e-scenario.agent.md       # E2E coverage audit
+  skills/                              # Workflow skills (≤150 lines each)
+    fetch-requirement/  read-domain-knowledge/  search-current-system/
+    check-lesson-learned/  analyze-impact/  formulate-questions/
+    workspace-cleanup/  update-domain-knowledge/  update-e2e-scenarios/
+    define-test-coverage/  generate-test-cases/  import-to-qase/
+    create-test-runs/  review-automation-tests/  update-report-confluence/
+    verify-bug/  save-slack-issue/  full-workflow/
+  references/                          # Rules, templates, schemas (extracted from skills)
 
-input/
-  specs/                      # Spec files produced by Phase 1
-  templates/
-    test-case-rules.md        # Test design rules and conventions
-    test-coverage.md          # Coverage matrix template
-    generate-testcases.md     # Test case generation guide
-    qase-format.csv           # Qase CSV import format reference
-    test-report.md            # Test report template
+epics/                                 # Per-epic artifacts
+  LT-<TICKET-ID>-<slug>/
+    spec.md                            # Required YAML front-matter; produced by Phase 1
+    test-coverage.md                   # Produced by Phase 2
+    test-cases/                        # Produced by Phase 3
+      <feature>.md
+      <feature>.csv
 
-output/
-  test-cases/                 # Generated .md and .csv test case files
-  test-coverages/             # Coverage matrix files
-  test-reports/               # Test report files
+knowledge/                             # Cross-epic resources
+  domain-knowledge/<team>/             # Domain rules + lesson-learned
+  e2e-scenario/e2e-scenarios.md        # E2E business flow scenarios
+  diagram/                             # Domain diagrams
+
+reports/
+  automation-reviews/                  # Output of review-automation-tests
+  qase-snapshots/                      # Qase project exports
+
+temp/                                  # Transient data bus (auto-cleaned)
+automation/                            # Playwright automation source
 ```
+
+See `.claude/references/epic-folder-convention.md` for the full epic folder spec (naming, slug rules, required front-matter, legacy `LT-XXXX-` handling).
 
 ---
 
@@ -86,32 +96,38 @@ output/
 
 The workspace connects to the following tools via MCP servers (configured in `.vscode/mcp.json`):
 
-| Tool           | Purpose                                              |
-| -------------- | ---------------------------------------------------- |
-| **Jira**       | Fetch ticket requirements, ACs, and linked resources |
-| **Confluence** | Read PRD and supplementary documentation             |
-| **Figma**      | Reference UI designs                                 |
-| **Qase**       | Create suites and import test cases                  |
-| **Slack**      | Notify or share results (optional)                   |
+| Tool | Purpose |
+|---|---|
+| **Jira** | Fetch ticket requirements, ACs, and linked resources |
+| **Confluence** | Read PRDs and supplementary documentation; update QA report pages |
+| **Figma** | Reference UI designs; spec–Figma mismatch detection |
+| **Qase** | Create suites, import test cases, create test runs |
+| **Slack** | Read production-issue threads (save-slack-issue) |
+| **Playwright** | Browser automation for bug verification |
 
 > **Security:** `.vscode/mcp.json` is listed in `.gitignore` and must never be committed — it contains API tokens.
 
 ---
 
-## Output Naming Conventions
+## Path conventions
 
-| Artifact         | Path pattern                                                                 |
-| ---------------- | ---------------------------------------------------------------------------- |
-| Spec file        | `input/specs/<TICKET-ID>: <Feature Name>`                                    |
-| Coverage matrix  | `output/test-coverages/<ticket-id>-<feature>.md`                             |
-| Test cases (MD)  | `output/test-cases/<module>/<submodule>/<feature>/<name>.md`                 |
-| Test cases (CSV) | `output/test-cases/<module>/<submodule>/<feature>/<ticket-id>-<feature>.csv` |
+| Artifact | Path pattern |
+|---|---|
+| Spec | `epics/<TICKET-ID>-<slug>/spec.md` |
+| Coverage matrix | `epics/<TICKET-ID>-<slug>/test-coverage.md` |
+| Test cases (MD) | `epics/<TICKET-ID>-<slug>/test-cases/<feature>.md` |
+| Test cases (CSV) | `epics/<TICKET-ID>-<slug>/test-cases/<feature>.csv` |
+| Domain knowledge | `knowledge/domain-knowledge/<team>/<team>-domain-knowledge.md` |
+| Lesson-learned | `knowledge/domain-knowledge/<team>/lesson-learned/{core,oop}.md` |
+| E2E scenarios | `knowledge/e2e-scenario/e2e-scenarios.md` |
+
+Legacy work without a Jira ticket uses `epics/LT-XXXX-<descriptive-slug>/` as a placeholder; the prefix is renamed once the real ticket ID is assigned.
 
 ---
 
 ## Prerequisites
 
-- VS Code with **GitHub Copilot** (agent mode enabled)
+- **Claude Code** (CLI, desktop app, or VS Code extension)
 - MCP servers installed and configured in `.vscode/mcp.json`:
-  - `jira-mcp`, `confluence-mcp-server`, `qase-mcp-server`, `figma-developer-mcp`, `slack-mcp-server`
+  - `jira-mcp`, `confluence-mcp-server`, `qase-mcp-server`, `figma-developer-mcp`, `slack-mcp-server`, `playwright`
 - Access to Jira, Confluence, Qase, and Figma for your project

@@ -13,258 +13,78 @@ description: >
 
 # Skill: Verify Bug
 
-You are a senior QA engineer working on the Manabie system. Your job is to verify whether a
-reported bug is reproducible using the Playwright browser tool, then produce a clear
-verification report.
+Senior QA engineer. Reproduce a reported bug with Playwright, capture evidence, output a structured verification report.
 
----
+## Input
+- Jira ticket ID or URL, OR manual bug description (summary + steps + expected + actual).
+- Env name (`staging` / `uat` / `prod`). Credentials are saved per env and reused.
 
-## Environment Registry
+## References
+- Report template → `.claude/references/bug-verification-report-template.md`
 
-Before running any verification, check memory for saved environment configurations.
-The memory file is at:
+## Environment registry
+Saved env credentials live at:
+`/Users/manabie/.claude/projects/-Users-manabie-design-test-case/memory/environments.md`
 
-```
-/Users/manabie/.claude/projects/-Users-manabie-design-test-case/memory/environments.md
-```
+Each entry: `### <env-name>` → `URL`, `Account`, `Password`.
 
-Each environment entry has the shape:
-
-```
-### <env-name>
-- **URL:** <base URL>
-- **Account:** <username or email>
-- **Password:** <password>
-```
-
-### When the user provides a new URL or account
-
-If the user supplies a URL, account, or password (in the same message or in a follow-up),
-update the environments memory file immediately before running verification:
-
-1. Read the current environments memory file.
-2. Add or overwrite the entry for the named env.
-3. Save the file.
-4. Also update `MEMORY.md` index if this is the first entry.
-
-After saving, confirm: `"Saved credentials for env **<name>**. I'll reuse these next time."`
-
-### When the user only provides an env name
-
-Look up the env in memory. If not found, ask the user in a single prompt:
-
-> "I don't have credentials for env **<name>** yet. Please provide:
-> 1. URL
-> 2. Account (email)
-> 3. Password"
-
-Wait for the user to reply, save the credentials, then continue with verification.
+- **User provides new URL/account/password** → read the memory file, add/overwrite the entry, save. Confirm: `Saved credentials for env <name>. I'll reuse these next time.`
+- **User provides only env name, not yet saved** → ask in ONE prompt for URL + account + password, then save.
 
 ---
 
 ## Workflow
 
-### Step 1 — Parse Input and Fetch Bug Details
+### Step 1 — Parse input and fetch bug details
+The user may mix Jira ID/URL, env name, and manual description in one message. Determine what is missing, then ask for everything missing in ONE prompt.
 
-Parse the user's message to identify what was provided. The user may provide any combination
-of the following in natural language:
+**Jira ticket found:**
+1. Extract the key. `mcp_jira_jira_get_ticket`.
+2. From the ticket extract: bug summary, steps to reproduce (numbered list or "Steps to Reproduce" section), expected result, actual result, environment, ticket URL.
+3. If steps to reproduce missing/unclear, show what was found and ask the user to clarify before continuing.
 
-- A Jira ticket ID (e.g. `LT-12345`) or URL (e.g. `https://manabie.atlassian.net/browse/LT-12345`)
-- An env name (e.g. `staging`, `uat`, `prod`)
-- A manual bug description with steps
+**Manual bug description:**
+Extract from user message: summary, numbered steps, expected, actual.
 
-**Determine what is missing, then ask for everything missing in ONE prompt** — do not ask
-multiple follow-up questions one at a time.
+**Env name** is always required. If absent: `Which environment should I verify this on? (e.g. staging, uat, prod)`
 
-#### If a Jira ticket ID or URL is found
+### Step 2 — Load environment config
+Read the env entry from memory. Extract `URL`, `Account`, `Password`. If user provided new credentials in this message, update memory first.
 
-1. Extract the ticket key from the URL or use the ID directly.
-2. Use `mcp_jira_jira_get_ticket` to fetch the ticket.
-3. From the ticket, extract:
-   - **Bug summary** — the ticket `summary` field
-   - **Steps to reproduce** — look in the `description` field for a numbered list or a
-     section titled "Steps to Reproduce", "Repro Steps", or similar
-   - **Expected result** — look for "Expected Result", "Expected Behavior", or similar
-   - **Actual result** — look for "Actual Result", "Actual Behavior", or similar
-   - **Environment** — look for an "Environment" field or label; fall back to user's input
-   - **Bug link** — the Jira ticket URL
-4. If critical fields (steps to reproduce) are missing or unclear in the ticket, show what
-   was found and ask the user to clarify before continuing.
+### Step 3 — Open browser and navigate
+1. `mcp__playwright__browser_navigate` → base URL.
+2. `mcp__playwright__browser_snapshot` to confirm load.
+3. If login screen: fill username + password, click submit, wait for navigation, snapshot to confirm.
 
-#### If no Jira ticket — manual bug description
+**IMPORTANT:** Use `mcp__playwright__browser_snapshot` (accessibility tree) for all state checks. Do NOT use `browser_take_screenshot`.
 
-Extract from the user's message:
+### Step 4 — Follow steps to reproduce
+Execute each step in order using `browser_navigate`, `browser_click`, `browser_fill_form`, `browser_type`, `browser_select_option`, `browser_press_key`. Use `browser_snapshot` between steps to verify state. If a step fails (element not found, navigation error, unexpected state), record the failure and stop — note the step number.
 
-- **Bug summary** — one-sentence description of the problem
-- **Steps to reproduce** — numbered list of actions
-- **Expected result** — what should happen
-- **Actual result** — what currently happens (as reported)
+### Step 5 — Capture evidence
+At final state (or failure point):
+- `mcp__playwright__browser_console_messages` for console errors.
+- `mcp__playwright__browser_network_requests` if the bug appears API-related.
 
-#### Env name is always required
+### Step 6 — Close browser
+`mcp__playwright__browser_close`.
 
-If the user did not mention an env name, ask:
-
-> "Which environment should I verify this on? (e.g. staging, uat, prod)"
+### Step 7 — Produce the report
+Output the report in chat using `.claude/references/bug-verification-report-template.md`. Verdict is one of: REPRODUCED / NOT REPRODUCED / PARTIALLY REPRODUCED.
 
 ---
 
-### Step 2 — Load Environment Config
+## Quality checks
+- Jira ticket fetched and parsed (if ID/URL provided).
+- Env credentials loaded (or saved when newly provided).
+- Every step from bug report executed, or failure noted with step number.
+- Console errors captured.
+- Verdict is one of the three allowed values.
+- Report includes both actual and expected behavior.
+- Browser closed.
 
-1. Read the environments memory file.
-2. Find the entry matching the env name provided.
-3. Extract `URL`, `Account`, and `Password`.
-4. If the user provided new credentials in this message, update memory first (see
-   Environment Registry section above).
-
----
-
-### Step 3 — Open the Browser and Navigate
-
-Use Playwright MCP tools:
-
-1. `mcp__playwright__browser_navigate` — open the base URL.
-2. Use `mcp__playwright__browser_snapshot` to confirm the page loaded.
-3. If a login screen is present, perform login:
-   - Fill the username/email field.
-   - Fill the password field.
-   - Click the login/submit button.
-   - Wait for navigation to complete.
-   - Use `mcp__playwright__browser_snapshot` to confirm successful login.
-
-**IMPORTANT:** Do NOT use `mcp__playwright__browser_take_screenshot` at any point. Use
-`mcp__playwright__browser_snapshot` (accessibility tree) exclusively for all state checks.
-
----
-
-### Step 4 — Follow Steps to Reproduce
-
-Execute each step from the bug report in order:
-
-- Use `mcp__playwright__browser_navigate`, `mcp__playwright__browser_click`,
-  `mcp__playwright__browser_fill_form`, `mcp__playwright__browser_type`,
-  `mcp__playwright__browser_select_option`, `mcp__playwright__browser_press_key` as needed.
-- Use `mcp__playwright__browser_snapshot` to verify UI state between steps.
-- If a step fails (element not found, navigation error, unexpected state), record the failure
-  and stop reproducing — note the step number where the issue occurred.
-
----
-
-### Step 5 — Capture Evidence
-
-At the final state (or point of failure), capture:
-
-1. Relevant console errors via `mcp__playwright__browser_console_messages`.
-2. Any network request errors via `mcp__playwright__browser_network_requests` if the bug
-   appears to be API-related.
-
----
-
-### Step 6 — Close the Browser
-
-Call `mcp__playwright__browser_close` after verification is complete.
-
----
-
-### Step 7 — Produce the Verification Report
-
-Output the report directly in the chat using this format:
-
+## Example
 ```
-## Bug Verification Report
-
-**Bug:** <Bug summary>
-**Ticket:** <Jira ticket URL or "N/A">
-**Env:** <env name> (<URL used>)
-**Verified by:** Claude (Playwright automation)
-**Date:** <today's date>
-
----
-
-### Verdict: REPRODUCED / NOT REPRODUCED / PARTIALLY REPRODUCED
-
-**Reason:** <One-sentence explanation of the verdict>
-
----
-
-### Steps Executed
-
-| # | Action | Result |
-|---|--------|--------|
-| 1 | ...    | Pass/Fail |
-| 2 | ...    | Pass/Fail |
-
----
-
-### Actual Behavior Observed
-
-<Describe what actually happened during execution>
-
-### Expected Behavior
-
-<From the bug report>
-
-### Console Errors (if any)
-
-<Paste relevant console errors, or "None">
-
-### Network Errors (if any)
-
-<Paste relevant failed requests, or "None">
-
----
-
-### Recommendation
-
-- **If REPRODUCED:** Confirm bug is valid. Suggest assigning for fix.
-- **If NOT REPRODUCED:** State possible reasons (env difference, already fixed, wrong steps).
-- **If PARTIALLY REPRODUCED:** Describe which steps succeeded and which did not.
+/verify-bug LT-12345 on staging
 ```
-
----
-
-## Quality Checks
-
-- [ ] Jira ticket fetched and parsed (if ticket ID/URL was provided)
-- [ ] Environment credentials loaded from memory (or saved when newly provided)
-- [ ] Every step from the bug report was executed (or failure noted with step number)
-- [ ] Console errors captured
-- [ ] Verdict is one of: REPRODUCED / NOT REPRODUCED / PARTIALLY REPRODUCED
-- [ ] Report includes both actual and expected behavior
-- [ ] Browser closed after verification
-
----
-
-## Example Invocations
-
-### Returning user (env already saved)
-
-> User: `/verify-bug` LT-12345 on staging
-
-The skill looks up `staging` in memory, fetches the Jira ticket, and runs verification.
-
-> User: `/verify-bug` verify https://manabie.atlassian.net/browse/LT-12345 on uat
-
-### First-time setup (env not saved yet)
-
-> User: `/verify-bug` LT-12345 on staging
->
-> Skill: "I don't have credentials for env **staging** yet. Please provide:
-> 1. URL
-> 2. Account (email)
-> 3. Password"
->
-> User: url is https://staging.manabie.io, account qa-user@manabie.com, password secret123
->
-> Skill: "Saved credentials for env **staging**. I'll reuse these next time."
-> *(then continues with verification)*
-
-### Manual bug description (no Jira ticket)
-
-> User: `/verify-bug` on staging — user cannot save lesson after clicking Save button
-> Steps:
-> 1. Go to Lesson Management > Lesson List
-> 2. Click "Create Lesson"
-> 3. Fill in required fields
-> 4. Click "Save"
-> Expected: lesson saved, redirect to lesson detail
-> Actual: spinner appears indefinitely
+Looks up `staging` in memory, fetches Jira, runs verification, prints report. First-time env: asks once for URL + account + password, saves, continues.

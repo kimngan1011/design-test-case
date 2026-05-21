@@ -4,7 +4,7 @@ description: >
   **WORKFLOW SKILL** — Update the domain knowledge file with confirmed new business rules from an analyzed requirement.
   USE FOR: Phase 6a of analyze-requirement agent — runs after user approves questions posted to Jira.
   INPUT: temp/impact_findings.json + temp/business_rules.json (already on disk).
-  OUTPUT: Updated input/domain-knowledge/<domain>/<domain>-domain-knowledge.md (after user approval).
+  OUTPUT: Updated file(s) under knowledge/domain-knowledge/<domain>/ (after user approval). The domain folder is split per sub-domain — see overview.md § File index for the correct target file.
   DO NOT USE FOR: documenting production incidents (use save-slack-issue for that).
 ---
 
@@ -17,6 +17,7 @@ You are adding confirmed new business rules to the domain knowledge file so futu
 ## Input
 
 Read from disk (do not rely on chat context):
+
 - `temp/impact_findings.json` — to identify rules tagged `[EXTENDED]` or `[REPLACED]`
 - `temp/business_rules.json` — full content of new business rules
 
@@ -28,35 +29,59 @@ Read from disk (do not rely on chat context):
 
 From `temp/impact_findings.json`, filter rules that should be added to domain knowledge:
 
-| Finding tag | Action |
-|-------------|--------|
-| `[EXTENDED]` | Add as new sub-rule to existing section |
-| `[REPLACED]` | Mark old rule as superseded + add new rule |
+| Finding tag                            | Action                                                   |
+| -------------------------------------- | -------------------------------------------------------- |
+| `[EXTENDED]`                           | Add as new sub-rule to existing section                  |
+| `[REPLACED]`                           | Mark old rule as superseded + add new rule               |
 | `[CONFLICT]` with confirmed resolution | Add the winning rule, mark the losing rule as superseded |
-| `[CONFLICT]` unresolved | Skip — do not add until resolved |
-| `[MISSING BEHAVIOR]` confirmed by PM | Add as new rule |
+| `[CONFLICT]` unresolved                | Skip — do not add until resolved                         |
+| `[MISSING BEHAVIOR]` confirmed by PM   | Add as new rule                                          |
 
 > Rules tagged `[MISSING BEHAVIOR]` that were NOT clarified → do not add (still ambiguous).
 
-### Step 2 — Locate the correct section
+### Step 2 — Locate the correct file + section
 
-Read `input/domain-knowledge/<domain>/<domain>-domain-knowledge.md` to find where each rule belongs:
-- Match entity name (e.g., "Lesson", "Student Session", "Notification")
-- Match operation type (e.g., "CRUD Operations", "Status Transitions", "Platform Behaviors")
-- If no section matches: propose a new sub-section under the closest parent
+Domain knowledge is split per sub-domain. First read `knowledge/domain-knowledge/<domain>/overview.md` § File index to discover the right file.
+
+For each rule, locate the target file by topic. For the `scheduling` domain:
+
+| Topic of the new rule                                                                                                   | Target file                                     |
+| ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| Lesson entity (CRUD, recurrence, status, code, end-date, closed dates, Zoom, lesson report)                             | `lesson-management/lesson.md`                   |
+| Lesson Allocation authorization (Require Allocation, duration, order lifecycle)                                         | `lesson-management/lesson-allocation.md`        |
+| Student Session entity (assignment methods, recurring scope, filter, name display)                                      | `lesson-management/student-session.md`          |
+| Class-based auto-assign/auto-remove OR multi-class lesson configuration                                                 | `lesson-management/class-assignment.md`         |
+| Lesson Teacher entity (clashing, cross-location access, Monthly Lesson Count)                                           | `lesson-management/lesson-teacher.md`           |
+| **Mobile (Learner App) viewing or any push notification to student/parent** (incl. per-lesson publish notify)           | `lesson-management/lesson-mobile.md`            |
+| Event Master, Activity Event, Booking, Events on Calendar                                                               | `event/<entity>.md`                             |
+| SF Calendar features (drag&drop, multi-class display, **bulk publish**, clashing, view, filter)                         | `calendar/calendar-sf.md`                       |
+| BO Calendar features (incl. Renseikai bulk attendance)                                                                  | `calendar/calendar-bo.md`                       |
+| Calendar lesson-detail contextual lists (Student / Teacher / Reallocation)                                              | `calendar/student-teacher-reallocation-list.md` |
+| Calendar access rules (CPU/SPU vs affiliation)                                                                          | `calendar/access-by-user-type.md`               |
+| Partner-specific behaviors NOT fitting above (Nichibei booking, Nichibei point LA, Riso manual LA, Koyu event features) | `partner-rules/<tenant>-<feature>.md`           |
+
+Then inside the target file:
+
+- Match the most specific section (e.g., "Lesson Statuses", "CRUD Operations", "Notification Recipients").
+- If no section matches: propose a new sub-section under the closest parent.
+- If no existing file fits at all: propose creating a new file under the correct sub-folder, citing why.
 
 ### Step 3 — Draft proposed changes
 
 For each update candidate, draft the proposed addition:
 
 **For `[EXTENDED]` rules:**
+
 ```markdown
 #### [EXISTING SUBSECTION NAME]
+
 ... existing content ...
+
 - **[NEW RULE]**: [Rule description]. Added from LT-XXXXX ([date]).
 ```
 
 **For `[REPLACED]` rules:**
+
 ```markdown
 - ~~**[OLD RULE]**: [Old description].~~ _(Superseded by LT-XXXXX — see below)_
 - **[NEW RULE]**: [New rule description]. Replaces previous rule as of LT-XXXXX ([date]).
@@ -69,21 +94,22 @@ Before writing any changes, present the full proposed diff:
 ```
 === DOMAIN KNOWLEDGE UPDATE PREVIEW ===
 
-File: input/domain-knowledge/scheduling/scheduling-domain-knowledge.md
+File: knowledge/domain-knowledge/scheduling/lesson-management/lesson-mobile.md
 
-Section: 2.1 Lesson → Status Transitions
+Section: Publish & Notify Student (Renseikai)
+PROPOSED ADDITIONS:
++ ### New deep-link variant — open lesson chat
++ - When the notification is tapped from a Draft lesson context, the app deep-links to
++   the Lesson Chat tab instead of the Lesson Detail tab. Added from LT-XXXXX (2026-04-14).
+
+File: knowledge/domain-knowledge/scheduling/lesson-management/lesson.md
+
+Section: Lesson Statuses
 PROPOSED ADDITIONS:
 + - **Publish & Notify path**: When "Publish & Notify" button is clicked on a Draft lesson,
-+   lesson status changes to Published AND push notification is sent to assigned students
-+   and their parent contacts. Added from LT-XXXXX (2026-04-14).
-
-Section: 2.3 Notification System
-PROPOSED ADDITIONS:
-+ #### Lesson Publish Notifications (Renseikai-specific, feature flag: publish_notify_student)
-+ - Triggered by "Publish & Notify" button click on SF Lesson Detail
-+ - Recipients: assigned students + all related parent contacts (Relationship-linked)
-+ - Retry: up to 3 attempts, idempotent delivery
-+ Added from LT-XXXXX (2026-04-14).
++   lesson status changes to Published immediately (status change happens BEFORE the
++   confirmation modal). See lesson-mobile.md for the notification flow.
++   Added from LT-XXXXX (2026-04-14).
 
 Apply these changes? (Y/N)
 ```

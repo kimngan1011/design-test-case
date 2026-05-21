@@ -37,10 +37,10 @@ Also delete any files matching:
 
 ## Files to PRESERVE (never delete)
 
-- `input/specs/` — all spec files
-- `input/domain-knowledge/` — domain knowledge (already updated in Phase 6)
-- `input/e2e-scenario/` — e2e scenarios (already updated in Phase 6)
-- `output/` — all test case outputs
+- `epics/` — all per-epic artifacts (spec, coverage, test cases)
+- `knowledge/domain-knowledge/` — domain knowledge (already updated in Phase 6)
+- `knowledge/e2e-scenario/` — e2e scenarios (already updated in Phase 6)
+- `reports/` — QA reports and review artifacts
 
 ---
 
@@ -84,9 +84,9 @@ rm -f temp/raw_requirement.json temp/business_rules.json temp/domain_context.jso
 Print:
 ```
 [workspace-cleanup] Done. Official outputs preserved:
-  - input/specs/<TICKET-ID>/spec.md
-  - input/domain-knowledge/ (if updated)
-  - input/e2e-scenario/e2e-scenarios.md (if updated)
+  - epics/<TICKET-ID>-<slug>/spec.md
+  - knowledge/domain-knowledge/ (if updated)
+  - knowledge/e2e-scenario/e2e-scenarios.md (if updated)
 ```
 
 ---

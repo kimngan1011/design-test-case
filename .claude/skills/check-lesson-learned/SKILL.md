@@ -27,10 +27,10 @@ Read from disk (do not rely on chat context):
 ### Step 1 — Read all lesson-learned files
 
 Read the following files in full:
-- `input/domain-knowledge/scheduling/lesson-learned/core.md`
-- `input/domain-knowledge/scheduling/lesson-learned/oop.md`
+- `knowledge/domain-knowledge/scheduling/lesson-learned/core.md`
+- `knowledge/domain-knowledge/scheduling/lesson-learned/oop.md`
 
-If the module is not `scheduling`, search `input/domain-knowledge/` for any `lesson-learned/` subdirectory and read all `.md` files found.
+If the module is not `scheduling`, search `knowledge/domain-knowledge/` for any `lesson-learned/` subdirectory and read all `.md` files found.
 
 ### Step 2 — Match incidents to the new requirement
 
@@ -71,7 +71,7 @@ Write `temp/lesson_learned_assessment.json`:
     {
       "incident_title": "Aso — Duplicate Student Sessions from Manual Assign + Auto Assign",
       "incident_date": "2026-04-13",
-      "source_file": "input/domain-knowledge/scheduling/lesson-learned/core.md",
+      "source_file": "knowledge/domain-knowledge/scheduling/lesson-learned/core.md",
       "entity_overlap": ["student session"],
       "operation_overlap": ["assign", "auto-assign"],
       "relevance_reason": "New requirement adds a second notification trigger (publish action) alongside an existing trigger (lesson status change). Same dual-path pattern that caused 1,655 duplicate sessions in Aso incident.",

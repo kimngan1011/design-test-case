@@ -1,7 +1,7 @@
 ---
 name: read-domain-knowledge
 description: >
-  **WORKFLOW SKILL** — Load relevant domain context from the domain knowledge file for a given feature area.
+  **WORKFLOW SKILL** — Load relevant domain context from the domain knowledge files for a given feature area.
   USE FOR: Phase 1b of analyze-requirement agent — run in parallel with fetch-requirement.
   INPUT: Feature keywords + domain folder (default: scheduling).
   OUTPUT: temp/domain_context.json written to disk.
@@ -10,117 +10,77 @@ description: >
 
 # Skill: Read Domain Knowledge
 
-You are loading domain context to support requirement analysis. Your job is to extract the relevant subset of the domain knowledge file for the feature area being analyzed, and write it to `temp/domain_context.json` for downstream skills to consume.
-
----
+Load domain context to support requirement analysis. Extract the relevant subset of domain knowledge for the feature area and write to `temp/domain_context.json` for downstream skills.
 
 ## Input
+- `keywords` — feature keywords (e.g., "publish lesson", "push notification", "student session", "Renseikai", "Nichibei").
+- `domain` — domain folder name (default: `scheduling`).
 
-- `keywords` — feature keywords (e.g., "publish lesson", "push notification", "student session")
-- `domain` — domain folder name (default: `scheduling`)
+If keywords are not provided, read them from `temp/raw_requirement.json` if it exists.
 
-If keywords are not provided directly, read them from `temp/raw_requirement.json` if it exists.
+## Output
+`temp/domain_context.json` — schema in `.claude/references/data-bus-schemas.md`.
 
 ---
 
 ## Workflow
 
-### Step 1 — Read the full domain knowledge file
+### Step 1 — Always read these files in full
 
-Read `input/domain-knowledge/<domain>/<domain>-domain-knowledge.md` **in its entirety**.
+These are mandatory regardless of keywords:
 
-> **Rule:** Do NOT skip sections based on keyword matching alone. Cross-entity dependencies are often hidden in sections that do not mention the keywords directly. You must read the whole file.
+- `knowledge/domain-knowledge/<domain>/overview.md` — system overview, master data, customization-by-org, data relationships, test coverage summary, and the **file index**.
+- `knowledge/domain-knowledge/<domain>/<domain>-feature-permission-matrix.csv` — role × feature access baseline. New features almost always touch at least one role; conflicts emerge when an AC grants/denies access contradicting this matrix.
 
-### Step 1b — Read the feature permission matrix
+If either file does not exist for the given domain, log a warning and continue.
 
-Also read `input/domain-knowledge/<domain>/<domain>-feature-permission-matrix.csv` **in its entirety** (e.g. `input/domain-knowledge/scheduling/scheduling-feature-permission-matrix.csv`).
+### Step 2 — Scan all sub-domain filenames
 
-This CSV documents which roles (`full_access`, `center_level_edit`, `bo_teacher`, etc.) are allowed to perform each feature action. It is the source of truth for permission/role behavior and must be loaded for every analysis — even when keywords do not explicitly mention permissions, because:
+List every `.md` file under `knowledge/domain-knowledge/<domain>/` (recursively, except `overview.md` which was already read in Step 1).
 
-- New features almost always interact with at least one role
-- Conflicts often emerge when a new AC grants/denies access in a way that contradicts the existing matrix
-- Missing role coverage in the AC must be flagged against this baseline
+You will use the filenames + their location (sub-folder) as the matching index — NOT the file contents.
 
-If the file does not exist for the given domain, log a warning and continue.
+### Step 3 — Match filenames against keywords
 
-### Step 2 — Identify relevant sections
+For each file found in Step 2, decide whether to **deep-read** it based on filename + spec keywords:
 
-From the full file, identify sections relevant to the provided keywords:
+- **Deep-read** if the filename (or its parent folder name) contains any of:
+  - An entity/feature name mentioned in the spec keywords (e.g. `lesson`, `student-session`, `lesson-teacher`, `calendar-sf`, `event-master`, `multiple-classes`).
+  - A partner/tenant name mentioned in the spec (e.g. `renseikai-*`, `nichibei-*`, `riso-*`, `koyu-*`).
+  - A Jira ticket ID embedded in the filename if relevant.
+- **Skip** if the filename has no keyword match.
 
-1. For each keyword, find all sections that mention related entities, operations, or field names
-2. When a keyword matches a sub-section (e.g., "recurring lesson" → "Lesson Schedule"), **also include**:
-   - The parent section (e.g., "Lesson")
-   - Sibling sub-sections that share data dependencies
-3. **Always include** the "Key Data Relationships" section (or equivalent) regardless of keywords — it documents cascade dependencies that affect impact analysis
+> **When in doubt, read.** A file that might be relevant is worth reading. The cost of reading a 100-line file is much smaller than missing a cross-domain dependency.
 
-### Step 3 — Extract structured context
+> **Always read parent + sibling sub-domain files** when a sub-section matches. Example: keyword "recurring lesson" → read `lesson-management/lesson.md` (covers recurrence) AND `lesson-management/student-session.md` (recurring assignment scope rules). Use `overview.md` § File index to discover related files.
 
-From the relevant sections, extract:
+> **Do NOT auto-read partner files when the spec is core scope.** Partner files (Nichibei, Riso, Renseikai, Koyu) are only deep-read when (a) the spec explicitly mentions the partner, OR (b) the user asks for partner impact assessment after the core analysis (see `analyze-impact` § Step 3a warning).
 
-- **Entities** — name, key fields, field behaviors (editable/locked/auto-calculated), status transitions
-- **CRUD rules** — what create/update/delete operations trigger, what they cascade to
-- **Platform behaviors** — which behaviors apply to SF only, BO only, or Mobile (Learner App)
-- **Data relationships** — which entities are linked, how changes cascade (e.g., deleting a lesson → deletes lesson reports + student sessions)
-- **Non-obvious edge cases** — behaviors that are surprising or commonly misunderstood
-- **Permission matrix rows** — from the CSV in Step 1b, extract every row whose `Feature` matches the keywords or relevant entities. Capture: feature name, allowed roles (`TRUE`/`FALSE` per role column), and any `Note`.
+### Step 4 — Extract structured context
 
-### Step 4 — Write output
+From the files read (Step 1 + deep-read files from Step 3), extract:
 
-Write `temp/domain_context.json` with the following structure:
+- **Entities** — name, key fields, field behaviors (editable/locked/auto-calculated), status transitions.
+- **CRUD rules** — what create/update/delete operations trigger; what they cascade to.
+- **Platform behaviors** — which apply to SF only, BO only, Mobile only.
+- **Data relationships** — entity links and cascade rules (e.g., deleting a lesson → deletes lesson reports + student sessions).
+- **Non-obvious edge cases** — surprising or commonly misunderstood behaviors.
+- **Permission matrix rows** — every row whose `Feature` matches keywords or relevant entities. Capture: feature name, allowed roles (`TRUE`/`FALSE` per role), `Note`.
+
+### Step 5 — Write output
+
+Write `temp/domain_context.json` per the schema in `.claude/references/data-bus-schemas.md`. Top-level fields: `domain`, `keywords_used`, `entities[]`, `data_relationships`, `platform_specific_behaviors`, `non_obvious_edge_cases`, `permission_matrix`.
+
+Also include a `files_read` array listing which sub-domain files were deep-read (useful for traceability):
 
 ```json
 {
-  "domain": "scheduling",
-  "keywords_used": ["keyword1", "keyword2"],
-  "entities": [
-    {
-      "name": "Entity Name",
-      "key_fields": ["field1", "field2"],
-      "field_behaviors": {
-        "field1": "editable",
-        "field2": "auto-calculated"
-      },
-      "status_transitions": ["Draft → Published", "Published → Completed"],
-      "crud_rules": {
-        "create": "Triggers creation of lesson report",
-        "update": "If recurring, applies scope (only this / this and following)",
-        "delete": "Cascades to student sessions and lesson reports"
-      },
-      "platform": ["SF", "BO", "Mobile"]
-    }
-  ],
-  "data_relationships": [
-    "Lesson → (1:1) LessonReport",
-    "LessonReport → (1:N) LessonReportDetail (one per assigned student)",
-    "StudentSession → linked to LessonAllocation"
-  ],
-  "platform_specific_behaviors": [
-    "SF: source of truth for lesson creation and student assignment",
-    "BO: read-only view of lessons, can manage attendance",
-    "Mobile: student views published lessons, submits attendance"
-  ],
-  "non_obvious_edge_cases": [
-    "Closed dates are skipped when creating recurring lessons",
-    "Lesson code is auto-generated and cannot be edited"
-  ],
-  "permission_matrix": {
-    "source": "input/domain-knowledge/scheduling/scheduling-feature-permission-matrix.csv",
-    "role_columns": ["full_access", "center_level_edit", "bo_teacher"],
-    "relevant_features": [
-      {
-        "category": "Lesson",
-        "feature": "Edit Lesson",
-        "permissions": { "full_access": true, "center_level_edit": true, "bo_teacher": true },
-        "note": ""
-      },
-      {
-        "category": "Lesson",
-        "feature": "Change Location Course",
-        "permissions": { "full_access": true, "center_level_edit": false, "bo_teacher": false },
-        "note": ""
-      }
-    ]
-  }
+  "files_read": [
+    "knowledge/domain-knowledge/scheduling/overview.md",
+    "knowledge/domain-knowledge/scheduling/lesson-management/lesson.md",
+    "knowledge/domain-knowledge/scheduling/lesson-management/student-session.md",
+    "knowledge/domain-knowledge/scheduling/partner-rules/renseikai-publish-notifications.md"
+  ]
 }
 ```
 
@@ -128,17 +88,19 @@ Write `temp/domain_context.json` with the following structure:
 
 ## Output size rule
 
-Produce a **focused summary** — approximately 200–300 lines of JSON. Do NOT copy the raw domain knowledge file content verbatim. Summarize entity rules into concise key-value pairs.
+Produce a **focused summary** — approximately 200–300 lines of JSON. Do NOT copy raw file content verbatim. Summarize entity rules into concise key-value pairs.
 
 ---
 
-## Quality Checks
+## Quality checks
 
-- [ ] Read the ENTIRE domain knowledge file before extracting (no selective skipping)
-- [ ] Read the feature permission matrix CSV (`<domain>-feature-permission-matrix.csv`) in full
-- [ ] "Key Data Relationships" section always included
-- [ ] Parent + sibling sections included when a sub-section matches keywords
-- [ ] Every entity has field behaviors, CRUD rules, and platform scope defined
-- [ ] `permission_matrix.relevant_features` populated for every feature touched by the requirement
-- [ ] Output is written to `temp/domain_context.json`
-- [ ] Output is a focused summary, not a raw copy
+- `overview.md` and `<domain>-feature-permission-matrix.csv` read in full (Step 1).
+- All sub-domain filenames scanned (Step 2).
+- Every file with a name matching spec keywords (or partner name in spec) was deep-read.
+- Parent + sibling sub-domain files included when a sub-section matches (per `overview.md` § File index).
+- "Data relationships" section from `overview.md` always reflected in output.
+- Every entity has field behaviors, CRUD rules, and platform scope defined.
+- `permission_matrix.relevant_features` populated for every feature touched by the requirement.
+- `files_read` array lists all deep-read files (traceability).
+- Output is a focused summary, not a raw copy.
+- Output written to `temp/domain_context.json`.
