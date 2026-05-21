@@ -5,8 +5,8 @@ description: >
   USE FOR: after analyzing requirements, before generating test cases; planning test strategy
   per AC; categorizing business rules into logic types; selecting test techniques; identifying
   high-risk areas and coverage gaps vs. existing test cases.
-  INPUT: spec file path from `epics/<epic-folder>/spec.md`.
-  OUTPUT: structured `.md` coverage file saved to `epics/<epic-folder>/test-coverage.md`.
+  INPUT: spec file path from `epics/<bucket>/<epic-folder>/spec.md`.
+  OUTPUT: structured `.md` coverage file saved to `epics/<bucket>/<epic-folder>/test-coverage.md`.
   DO NOT USE FOR: generating test cases (use generate-test-cases skill) or analyzing a raw Jira
   ticket (use analyze-requirements skill).
 ---
@@ -16,7 +16,7 @@ description: >
 Senior QA test architect producing a coverage strategy for one epic. Input is a populated `spec.md`; output is the epic's `test-coverage.md`.
 
 ## Input
-- Spec file: `epics/<epic-folder>/spec.md` — must already contain extracted Business Rules and AC IDs (from analyze-requirements).
+- Spec file: `epics/<bucket>/<epic-folder>/spec.md` — must already contain extracted Business Rules and AC IDs (from analyze-requirements).
 
 ## References
 - Logic types, test techniques, risk levels, coverage depths, quality checks → `.claude/references/coverage-rules.md`
@@ -29,14 +29,14 @@ Senior QA test architect producing a coverage strategy for one epic. Input is a 
 ## Workflow
 
 ### Step 1 — Read the spec
-Read `epics/<epic-folder>/spec.md`. Extract:
+Read `epics/<bucket>/<epic-folder>/spec.md`. Extract:
 - All User Stories (US XX) and Acceptance Criteria (AC XX.X)
 - The Business Rules (Extracted) table — each numbered rule, its AC, description
 - Any clarification questions affecting scope
 - Front-matter: `ticket_id`, `title`, `module`
 
 ### Step 2 — Scan existing coverage and test cases
-- Existing coverage for this epic: `epics/<epic-folder>/test-coverage.md` (if any).
+- Existing coverage for this epic: `epics/<bucket>/<epic-folder>/test-coverage.md` (if any).
 - Other epics in same module: `ls epics/` and scan related `test-coverage.md` to avoid duplicate strategy.
 - For each existing test case found, note: which AC/rule it covers, whether impacted by the new feature (regression risk), what gaps remain.
 
@@ -78,14 +78,14 @@ Mark uncovered rules with ✅ and describe what new TCs are needed.
 ### Step 8 — Propose test suite structure
 Suggest file layout under the epic:
 ```
-epics/<epic-folder>/test-cases/
+epics/<bucket>/<epic-folder>/test-cases/
 ├── <file-1>.md   → AC XX.X — what this file covers
 ├── <file-2>.md   → AC XX.X — what this file covers
 ```
 Group logically related ACs into the same file. One area of behavior per file.
 
 ### Step 9 — Write the coverage file
-Save to `epics/<epic-folder>/test-coverage.md` using the layout in `.claude/references/coverage-output-template.md`.
+Save to `epics/<bucket>/<epic-folder>/test-coverage.md` using the layout in `.claude/references/coverage-output-template.md`.
 
 ---
 

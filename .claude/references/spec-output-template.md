@@ -1,6 +1,6 @@
 # Spec Output Template
 
-Final structure for `epics/<epic-folder>/spec.md`. Used by the `analyze-requirement` agent (Phase 3b "Save Spec").
+Final structure for `epics/<bucket>/<epic-folder>/spec.md`. Used by the `analyze-requirement` agent (Phase 3b "Save Spec").
 
 The file MUST start with YAML front-matter as defined in `.claude/references/epic-folder-convention.md` § Required YAML front-matter.
 
@@ -105,11 +105,11 @@ last_updated: <YYYY-MM-DD>
 
 ## Related Specs
 
-- `epics/<epic-folder>/spec.md` — <why related>
+- `epics/<bucket>/<epic-folder>/spec.md` — <why related>
 
 ## Related Test Cases
 
-- `epics/<epic-folder>/test-cases/<file>` — <what may be impacted>
+- `epics/<bucket>/<epic-folder>/test-cases/<file>` — <what may be impacted>
 
 ## QASE Coverage Gaps
 

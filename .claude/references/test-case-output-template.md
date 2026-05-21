@@ -3,8 +3,8 @@
 Output layout for `generate-test-cases` Steps 6–7. Two files per suite, saved alongside each other:
 
 ```
-epics/<epic-folder>/test-cases/<filename>.md
-epics/<epic-folder>/test-cases/<filename>.csv
+epics/<bucket>/<epic-folder>/test-cases/<filename>.md
+epics/<bucket>/<epic-folder>/test-cases/<filename>.csv
 ```
 
 ---

@@ -5,8 +5,8 @@ description: >
   USE FOR: running the full pipeline in one command — analyze requirements, define test coverage,
   generate test cases, and import to Qase.
   INPUT: Jira ticket ID or URL + optional Qase project URL.
-  OUTPUT: spec file in `epics/<epic-folder>/spec.md`, coverage file in `epics/<epic-folder>/test-coverage.md`,
-  test case files in `epics/<epic-folder>/test-cases/`, and all test cases imported into Qase.
+  OUTPUT: spec file in `epics/<bucket>/<epic-folder>/spec.md`, coverage file in `epics/<bucket>/<epic-folder>/test-coverage.md`,
+  test case files in `epics/<bucket>/<epic-folder>/test-cases/`, and all test cases imported into Qase.
   DO NOT USE FOR: running only one phase of the pipeline (use the individual skills instead).
 ---
 
@@ -30,11 +30,11 @@ This skill orchestrates the complete pipeline from a Jira ticket to test cases i
 [Jira Ticket]
       ↓
   PHASE 1: Analyze Requirements
-      ↓ produces → epics/<TICKET-ID>-<slug>/spec.md
+      ↓ produces → epics/<bucket>/<TICKET-ID>-<slug>/spec.md
   PHASE 2: Define Test Coverage
-      ↓ produces → epics/<TICKET-ID>-<slug>/test-coverage.md
+      ↓ produces → epics/<bucket>/<TICKET-ID>-<slug>/test-coverage.md
   PHASE 3: Generate Test Cases
-      ↓ produces → epics/<TICKET-ID>-<slug>/test-cases/<file>.md + .csv
+      ↓ produces → epics/<bucket>/<TICKET-ID>-<slug>/test-cases/<file>.md + .csv
   PHASE 4: Import to Qase
       ↓ produces → test cases in Qase + updated .csv with real suite IDs
 ```
@@ -57,7 +57,7 @@ This master agent runs 7 internal phases (fetch → domain knowledge → search 
 
 **→ After the agent completes (spec saved + questions posted), pause and ask:**
 
-> "Phase 1 complete — spec saved to `epics/<TICKET-ID>-<slug>/spec.md`. Continue to Phase 2 (Define Test Coverage)?"
+> "Phase 1 complete — spec saved to `epics/<bucket>/<TICKET-ID>-<slug>/spec.md`. Continue to Phase 2 (Define Test Coverage)?"
 
 ---
 
@@ -69,7 +69,7 @@ This master agent runs 7 internal phases (fetch → domain knowledge → search 
 
 **→ After completing Phase 2, pause and ask:**
 
-> "Phase 2 complete — coverage saved to `epics/<TICKET-ID>-<slug>/test-coverage.md`. Continue to Phase 3 (Generate Test Cases)?"
+> "Phase 2 complete — coverage saved to `epics/<bucket>/<TICKET-ID>-<slug>/test-coverage.md`. Continue to Phase 3 (Generate Test Cases)?"
 
 ---
 
@@ -81,7 +81,7 @@ This master agent runs 7 internal phases (fetch → domain knowledge → search 
 
 **→ After completing Phase 3, pause and ask:**
 
-> "Phase 3 complete — test cases saved to `epics/<TICKET-ID>-<slug>/test-cases/`. Continue to Phase 4 (Import to Qase)?"
+> "Phase 3 complete — test cases saved to `epics/<bucket>/<TICKET-ID>-<slug>/test-cases/`. Continue to Phase 4 (Import to Qase)?"
 
 ---
 
@@ -99,7 +99,7 @@ Each phase's individual skill file contains its own detailed quality checks. Aft
 
 **Phase 1 (see `analyze-requirement.agent.md` for full checklist):**
 
-- [ ] Spec file exists at `epics/<TICKET-ID>-<slug>/spec.md/spec.md`
+- [ ] Spec file exists at `epics/<bucket>/<TICKET-ID>-<slug>/spec.md/spec.md`
 - [ ] Business Rules table is populated with AC IDs
 - [ ] Conflict & Gap Analysis performed with all 8 finding tags
 - [ ] Lesson-Learned Risks section populated (or explicitly "none found")
@@ -109,7 +109,7 @@ Each phase's individual skill file contains its own detailed quality checks. Aft
 
 **Phase 2 (see `define-test-coverage.SKILL.md` for full checklist):**
 
-- [ ] Coverage file exists at `epics/<TICKET-ID>-<slug>/test-coverage.md`
+- [ ] Coverage file exists at `epics/<bucket>/<TICKET-ID>-<slug>/test-coverage.md`
 - [ ] Every business rule has a logic type, technique, risk level, and coverage depth
 - [ ] High-risk areas identified with recommended approach
 - [ ] Suite structure is proposed

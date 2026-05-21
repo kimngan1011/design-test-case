@@ -1,6 +1,6 @@
 # Coverage Output Template
 
-Final structure for `epics/<epic-folder>/test-coverage.md`. Used by `define-test-coverage` Step 9.
+Final structure for `epics/<bucket>/<epic-folder>/test-coverage.md`. Used by `define-test-coverage` Step 9.
 
 ---
 
@@ -73,7 +73,7 @@ Final structure for `epics/<epic-folder>/test-coverage.md`. Used by `define-test
 ## 7. Suggested Test Suite Structure
 
 \`\`\`
-epics/<epic-folder>/test-cases/
+epics/<bucket>/<epic-folder>/test-cases/
 ├── <file>.md → AC XX.X — <description>
 \`\`\`
 ```

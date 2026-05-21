@@ -61,7 +61,7 @@ Continue with deep analysis? (Y/N)
 
 **3b — Save spec (embedded, not a separate skill).** Assemble the spec from all `temp/` files. Save to:
 ```
-epics/<TICKET-ID>-<slug>/spec.md
+epics/<bucket>/<TICKET-ID>-<slug>/spec.md
 ```
 
 The slug must follow `.claude/references/epic-folder-convention.md` (kebab-case from Jira title, ≤6 words). Use the template in `.claude/references/spec-output-template.md`. Source mapping (which temp file feeds which section) is in that reference.
@@ -96,7 +96,7 @@ Approve, remove, or reword? You can also add new questions.
 1. [CONFLICT] <text>
 2. [LESSON-LEARNED RISK] <text>
 
-_(Full analysis in epics/<TICKET-ID>-<slug>/spec.md)_
+_(Full analysis in epics/<bucket>/<TICKET-ID>-<slug>/spec.md)_
 ```
 
 **5d — Update spec.** In §Clarification Questions add:

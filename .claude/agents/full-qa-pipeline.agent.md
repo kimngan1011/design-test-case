@@ -32,11 +32,11 @@ If the Qase suite URL is missing, ask at the start. Don't block Phase 1, but it 
 [Jira Ticket]
   ↓
 PHASE 1 — Analyze Requirements   (sub-agent: analyze-requirement)
-  → epics/<TICKET-ID>-<slug>/spec.md   → REVIEW → USER GATE
+  → epics/<bucket>/<TICKET-ID>-<slug>/spec.md   → REVIEW → USER GATE
 PHASE 2 — Define Test Coverage   (skill: define-test-coverage)
-  → epics/<TICKET-ID>-<slug>/test-coverage.md   → REVIEW → USER GATE
+  → epics/<bucket>/<TICKET-ID>-<slug>/test-coverage.md   → REVIEW → USER GATE
 PHASE 3 — Generate Test Cases    (skill: generate-test-cases)
-  → epics/<TICKET-ID>-<slug>/test-cases/<file>.md + .csv   → REVIEW → USER GATE
+  → epics/<bucket>/<TICKET-ID>-<slug>/test-cases/<file>.md + .csv   → REVIEW → USER GATE
 PHASE 4 — Import to Qase          (skill: import-to-qase)
   → Qase suites + cases + updated .csv   → FINAL SUMMARY
 ```
@@ -53,13 +53,13 @@ PHASE 4 — Import to Qase          (skill: import-to-qase)
 
 **1.1 Delegate.** Invoke the `analyze-requirement` sub-agent (`runSubagent`, `agentName: "analyze-requirement"`). Pass ticket URL/ID + optional Qase link. The sub-agent runs all 7 of its internal phases (incl. its own validation, user review of clarification questions, Jira post, workspace cleanup).
 
-**1.2 Internal review.** Read the produced `epics/<TICKET-ID>-<slug>/spec.md`. Apply the **Phase 1 Reviewer Checklist** in `.claude/references/full-qa-pipeline-reviewer-checklists.md`. Auto-fix cosmetic issues; for substantive gaps re-invoke the relevant sub-skill.
+**1.2 Internal review.** Read the produced `epics/<bucket>/<TICKET-ID>-<slug>/spec.md`. Apply the **Phase 1 Reviewer Checklist** in `.claude/references/full-qa-pipeline-reviewer-checklists.md`. Auto-fix cosmetic issues; for substantive gaps re-invoke the relevant sub-skill.
 
 **1.3 User approval gate.**
 ```
 === PHASE 1 — Analyze Requirements: READY FOR REVIEW ===
 
-Spec: epics/<TICKET-ID>-<slug>/spec.md
+Spec: epics/<bucket>/<TICKET-ID>-<slug>/spec.md
 Business Rules: <N>
 Findings: <N CONFLICT> / <N REGRESSION RISK> / <N UNDOCUMENTED> / <N MISSING BEHAVIOR> / <N ROLE GAP> / <N LESSON-LEARNED RISK>
 Clarification Questions Posted to Jira: <N> (or "not posted")
@@ -73,7 +73,7 @@ Open the spec and review. Reply `approve` to continue to Phase 2, or tell me wha
 
 ## PHASE 2 — Define Test Coverage
 
-**2.1 Run skill.** Read and follow `.claude/skills/define-test-coverage/SKILL.md` in full. Input: the Phase 1 spec. Output: `epics/<TICKET-ID>-<slug>/test-coverage.md`.
+**2.1 Run skill.** Read and follow `.claude/skills/define-test-coverage/SKILL.md` in full. Input: the Phase 1 spec. Output: `epics/<bucket>/<TICKET-ID>-<slug>/test-coverage.md`.
 
 **2.2 Internal review.** Apply Phase 2 checklist. Auto-fix; re-run skill for substantive gaps.
 
@@ -81,7 +81,7 @@ Open the spec and review. Reply `approve` to continue to Phase 2, or tell me wha
 ```
 === PHASE 2 — Define Test Coverage: READY FOR REVIEW ===
 
-Coverage: epics/<TICKET-ID>-<slug>/test-coverage.md
+Coverage: epics/<bucket>/<TICKET-ID>-<slug>/test-coverage.md
 ACs covered: <N> · Business Rules categorized: <N>
 Risk: 🔴 <N critical> / 🟠 <N high> / 🟡 <N medium> / 🟢 <N low>
 Gaps vs existing TCs: <N>
@@ -96,7 +96,7 @@ Reply `approve` to continue to Phase 3, or tell me what to change.
 
 ## PHASE 3 — Generate Test Cases
 
-**3.1 Run skill.** Read and follow `.claude/skills/generate-test-cases/SKILL.md` in full. Always also internalize `.claude/references/test-case-rules.md`. Input: Phase 2 coverage file. Output: `.md` + `.csv` files under `epics/<TICKET-ID>-<slug>/test-cases/`.
+**3.1 Run skill.** Read and follow `.claude/skills/generate-test-cases/SKILL.md` in full. Always also internalize `.claude/references/test-case-rules.md`. Input: Phase 2 coverage file. Output: `.md` + `.csv` files under `epics/<bucket>/<TICKET-ID>-<slug>/test-cases/`.
 
 **3.2 Internal review.** Apply Phase 3 checklist. Auto-fix titles, severity/priority mapping, forbidden words. Re-run for substantive coverage gaps.
 
@@ -104,7 +104,7 @@ Reply `approve` to continue to Phase 3, or tell me what to change.
 ```
 === PHASE 3 — Generate Test Cases: READY FOR REVIEW ===
 
-Files: <N> .md + <N> .csv at epics/<TICKET-ID>-<slug>/test-cases/
+Files: <N> .md + <N> .csv at epics/<bucket>/<TICKET-ID>-<slug>/test-cases/
 Test cases: <N total> (Critical <N> / High <N> / Medium <N> / Low <N>)
 Suites: <N>
 Coverage vs Phase 2 gaps: <N / N ACs covered>
@@ -127,9 +127,9 @@ Reply `approve` to continue to Phase 4, or tell me what to change.
 === PIPELINE COMPLETE ===
 
 Ticket: <TICKET-ID>
-Spec:        epics/<TICKET-ID>-<slug>/spec.md
-Coverage:    epics/<TICKET-ID>-<slug>/test-coverage.md
-Test Cases:  <N files> at epics/<TICKET-ID>-<slug>/test-cases/
+Spec:        epics/<bucket>/<TICKET-ID>-<slug>/spec.md
+Coverage:    epics/<bucket>/<TICKET-ID>-<slug>/test-coverage.md
+Test Cases:  <N files> at epics/<bucket>/<TICKET-ID>-<slug>/test-cases/
 Qase Import: <N suites created> / <N existed> / <N cases created> / <N skipped> / <N failed>
 
 Reviewer: all 4 phases passed.

@@ -40,9 +40,9 @@ Search all keyword variations across:
 
 | Directory / File | What to look for |
 |---|---|
-| `epics/<epic-folder>/spec.md` | Existing specs for the same feature or module |
-| `epics/<epic-folder>/test-cases/` | TC files that may overlap or be impacted |
-| `epics/<epic-folder>/test-coverage.md` | Coverage matrices for the same module |
+| `epics/<bucket>/<epic-folder>/spec.md` | Existing specs for the same feature or module |
+| `epics/<bucket>/<epic-folder>/test-cases/` | TC files that may overlap or be impacted |
+| `epics/<bucket>/<epic-folder>/test-coverage.md` | Coverage matrices for the same module |
 | `knowledge/e2e-scenario/e2e-scenarios.md` | E2E scenarios covering the same area |
 | `knowledge/domain-knowledge/<domain>/<domain>-feature-permission-matrix.csv` | Existing role/permission baseline (always scan, even if keywords don't mention permissions) |
 

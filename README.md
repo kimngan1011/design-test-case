@@ -15,11 +15,11 @@ This workspace uses a set of Claude Code Skills and Agents to guide you through 
 ```
 Jira Ticket
     ↓
-Phase 1 — Analyze Requirements    →  epics/<TICKET-ID>-<slug>/spec.md
+Phase 1 — Analyze Requirements    →  epics/<bucket>/<TICKET-ID>-<slug>/spec.md
     ↓
-Phase 2 — Define Test Coverage    →  epics/<TICKET-ID>-<slug>/test-coverage.md
+Phase 2 — Define Test Coverage    →  epics/<bucket>/<TICKET-ID>-<slug>/test-coverage.md
     ↓
-Phase 3 — Generate Test Cases     →  epics/<TICKET-ID>-<slug>/test-cases/
+Phase 3 — Generate Test Cases     →  epics/<bucket>/<TICKET-ID>-<slug>/test-cases/
     ↓
 Phase 4 — Import to Qase          →  Qase project (suites + cases)
 ```
@@ -113,10 +113,10 @@ The workspace connects to the following tools via MCP servers (configured in `.v
 
 | Artifact | Path pattern |
 |---|---|
-| Spec | `epics/<TICKET-ID>-<slug>/spec.md` |
-| Coverage matrix | `epics/<TICKET-ID>-<slug>/test-coverage.md` |
-| Test cases (MD) | `epics/<TICKET-ID>-<slug>/test-cases/<feature>.md` |
-| Test cases (CSV) | `epics/<TICKET-ID>-<slug>/test-cases/<feature>.csv` |
+| Spec | `epics/<bucket>/<TICKET-ID>-<slug>/spec.md` |
+| Coverage matrix | `epics/<bucket>/<TICKET-ID>-<slug>/test-coverage.md` |
+| Test cases (MD) | `epics/<bucket>/<TICKET-ID>-<slug>/test-cases/<feature>.md` |
+| Test cases (CSV) | `epics/<bucket>/<TICKET-ID>-<slug>/test-cases/<feature>.csv` |
 | Domain knowledge | `knowledge/domain-knowledge/<team>/<team>-domain-knowledge.md` |
 | Lesson-learned | `knowledge/domain-knowledge/<team>/lesson-learned/{core,oop}.md` |
 | E2E scenarios | `knowledge/e2e-scenario/e2e-scenarios.md` |

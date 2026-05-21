@@ -5,7 +5,7 @@ description: >
   USE FOR: uploading newly generated test cases to Qase; creating missing suites in Qase;
   restructuring an existing .md or .csv test case file to match Qase import format;
   syncing local test case files with Qase after generation.
-  INPUT: Qase project URL or project code + test case file path (.md or .csv from `epics/<epic-folder>/test-cases/`).
+  INPUT: Qase project URL or project code + test case file path (.md or .csv from `epics/<bucket>/<epic-folder>/test-cases/`).
   OUTPUT: all test cases created in Qase under the correct suite hierarchy; .csv file updated
   with real Qase suite IDs.
   DO NOT USE FOR: generating test cases (use generate-test-cases skill); analyzing requirements
@@ -18,7 +18,7 @@ Senior QA engineer. Push a local `.md`/`.csv` test case file into Qase, creating
 
 ## Input
 - Qase link or project code (e.g. `https://app.qase.io/project/LM` → `LM`).
-- Test case file path: `.md` or `.csv` under `epics/<epic-folder>/test-cases/`.
+- Test case file path: `.md` or `.csv` under `epics/<bucket>/<epic-folder>/test-cases/`.
 
 ## References
 - Field mapping + multi-line rules + summary template → `.claude/references/qase-import-rules.md`

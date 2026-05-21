@@ -22,7 +22,7 @@ The `analyze-requirement` sub-agent already runs its own 13-point validation. Th
 
 | # | Check | Action on fail |
 |---|---|---|
-| 1 | Spec file exists at `epics/<TICKET-ID>-<slug>/spec.md` | Re-run analyze-requirement |
+| 1 | Spec file exists at `epics/<bucket>/<TICKET-ID>-<slug>/spec.md` | Re-run analyze-requirement |
 | 2 | All required spec sections present (Summary, Acceptance Criteria, Business Rules, Conflict & Gap Analysis, Clarification Questions, Related Specs, Related Test Cases, QASE Coverage Gaps) | Auto-fix: add missing section headers with "_None_" placeholder |
 | 3 | Business Rules table is non-empty | Re-run |
 | 4 | At least one finding tag used in Conflict & Gap Analysis (or explicit "no findings" reason) | Re-run analyze-impact |
@@ -35,7 +35,7 @@ The `analyze-requirement` sub-agent already runs its own 13-point validation. Th
 
 | # | Check | Action on fail |
 |---|---|---|
-| 1 | Coverage file saved to `epics/<TICKET-ID>-<slug>/test-coverage.md` | Re-run |
+| 1 | Coverage file saved to `epics/<bucket>/<TICKET-ID>-<slug>/test-coverage.md` | Re-run |
 | 2 | Section 1 Business Rules table matches the Phase 1 spec (count + AC IDs) | Re-run define-test-coverage |
 | 3 | Every business rule has a Logic Type assigned (Section 2) | Re-run |
 | 4 | Every Logic Type has at least one Test Technique (Section 3) | Re-run |

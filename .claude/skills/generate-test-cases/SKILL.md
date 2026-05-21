@@ -4,8 +4,8 @@ description: >
   **WORKFLOW SKILL** — Generate structured test cases from a test coverage file.
   USE FOR: producing test cases after the coverage matrix is defined; writing preconditions,
   step actions, expected results, and test data; creating md and CSV output files.
-  INPUT: test coverage file path `epics/<epic-folder>/test-coverage.md`.
-  OUTPUT: `.md` + `.csv` test case files saved to `epics/<epic-folder>/test-cases/` matching the
+  INPUT: test coverage file path `epics/<bucket>/<epic-folder>/test-coverage.md`.
+  OUTPUT: `.md` + `.csv` test case files saved to `epics/<bucket>/<epic-folder>/test-cases/` matching the
   suggested suite structure from the coverage file.
   DO NOT USE FOR: analyzing requirements (use analyze-requirements skill) or defining coverage
   strategy (use define-test-coverage skill).
@@ -16,8 +16,8 @@ description: >
 Senior QA automation architect. Convert a populated `test-coverage.md` into concrete test cases — one MD + one CSV per suite — saved alongside the epic's other artifacts.
 
 ## Input
-- Coverage file: `epics/<epic-folder>/test-coverage.md`.
-- Existing test cases in `epics/<epic-folder>/test-cases/` (to avoid duplicates).
+- Coverage file: `epics/<bucket>/<epic-folder>/test-coverage.md`.
+- Existing test cases in `epics/<bucket>/<epic-folder>/test-cases/` (to avoid duplicates).
 
 ## References
 - Design rules (titles, language, actor, severity/priority, anchoring, fields) → `.claude/references/test-case-rules.md`
@@ -38,7 +38,7 @@ Senior QA automation architect. Convert a populated `test-coverage.md` into conc
    - Section 6 Coverage Gaps (Overlap = Full → skip; ✅ → must cover)
    - Section 7 Suggested Test Suite Structure
 2. **Design rules**: `.claude/references/test-case-rules.md`.
-3. **Existing test cases** in `epics/<epic-folder>/test-cases/` — to avoid duplication.
+3. **Existing test cases** in `epics/<bucket>/<epic-folder>/test-cases/` — to avoid duplication.
 
 ### Step 2 — Apply design rules
 Before writing any TC, internalize `.claude/references/test-case-rules.md`:
@@ -64,11 +64,42 @@ Produce every required field per `.claude/references/test-case-rules.md` §9:
 ### Step 5 — Group into suites
 Follow Section 7 of the coverage file. One `.md` file = one suite. Within each file, group cases under `## Suite: <Suite Name>`. Order: happy path → edge → negative → cross-system.
 
-### Step 6 — Write the Markdown file
-Save to `epics/<epic-folder>/test-cases/<filename>.md` using the layout in `.claude/references/test-case-output-template.md`.
+### Step 6 — Folder approval gate (MANDATORY before write)
 
-### Step 7 — Write the CSV file
-Alongside the MD, save `epics/<epic-folder>/test-cases/<filename>.csv` using:
+Before writing any file, show the user the **proposed target folder + filenames** and wait for explicit approval. This prevents writing into the wrong epic, the wrong bucket, or under a stale folder structure.
+
+Print this preview verbatim and STOP:
+
+```
+=== TEST CASE OUTPUT PREVIEW ===
+
+Source coverage: epics/<bucket>/<epic-folder>/test-coverage.md
+Target folder:   epics/<bucket>/<epic-folder>/test-cases/
+
+Proposed files (<N> total: <N> .md + <N> .csv):
+  - <filename-1>.md  /  <filename-1>.csv     (Suite: <Suite 1 Name>, <N> TCs)
+  - <filename-2>.md  /  <filename-2>.csv     (Suite: <Suite 2 Name>, <N> TCs)
+  ...
+
+Reply:
+- `approve` to write to the path above
+- `move to <epics/<bucket>/<epic-folder>/test-cases/>` to override the target folder (e.g. different bucket, sub-folder, or different epic)
+- `rename <old> -> <new>` to adjust a filename
+- specific filenames to keep, others to skip
+```
+
+**Wait for the user's reply.** Do NOT write any file until the user explicitly approves.
+
+- On **approve** → proceed to Step 7.
+- On **move to ...** → update the target folder, re-print the preview with the new path, wait for approve.
+- On **rename ...** → update the proposed filenames, re-print, wait for approve.
+- On any other instruction → adjust and re-print. Loop until approved.
+
+### Step 7 — Write the Markdown file
+After approval, save to `<approved-folder>/<filename>.md` using the layout in `.claude/references/test-case-output-template.md`.
+
+### Step 8 — Write the CSV file
+Alongside the MD, save `<approved-folder>/<filename>.csv` using:
 - Header row from `.claude/references/qase-format.csv`.
 - Fixed field values + formatting rules from `.claude/references/test-case-output-template.md`.
 
@@ -77,6 +108,7 @@ Alongside the MD, save `epics/<epic-folder>/test-cases/<filename>.csv` using:
 ## Quality gate
 
 Before saving, verify (see `.claude/references/test-case-rules.md` for full rules):
+- **Folder approval gate (Step 6) shown and explicitly approved** before any write.
 - Every AC row in Section 4 has at least one TC.
 - Every Critical/High risk area in Section 5 has at least one negative or boundary TC.
 - Every ✅ "New Coverage Needed" gap in Section 6 is covered.
@@ -92,6 +124,6 @@ Before saving, verify (see `.claude/references/test-case-rules.md` for full rule
 
 ## Example invocation
 ```
-Generate test cases from epics/LT-99999-feature-name/test-coverage.md
+Generate test cases from epics/<bucket>/LT-99999-feature-name/test-coverage.md
 ```
-The skill reads the coverage file + design rules, applies technique-specific patterns per AC, writes all TCs with complete preconditions/steps/results/data, and saves `.md` + `.csv` files under the same epic folder.
+The skill reads the coverage file + design rules, applies technique-specific patterns per AC, builds the suite structure, then **presents the proposed folder + filenames and waits for user approval**. Only after approval, writes `.md` + `.csv` files under the approved folder.

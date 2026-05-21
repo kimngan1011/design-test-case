@@ -7,11 +7,11 @@ This workspace automates the full QA test design pipeline for the Manabie lesson
 ```
 Jira Ticket
     ↓
-Phase 1 — Analyze Requirements    →  epics/<TICKET-ID>-<slug>/spec.md
+Phase 1 — Analyze Requirements    →  epics/<bucket>/<TICKET-ID>-<slug>/spec.md
     ↓
-Phase 2 — Define Test Coverage    →  epics/<TICKET-ID>-<slug>/test-coverage.md
+Phase 2 — Define Test Coverage    →  epics/<bucket>/<TICKET-ID>-<slug>/test-coverage.md
     ↓
-Phase 3 — Generate Test Cases     →  epics/<TICKET-ID>-<slug>/test-cases/
+Phase 3 — Generate Test Cases     →  epics/<bucket>/<TICKET-ID>-<slug>/test-cases/
     ↓
 Phase 4 — Import to Qase          →  Qase project (suites + cases)
 ```
@@ -44,9 +44,9 @@ Import to Qase: https://app.qase.io/project/PX?suite=YYYY
 
 ```
 /analyze-requirements LT-XXXXX
-/define-test-coverage epics/LT-XXXXX-<slug>/spec.md
-/generate-test-cases epics/LT-XXXXX-<slug>/test-coverage.md
-/import-to-qase https://app.qase.io/project/PX?suite=YYYY epics/LT-XXXXX-<slug>/test-cases/<file>.csv
+/define-test-coverage epics/<bucket>/LT-XXXXX-<slug>/spec.md
+/generate-test-cases epics/<bucket>/LT-XXXXX-<slug>/test-coverage.md
+/import-to-qase https://app.qase.io/project/PX?suite=YYYY epics/<bucket>/LT-XXXXX-<slug>/test-cases/<file>.csv
 ```
 
 ### Bug verification
@@ -57,7 +57,7 @@ Import to Qase: https://app.qase.io/project/PX?suite=YYYY
 
 ## Workspace Structure
 
-- `epics/<TICKET-ID>-<slug>/` — per-epic artifacts (spec + test-coverage + test-cases)
+- `epics/<bucket>/<TICKET-ID>-<slug>/` — per-epic artifacts (spec + test-coverage + test-cases)
 - `knowledge/domain-knowledge/` — domain knowledge files (per-team folders, lesson-learned)
 - `knowledge/e2e-scenario/` — cross-epic E2E scenarios
 - `knowledge/diagram/` — domain diagrams

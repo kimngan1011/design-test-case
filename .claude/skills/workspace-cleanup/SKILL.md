@@ -84,7 +84,7 @@ rm -f temp/raw_requirement.json temp/business_rules.json temp/domain_context.jso
 Print:
 ```
 [workspace-cleanup] Done. Official outputs preserved:
-  - epics/<TICKET-ID>-<slug>/spec.md
+  - epics/<bucket>/<TICKET-ID>-<slug>/spec.md
   - knowledge/domain-knowledge/ (if updated)
   - knowledge/e2e-scenario/e2e-scenarios.md (if updated)
 ```
