@@ -1,0 +1,99 @@
+{
+  "ticket": "LT-99482",
+  "outPath": "/Users/chaut/design-test-case/temp/lt-99482-qase-import-summary.json",
+  "qase": {
+    "project": "PX",
+    "parentSuiteId": 2717
+  },
+  "epicSuite": {
+    "title": "LT-99482 - Lesson Calendar Button on Trial Lesson",
+    "id": 3118,
+    "parentSuiteId": 2717
+  },
+  "suites": {
+    "LT-99482 - Lesson Calendar Button on Trial Lesson": {
+      "id": 3118,
+      "status": "created"
+    },
+    "LT-99482 - Button Visibility and Navigation": {
+      "id": 3119,
+      "status": "created"
+    },
+    "LT-99482 - Student Context Transfer": {
+      "id": 3120,
+      "status": "created"
+    },
+    "LT-99482 - Scope and Regression": {
+      "id": 3121,
+      "status": "created"
+    }
+  },
+  "counts": {
+    "created": 9,
+    "skipped": 0,
+    "failed": 0
+  },
+  "createdCases": [
+    {
+      "title": "Trial Lesson Detail - Lesson Calendar Entry - SF Trial Lesson Detail - Eligible Record - Button Displayed",
+      "suite": "LT-99482 - Button Visibility and Navigation",
+      "id": 23990
+    },
+    {
+      "title": "Trial Lesson Detail - Lesson Calendar Entry - Button Interaction - User Selects Button - Calendar Page Opened",
+      "suite": "LT-99482 - Button Visibility and Navigation",
+      "id": 23991
+    },
+    {
+      "title": "Trial Lesson Detail - Lesson Calendar Entry - Repeated Access - Button Clicked Twice - Navigation Remains Stable",
+      "suite": "LT-99482 - Button Visibility and Navigation",
+      "id": 23992
+    },
+    {
+      "title": "Trial Lesson to Calendar - Student Context - Single Student Trial Lesson - Student Pre-Selected on Calendar",
+      "suite": "LT-99482 - Student Context Transfer",
+      "id": 23993
+    },
+    {
+      "title": "Trial Lesson to Calendar - Student Context - Selection Persistence - Calendar Grid and Filter Show Same Student Context",
+      "suite": "LT-99482 - Student Context Transfer",
+      "id": 23994
+    },
+    {
+      "title": "Trial Lesson to Calendar - Assignment Continuation - Context Kept - User Proceeds Without Manual Student Re-Selection",
+      "suite": "LT-99482 - Student Context Transfer",
+      "id": 23995
+    },
+    {
+      "title": "Trial Lesson Calendar Entry - Surface Scope - Back Office Trial Lesson - Calendar Entry Not Added",
+      "suite": "LT-99482 - Scope and Regression",
+      "id": 23996
+    },
+    {
+      "title": "Trial Lesson Calendar Entry - Existing Calendar Access - Direct Calendar Open - Existing Entry Path Unchanged",
+      "suite": "LT-99482 - Scope and Regression",
+      "id": 23997
+    },
+    {
+      "title": "Trial Lesson Calendar Entry - Missing Student Edge - Trial Lesson Student Unavailable - Deterministic Handling Displayed",
+      "suite": "LT-99482 - Scope and Regression",
+      "id": 23998
+    }
+  ],
+  "skippedCases": [],
+  "failedCases": [],
+  "fallbackUsed": "Numeric enum mapping for Qase API fields (priority/severity/type/behavior/status/layer/automation).",
+  "spotCheck": {
+    "id": 23990,
+    "title": "Trial Lesson Detail - Lesson Calendar Entry - SF Trial Lesson Detail - Eligible Record - Button Displayed",
+    "preconditionsHasNewLine": true,
+    "stepsCount": 3,
+    "firstStepAction": "Open Trial Lesson TL-1001 detail page in Salesforce."
+  },
+  "generatedCsvFiles": [
+    "/Users/chaut/design-test-case/epics/lesson/LT-99482-lesson-calendar-button-trial-lesson/test-cases/01-button-visibility-navigation.csv",
+    "/Users/chaut/design-test-case/epics/lesson/LT-99482-lesson-calendar-button-trial-lesson/test-cases/02-student-context-transfer.csv",
+    "/Users/chaut/design-test-case/epics/lesson/LT-99482-lesson-calendar-button-trial-lesson/test-cases/03-scope-regression.csv"
+  ],
+  "generatedAt": "2026-07-03"
+}

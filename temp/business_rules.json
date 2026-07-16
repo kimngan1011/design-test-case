@@ -1,0 +1,115 @@
+{
+  "ticket_id": "LT-104011",
+  "rules": [
+    {
+      "id": "BR-01",
+      "ac_ref": "AC 01.1",
+      "rule": "BO Lesson Detail shows a Previous Lesson button for the Aver flow.",
+      "field": "Previous Lesson button",
+      "field_behavior": "visible",
+      "role_constraint": "Visible roles are not specified in the ticket.",
+      "conditional_logic": "Applies on BO Lesson Detail when the feature is enabled for the tenant.",
+      "default_value": null,
+      "platform": "BO"
+    },
+    {
+      "id": "BR-02",
+      "ac_ref": "AC 01.1",
+      "rule": "BO Lesson Detail shows a Next Lesson button for the Aver flow.",
+      "field": "Next Lesson button",
+      "field_behavior": "visible",
+      "role_constraint": "Visible roles are not specified in the ticket.",
+      "conditional_logic": "Applies on BO Lesson Detail when the feature is enabled for the tenant.",
+      "default_value": null,
+      "platform": "BO"
+    },
+    {
+      "id": "BR-03",
+      "ac_ref": "AC 01.2",
+      "rule": "Clicking Previous Lesson redirects the user to the previous lesson detail in the same recurring lesson schedule.",
+      "field": "Previous Lesson button",
+      "field_behavior": "enabled",
+      "role_constraint": "User must already be able to open BO Lesson Detail.",
+      "conditional_logic": "Only when a previous lesson exists in the same lesson schedule chain.",
+      "default_value": null,
+      "platform": "BO"
+    },
+    {
+      "id": "BR-04",
+      "ac_ref": "AC 01.2",
+      "rule": "Clicking Next Lesson redirects the user to the next lesson detail in the same recurring lesson schedule.",
+      "field": "Next Lesson button",
+      "field_behavior": "enabled",
+      "role_constraint": "User must already be able to open BO Lesson Detail.",
+      "conditional_logic": "Only when a next lesson exists in the same lesson schedule chain.",
+      "default_value": null,
+      "platform": "BO"
+    },
+    {
+      "id": "BR-05",
+      "ac_ref": "AC 01.3",
+      "rule": "When the current lesson is in the middle of the recurring chain, Previous Lesson and Next Lesson are both enabled.",
+      "field": "Lesson navigation state",
+      "field_behavior": "computed",
+      "role_constraint": "Inherits BO Lesson Detail access.",
+      "conditional_logic": "Current lesson has both previous and next lessons in the same chain.",
+      "default_value": null,
+      "platform": "BO"
+    },
+    {
+      "id": "BR-06",
+      "ac_ref": "AC 01.4",
+      "rule": "When the current lesson is the first lesson in the chain, Previous Lesson is disabled.",
+      "field": "Previous Lesson button",
+      "field_behavior": "disabled",
+      "role_constraint": "Inherits BO Lesson Detail access.",
+      "conditional_logic": "Current lesson has no previous lesson in the same chain.",
+      "default_value": null,
+      "platform": "BO"
+    },
+    {
+      "id": "BR-07",
+      "ac_ref": "AC 01.4",
+      "rule": "When the current lesson is the last lesson in the chain, Next Lesson is disabled.",
+      "field": "Next Lesson button",
+      "field_behavior": "disabled",
+      "role_constraint": "Inherits BO Lesson Detail access.",
+      "conditional_logic": "Current lesson has no next lesson in the same chain.",
+      "default_value": null,
+      "platform": "BO"
+    },
+    {
+      "id": "BR-08",
+      "ac_ref": "AC 01.2",
+      "rule": "Navigation keeps the user on the same browser tab and reuses the BO detail surface rather than opening a new tab.",
+      "field": "Lesson detail navigation mode",
+      "field_behavior": "restricted",
+      "role_constraint": "Inherits BO Lesson Detail access.",
+      "conditional_logic": "Applies whenever either navigation button is clicked.",
+      "default_value": "same-tab navigation",
+      "platform": "BO"
+    },
+    {
+      "id": "BR-09",
+      "ac_ref": "AC 01.5",
+      "rule": "Aver label mapping uses 前の特訓 for Previous Lesson and 次の特訓 for Next Lesson.",
+      "field": "Lesson navigation label",
+      "field_behavior": "computed",
+      "role_constraint": "Tenant-specific label mapping.",
+      "conditional_logic": "Applies in Aver scope.",
+      "default_value": null,
+      "platform": "BO"
+    },
+    {
+      "id": "BR-10",
+      "ac_ref": "AC 01.5",
+      "rule": "Core label mapping uses 前の授業 for Previous Lesson and 次の授業 for Next Lesson.",
+      "field": "Lesson navigation label",
+      "field_behavior": "computed",
+      "role_constraint": "Tenant-specific label mapping.",
+      "conditional_logic": "Applies in Core scope if the feature is not Aver-only.",
+      "default_value": null,
+      "platform": "BO"
+    }
+  ]
+}

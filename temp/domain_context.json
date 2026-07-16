@@ -1,0 +1,134 @@
+{
+  "domain": "scheduling",
+  "keywords_used": [
+    "Aver",
+    "BO lesson detail",
+    "previous lesson",
+    "next lesson",
+    "lesson schedule",
+    "recurring lesson chain"
+  ],
+  "entities": [
+    {
+      "name": "Lesson",
+      "key_fields": [
+        "lesson_id",
+        "lesson_schedule_id",
+        "lesson_status",
+        "lesson_date",
+        "lesson_name"
+      ],
+      "field_behaviors": [
+        "BO is a view/edit surface for existing lessons.",
+        "Lesson code and lesson type are read-only on BO.",
+        "Draft and Published lessons remain editable; Completed and Cancelled are not editable."
+      ],
+      "status_transitions": [
+        "Draft -> Published",
+        "Published -> Completed",
+        "Completed -> Published (rollback)",
+        "Cancelled -> Draft (reactivate)"
+      ],
+      "crud_rules": [
+        "SF is the source of truth; BO syncs from SF.",
+        "Recurring lessons belong to a shared lesson schedule chain.",
+        "Opening a lesson on BO uses the selected lesson instance, not the whole chain."
+      ],
+      "platform": "SF/BO/Mobile"
+    },
+    {
+      "name": "Lesson Schedule",
+      "key_fields": [
+        "lesson_schedule_id",
+        "recurrence_type",
+        "start_date",
+        "end_date"
+      ],
+      "field_behaviors": [
+        "Defines adjacency across recurring lessons.",
+        "End date is derived from the last lesson in the chain.",
+        "Add Lesson and edits can expand or shift chain bounds."
+      ],
+      "status_transitions": [],
+      "crud_rules": [
+        "Deleting the last lesson moves the schedule end date back.",
+        "This-and-following edits preserve lesson codes and update downstream lessons.",
+        "Closed dates can skip generated lessons without leaving code gaps."
+      ],
+      "platform": "SF/BO"
+    },
+    {
+      "name": "Lesson Teacher",
+      "key_fields": [
+        "teacher_id",
+        "lesson_id",
+        "lesson_schedule_id"
+      ],
+      "field_behaviors": [
+        "Assigned teacher controls BO Calendar visibility for CPU users.",
+        "SPU users see lessons by affiliated location.",
+        "Cross-location assignment is allowed and preserves access once assigned."
+      ],
+      "status_transitions": [],
+      "crud_rules": [
+        "Teacher assignment can happen on lesson detail and list surfaces.",
+        "Clashing alerts recalculate on time changes.",
+        "BO calendar scope depends on teacher or location access model."
+      ],
+      "platform": "SF/BO"
+    }
+  ],
+  "data_relationships": [
+    "Lesson belongs to a Lesson Schedule chain; adjacent navigation must resolve within the same chain.",
+    "Lesson syncs from SF to BO; BO detail visibility depends on assigned teacher or location scope.",
+    "Lesson owns Lesson Report and Student Session children; changing the viewed lesson changes downstream report and attendance context."
+  ],
+  "platform_specific_behaviors": [
+    "SF is the source of truth and creates/updates lessons; BO consumes synced lesson detail data.",
+    "Aver CPU teachers see only lessons where they are assigned as teacher; SPU users see lessons by affiliated location.",
+    "Mobile visibility depends on lesson/report publish state, but BO lesson detail remains the operational teaching surface."
+  ],
+  "non_obvious_edge_cases": [
+    "First and last lessons in a recurring chain have one missing adjacent neighbor by definition.",
+    "One-time lessons have no lesson schedule adjacency unless explicitly duplicated into a chain.",
+    "Completed and Cancelled lessons remain viewable in BO when accessible, even though they are not editable."
+  ],
+  "permission_matrix": {
+    "source": "knowledge/domain-knowledge/scheduling/scheduling-feature-permission-matrix.csv",
+    "role_columns": [
+      "full_access",
+      "center_level_edit",
+      "bo_teacher"
+    ],
+    "relevant_features": [
+      {
+        "feature": "View Lesson List & Detail",
+        "full_access": true,
+        "center_level_edit": true,
+        "bo_teacher": true,
+        "note": "Teacher and staff roles can open BO Lesson Detail."
+      },
+      {
+        "feature": "Edit Lesson",
+        "full_access": true,
+        "center_level_edit": true,
+        "bo_teacher": true,
+        "note": "BO detail already contains interactive action buttons and stateful lesson content."
+      },
+      {
+        "feature": "[Aver] View / Edit Lesson Report (Custom Layout)",
+        "full_access": true,
+        "center_level_edit": true,
+        "bo_teacher": true,
+        "note": "Aver custom BO lesson/report surfaces already expose partner-specific top-right actions."
+      }
+    ]
+  },
+  "files_read": [
+    "knowledge/domain-knowledge/scheduling/overview.md",
+    "knowledge/domain-knowledge/scheduling/scheduling-feature-permission-matrix.csv",
+    "knowledge/domain-knowledge/scheduling/lesson-management/lesson.md",
+    "knowledge/domain-knowledge/scheduling/lesson-management/lesson-teacher.md",
+    "knowledge/domain-knowledge/scheduling/calendar/access-by-user-type.md"
+  ]
+}

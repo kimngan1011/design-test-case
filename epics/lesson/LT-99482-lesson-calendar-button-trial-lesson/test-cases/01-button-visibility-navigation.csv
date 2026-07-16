@@ -1,0 +1,27 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+"","Trial Lesson Detail - Lesson Calendar Entry - SF Trial Lesson Detail - Eligible Record - Button Displayed","AC 01.1 - Component - Lesson Calendar button is visible on Trial Lesson detail for SF user flow.","- Actor is logged in to Salesforce as HQ or CM Staff.
+- Trial Lesson TL-1001 exists with status Open and linked student STU-001.
+- User can open Trial Lesson detail page.","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open Trial Lesson TL-1001 detail page in Salesforce.
+2. Observe the action/navigation area on the detail page.
+3. Hover or focus on Lesson Calendar button.","1. Trial Lesson detail page loads.
+2. Lesson Calendar button is visible and enabled.
+3. Button remains interactive with no disabled state.","1. trial_lesson = TL-1001
+2. expected_button = Lesson Calendar
+3. expected_state = enabled","","","3119","3118","LT-99482 - Lesson Calendar Button on Trial Lesson","LT-99482 - Button Visibility and Navigation","",""
+"","Trial Lesson Detail - Lesson Calendar Entry - Button Interaction - User Selects Button - Calendar Page Opened","AC 01.2 - State Transition - Clicking Lesson Calendar from Trial Lesson detail opens Lesson Calendar destination.","- Actor is logged in to Salesforce as HQ or CM Staff.
+- Trial Lesson TL-1001 detail page is open.
+- Lesson Calendar feature is accessible in current org.","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Click Lesson Calendar button from Trial Lesson TL-1001 detail page.
+2. Wait for destination page load completion.
+3. Read page header and route indicator.","1. Navigation is triggered from Trial Lesson detail context.
+2. Lesson Calendar page is displayed.
+3. Header and route indicate Lesson Calendar, not Trial Lesson detail.","1. source_page = trial_lesson_detail
+2. destination_page = lesson_calendar
+3. expected_header = Lesson Calendar","","","3119","3118","LT-99482 - Lesson Calendar Button on Trial Lesson","LT-99482 - Button Visibility and Navigation","",""
+"","Trial Lesson Detail - Lesson Calendar Entry - Repeated Access - Button Clicked Twice - Navigation Remains Stable","AC 01.2 - Regression - Repeated use of Lesson Calendar button does not break navigation behavior.","- Actor is logged in to Salesforce as HQ or CM Staff.
+- Trial Lesson TL-1002 exists and detail page is accessible.","","","medium","minor","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open Trial Lesson TL-1002 detail page and click Lesson Calendar.
+2. Navigate back to TL-1002 detail page using browser/app back.
+3. Click Lesson Calendar again.","1. Lesson Calendar opens from Trial Lesson context.
+2. Trial Lesson detail page is shown again.
+3. Lesson Calendar opens again without route error or blank state.","1. trial_lesson = TL-1002
+2. navigation = back
+3. attempt = second_click","","","3119","3118","LT-99482 - Lesson Calendar Button on Trial Lesson","LT-99482 - Button Visibility and Navigation","",""

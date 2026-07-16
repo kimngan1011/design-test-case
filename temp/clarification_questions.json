@@ -1,0 +1,54 @@
+{
+  "ticket_id": "LT-104011",
+  "total_questions": 6,
+  "questions": [
+    {
+      "id": 1,
+      "tag": "[ROLE GAP]",
+      "ac_ref": "AC 01.1",
+      "priority": 6,
+      "question": "Which BO roles should be able to see and click Previous Lesson / Next Lesson in the Aver flow: Teacher only, or all Lesson Detail viewers such as Centre Manager, Centre Staff, and HQ Staff as well?",
+      "evidence": "knowledge/domain-knowledge/scheduling/scheduling-feature-permission-matrix.csv + knowledge/domain-knowledge/scheduling/calendar/access-by-user-type.md — BO Lesson Detail is available to multiple Aver role paths, but LT-104011 does not specify button-level access."
+    },
+    {
+      "id": 2,
+      "tag": "[MISSING BEHAVIOR]",
+      "ac_ref": "AC 01.1",
+      "priority": 5,
+      "question": "What should happen on BO Lesson Detail when the lesson is one-time or otherwise has no recurring-chain neighbor at all? Should Previous Lesson / Next Lesson be hidden, shown disabled, or shown only when an adjacent lesson exists?",
+      "evidence": "LT-104011 requirement — the ticket defines recurring-chain navigation by analogy to LT-84885, but it does not define the no-chain case."
+    },
+    {
+      "id": 3,
+      "tag": "[REGRESSION RISK]",
+      "ac_ref": "AC 01.2",
+      "priority": 3,
+      "question": "After clicking Previous Lesson or Next Lesson from BO Lesson Detail, should the destination always open on the default Lesson Detail view, or should it preserve the user’s current BO sub-view/tab context if they were on a nested surface such as Report?",
+      "evidence": "epics/lesson/LT-96152-collect-attendance-entry-points-bo/test-cases/LT-96152-collect-attendance-entry-points.md — BO Lesson Detail already contains tabbed action flows whose state depends on the current lesson context."
+    },
+    {
+      "id": 4,
+      "tag": "[MISSING BEHAVIOR]",
+      "ac_ref": "AC 01.2",
+      "priority": 5,
+      "question": "When the adjacent lesson exists but has status Draft, Published, Completed, or Cancelled, should navigation still land on that lesson, or should some statuses be skipped or blocked?",
+      "evidence": "knowledge/domain-knowledge/scheduling/lesson-management/lesson.md — recurring lessons can exist across multiple statuses, but LT-104011 defines adjacency only by chain position."
+    },
+    {
+      "id": 5,
+      "tag": "[UNDOCUMENTED IN AC]",
+      "ac_ref": "AC 01.4",
+      "priority": 4,
+      "question": "Should first-lesson and last-lesson behavior on BO Lesson Detail exactly match LT-84885 report navigation, including disabled boundary buttons and any fallback feedback when no adjacent lesson/report data exists?",
+      "evidence": "LT-84885 Jira + Figma node 37045:26181 — the reference feature documents boundary button states on Report Detail, but LT-104011 does not explicitly restate the Lesson Detail equivalent."
+    },
+    {
+      "id": 6,
+      "tag": "[MISSING BEHAVIOR]",
+      "ac_ref": "AC 01.5",
+      "priority": 5,
+      "question": "Is LT-104011 Aver-only, or should Core tenants also receive the feature? The ticket body says “for Aver”, but the translation section also defines Core labels (前の授業 / 次の授業).",
+      "evidence": "LT-104011 requirement + translation note — scope statement and label mapping imply different rollout possibilities."
+    }
+  ]
+}

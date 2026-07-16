@@ -1,0 +1,29 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+"","[Koyu Booking Link] - Entry Routing - External Link Opened - Activity Event List Shown First","AC 01.1 - State Transition Testing - Follow Jira and Figma flow where booking link lands on Activity Event List before any auth.","- Logged-in state: none (fresh app/browser session).
+- Actor is Student or Parent user using Koyu booking link.
+- Booking link points to Event Master EM-1001 with at least 1 published Activity Event.
+- Reference design: Figma node 7593-44460 (https://www.figma.com/design/qmHa3rUESxPnfenYsKXbtv/-Eng--Event-Management?node-id=7593-44460&t=HtBSqAJUwV05Az5f-4).","","","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open booking link URL in a new incognito/private session.
+2. Read first visible header/title and event card area.
+3. Observe UI state before touching Reserve.","1. Screen lands on Activity Event List, not Login/Sign up.
+2. Activity Event List is visible with at least one event card ready for selection.
+3. No blocking Login/Register screen appears before Reserve action.","1. booking_link = EM-1001; session = logged_out
+2. expected_first_screen = Activity Event List; min_cards >= 1
+3. auth_gate_timing = reserve_only","","","3115","2717","LT-94694 - Booking Link Pre-login Navigation","","",""
+"","[Koyu Booking Link] - Event Browsing - List Item Opened - Event Detail Visible Without Login","AC 01.2 - Display Completeness - User can browse Event List and open Event Detail pre-login as defined in proposed booking-link flow.","- Continue from logged-out booking-link session.
+- Event List contains Event A and Event B under EM-1001.
+- Reference design: Figma node 7593-44460 (https://www.figma.com/design/qmHa3rUESxPnfenYsKXbtv/-Eng--Event-Management?node-id=7593-44460&t=HtBSqAJUwV05Az5f-4).","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Tap Event A card from Activity Event List.
+2. Validate detail content for booking decision.
+3. Return to list and open Event B.","1. Event A detail opens directly with no auth redirect.
+2. Event title, date/time, location, and Reserve button are visible and readable.
+3. Event B detail also opens without forced login.","1. selected_event = Event A
+2. required_fields = title,date_time,location,reserve_button
+3. selected_event = Event B","","","3115","2717","LT-94694 - Booking Link Pre-login Navigation","","",""
+"","[Koyu Booking Link] - Pre-login Display - Event List Cards - Mandatory Fields Rendered","AC 01.2 - Component Testing - Pre-login list cards keep required fields and support detail navigation for discovery flow.","- Logged-out booking-link session is active.
+- Activity Event List has at least 3 events with distinct schedule values.
+- Reference design: Figma node 7593-44460 (https://www.figma.com/design/qmHa3rUESxPnfenYsKXbtv/-Eng--Event-Management?node-id=7593-44460&t=HtBSqAJUwV05Az5f-4).","","","medium","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open booking link and wait until list render completes.
+2. Inspect each sampled card on list view.
+3. Tap each sampled card to detail and navigate back.","1. At least 3 event cards are rendered.
+2. Each card shows event name and date/time with no missing core text.
+3. Card-to-detail navigation works and still does not trigger login before Reserve tap.","1. min_cards = 3
+2. mandatory_card_fields = name,date_time; sample_size = 3
+3. navigation_mode = card_tap; auth_gate = reserve_only","","","3115","2717","LT-94694 - Booking Link Pre-login Navigation","","",""

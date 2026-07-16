@@ -1,0 +1,88 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+"","[Koyu Feedback] Cancel Reservation - Other Reason - Detail Mandatory Before Submit","LT-103839 / AC 03.3, AC 05.2 - Decision Table + Negative - When reason is Other, detail is required and submit remains disabled until detail is entered.","- Logged in as Student/Parent on Learner App with booked eligible event.
+- Cancel Type allows cancellation and Cancel Reservation button is visible.
+- Related ticket: LT-103839.","","","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open event detail and tap Cancel Reservation.
+2. Select reason = Other and keep detail empty.
+3. Enter valid detail text then tap Confirm/Submit.","1. Cancellation modal opens with reason selector.
+2. Confirm/Submit button stays disabled and cannot submit.
+3. Submit becomes enabled and cancellation request/cancel now proceeds.","1. entry = event_detail
+2. reason = Other; detail = empty
+3. detail = Personal schedule change","","","","2446","LT-104241 Feedback Updates","","",""
+"","[Koyu Feedback] Cancel Reservation Button - Eligible Case - Visible and Enabled","LT-104248 / AC 02.1 - Decision Table - Eligible participant sees enabled Cancel Reservation button.","- Logged in as Student/Parent with booked event in future.
+- Cancel Type is Cancel or Cancellation Request and deadline not expired.
+- Related ticket: LT-104248.","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open booked event detail from learner app.
+2. Observe action area on event detail.
+3. Tap Cancel Reservation once.","1. Event detail screen loads.
+2. Cancel Reservation button is visible and enabled.
+3. Cancellation modal is displayed.","1. event_state = future_and_eligible
+2. expected_button_state = visible_enabled
+3. action = tap_cancel_reservation","","","","2446","LT-104241 Feedback Updates","","",""
+"","[Koyu Feedback] Cancellation Deadline Section - Deadline Empty or 0 - Section Hidden and Action Available","LT-104249 + LT-104251 / AC 02.1 - Boundary - Deadline empty/0 hides deadline section while cancel action remains available when otherwise eligible.","- Booked participant has eligible cancellation and event in future.
+- Cancellation Deadline Hours is null or 0.
+- Related tickets: LT-104249, LT-104251.","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open booked event detail in learner app.
+2. Check cancellation deadline information section.
+3. Check Cancel Reservation button state.","1. Event detail loads.
+2. Cancellation Deadline section is not displayed.
+3. Button remains visible and enabled when other eligibility conditions pass.","1. deadline_hours = 0_or_null
+2. expected_deadline_section = hidden
+3. expected_button_state = visible_enabled","","","","2446","LT-104241 Feedback Updates","","",""
+"","[Koyu Feedback] Cancellation Reason Detail - Length Constraint - 255 Accepted and 256 Rejected","LT-104250 / AC 05.2 - BVA - Detail field accepts 255 chars and blocks submission at 256 with inline validation.","- Cancellation modal is open and reason = Other.
+- Related ticket: LT-104250.","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Input exactly 255 characters in detail field.
+2. Replace input with 256 characters.
+3. Reduce back to 255 and re-check state.","1. No validation error; submit can proceed.
+2. Inline error is shown and submit is disabled.
+3. Error clears and submit becomes enabled again.","1. detail_length = 255
+2. detail_length = 256
+3. detail_length = 255_recovered","","","","2446","LT-104241 Feedback Updates","","",""
+"","[Koyu Feedback] Event Participant List - Response Value Displayed for Canceled and Cancel Requested","LT-104252 / AC 08.1 - CRUD - Event Participant list shows updated Response statuses and requested context.","- Staff account can access Salesforce Event Participant list.
+- Dataset includes participants with Attend/Canceled/Cancel Requested.
+- Related ticket: LT-104252.","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open Activity Event participant list in Salesforce.
+2. Locate rows with cancellation outcomes.
+3. Open one row detail and return to list.","1. Participant list is displayed.
+2. Response column displays Canceled and Cancel Requested correctly.
+3. Displayed response value remains consistent between detail and list.","1. surface = SF_event_participant_list
+2. expected_values = Canceled,Cancel Requested
+3. consistency_check = list_vs_detail","","","","2446","LT-104241 Feedback Updates","","",""
+"","[Koyu Feedback] Open to Booking - Before Booking Start Date - Availability Message Displayed","LT-104253 / AC 01.5 - Boundary - When current date is before Booking Start Date, reserve action is unavailable and message is shown.","- Master Event has Open to Booking enabled with Booking Start Date in the future.
+- Related ticket: LT-104253.","","","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open booking link or event detail before booking start date.
+2. Observe reserve action availability.
+3. Read guidance message on screen.","1. Event detail loads with booking context.
+2. Reserve action is disabled or not actionable before start date.
+3. Message indicates event is available for booking from booking start date.","1. today = 2026-07-06; booking_start_date = 2026-07-10
+2. expected_reserve_state = unavailable
+3. expected_message = available_from_booking_start_date","","","","2446","LT-104241 Feedback Updates","","",""
+"","[Koyu Feedback] Cancellation Deadline Update - Event Started - Warning Message and Scoped Recompute","LT-104254 / AC 01.3 - State Transition - Updating cancellation deadline for started event shows warning and only applies to unstarted activities on confirm.","- Staff can edit Event Master with mix of started and unstarted activities.
+- Related ticket: LT-104254.","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Change Cancellation Deadline on Event Master where at least one activity already started.
+2. Choose Confirm on warning dialog.
+3. Re-open started activity details.","1. Warning message is displayed before apply.
+2. New deadline applies only to unstarted activities.
+3. Started activity keeps prior effective deadline; no retroactive change.","1. activity_mix = started_and_unstarted
+2. dialog_action = confirm
+3. expected_scope = unstarted_only","","","","2446","LT-104241 Feedback Updates","","",""
+"","[Koyu Feedback] Re-booking After Cancellation - Capacity Available - Rebook Allowed with New Record","LT-104255 / AC 10.1 - State Transition + Data Integrity - User can rebook after cancel when capacity is available and historical cancel record is retained.","- User previously canceled event and was removed from participant list.
+- Event currently has available capacity.
+- Related ticket: LT-104255.","","","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open same event after prior cancellation.
+2. Tap Reserve/Book again and complete booking.
+3. Check participant records in staff view.","1. Event can be opened for re-book evaluation.
+2. Booking succeeds and user is added back as active participant.
+3. Old canceled record remains for audit; new active record exists with blank cancellation fields.","1. capacity_remaining >= 1
+2. action = rebook
+3. expected_records = historical_canceled + new_active","","","","2446","LT-104241 Feedback Updates","","",""
+"","[Koyu Feedback] SF Cancellation Notification - Language Independent Content","LT-104256 / AC 07.1 - Cross-system - Notification payload remains correct regardless of Salesforce user language.","- Response Notification setting enables cancel notification.
+- Two staff users exist with different SF language settings.
+- Related ticket: LT-104256.","","","medium","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Trigger cancellation from mobile app (cancel now or cancel request).
+2. Open SF bell notifications with language A user.
+3. Open SF bell notifications with language B user.","1. Cancellation action is processed.
+2. Notification appears with correct event/student/cancel-type info.
+3. Notification still appears with correct semantic content and no missing placeholders.","1. trigger_source = mobile
+2. sf_language = JA_or_EN_A
+3. sf_language = EN_or_JA_B","","","","2446","LT-104241 Feedback Updates","","",""
+"","[Koyu Feedback] Cancel Action Labels - UI Translation Matches Latest PRD","LT-104257 / Localization - UI labels for cancel actions match latest PRD text for active locale.","- Learner app build includes LT-104257 changes.
+- PRD localization baseline is available from epic documents.
+- Related ticket: LT-104257.","","","medium","minor","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open cancellation modal in locale A.
+2. Switch to locale B and reopen same modal.
+3. Compare both against PRD localization entries.","1. Primary/secondary cancel-related button labels match PRD for locale A.
+2. Button labels match PRD for locale B with no fallback text.
+3. No label mismatch is found for cancel-related controls.","1. locale = A
+2. locale = B
+3. comparison = app_vs_prd","","","","2446","LT-104241 Feedback Updates","","",""

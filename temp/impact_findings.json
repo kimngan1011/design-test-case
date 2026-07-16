@@ -1,0 +1,135 @@
+{
+  "ticket_id": "LT-104011",
+  "findings": [
+    {
+      "id": "F-01",
+      "tag": "[EXTENDED]",
+      "source_file": "reports/qase-snapshots/PX-2026-04-13.json",
+      "source_rule": "Qase cases 19275, 10164, 10165, 10166 document same-page Previous/Next Report navigation and boundary states on Aver BO report detail.",
+      "ac_ref": "AC 01.2",
+      "description": "LT-104011 extends an existing Aver BO navigation pattern from Report Detail to Lesson Detail by reusing same-page previous/next traversal logic.",
+      "positive_assertion": "Clicking Previous Lesson or Next Lesson opens the adjacent lesson detail in the same browser tab.",
+      "negative_assertion": "Navigation must not open a new tab or route to an unrelated lesson outside the same recurring chain."
+    },
+    {
+      "id": "F-02",
+      "tag": "[REGRESSION RISK]",
+      "source_file": "epics/lesson/LT-XXXX-edit-lesson/test-cases/edit-lesson-bo.md",
+      "source_rule": "Recurring BO lesson-detail tests assume the opened lesson instance is the active edit/view target.",
+      "ac_ref": "AC 01.2",
+      "description": "BO recurring-lesson workflows already depend on target lesson identity being correct. Prev/Next navigation can regress by leaving the header, fields, or action context tied to the source lesson after navigation.",
+      "positive_assertion": "After navigation, the BO detail header, date/time, and lesson-specific content update to the selected adjacent lesson.",
+      "negative_assertion": "The page must not retain source-lesson data or stale actions while claiming to show the adjacent lesson."
+    },
+    {
+      "id": "F-03",
+      "tag": "[MISSING BEHAVIOR]",
+      "source_file": "LT-104011 requirement",
+      "source_rule": "The ticket describes recurring-chain navigation but does not define the no-chain case.",
+      "ac_ref": "AC 01.1",
+      "description": "The requirement does not state what happens on a one-time lesson or any lesson with no adjacent chain member: whether buttons are hidden, visible-but-disabled, or omitted entirely.",
+      "positive_assertion": "The design should define an explicit default state when BO Lesson Detail has no adjacent lesson to navigate to.",
+      "negative_assertion": "Users must not receive enabled navigation buttons that resolve to nowhere."
+    },
+    {
+      "id": "F-04",
+      "tag": "[EXTENDED]",
+      "source_file": "epics/lesson/LT-99482-lesson-calendar-button-trial-lesson/test-cases/01-button-visibility-navigation.md",
+      "source_rule": "Detail-page action buttons are validated for visibility, enabled state, and route transition before use.",
+      "ac_ref": "AC 01.1",
+      "description": "LT-104011 adds another action-button pair to a lesson detail page, extending an existing UI pattern already used for detail-page navigation features.",
+      "positive_assertion": "Previous Lesson and Next Lesson appear in the BO lesson-detail action area when the feature is eligible.",
+      "negative_assertion": "The new buttons must not be hidden, overlapped, or rendered unusable within the existing action layout."
+    },
+    {
+      "id": "F-05",
+      "tag": "[UNDOCUMENTED IN AC]",
+      "source_file": "LT-84885 Jira + Figma node 37045:26181",
+      "source_rule": "The reference feature defines first/last-item disabled states and report-detail wording, but LT-104011 does not restate the lesson-detail equivalent.",
+      "ac_ref": "AC 01.4",
+      "description": "The ticket says the same logic/design can be applied from LT-84885, but it does not explicitly confirm whether boundary disabled states and missing-neighbor feedback must match one-for-one on Lesson Detail.",
+      "positive_assertion": "First-lesson and last-lesson behavior should be explicitly defined for Lesson Detail if LT-84885 parity is required.",
+      "negative_assertion": "Implementation must not mix button-disable logic with undefined alerts or silent failures at the chain boundaries."
+    },
+    {
+      "id": "F-06",
+      "tag": "[ROLE GAP]",
+      "source_file": "knowledge/domain-knowledge/scheduling/scheduling-feature-permission-matrix.csv + knowledge/domain-knowledge/scheduling/calendar/access-by-user-type.md",
+      "source_rule": "BO lesson detail is available to teacher and staff roles under the Aver CPU/SPU access model.",
+      "ac_ref": "AC 01.1",
+      "description": "The requirement does not define which BO roles can see or use the buttons even though Aver differentiates teacher CPU access from SPU location access.",
+      "positive_assertion": "Allowed roles should be explicitly enumerated for the button visibility and click behavior.",
+      "negative_assertion": "Unauthorized or out-of-scope roles must not inherit the button merely because they can open Lesson Detail."
+    },
+    {
+      "id": "F-07",
+      "tag": "[MISSING BEHAVIOR]",
+      "source_file": "knowledge/domain-knowledge/scheduling/lesson-management/lesson.md",
+      "source_rule": "Lesson chains include Draft, Published, Completed, and Cancelled states, but LT-104011 defines adjacency only by chain position.",
+      "ac_ref": "AC 01.2",
+      "description": "The ticket does not specify whether navigation lands on adjacent lessons regardless of status, skips Cancelled lessons, or restricts navigation to a subset of lesson statuses.",
+      "positive_assertion": "Adjacent-target eligibility should define whether Draft, Published, Completed, and Cancelled lessons are valid navigation targets.",
+      "negative_assertion": "Buttons must not navigate to excluded statuses or silently skip lessons without a documented rule."
+    },
+    {
+      "id": "F-08",
+      "tag": "[REGRESSION RISK]",
+      "source_file": "epics/lesson/LT-96152-collect-attendance-entry-points-bo/test-cases/LT-96152-collect-attendance-entry-points.md",
+      "source_rule": "BO Lesson Detail already hosts tabbed and action-driven teacher workflows whose state depends on the current lesson context.",
+      "ac_ref": "AC 01.2",
+      "description": "Prev/Next navigation can regress BO teacher workflow continuity if the destination lesson opens on the wrong tab or preserves stale report-tab context from the source lesson.",
+      "positive_assertion": "Navigation should consistently land on the intended destination lesson surface with the expected tab/view state.",
+      "negative_assertion": "Users must not be left on a source-lesson subview or a broken report/attendance context after moving to another lesson."
+    },
+    {
+      "id": "F-09",
+      "tag": "[MISSING BEHAVIOR]",
+      "source_file": "LT-104011 translation note",
+      "source_rule": "The title/body say Aver, but the translation section also supplies Core labels.",
+      "ac_ref": "AC 01.5",
+      "description": "Tenant rollout scope is ambiguous: the description says the feature is for Aver, while the translation note also defines Core labels.",
+      "positive_assertion": "The requirement should explicitly state whether the feature is Aver-only or should also ship to Core tenants with different labels.",
+      "negative_assertion": "The feature must not be released with the wrong label set or unintended tenant exposure."
+    },
+    {
+      "id": "F-10",
+      "tag": "[EXTENDED]",
+      "source_file": "reports/qase-snapshots/PX-2026-04-13.json",
+      "source_rule": "Qase case 10164 expects both Previous Report and Next Report enabled when the current record sits in the middle of the chain.",
+      "ac_ref": "AC 01.3",
+      "description": "LT-104011 carries the middle-of-chain dual-enable pattern from Aver report navigation into BO Lesson Detail navigation.",
+      "positive_assertion": "When both adjacent lessons exist, Previous Lesson and Next Lesson are both enabled on BO Lesson Detail.",
+      "negative_assertion": "A middle lesson must not disable either navigation button or treat the chain as if it were at a boundary."
+    }
+  ],
+  "e2e_scenario_impact": [
+    {
+      "scenario_id": "E2E-01",
+      "scenario_title": "Lesson Lifecycle — Create, Teach, Report, View",
+      "impact": "BO teacher flow now has an additional navigation surface on Lesson Detail that can change which lesson the teacher is acting on.",
+      "action_needed": "UPDATE"
+    },
+    {
+      "scenario_id": "E2E-02",
+      "scenario_title": "Recurring Lesson — Create, Edit Chain, Delete, Calendar Drag",
+      "impact": "Recurring-chain adjacency is now directly traversable from BO Lesson Detail and should be asserted during BO chain review.",
+      "action_needed": "UPDATE"
+    }
+  ],
+  "summary": {
+    "total_findings": 10,
+    "by_tag": {
+      "[CONFLICT]": 0,
+      "[REGRESSION RISK]": 2,
+      "[EXTENDED]": 3,
+      "[REPLACED]": 0,
+      "[UNDOCUMENTED IN AC]": 1,
+      "[MISSING BEHAVIOR]": 3,
+      "[ROLE GAP]": 1,
+      "[LESSON-LEARNED RISK]": 0
+    },
+    "zero_findings_acs": [],
+    "e2e_scenarios_to_update": 2,
+    "e2e_scenarios_to_create": 0
+  }
+}

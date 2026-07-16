@@ -1,0 +1,19 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+"","[Koyu Booking Link] - In-app Booking Path - Logged-in User - Existing Flow Preserved","AC 01.5 - Regression Analysis - Existing app flow remains Login > Calendar > Booking system > Master Event > Activity Event List > Detail > Reserve.","- User S2 is already logged in.
+- Event A under EM-1001 is available for booking in app flow.
+- No booking-link URL is used in this case.","","","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. From app home, open Calendar then Booking system.
+2. Open Master Event EM-1001 then Event A detail.
+3. Tap Reserve on Event A detail.","1. Existing in-app route opens without unexpected auth gate.
+2. Event A detail is displayed in logged-in flow.
+3. Booking continues directly with no Login/Register detour.","1. entry_path = login>calendar>booking_system
+2. master_event = EM-1001; event = Event A
+3. user_state = logged_in; expected_auth_redirect = none","","","3117","2717","LT-94694 - Existing Flow Regression","","",""
+"","[Koyu Booking Link] - Direct Event Navigation - Existing User Journey - No Unexpected Login-first Regression","AC 01.5 - Regression Analysis - Direct navigation to Event Detail stays stable for logged-in users and does not regress to login-first behavior.","- User S2 is logged in.
+- Direct Event A detail path/URL is available.
+- Related implementation: LT-94696 direct navigation handling.","","","medium","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open direct Event A detail path while still logged in.
+2. Tap Reserve button on detail page.
+3. Compare outcome with pre-LT-94694 baseline path.","1. Event A detail opens successfully.
+2. Booking proceeds and does not bounce to Login/Register.
+3. Behavior is equivalent to baseline for logged-in direct navigation.","1. direct_path = event_detail_a; user_state = logged_in
+2. expected_auth_redirect = none
+3. baseline = pre_LT-94694","","","3117","2717","LT-94694 - Existing Flow Regression","","",""

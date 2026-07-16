@@ -1,0 +1,26 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+"","Trial Lesson Calendar Entry - Surface Scope - Back Office Trial Lesson - Calendar Entry Not Added","AC 01.5 - Permission Matrix - Lesson Calendar entry point from Trial Lesson remains SF-only and is not introduced on BO Trial Lesson surface.","- Actor has access to Salesforce and Back Office as HQ or CM Staff.
+- Trial Lesson TL-3001 exists and is visible in both systems where applicable.","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open Trial Lesson TL-3001 detail in Salesforce.
+2. Open corresponding Trial Lesson detail in Back Office.
+3. Inspect BO action area for Trial Lesson calendar entry.","1. Lesson Calendar button is visible in SF Trial Lesson detail.
+2. Trial Lesson detail opens in BO surface.
+3. No new Trial Lesson Lesson Calendar entry point is shown in BO.","1. sf_trial_lesson = TL-3001
+2. bo_trial_lesson = TL-3001
+3. expected_bo_entry = absent","","","3121","3118","LT-99482 - Lesson Calendar Button on Trial Lesson","LT-99482 - Scope and Regression","",""
+"","Trial Lesson Calendar Entry - Existing Calendar Access - Direct Calendar Open - Existing Entry Path Unchanged","AC 01.5 - Regression - Existing direct access to Lesson Calendar still works after Trial Lesson button addition.","- Actor is logged in to Salesforce as HQ or CM Staff.
+- User has menu access to Lesson Calendar.","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open Lesson Calendar from existing navigation menu (not from Trial Lesson).
+2. Open student filter panel.
+3. Return to Trial Lesson and use Lesson Calendar button once.","1. Lesson Calendar opens through existing route.
+2. Panel behavior is normal and page is usable.
+3. Trial Lesson entry path also works without affecting existing path behavior.","1. entry_path = main_navigation
+2. panel_state = default
+3. compare_mode = old_vs_new_entry","","","3121","3118","LT-99482 - Lesson Calendar Button on Trial Lesson","LT-99482 - Scope and Regression","",""
+"","Trial Lesson Calendar Entry - Missing Student Edge - Trial Lesson Student Unavailable - Deterministic Handling Displayed","AC 01.3 edge - Negative - When Trial Lesson student becomes unavailable, navigation behavior is deterministic and does not create wrong student context.","- Actor is logged in to Salesforce as HQ or CM Staff.
+- Trial Lesson TL-3002 exists but linked student STU-099 is inactive or inaccessible.
+- TL-3002 detail page is open.","","","medium","minor","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Click Lesson Calendar button on Trial Lesson TL-3002 detail.
+2. Open student selection/filter panel in calendar.
+3. Observe system feedback area after load.","1. Lesson Calendar navigation completes without crash.
+2. STU-099 is not incorrectly selected as an active context student.
+3. System shows deterministic fallback behavior/message per implementation and does not assign a wrong student context implicitly.","1. trial_lesson = TL-3002
+2. unavailable_student = STU-099
+3. expected_behavior = explicit_fallback","","","3121","3118","LT-99482 - Lesson Calendar Button on Trial Lesson","LT-99482 - Scope and Regression","",""

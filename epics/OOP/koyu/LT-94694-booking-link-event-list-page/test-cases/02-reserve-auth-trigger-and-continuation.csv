@@ -1,0 +1,28 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+"","[Koyu Booking Link] - Auth Trigger - Reserve Tapped While Logged Out - Login/Register Displayed","AC 01.3 - Permission Matrix - Auth gate is triggered at Reserve action boundary only, consistent with LT-94696 direct navigation intent.","- User is logged out.
+- Booking link EM-1001 is valid and Event A is reservable.
+- Related implementation: LT-94696 Handle Direct Navigation without login redirect.","","","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open booking link and enter Event A detail page.
+2. Interact with non-reserve detail content (scroll/read).
+3. Tap Reserve button.","1. Event detail opens in pre-login mode.
+2. No login/register redirect appears during non-reserve interactions.
+3. Login/Register gate appears and keeps Event A context for continuation.","1. event = Event A
+2. interaction_scope = non_reserve_only
+3. auth_trigger = reserve_button_tap; expected_context = Event A","","","3116","2717","LT-94694 - Reserve Auth Trigger and Continuation","","",""
+"","[Koyu Booking Link] - Login Continuation - Logged Out Reserve Flow - Booking Continues After Login","AC 01.4 - State Transition Testing - After Login from Reserve, flow returns to same event and reaches booking verified screen.","- Start from Event A detail in logged-out booking-link flow.
+- Valid account User S1 exists and can sign in.
+- Related implementation: LT-94695 review current event page flow.","","","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Tap Reserve on Event A detail.
+2. Choose Login and sign in with User S1.
+3. Proceed with booking after return.","1. Login or Register choices are shown as auth gate.
+2. Authentication succeeds and flow returns to Event A booking context.
+3. Booking verified screen is reached for Event A.","1. event = Event A; trigger = reserve_button
+2. auth_path = login; user = S1
+3. expected_post_auth = booking_verified; expected_context = Event A","","","3116","2717","LT-94694 - Reserve Auth Trigger and Continuation","","",""
+"","[Koyu Booking Link] - Register Continuation - New User Reserve Flow - Booking Continues After Registration","AC 01.4 - Scenario Testing - Register path preserves selected event context and continues booking flow (including register-info UI).","- Start from Event B detail in logged-out booking-link flow.
+- New profile P1 is eligible for registration.
+- Related implementation: LT-99387 improve login flow UI.","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Tap Reserve on Event B detail.
+2. Choose Register and complete required register information for P1.
+3. Continue booking immediately after register completion.","1. Auth screen with Register path is shown.
+2. Registration succeeds and user becomes authenticated.
+3. Flow resumes with Event B context and proceeds to booking verified or next booking step.","1. event = Event B; trigger = reserve_button
+2. auth_path = register; profile = P1_new
+3. expected_context = Event B; expected_post_auth = booking_verified_or_next","","","3116","2717","LT-94694 - Reserve Auth Trigger and Continuation","","",""
