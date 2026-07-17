@@ -1,0 +1,86 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[Koyu2] Event Participant Detail - Navigation from Participant List - Detail page opens for selected row","Core flow - Staff can open Event Participant Detail from Event Participant List and land on the correct participant record.","- Staff user can access Salesforce Event Participant List.
+- At least one Activity Event has participant rows.",,"LT-101735",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Activity Event Participant List in Salesforce.
+2. Click participant row A (or detail icon/link).
+3. Verify page header/identifier.","1. Participant list is displayed.
+2. Event Participant Detail page opens.
+3. Header identifies the same participant selected from list.","1. surface = SF_event_participant_list
+2. participant = row_A
+3. expected_identity = row_A",,,3185,,,,,
+,"[Koyu2] Event Participant Detail - Core field rendering - All required sections are visible","Core display - Detail page shows all mandatory participant information blocks required by PRD/Figma.","- Staff user can open Event Participant Detail.
+- Participant has complete profile/event data.",,"LT-101735",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Event Participant Detail for participant with full data.
+2. Scan page sections from top to bottom.
+3. Check key values in each section.","1. Detail page loads successfully.
+2. All required sections are present with labels as designed.
+3. Values are populated and human-readable (no raw IDs unless intended).","1. participant = full_dataset
+2. baseline = PRD_figma
+3. expected_format = display_ready",,,3185,,,,,
+,"[Koyu2] Event Participant Detail - Student Classification - Value displayed when set","Note1 alignment - Student Classification is included in detail page and shows current value when available.","- Participant has Student Classification value set (from PBT-2463 scope).
+- Staff user can access detail page.",,"LT-101735",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Event Participant Detail for participant with classification value.
+2. Locate Student Classification field on detail page.
+3. Read displayed value.","1. Detail page loads.
+2. Field is visible.
+3. Displayed value matches record value exactly.","1. participant_classification = set
+2. field = student_classification
+3. expected_value = in_record",,,3185,,,,,
+,"[Koyu2] Event Participant Detail - Student Classification - Empty-state handling","Negative display - When Student Classification is not set, page shows configured empty state without breaking layout.","- Participant has no Student Classification value.
+- Staff user can access detail page.",,"LT-101735",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Event Participant Detail for participant with null classification.
+2. Locate Student Classification field.
+3. Observe value rendering.","1. Detail page loads.
+2. Field remains visible in expected position.
+3. Empty-state placeholder is shown consistently (blank or dash per design), no error text.","1. participant_classification = null
+2. field = student_classification
+3. expected_empty_state = design_default",,,3185,,,,,
+,"[Koyu2] Event Participant Detail - Koyu OOP fields - Field set appears and values are correct","Note2 alignment - Koyu-specific OOP information is displayed on the detail page with correct mapping.","- Participant record has Koyu OOP fields populated.
+- Staff user can access detail page.",,"LT-101735",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Event Participant Detail for participant with Koyu OOP values.
+2. Locate Koyu OOP information block.
+3. Compare displayed values against source record.","1. Detail page loads.
+2. OOP block and fields are visible.
+3. Each displayed OOP field matches source record value.","1. participant = koyu_oop_full
+2. section = koyu_oop
+3. expected_mapping = exact",,,3185,,,,,
+,"[Koyu2] Event Participant Detail - Data consistency with Participant List","Cross-view consistency - Key summary values shown in list and detail are consistent for the same participant.","- Participant list includes at least one row with known values.
+- Staff user can open list and detail pages.",,"LT-101735",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Note key values for row A in Participant List (e.g., student name, response/status).
+2. Open detail page for row A.
+3. Compare key values list vs detail.","1. Snapshot of list values is captured.
+2. Detail page opens for the same participant.
+3. Values are consistent across list and detail for the same fields.","1. participant = row_A
+2. participant = row_A
+3. comparison = list_vs_detail",,,3185,,,,,
+,"[Koyu2] Event Participant Detail - Back navigation - Return to originating list context","UX flow - Returning from detail should preserve navigation context and avoid losing operator position.","- Staff user opens detail from a participant list with filters/sort applied.",,"LT-101735",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. From filtered/sorted Participant List, open participant detail.
+2. Click Back button or use in-app return action.
+3. Verify list state.","1. Detail page opens.
+2. User returns to Participant List.
+3. Filter/sort and pagination context are preserved where supported by design.","1. list_state = filtered_sorted
+2. action = back
+3. expected_context = preserved",,,3185,,,,,
+,"[Koyu2] Event Participant Detail - Permission matrix - Authorized roles can access","Access control positive - Expected staff roles can open and read Event Participant Detail page.","- Test users for supported roles are available (e.g., HQ, CM, Staff/Teacher per partner policy).
+- Participant record exists.",,"LT-101735",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Login as authorized role A and open participant detail from list.
+2. Repeat for authorized role B.
+3. Repeat for authorized role C.","1. Page opens and required fields are visible.
+2. Page opens and required fields are visible.
+3. Page opens and required fields are visible.","1. role = authorized_A
+2. role = authorized_B
+3. role = authorized_C",,,3185,,,,,
+,"[Koyu2] Event Participant Detail - Permission matrix - Unauthorized user blocked","Access control negative - Users without permission cannot open Event Participant Detail directly or via list action.","- Test user without required permission exists.
+- Participant record ID/deep link is available.",,"LT-101735",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Login as unauthorized user and open participant list.
+2. Attempt direct URL/deep link to detail page.
+3. Verify no sensitive participant data is exposed.","1. Detail action is hidden/disabled or inaccessible.
+2. Access is denied with proper authorization handling.
+3. User cannot view participant details.","1. role = unauthorized
+2. entry = deep_link
+3. data_exposure = none",,,3185,,,,,
+,"[Koyu2] Event Participant Detail - Robustness - Invalid or deleted participant record handling","Error handling - Opening non-existent participant detail should show controlled error state.","- Invalid or deleted participant record ID is available.",,"LT-101735",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open detail page with invalid/deleted participant ID.
+2. Observe page response.
+3. Navigate back to list/home.","1. System does not crash.
+2. User sees controlled error/empty state per platform standard.
+3. Navigation remains functional after error state.","1. participant_id = invalid_or_deleted
+2. expected_error_state = standard
+3. recovery = successful",,,3185,,,,,
+,"[Koyu2] Event Participant Detail - Regression - Participant List behavior remains unchanged","Regression - Adding detail page link does not break existing Participant List behaviors.","- Existing participant list features are available in environment (search/filter/sort/pagination as applicable).",,"LT-101735",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Use participant list search/filter/sort before opening any detail.
+2. Open and close several participant detail pages.
+3. Re-check search/filter/sort/pagination in list.","1. List behaves as baseline.
+2. Navigation works without errors.
+3. List features still behave as baseline.","1. baseline_check = before_open_detail
+2. iteration = multiple_rows
+3. baseline_check = after_return",,,3185,,,,,
