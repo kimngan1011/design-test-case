@@ -1,0 +1,237 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,[Riso] Lesson Creation – LLW Validation – SF Lesson List – Date in Complete LLW – Creation blocked,"AC-09, BR-02 — Decision Table (negative) — Creating a lesson from the SF Lesson List with a date that falls within a Complete LLW for the same location is blocked.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW exists: Location A, AY = 2026, Start Date = 2026-07-01, End Date = 2026-07-31, Status = Complete
+- Navigate to the SF Lesson List -> New Lesson form",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. In the New Lesson form, set Location = Location A and Lesson Date = 2026-07-15
+2. Fill in other required lesson fields (teacher, time, etc.) and click Save
+3. Observe the error message
+4. Confirm no lesson record was created","1. Fields are filled
+2. Save is blocked
+3. Error reads: Selected lesson date is already closed.
+4. The lesson does not appear in the Lesson List","1. today = 2026-07-14; lesson_date = 2026-07-15; llw_start = 2026-07-01; llw_end = 2026-07-31; llw_status = Complete
+2. ""
+3. expected_error = Selected lesson date is already closed.
+4. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – Lesson Schedule Detail Page – Date in Complete LLW – Creation blocked,"AC-09, BR-02 — Decision Table (negative) — Creating a lesson from the Lesson Schedule detail page with a date in a Complete LLW is blocked.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start = 2026-07-01, End = 2026-07-31, Status = Complete
+- Navigate to a Lesson Schedule detail page for Location A -> Add Lesson from Schedule",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Set Lesson Date = 2026-07-20 for Location A
+2. Click Save
+3. Observe the error message","1. Date entered
+2. Save is blocked
+3. Error: Selected lesson date is already closed.","1. lesson_date = 2026-07-20; location = Location A
+2. ""
+3. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – SF Calendar – Date in Complete LLW – Creation blocked,"AC-09, BR-02 — Cross-system, Regression (negative) — Creating a lesson via the SF Calendar by clicking a date that falls within a Complete LLW is blocked.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start = 2026-07-01, End = 2026-07-31, Status = Complete
+- Navigate to the SF Calendar view",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Click on July 18, 2026 on the SF Calendar to create a new lesson for Location A
+2. Fill in lesson details and click Save
+3. Observe the error","1. New lesson creation form opens
+2. Save is blocked
+3. Error: Selected lesson date is already closed.","1. lesson_date = 2026-07-18; location = Location A
+2. ""
+3. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – CSV Import – Date in Complete LLW – Import blocked,"AC-09, BR-02 — Cross-system, Regression (negative) — Importing a lesson schedule via CSV where the Lesson Date falls within a Complete LLW is blocked.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start = 2026-07-01, End = 2026-07-31, Status = Complete
+- Prepared CSV file with one lesson row: Location = Location A, Lesson Date = 2026-07-25",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Lesson Schedule CSV import feature
+2. Upload the CSV file with lesson date 2026-07-25 for Location A
+3. Start the import
+4. Observe the error feedback
+5. Confirm no lesson was created for 2026-07-25","1. Import form is shown
+2. File is uploaded
+3. Import is blocked or the row is rejected
+4. Error indicates the lesson date is in a closed period: Selected lesson date is already closed.
+5. Lesson does not exist in the system","1. ""
+2. lesson_date = 2026-07-25; llw_range = 2026-07-01 to 2026-07-31
+3. ""
+4. ""
+5. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – Recurring Lesson – Date in Complete LLW – Creation blocked,"AC-09, BR-02 — Decision Table (negative) — Creating a recurring lesson series where the recurrence dates fall within a Complete LLW is blocked.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start = 2026-07-01, End = 2026-07-31, Status = Complete
+- Attempting to create a recurring weekly lesson starting 2026-07-07 for Location A",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the New Recurring Lesson form, set Location = Location A, Start Date = 2026-07-07, recurrence = weekly
+2. Click Save
+3. Observe the error","1. Fields filled
+2. Save is blocked
+3. Error: Selected lesson date is already closed.","1. lesson_date = 2026-07-07; recurrence = weekly; location = Location A
+2. ""
+3. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – BVA – Lesson Date Equals Start Date of Complete LLW – Blocked (inclusive),"AC-09, BR-02 — BVA — A lesson date exactly equal to the Start Date of a Complete LLW is blocked (inclusive boundary).","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start Date = 2026-07-01, End Date = 2026-07-31, Status = Complete",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Attempt to create a lesson for Location A with Lesson Date = 2026-07-01 (= Start Date exactly)
+2. Click Save
+3. Observe the error","1. Create attempted
+2. Save is blocked
+3. Error: Selected lesson date is already closed. - start date is inclusive","1. today = 2026-07-14; lesson_date = 2026-07-01; llw_start = 2026-07-01 (inclusive boundary)
+2. ""
+3. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – BVA – Lesson Date Equals End Date of Complete LLW – Blocked (inclusive),"AC-09, BR-02 — BVA — A lesson date exactly equal to the End Date of a Complete LLW is blocked (inclusive boundary).","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start Date = 2026-07-01, End Date = 2026-07-31, Status = Complete",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Attempt to create a lesson for Location A with Lesson Date = 2026-07-31 (= End Date exactly)
+2. Click Save
+3. Observe the error","1. Create attempted
+2. Save is blocked
+3. Error: Selected lesson date is already closed. - end date is inclusive","1. lesson_date = 2026-07-31; llw_end = 2026-07-31 (inclusive boundary)
+2. ""
+3. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – BVA – Lesson Date One Day Before Start Date – Creation allowed,"AC-09, BR-02 — BVA — A lesson date one day before the Start Date of a Complete LLW is allowed.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start Date = 2026-07-01, End Date = 2026-07-31, Status = Complete",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Attempt to create a lesson for Location A with Lesson Date = 2026-06-30 (= day before Start Date)
+2. Click Save
+3. Confirm the lesson is created","1. Create attempted
+2. Lesson creation succeeds
+3. Lesson exists in the system with date 2026-06-30","1. lesson_date = 2026-06-30; llw_start = 2026-07-01; gap = lesson_date < llw_start -> allowed
+2. ""
+3. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – BVA – Lesson Date One Day After End Date – Creation allowed,"AC-09, BR-02 — BVA — A lesson date one day after the End Date of a Complete LLW is allowed.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start Date = 2026-07-01, End Date = 2026-07-31, Status = Complete",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Attempt to create a lesson for Location A with Lesson Date = 2026-08-01 (= day after End Date)
+2. Click Save
+3. Confirm the lesson is created","1. Create attempted
+2. Lesson creation succeeds
+3. Lesson exists with date 2026-08-01","1. lesson_date = 2026-08-01; llw_end = 2026-07-31; gap = lesson_date > llw_end -> allowed
+2. ""
+3. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – Date Falls Outside All Complete LLW Ranges – Creation allowed,"AC-09, BR-02 — Equivalence Partitioning — Creating a lesson with a date that does not fall within any Complete LLW for that location succeeds.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, July 2026 (2026-07-01–2026-07-31)
+- No LLW exists for August 2026 for Location A",,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Create a lesson for Location A with Lesson Date = 2026-08-15 (no LLW covers August)
+2. Click Save","1. Create attempted
+2. Lesson creation succeeds","1. lesson_date = 2026-08-15; no_complete_llw_for_august = true
+2. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – Date in Open LLW Range – Creation allowed,"AC-09, BR-02 — Equivalence Partitioning — A lesson date that falls within an Open (not Complete) LLW is NOT blocked.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- LLW exists: Location A, Start = 2026-08-01, End = 2026-08-31, Status = Open (not Complete)",,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Create a lesson for Location A with Lesson Date = 2026-08-10 (within Open LLW)
+2. Click Save","1. Create attempted
+2. Lesson creation succeeds - Open status LLW does not block","1. lesson_date = 2026-08-10; llw_status = Open
+2. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – Date in Complete LLW of Different Location – Creation allowed,"AC-09, BR-02 — Equivalence Partitioning — A lesson date falling within a Complete LLW of a different location does not block creation for the lesson's actual location.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW exists for Location B: Start = 2026-07-01, End = 2026-07-31, Status = Complete
+- No Complete LLW exists for Location A in July 2026",,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Create a lesson for Location A with Lesson Date = 2026-07-15
+2. Click Save","1. Create attempted
+2. Lesson creation succeeds - LLW validation is location-specific","1. lesson_date = 2026-07-15; lesson_location = Location A; complete_llw_location = Location B
+2. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – Error Message – English Text Shown Inline,AC-10 — Component — The exact English error message is shown when lesson creation is blocked by a Complete LLW.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, July 2026, Status = Complete
+- Attempt to create a lesson on 2026-07-15 for Location A",,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Fill in the lesson creation form with Lesson Date = 2026-07-15 for Location A and click Save
+2. Observe the error message text","1. Save is blocked
+2. Error reads exactly: Selected lesson date is already closed.","1. lesson_date = 2026-07-15
+2. expected_message = Selected lesson date is already closed.",,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – Error Message – Japanese Text Shown,AC-10 — Component — The exact Japanese error message is shown when the Riso org is in Japanese locale.,"- Riso SF org is set to Japanese locale (ja-JP)
+- Complete LLW: Location A, July 2026, Status = Complete
+- Attempt to create a lesson on 2026-07-15 for Location A",,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Fill in the lesson creation form with Lesson Date = 2026-07-15 for Location A and click Save
+2. Observe the error message text in Japanese","1. Save is blocked
+2. Error reads exactly: 選択された授業期間は既に完了済です","1. lesson_date = 2026-07-15
+2. expected_ja = 選択された授業期間は既に完了済です",,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson – LLW Validation – Non-date Fields – Editable when lesson date is in a Complete LLW range,"AC-11 — Decision Table — Editing non-date fields (teacher, start time, etc.) on an existing lesson whose date falls in a Complete LLW range is not blocked.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start = 2026-07-01, End = 2026-07-31, Status = Complete
+- An existing lesson exists: Location A, Lesson Date = 2026-07-10 (within Complete LLW), Teacher = Teacher A",,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the existing lesson (date = 2026-07-10, Location A) and click Edit
+2. Change the Teacher field from Teacher A to Teacher B (do NOT change Lesson Date)
+3. Click Save
+4. Confirm the Teacher field shows Teacher B","1. Edit form opens
+2. Teacher field is updated
+3. Save succeeds - only lesson date change to a Complete LLW range is blocked, not other fields
+4. Record updated correctly","1. lesson_date = 2026-07-10; llw_status = Complete
+2. new_teacher = Teacher B
+3. ""
+4. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Update – LLW Validation – Edit Form – Date Changed to Complete LLW Range – Update blocked,"AC-12, BR-06 — Decision Table (negative) — When editing an existing lesson and changing the Lesson Date to a date within a Complete LLW range, the update is blocked.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start = 2026-07-01, End = 2026-07-31, Status = Complete
+- Existing lesson: Location A, Lesson Date = 2026-08-10 (currently outside LLW)",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the lesson (Lesson Date = 2026-08-10) and click Edit
+2. Change Lesson Date to 2026-07-20 (within the Complete LLW range)
+3. Click Save
+4. Observe the error message
+5. Confirm the lesson date remains 2026-08-10","1. Edit form opens
+2. Date updated in form
+3. Save is blocked
+4. Error: Selected lesson date is already closed.
+5. Update was not applied","1. original_date = 2026-08-10
+2. new_date = 2026-07-20; llw_start = 2026-07-01; llw_end = 2026-07-31
+3. ""
+4. ""
+5. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Update – LLW Validation – DnD on SF Calendar – Drag to Complete LLW Date – Move blocked,"AC-12, BR-06 — Cross-system, Regression (negative) — Dragging and dropping a lesson on the SF Calendar to a date within a Complete LLW range is blocked with an error.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start = 2026-07-01, End = 2026-07-31, Status = Complete
+- An existing lesson is scheduled on 2026-08-05 for Location A (outside LLW)
+- Navigate to the SF Calendar view showing both July and August",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. On the SF Calendar, drag the lesson from 2026-08-05 and drop it on 2026-07-22 (within the Complete LLW)
+2. Observe the system response
+3. Observe the error message
+4. Confirm the lesson remains on 2026-08-05","1. DnD operation is attempted
+2. DnD is blocked - lesson does not move to July 22
+3. Error: Selected lesson date is already closed.
+4. Lesson date was not changed","1. original_date = 2026-08-05; target_date = 2026-07-22; llw_range = 2026-07-01 to 2026-07-31
+2. ""
+3. ""
+4. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Update – LLW Validation – Edit Form – Date Changed from Complete LLW Range to Open Range – Update allowed,AC-12 — Equivalence Partitioning — Editing a lesson to move its date FROM a Complete LLW range TO an open date is allowed.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, July 2026 (2026-07-01–2026-07-31), Status = Complete
+- No Complete LLW for August 2026 for Location A
+- Existing lesson: Location A, Lesson Date = 2026-07-15 (within Complete LLW)",,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the lesson (date = 2026-07-15) and click Edit
+2. Change Lesson Date to 2026-08-10 (outside all Complete LLWs)
+3. Click Save
+4. Confirm lesson date is now 2026-08-10","1. Edit form opens
+2. Date field updated
+3. Update succeeds - new date is not in any Complete LLW range
+4. Update applied","1. original_date = 2026-07-15
+2. new_date = 2026-08-10; no_complete_llw_in_aug = true
+3. ""
+4. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – Retroactive LLW – Date in Past Complete LLW – Creation blocked,"AC-04, BR-02 — Decision Table — A LLW created retroactively (with Start Date in the past) blocks new lesson creation for that past date range.","- Logged in as HQ Staff to the Riso Salesforce org
+- A new LLW is created with Start Date = 2026-06-01, End Date = 2026-06-30, and immediately marked Complete (retroactive)",,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Create LLW: Location A, AY = 2026, Start = 2026-06-01, End = 2026-06-30, Status = Complete
+2. Attempt to create a lesson for Location A with Lesson Date = 2026-06-15 (in the past retroactive LLW)
+3. Click Save
+4. Confirm existing lessons with date 2026-06-15 (created before the LLW) are unaffected","1. LLW created
+2. Create attempted
+3. Creation is blocked: Selected lesson date is already closed.
+4. Existing lessons remain; only new creation is blocked","1. today = 2026-07-14; llw_start = 2026-06-01; llw_end = 2026-06-30
+2. lesson_date = 2026-06-15
+3. ""
+4. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW Validation – Timezone Boundary – Date at JST Midnight – LLW uses JST date,"AC-09, BR-02 — BVA, Timezone — Lesson date validation uses JST (Japan Standard Time, UTC+9) for date comparison. A lesson created at 00:30 JST on July 1 falls within the July Complete LLW.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, AY = 2026, Start Date = 2026-07-01, End Date = 2026-07-31, Status = Complete
+- System/device is set to JST timezone",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Note the timezone context
+2. Attempt to create a lesson for Location A with Lesson Date = 2026-07-01 at 00:30 JST
+3. Click Save
+4. Observe the error","1. today (JST) = 2026-07-01 00:30 JST = 2026-06-30 15:30 UTC; llw_start = 2026-07-01
+2. Create attempted
+3. Creation is blocked - Lesson Date 2026-07-01 (JST) is within the July Complete LLW
+4. Error: Selected lesson date is already closed.","1. today_JST = 2026-07-01 00:30 JST (= 2026-06-30 15:30 UTC); llw_start = 2026-07-01
+2. lesson_date = 2026-07-01 (JST)
+3. ""
+4. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Creation – LLW vs ACI – Same Date in Both Complete LLW and ACI Closed Date – LLW error shown ACI silent,"AC-09, Lesson-Learned Risk — Regression — When a lesson date falls within both a Complete LLW and an ACI closed date, the LLW validation shows an explicit error message; ACI silently skips without its own error.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, July 2026, Status = Complete
+- ACI Academic Calendar has 2026-07-15 marked as a closed date for Location A
+- Attempt to create a lesson on 2026-07-15 for Location A",,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Create a lesson: Location A, Lesson Date = 2026-07-15 (in both Complete LLW and ACI closed date)
+2. Click Save
+3. Observe the error message
+4. Confirm ACI does NOT add its own separate error message","1. Create attempted
+2. Save is blocked
+3. Exactly one error message appears: Selected lesson date is already closed. (from LLW)
+4. Only the LLW error is shown; ACI validation runs silently","1. lesson_date = 2026-07-15; llw_status = Complete; aci_closed = true
+2. ""
+3. expected_errors = 1
+4. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Update – LLW Validation – Timezone Boundary – Edit Lesson Date to JST Midnight – Blocked by JST Date LLW,"AC-12, BR-06 — BVA, Timezone — When editing a lesson's date to a timezone boundary date (00:30 JST = still previous UTC calendar date), the LLW validation uses JST date. If the JST date falls within a Complete LLW, the update is blocked.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start Date = 2026-07-01, End Date = 2026-07-31, Status = Complete
+- Existing lesson: Location A, Lesson Date = 2026-08-10 (currently outside LLW)
+- System/device is set to JST timezone",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Note the timezone context
+2. Open the lesson (date = 2026-08-10) and click Edit
+3. Change Lesson Date to 2026-07-01 (= JST date that equals LLW Start Date)
+4. Click Save
+5. Observe the error message","1. today (JST) = 2026-07-14; editing lesson date to 2026-07-01 (JST) = 2026-06-30 15:30 UTC; llw_start = 2026-07-01 (JST inclusive)
+2. Edit form opens
+3. Date updated in form
+4. Update is blocked - LLW validation uses JST date 2026-07-01 which is within the Complete LLW
+5. Error: Selected lesson date is already closed.","1. today_JST = 2026-07-14; lesson_new_date = 2026-07-01 JST (= 2026-06-30 UTC); llw_start = 2026-07-01
+2. original_date = 2026-08-10
+3. new_date = 2026-07-01 (JST); UTC equivalent = 2026-06-30 15:30 UTC
+4. ""
+5. """,,,3156,3148,[Riso] LLW - Lesson Validation,,
+,,[Riso] Lesson Update – LLW Validation – Timezone – DnD on SF Calendar to JST Midnight Date – Blocked by JST Date LLW,"AC-12, BR-06 — BVA, Timezone — Dragging and dropping a lesson to a date that is the first day of a Complete LLW at JST midnight (00:30 JST) is blocked, as the system evaluates the drop target date in JST.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Complete LLW: Location A, Start Date = 2026-07-01, End Date = 2026-07-31, Status = Complete
+- Existing lesson scheduled on 2026-08-10 for Location A
+- SF Calendar is open; device clock is at 2026-07-01 00:30 JST (= 2026-06-30 15:30 UTC)",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Note the timezone context
+2. On the SF Calendar, drag the lesson from 2026-08-10 and drop it onto the July 1 calendar cell
+3. Observe the result
+4. Observe the error message
+5. Confirm the lesson remains on 2026-08-10","1. device_time = 2026-07-01 00:30 JST (= 2026-06-30 15:30 UTC); DnD target = 2026-07-01 (JST calendar cell); llw_start = 2026-07-01
+2. DnD attempted
+3. DnD is blocked - July 1 (JST) is the Start Date of the Complete LLW (inclusive)
+4. Error: Selected lesson date is already closed.
+5. Lesson date was not changed","1. device_time = 2026-07-01 00:30 JST (= 2026-06-30 15:30 UTC)
+2. target_date = 2026-07-01 (JST)
+3. ""
+4. ""
+5. """,,,3156,3148,[Riso] LLW - Lesson Validation,,

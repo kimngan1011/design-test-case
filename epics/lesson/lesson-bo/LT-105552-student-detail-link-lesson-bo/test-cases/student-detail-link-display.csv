@@ -1,0 +1,82 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3181,325,Student Detail Link — Display & Navigation,1,,
+24866,"Lesson Detail – Student List – Published Lesson – All Student Names Rendered as Hyperlinks","AC 01.1 — Equivalence Partitioning — On a published lesson, every student name in the Student List section of the BO Lesson Detail page is displayed as a clickable hyperlink.","- Logged in as HQ Staff to Back Office
+- A published lesson exists with at least 2 students assigned (via active Lesson Allocation with Require Allocation = True)
+- The HQ Staff user has Lesson view permission in BO",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Lesson List in Back Office and open the published lesson""
+2. ""Scroll to the Student List section on the Lesson Detail page""
+3. ""Observe the appearance of each student name in the list""
+","1. ""The Lesson Detail page is displayed""
+2. ""The Student List section is visible with all assigned student names""
+3. ""Each student name is rendered as a clickable hyperlink (visually distinct — underlined or styled as a link)""
+","1. ""Lesson status = Published""
+2. ""At least 2 students assigned""
+3. """"
+",,,3181,325,Student Detail Link — Display & Navigation,,,
+24867,"Lesson Detail – Student List – Draft Lesson – Student Names Rendered as Hyperlinks","AC 01.1 — Decision Table (lesson status) — Student names in the Student List are rendered as hyperlinks on a Draft lesson, confirming the link is not restricted to Published status.","- Logged in as HQ Staff to Back Office
+- A Draft lesson exists with at least 1 student assigned
+- The HQ Staff user has Lesson view permission in BO",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Lesson Detail page of a Draft lesson in Back Office""
+2. ""Scroll to the Student List section""
+3. ""Observe the student name in the list""
+","1. ""The Lesson Detail page is displayed""
+2. ""The Student List section is visible with assigned student names""
+3. ""The student name is rendered as a clickable hyperlink""
+","1. ""Lesson status = Draft""
+2. ""1 student assigned""
+3. """"
+",,,3181,325,Student Detail Link — Display & Navigation,,,
+24868,"Lesson Detail – Student List – Completed Lesson – Student Names Rendered as Hyperlinks","AC 01.1 — Decision Table (lesson status) — Student names in the Student List remain hyperlinks on a Completed lesson.","- Logged in as HQ Staff to Back Office
+- A Completed lesson exists with at least 1 student assigned
+- The HQ Staff user has Lesson view permission in BO",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Lesson Detail page of a Completed lesson in Back Office""
+2. ""Scroll to the Student List section""
+3. ""Observe the student name in the list""
+","1. ""The Lesson Detail page is displayed""
+2. ""The Student List section is visible with assigned student names""
+3. ""The student name is rendered as a clickable hyperlink""
+","1. ""Lesson status = Completed""
+2. ""1 student assigned""
+3. """"
+",,,3181,325,Student Detail Link — Display & Navigation,,,
+24869,"Lesson Detail – Student List – Cancelled Lesson – Student Names Rendered as Hyperlinks","AC 01.1 — Decision Table (lesson status) — Student names in the Student List remain hyperlinks on a Cancelled lesson.","- Logged in as HQ Staff to Back Office
+- A Cancelled lesson exists with at least 1 student assigned (student was assigned before cancellation)
+- The HQ Staff user has Lesson view permission in BO",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Lesson Detail page of a Cancelled lesson in Back Office""
+2. ""Scroll to the Student List section""
+3. ""Observe the student name in the list""
+","1. ""The Lesson Detail page is displayed""
+2. ""The Student List section is visible with student names from before cancellation""
+3. ""The student name is rendered as a clickable hyperlink""
+","1. ""Lesson status = Cancelled""
+2. ""1 student assigned""
+3. """"
+",,,3181,325,Student Detail Link — Display & Navigation,,,
+24870,"Lesson Detail – Student List – Click Student Name – BO Student Detail Page Opens for Correct Student","AC 01.1, SC 01 — Scenario — Clicking a student name hyperlink on the Lesson Detail page opens the BO Student Detail page for that specific student.","- Logged in as HQ Staff to Back Office
+- The HQ Staff user has Student view permission on Salesforce (full object read access)
+- A published lesson exists with student A assigned (e.g., student A = ""Nguyen Van A"")
+- The lesson's Student List is visible",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Lesson Detail page and scroll to the Student List section""
+2. ""Click on student A's name hyperlink""
+3. ""Observe the student detail page header/title""
+","1. ""Student A's name is visible as a hyperlink""
+2. ""The BO Student Detail page opens""
+3. ""The page shows student A's name and details""
+","1. ""Student A = 'Nguyen Van A'""
+2. """"
+3. ""Page title or header = 'Nguyen Van A' (or equivalent student identifier)""
+",,,3181,325,Student Detail Link — Display & Navigation,,,
+24871,"Lesson Detail – Student List – Multiple Students – Each Name Links to Respective Student Detail Page","AC 01.1 — Scenario — When multiple students are in the Student List, each student name links to that specific student's BO Student Detail page (not the same page for all).","- Logged in as HQ Staff to Back Office
+- The HQ Staff user has Student view permission on Salesforce
+- A published lesson exists with student A and student B assigned (different students with different SF records)
+- The lesson's Student List shows both students",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Lesson Detail page and scroll to the Student List""
+2. ""Click student A's name hyperlink""
+3. ""Navigate back to the Lesson Detail page""
+4. ""Click student B's name hyperlink""
+5. ""Compare the two student detail pages""
+","1. ""Student A and student B names are both visible as hyperlinks""
+2. ""BO Student Detail page for student A opens""
+3. ""The Student List is displayed again with both student names""
+4. ""BO Student Detail page for student B opens""
+5. ""The two pages show different students — student A's page does not display student B's information""
+","1. ""Student A and Student B are different students""
+2. """"
+3. """"
+4. """"
+5. ""Page for student A shows A's details; page for student B shows B's details""
+",,,3181,325,Student Detail Link — Display & Navigation,,,

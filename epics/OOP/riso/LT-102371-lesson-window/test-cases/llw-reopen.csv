@@ -1,0 +1,112 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,[Riso] Location Lesson Window – Reopen – CM Staff – Current Month LLW – Status changes to Open,"AC-06, BR-03 — State Transition — A CM can reopen a Complete LLW whose month is the current calendar month.","- Logged in as CM Staff assigned to Location A
+- LLW exists: Location A, AY = 2026, Start Date = 2026-07-01, End Date = 2026-07-31, Status = Complete
+- Navigate to Account detail page for Location A -> Lesson Window tab",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Locate the July LLW record (Status = Complete)
+2. Click the Reopen action on the July LLW
+3. Observe the Status field
+4. Confirm no error message is shown","1. Record is visible
+2. Reopen action is available and triggered
+3. Status changes to Open
+4. Action succeeds without restriction","1. today = 2026-07-14; llw_month = July 2026 (= current month)
+2. ""
+3. ""
+4. """,,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – CM Staff – Preceding Month LLW (BVA) – Status changes to Open,"AC-06, BR-03 — BVA — A CM can reopen a Complete LLW whose month is the immediately preceding calendar month (boundary: exactly 1 month ago).","- Logged in as CM Staff assigned to Location A
+- LLW exists: Location A, AY = 2026, Start Date = 2026-06-01, End Date = 2026-06-30, Status = Complete",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to Account detail page for Location A -> Lesson Window tab and locate the June LLW
+2. Click Reopen on the June LLW
+3. Observe the Status field
+4. Confirm no error message is shown","1. Record is visible
+2. Action is triggered
+3. Status changes to Open
+4. CM can reopen the preceding month - allowed","1. today = 2026-07-14; llw_month = June 2026 (= immediately preceding month)
+2. ""
+3. ""
+4. """,,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – CM Staff – First Day of Current Month (BVA) – Preceding Month Reopen Still Allowed,"AC-06, BR-03 — BVA — On the first day of a new month, the CM can still reopen the previous month's LLW (preceding month rule applies).","- Logged in as CM Staff assigned to Location A
+- Today is the first day of the current month (2026-08-01)
+- LLW exists for July 2026 (2026-07-01–2026-07-31), Status = Complete",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Note that today is the first day of August
+2. Click Reopen on the July LLW
+3. Observe the Status field","1. today = 2026-08-01; llw_month = July 2026 (= immediately preceding month)
+2. Reopen action is triggered
+3. Status changes to Open - preceding month rule still allows this","1. today = 2026-08-01
+2. ""
+3. """,,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – CM Staff – Two Months Ago LLW (BVA) – Reopen blocked,"AC-07, BR-03 — BVA (negative) — A CM cannot reopen a Complete LLW whose month is 2 months ago (one beyond the allowed boundary).","- Logged in as CM Staff assigned to Location A
+- LLW exists: Location A, AY = 2026, Start Date = 2026-05-01, End Date = 2026-05-31, Status = Complete (May = 2 months ago when today = July)",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Lesson Window tab and locate the May LLW
+2. Click Reopen on the May LLW
+3. Observe the system response
+4. Observe the error message (English)
+5. Confirm the Status remains Complete","1. Record is visible
+2. Reopen action is attempted
+3. Reopen is blocked
+4. Error reads: This window can no longer be reopened. Please contact HQ.
+5. Status has not changed","1. today = 2026-07-14; llw_month = May 2026 (= 2 months ago)
+2. ""
+3. ""
+4. ""
+5. """,,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – CM Staff – Blocked – English Error Message Content,"AC-07 — Component — When CM's reopen attempt is blocked, the English error message text is exactly correct.","- Logged in as CM Staff assigned to Location A
+- Complete LLW exists for a month older than 1 month prior (e.g., May 2026)",,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Attempt to reopen the old Complete LLW (May 2026)
+2. Observe the exact error message text","1. Reopen is blocked
+2. Error text is exactly: This window can no longer be reopened. Please contact HQ.","1. today = 2026-07-14; llw_month = May 2026
+2. expected_message = This window can no longer be reopened. Please contact HQ.",,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – CM Staff – Blocked – Japanese Error Message Content,"AC-07 — Component — When CM's reopen attempt is blocked, the Japanese error message text is exactly correct.","- Riso SF org is set to Japanese locale (ja-JP)
+- Logged in as CM Staff assigned to Location A
+- Complete LLW exists for May 2026 (older than 1 month prior)",,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Attempt to reopen the May 2026 Complete LLW
+2. Observe the error message in Japanese","1. Reopen is blocked
+2. Error text is exactly: 未完了状態に戻すことはできません。本部に連絡してください。","1. today = 2026-07-14
+2. expected_ja = 未完了状態に戻すことはできません。本部に連絡してください。",,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – CM Staff – 6 Months Ago – Reopen blocked,"AC-07, BR-03 — Negative — A CM cannot reopen a Complete LLW from 6 months ago (well beyond the allowed window).","- Logged in as CM Staff assigned to Location A
+- LLW exists: Start Date = 2026-01-01, End Date = 2026-01-31, Status = Complete (January = 6 months ago)",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Attempt to click Reopen on the January 2026 LLW
+2. Observe the system response","1. Reopen is attempted
+2. Reopen is blocked with error: This window can no longer be reopened. Please contact HQ.","1. today = 2026-07-14; llw_month = Jan 2026 (6 months ago)
+2. """,,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – HQ Staff – Current Month LLW – Status changes to Open,"AC-08, BR-03 — State Transition — HQ Staff can reopen any Complete LLW including the current month.","- Logged in as HQ Staff to the Riso Salesforce org
+- LLW exists: Location A, July 2026, Status = Complete",,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Click Reopen on the July 2026 LLW
+2. Observe the Status field","1. Action is triggered
+2. Status changes to Open","1. today = 2026-07-14; llw_month = July 2026
+2. """,,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – HQ Staff – 6 Months Ago LLW – Reopen succeeds (no restriction),"AC-08, BR-03 — State Transition — HQ Staff can reopen any Complete LLW regardless of how old the month is.","- Logged in as HQ Staff to the Riso Salesforce org
+- LLW exists: Location A, January 2026 (6 months ago), Status = Complete",,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Click Reopen on the January 2026 LLW
+2. Observe the system response
+3. Observe the Status field","1. Reopen action is triggered
+2. Reopen succeeds with no error - HQ has no restriction
+3. Status changes to Open","1. today = 2026-07-14; llw_month = Jan 2026 (6 months ago)
+2. ""
+3. """,,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – After Reopen – Lesson Creation in Date Range Immediately Unblocked,"AC-06, AC-13 — State Transition — After a CM or HQ reopens a Complete LLW, lesson creation in that date range is immediately unblocked with no delay or cache.","- Logged in as HQ Staff to the Riso Salesforce org
+- LLW exists: Location A, AY = 2026, Start Date = 2026-07-01, End Date = 2026-07-31, Status = Complete
+- A lesson creation attempt on 2026-07-15 is currently blocked",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Confirm that creating a lesson on 2026-07-15 for Location A is blocked before reopen
+2. Navigate to the LLW record for July 2026 and click Reopen
+3. Immediately attempt to create a lesson on 2026-07-15 for Location A (no page refresh delay)
+4. Confirm the lesson is created","1. Lesson creation blocked: Selected lesson date is already closed.
+2. Status changes to Open
+3. Lesson creation succeeds without any blocking error
+4. Lesson record exists with date 2026-07-15","1. lesson_date = 2026-07-15; location = Location A
+2. ""
+3. ""
+4. """,,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – Unblocked After Reopen – No Cache or Delay,AC-13 — State Transition — The unblocking effect after Reopen is immediate; no cache or server delay prevents lesson creation.,"- Logged in as HQ Staff to the Riso Salesforce org
+- LLW: Location A, July 2026, just reopened (Status changed from Complete -> Open in this same session)",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Without closing the browser or navigating away, attempt to create a lesson on 2026-07-22 for Location A
+2. Observe the result","1. Lesson creation is attempted immediately after reopen
+2. Lesson creation succeeds - no error, no delay, no cache hit preventing creation","1. lesson_date = 2026-07-22
+2. """,,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – Timezone – CM Reopen on Last Day of Preceding Month at 23:59 JST – Allowed,"AC-06, BR-03 — BVA, Timezone — On the last day of the preceding month at 23:59 JST, the CM can still reopen an LLW for that month (JST date = still preceding month).","- Logged in as CM Staff assigned to Location A
+- Today (JST) is the last day of the preceding month at 23:59 JST
+- LLW exists: Location A, June 2026 (2026-06-01–2026-06-30), Status = Complete",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Note the timezone context
+2. Click Reopen on the June 2026 LLW
+3. Observe the result","1. today (JST) = 2026-06-30 23:59 JST = 2026-06-30 14:59 UTC; llw_month = June 2026 (= preceding month in JST)
+2. Reopen action is triggered
+3. Status changes to Open - system uses JST date; June is still the preceding month at 23:59 JST","1. today_JST = 2026-06-30 23:59 JST (= 2026-06-30 14:59 UTC); llw_month = June 2026
+2. llw_start = 2026-06-01; llw_end = 2026-06-30
+3. """,,,3155,3148,[Riso] LLW - Reopen,,
+,,[Riso] Location Lesson Window – Reopen – Timezone – CM Reopen at JST Midnight (00:30 JST = Previous UTC Date) – Month Determined by JST,"AC-06, BR-03 — BVA, Timezone — At 00:30 JST on the first day of the current month (= previous day UTC), the system determines current month and preceding month using JST date, not UTC.","- Logged in as CM Staff assigned to Location A
+- Today (JST) = 2026-07-01 00:30 JST (= 2026-06-30 15:30 UTC)
+- LLW exists for June 2026 (2026-06-01–2026-06-30), Status = Complete
+- LLW exists for May 2026 (2026-05-01–2026-05-31), Status = Complete",,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Note the timezone context
+2. Click Reopen on the June 2026 LLW
+3. Click Reopen on the May 2026 LLW","1. today (JST) = 2026-07-01 00:30 JST = 2026-06-30 15:30 UTC; current_month (JST) = July; preceding_month (JST) = June
+2. June = preceding month in JST -> Reopen succeeds (Status -> Open)
+3. May = 2 months ago in JST -> Reopen blocked: This window can no longer be reopened. Please contact HQ.","1. today_JST = 2026-07-01 00:30 JST (= 2026-06-30 15:30 UTC)
+2. llw_month = June 2026
+3. llw_month = May 2026",,,3155,3148,[Riso] LLW - Reopen,,

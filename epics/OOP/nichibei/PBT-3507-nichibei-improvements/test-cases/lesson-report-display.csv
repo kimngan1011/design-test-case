@@ -1,0 +1,15 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3177,3176,Lesson Report Display,1,,
+24833,[Nichibei] Lesson Report – Detail Section – Learner App – Detail section not shown,"#18 — Smoke — In the Nichibei learner app, the lesson report detail part (quiz / exercises section) is hidden because Nichibei does not use it.","- Logged in as a student to the Nichibei learner app
+- A lesson exists with a lesson report that includes a detail section (e.g. quiz or exercises)",,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Nichibei learner app""
+2. ""Navigate to a lesson that has a lesson report""
+3. ""View the full lesson report""","1. ""App home screen displayed""
+2. ""Lesson report screen opens""
+3. ""The detail section (quiz / exercises area) is NOT displayed; only the summary part is shown""","1. """"
+2. ""lesson has report with a detail section (e.g. quiz)""
+3. ""detail_section_type = quiz""",,,3177,3176,Lesson Report Display,,,
+24832,[Nichibei] Lesson Report – Report Label – Learner App – [公開] prefix not shown,"#19 — Smoke — The ""[公開]"" prefix is removed from the lesson report label in the Nichibei learner app; the label shows only the report name without the publication status tag.","- Logged in as a student to the Nichibei learner app
+- A lesson with a published lesson report exists",,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the learner app and navigate to a lesson that has a lesson report""
+2. ""Read the lesson report label or heading""","1. ""Lesson report screen shown""
+2. ""Label does NOT include the [公開] prefix""","1. """"
+2. ""expected_label does not start with [公開]; e.g. shows 授業レポート not [公開] 授業レポート""",,,3177,3176,Lesson Report Display,,,

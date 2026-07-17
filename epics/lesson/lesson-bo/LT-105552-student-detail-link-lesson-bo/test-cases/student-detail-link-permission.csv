@@ -1,0 +1,79 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3182,325,Student Detail Link — Permission & Access,1,,
+24872,"Lesson Detail – Student Detail Link – HQ Staff with Full Student Permission – Student Detail Page Opens with Edit Enabled","AC 01.2, SC 02, SC 03 — Permission Matrix — An HQ Staff user with full Student object permission (read + edit) on Salesforce can open the BO Student Detail page and sees edit controls enabled.","- Logged in as HQ Staff to Back Office
+- The HQ Staff user's Salesforce permission set includes: Student object Read = TRUE, Student object Edit = TRUE
+- A published lesson exists with at least 1 student assigned
+- The student has an active Lesson Allocation (student + course record) linked to this lesson",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Lesson Detail page in Back Office""
+2. ""Click a student name hyperlink in the Student List""
+3. ""Observe the student detail page content and action controls""
+","1. ""The Lesson Detail page is displayed with the Student List""
+2. ""The BO Student Detail page for that student opens""
+3. ""The student's full details are displayed; edit controls (e.g., Edit button or editable fields) are visible and enabled""
+","1. """"
+2. """"
+3. ""SF permission: Student Read=TRUE, Edit=TRUE""
+",,,3182,325,Student Detail Link — Permission & Access,,,
+24873,"Lesson Detail – Student Detail Link – HQ Staff with Student View-Only Permission – Student Detail Page Opens in Read-Only Mode","AC 01.2, SC 02, SC 03 — Permission Matrix — An HQ Staff user with Student object read-only permission on Salesforce can open the BO Student Detail page but cannot edit student data.","- Logged in as HQ Staff to Back Office
+- The HQ Staff user's Salesforce permission set includes: Student object Read = TRUE, Student object Edit = FALSE
+- A published lesson exists with at least 1 student assigned
+- The student has an active Lesson Allocation linked to this lesson",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Lesson Detail page in Back Office""
+2. ""Click a student name hyperlink in the Student List""
+3. ""Observe the student detail page content and action controls""
+","1. ""The Lesson Detail page is displayed with the Student List""
+2. ""The BO Student Detail page for that student opens""
+3. ""The student's details are visible; edit controls are absent or disabled — the user cannot modify student data""
+","1. """"
+2. """"
+3. ""SF permission: Student Read=TRUE, Edit=FALSE""
+",,,3182,325,Student Detail Link — Permission & Access,,,
+24874,"Lesson Detail – Student Detail Link – Teacher CPU with LA-Based Access but No Student Object Permission – Access Denied on Student Detail Page","AC 01.2, AC 01.3 — Permission Matrix — A Teacher CPU user can see the student in the lesson Student List (student visible via Lesson Allocation the teacher can read), but has no Salesforce Student object read permission. Clicking the link should result in access denied, not student data exposure. Note: student is visible in lesson list via LA permission (different object from Student record).","- Logged in as Teacher (CPU role) to Back Office
+- The Teacher is assigned to the lesson (lesson appears in their BO Lesson list)
+- The lesson has at least 1 student assigned — student is visible in the Student List because the student has an active Lesson Allocation (student + course) for this lesson
+- The Teacher CPU user's Salesforce permission set: Lesson Allocation Read = TRUE, Student Session Read = TRUE, Student object Read = FALSE",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Log in as Teacher (CPU) to Back Office and navigate to the assigned lesson's Lesson Detail page""
+2. ""Click the student name hyperlink in the Student List""
+3. ""Observe the resulting page""
+","1. ""The Lesson Detail page is displayed; the Student List shows the student's name as a hyperlink (student is visible via Lesson Allocation)""
+2. ""The system attempts to open the BO Student Detail page""
+3. ""An access denied message or error is shown — the student's personal data is NOT displayed; the teacher cannot view the Student Detail record""
+","1. ""Role = Teacher CPU; Student object permission = FALSE""
+2. """"
+3. ""Expected: access-denied page or equivalent error state""
+",,,3182,325,Student Detail Link — Permission & Access,,,
+24875,"Lesson Detail – Student Detail Link – Teacher CPU with LA Access and Student View Permission – Student Detail Page Opens in Read-Only Mode","AC 01.2, AC 01.3, SC 02 — Permission Matrix — A Teacher CPU user who has both Lesson Allocation read access (sees student in lesson list) AND Salesforce Student object read permission can open the student detail page in read-only mode.","- Logged in as Teacher (CPU role) to Back Office
+- The Teacher is assigned to the lesson
+- The lesson has at least 1 student assigned with an active Lesson Allocation (student + course)
+- The Teacher CPU user's Salesforce permission set: Lesson Allocation Read = TRUE, Student Session Read = TRUE, Student object Read = TRUE, Student object Edit = FALSE",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Log in as Teacher (CPU) to Back Office and navigate to the assigned lesson's Lesson Detail page""
+2. ""Click the student name hyperlink""
+3. ""Observe the student detail page content and action controls""
+","1. ""The Lesson Detail page is displayed; the student's name is shown as a hyperlink""
+2. ""The BO Student Detail page for that student opens""
+3. ""The student's details are visible; edit controls are absent or disabled — the teacher can view but not modify student data""
+","1. ""Role = Teacher CPU; Student Read=TRUE, Edit=FALSE""
+2. """"
+3. ""SF permission: Student Edit=FALSE""
+",,,3182,325,Student Detail Link — Permission & Access,,,
+24876,"Lesson Detail – Student Detail Link – LBAC: Student Record at Different Location – Access Restricted When Opening Student Detail","AC 01.2 — Permission Matrix (LBAC) — A Teacher SPU user can see a student in the lesson Student List because the student attends the lesson at the teacher's location. However, if the student's primary record is scoped to a different location (LBAC), the teacher may not have access to the full student detail page. This test confirms the LBAC restriction is applied when navigating to student detail.","- Logged in as Teacher (SPU role) to Back Office — the teacher is scoped to Location A
+- A lesson at Location A has student B assigned — student B's Lesson Allocation is for Location A (student attends lesson at teacher's location)
+- Student B's primary student record in Salesforce is scoped to Location B (a different location the teacher does not manage)
+- The Teacher SPU's LBAC restricts access to records at Location B",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Log in as Teacher (SPU, Location A) to Back Office and open the lesson at Location A""
+2. ""Click student B's name hyperlink""
+3. ""Observe the resulting page""
+","1. ""The Lesson Detail page is displayed; student B's name is visible in the Student List as a hyperlink (student is visible because lesson LA is at Location A)""
+2. ""The system attempts to open the BO Student Detail page for student B""
+3. ""Access is restricted — either an access-denied page is shown, or the student detail opens with limited data (only fields the teacher's LBAC at Location A allows) — student records at Location B are NOT exposed""
+","1. ""Teacher location = Location A; Student's lesson location = Location A; Student's primary record location = Location B""
+2. """"
+3. ""Expected: access denied or data-restricted view based on LBAC""
+",,,3182,325,Student Detail Link — Permission & Access,,,
+24877,"Lesson Detail – Student Detail Link – Teacher SPU with Student View Permission – Student Detail Page Opens for Students in Scoped Location","AC 01.3, SC 01, SC 02 — Permission Matrix — A Teacher SPU user with Student object read permission can open the BO Student Detail page for any student in the Student List within their location scope.","- Logged in as Teacher (SPU role) to Back Office — the teacher is scoped to Location A
+- The Teacher SPU's Salesforce permission set: Student object Read = TRUE, Student object Edit = FALSE
+- A published lesson at Location A exists with at least 1 student assigned — the student's primary record is also at Location A (within the teacher's LBAC scope)",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Log in as Teacher (SPU, Location A) to Back Office and navigate to a lesson at Location A""
+2. ""Click a student name hyperlink in the Student List""
+3. ""Observe the student detail page""
+","1. ""The Lesson Detail page is displayed with the Student List""
+2. ""The BO Student Detail page for that student opens""
+3. ""The student's details are visible and consistent with the teacher's permission level (read-only); the page is not restricted""
+","1. ""Role = Teacher SPU; Lesson location = Location A""
+2. """"
+3. ""SF permission: Student Read=TRUE; student location = Location A (within scope)""
+",,,3182,325,Student Detail Link — Permission & Access,,,

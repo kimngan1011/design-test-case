@@ -1,0 +1,23 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3178,3176,Calendar Location Selector,1,,
+24835,[Nichibei] Calendar – Location Selector – Smartphone Portrait Mode – Selector visible without screen rotation,"#20 — Smoke — On the BO lesson calendar viewed on a smartphone in portrait orientation, the location selector is visible and tappable without requiring the user to rotate the screen.","- Logged in as HQ or CM Staff to the Back Office (Nichibei org)
+- BO lesson calendar page is open on a smartphone (or browser viewport at smartphone width ≤ 430 px)
+- At least two locations exist",,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open BO lesson calendar on a smartphone in portrait mode""
+2. ""View the top area of the calendar""
+3. ""Tap the location selector""
+4. ""Select a different location from the list""","1. ""Calendar screen shown in portrait orientation""
+2. ""Location selector UI element is visible on screen without horizontal scrolling or rotation""
+3. ""Location picker opens""
+4. ""Location selector closes and the calendar reloads for the selected location""","1. ""viewport_orientation = portrait; viewport_width ≤ 430 px""
+2. """"
+3. """"
+4. """"",,,3178,3176,Calendar Location Selector,,,
+24834,[Nichibei] Calendar – Location Selector – Smartphone – Selecting location filters calendar lessons,"#20 — Scenario — After changing the location via the smartphone-accessible selector on the BO calendar, the calendar content updates to show lessons for the selected location only.","- Logged in as HQ or CM Staff to the Back Office (Nichibei org)
+- On smartphone viewport (portrait mode)
+- Location A and Location B both have published lessons on 2026-07-16",,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open BO lesson calendar on smartphone, currently showing Location A""
+2. ""Open the location selector and choose Location B""
+3. ""View the calendar""","1. ""Calendar displays lessons for Location A""
+2. ""Location B is selected""
+3. ""Calendar refreshes and shows lessons for Location B; lessons from Location A are not shown""","1. ""location_A = Location A; lesson_A_date = 2026-07-16""
+2. ""location_B = Location B""
+3. """"",,,3178,3176,Calendar Location Selector,,,

@@ -1,0 +1,21 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3179,3176,Booking Filter Navigation,1,,
+24837,[Nichibei] Lesson Booking – Filter Page – Back Button – Navigates to Reservation List,"#23 — Scenario — In the Lesson Booking System on the learner app, tapping the ""<"" back button from the Filter page navigates to the Reservation List, not the Bookable Lesson List.","- Logged in as a student to the Nichibei learner app
+- Student has navigated to Lesson Booking > Filter page",,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Nichibei learner app and navigate to Lesson Booking""
+2. ""Open the Filter page (tap Filter button)""
+3. ""Tap the < back button without applying any filter""
+4. ""Observe the destination screen""","1. ""Lesson Booking screen shown""
+2. ""Filter page shown""
+3. ""Navigation occurs""
+4. ""Reservation List screen is shown (not the Bookable Lesson List)""","1. """"
+2. """"
+3. """"
+4. ""expected_screen = Reservation List""",,,3179,3176,Booking Filter Navigation,,,
+24836,[Nichibei] Lesson Booking – Filter Page – Back Button After Selecting Filter – Reservation List shown,"#23 — Edge — After selecting (but not applying) a filter value on the Filter page and tapping ""<"" back, the student lands on the Reservation List, not the Bookable Lesson List.","- Logged in as a student to the Nichibei learner app
+- Student is on Lesson Booking > Filter page with a filter value selected but not yet applied (e.g. a specific location chosen)",,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""On the Filter page, select a filter value (e.g. a specific location)""
+2. ""Tap the < back button without tapping Apply""
+3. ""Observe the destination screen""","1. ""Filter value selected in the UI but not applied""
+2. ""Navigation occurs""
+3. ""Reservation List screen is shown (not the Bookable Lesson List)""","1. ""filter_type = location; filter_value = Location A""
+2. """"
+3. ""expected_screen = Reservation List""",,,3179,3176,Booking Filter Navigation,,,
