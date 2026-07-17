@@ -1,0 +1,69 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Riso] LA Aggregation – POST Create Linked (C1) – Recalculates all 3 fields,AC-POST-7 — Component / Decision Table — Verify creating a new contract linked to an LA triggers recalculation of Total_Session_Count, Start_Date, and End_Date.,"API Client is authenticated with correct scope
+- Lesson Allocation `LA_AGG_01` exists with:
+  - `Total_Session_Count = 10`
+  - `Start_Date = 2026-06-01`
+  - `End_Date = 2026-06-15`
+- Contract A is currently active on this LA (`start_date = 2026-06-01`, `end_date = 2026-06-15`, `slot = 10`)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to create Contract B linked to `LA_AGG_01` with `slot = 5`, `start_date = 2026-05-15`, `end_date = 2026-06-20`""
+2. ""Query `LA_AGG_01` record""
+3. ""Verify `Total_Session_Count`""
+4. ""Verify `Start_Date`""
+5. ""Verify `End_Date`""
+","1. ""API returns HTTP 201 Created""
+2. ""The 3 aggregation fields are synchronously updated to reflect the combined active contracts (A + B)""
+3. ""`Total_Session_Count` = 15 (Contract A 10 + Contract B 5)""
+4. ""`Start_Date` = 2026-05-15 (earliest of 2026-06-01 and 2026-05-15)""
+5. ""`End_Date` = 2026-06-20 (latest of 2026-06-15 and 2026-06-20)""
+","1. ""`external_ref_id = NEW_C1_01`, `slot = 5`, `start_date = 2026-05-15`, `end_date = 2026-06-20`, `lesson_allocation_id = LA_AGG_01`""
+2. """"
+3. """"
+4. """"
+5. """"
+",,,1,,[Riso] LA Aggregation – POST Events (Case C1, C2a),,,
+,[Riso] LA Aggregation – POST Create Unlinked (C1) – No aggregation triggered,AC-POST-4 / AC-POST-7 — Decision Table — Verify creating an unlinked contract does not trigger any LA aggregation.,"API Client is authenticated with correct scope
+- Lesson Allocation `LA_AGG_02` exists with `Total_Session_Count = 5`",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to create Contract C without `lesson_allocation_id` but with `slot = 10`""
+2. ""Query `LA_AGG_02` record and other LAs for the student""
+","1. ""API returns HTTP 201 Created""
+2. ""No LA aggregation fields are updated. `LA_AGG_02` still has `Total_Session_Count = 5`""
+","1. ""`external_ref_id = NEW_C1_02`, `slot = 10`, `lesson_allocation_id` omitted""
+2. """"
+",,,1,,[Riso] LA Aggregation – POST Events (Case C1, C2a),,,
+,[Riso] LA Aggregation – POST Upsert (C2a) – Update slot/total – Recalculates Total_Session_Count,AC-POST-8 — CRUD / Decision Table — Verify upserting a contract with a new slot value correctly updates the LA's Total_Session_Count.,"API Client is authenticated with correct scope
+- Lesson Allocation `LA_AGG_03` exists with `Total_Session_Count = 8`
+- Contract D is linked to `LA_AGG_03` with `slot = 8`, `external_ref_id = UPSERT_C2A_01`",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to upsert Contract D with `slot = 12`""
+2. ""Query `LA_AGG_03` record""
+","1. ""API returns success""
+2. ""`Total_Session_Count` is synchronously updated to 12. Start_Date and End_Date are unchanged.""
+","1. ""`external_ref_id = UPSERT_C2A_01`, `slot = 12`""
+2. """"
+",,,1,,[Riso] LA Aggregation – POST Events (Case C1, C2a),,,
+,[Riso] LA Aggregation – POST Upsert (C2a) – Update end_date – Recalculates End_Date,AC-POST-8 — CRUD — Verify upserting a contract's end_date correctly updates the LA's End_Date.,"API Client is authenticated with correct scope
+- Lesson Allocation `LA_AGG_04` exists with `End_Date = 2026-07-01`
+- Contract E is linked to `LA_AGG_04` with `end_date = 2026-07-01`, `external_ref_id = UPSERT_C2A_02`",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to upsert Contract E with `end_date = 2026-07-15`""
+2. ""Query `LA_AGG_04` record""
+","1. ""API returns success""
+2. ""`End_Date` is synchronously updated to 2026-07-15. Total_Session_Count is unchanged.""
+","1. ""`external_ref_id = UPSERT_C2A_02`, `end_date = 2026-07-15`""
+2. """"
+",,,1,,[Riso] LA Aggregation – POST Events (Case C1, C2a),,,
+,[Riso] LA Aggregation – POST Upsert (C2a) – No aggregation fields changed – LA is unchanged,AC-POST-8 — Decision Table — Verify upserting non-aggregation fields (e.g. name) does not affect LA aggregation fields.,"API Client is authenticated with correct scope
+- Lesson Allocation `LA_AGG_05` exists with `Total_Session_Count = 5`, `End_Date = 2026-08-01`
+- Contract F is linked to `LA_AGG_05` with `external_ref_id = UPSERT_C2A_03`, `name = Old Name`",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to upsert Contract F with `name = New Name` (slot, start_date, end_date remain the same)""
+2. ""Query `LA_AGG_05` record""
+","1. ""API returns success""
+2. ""LA aggregation fields (`Total_Session_Count`, `Start_Date`, `End_Date`) are unchanged""
+","1. ""`external_ref_id = UPSERT_C2A_03`, `name = New Name`""
+2. """"
+",,,1,,[Riso] LA Aggregation – POST Events (Case C1, C2a),,,
+,[Riso] LA Aggregation – Conflict – Total_Session_Count overwrites Purchased_Slot synchronously,AC-POST-7 / BR-14 — State Transition — Verify that auto-calculated Total_Session_Count overwrites any manually inputted Purchased_Slot from BO immediately upon contract aggregation.,"API Client is authenticated with correct scope
+- Lesson Allocation `LA_AGG_06` exists
+- HQ Staff has manually entered `Purchased_Slot = 20` for `LA_AGG_06` via Back Office",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to create Contract G linked to `LA_AGG_06` with `slot = 5`""
+2. ""Query `LA_AGG_06` record""
+3. ""Login to Back Office and view `LA_AGG_06` details""
+","1. ""API returns HTTP 201 Created""
+2. ""`Total_Session_Count` is set to 5, overwriting the manual `Purchased_Slot` value""
+3. ""The Purchased Slot / Total Session Count field displays 5 (auto-calculated value)""
+","1. ""`external_ref_id = NEW_C1_03`, `slot = 5`, `lesson_allocation_id = LA_AGG_06`""
+2. """"
+3. """"
+",,,1,,[Riso] LA Aggregation – POST Events (Case C1, C2a),,,

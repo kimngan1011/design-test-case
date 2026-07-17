@@ -1,0 +1,78 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,1757,,"Course Master – Sync to BO",1,,
+,"Course Master – Sync Data – New Record Synced to BO After Manual Sync","Sync – Manual Sync (Scenario) – Create a new Course Master in SF, trigger Sync Data, and verify the record appears in the Back Office.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Course Master SyncNew_TC has been created in SF (Name = SyncNew_TC, PID = sync_new, Code = sync_new)
+- Logged in to the Back Office as HQ Staff
+- Auto-sync has not yet run since the record was created","","","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""In SF, confirm SyncNew_TC is visible in the Course Master list""
+2. ""In BO, search for SyncNew_TC""
+3. ""In SF Course Master list, click Sync Data""
+4. ""Wait for the sync to complete""
+5. ""In BO, search for SyncNew_TC again""
+","1. ""Record exists in SF""
+2. ""Record is NOT yet visible in BO""
+3. ""Sync is triggered; a progress indicator or confirmation message is shown""
+4. ""Sync completes without error""
+5. ""SyncNew_TC is now visible in BO with matching Name, Course Code, and Partner Internal Id""
+","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+","","",1757,,"Course Master – Sync to BO",,,
+,"Course Master – Sync Data – Updated Record Reflected in BO After Manual Sync","Sync – Manual Sync (Scenario) – Update a Course Master in SF, trigger Sync Data, and verify the updated values are reflected in the Back Office.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Course Master SyncUpdate_TC exists and has already been synced to BO
+- Logged in to the Back Office as HQ Staff","","","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""In BO, confirm the current Name of the synced record""
+2. ""In SF, edit SyncUpdate_TC and change the Name""
+3. ""In BO, confirm BO still shows the old name""
+4. ""In SF Course Master list, click Sync Data""
+5. ""In BO, search for SyncUpdated_TC""
+","1. ""BO shows Name = SyncUpdate_TC""
+2. ""Name updated to SyncUpdated_TC in SF""
+3. ""BO still displays SyncUpdate_TC (not yet updated)""
+4. ""Sync triggered and completes without error""
+5. ""BO now displays the updated Name = SyncUpdated_TC""
+","1. """"
+2. ""SyncUpdated_TC""
+3. """"
+4. """"
+5. """"
+","","",1757,,"Course Master – Sync to BO",,,
+,"Course Master – Sync Data – Deleted Record Removed from BO After Manual Sync","Sync – Manual Sync (Scenario) – Delete a Course Master in SF, trigger Sync Data, and verify the record is removed from the Back Office.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Course Master SyncDelete_TC exists and is already synced to BO
+- Logged in to the Back Office as HQ Staff","","","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""In SF, confirm SyncDelete_TC is visible in both SF and BO""
+2. ""In SF, delete SyncDelete_TC""
+3. ""In BO, confirm SyncDelete_TC is still visible""
+4. ""In SF Course Master list, click Sync Data""
+5. ""In BO, search for SyncDelete_TC""
+","1. ""Record present in both systems""
+2. ""Record is deleted from SF""
+3. ""Record still present in BO (sync not yet triggered)""
+4. ""Sync triggered and completes without error""
+5. ""Record is no longer visible in BO""
+","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+","","",1757,,"Course Master – Sync to BO",,,
+,"Course Master – Auto Sync – New Record Synced to BO After Configured Interval Elapses","Sync – Auto Sync (State Transition) – Verify a new Course Master created in SF is automatically synced to BO after the org-configured interval elapses without any manual trigger.","- Logged in as HQ or CM Staff to the Salesforce org
+- Org auto-sync interval is configured (X hours per org setup)
+- today = 2026-06-16; last_sync_time = known; next_sync_time = last_sync_time + X hours
+- A Course Master AutoSync_TC has been created after the last sync ran
+- Logged in to the Back Office as HQ Staff","","","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""Confirm AutoSync_TC is NOT visible in BO immediately after creation""
+2. ""Wait until the next scheduled auto-sync time (last_sync_time + X hours) without clicking Sync Data""
+3. ""After auto-sync completes, search for AutoSync_TC in BO""
+","1. ""Record is absent from BO""
+2. ""System runs the auto-sync job automatically at the configured time""
+3. ""AutoSync_TC is now visible in BO with correct Name, Course Code, and Partner Internal Id""
+","1. """"
+2. ""next_sync_time = last_sync_time + X hours""
+3. """"
+","","",1757,,"Course Master – Sync to BO",,,
+,"Course Master – Sync Data – Button Visible on Course Master List View","Sync – Component – Verify the Sync Data button is present and accessible on the Course Master list view action bar.","- Logged in as HQ or CM Staff to the Salesforce org","","","medium","minor","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""Navigate to Master > Course Master""
+2. ""Inspect the action bar at the top right of the list""
+","1. ""Course Master list view loads""
+2. ""Sync Data button is visible alongside New, Import, and Assign Label""
+","1. """"
+2. """"
+","","",1757,,"Course Master – Sync to BO",,,

@@ -66,14 +66,22 @@ Users can **select multiple courses** in one flow → creates multiple LAs at on
 
 A **Slot** in Riso represents a lesson enrollment capacity unit — how many lesson sessions a student is entitled to. Unlike Nichibei's point system, Riso uses a simpler counter model.
 
-### Two sources for Purchased Slot
+### Slot Concepts: Purchased Slot vs Total Session Count
 
-| Source | When |
-|---|---|
-| **Manual entry** | At UI creation time; user types the number |
-| **Auto-calculated from Contracts** (pending PBT-1812) | `LA.Purchased_Slot = SUM(Contract.Slot)` excluding Cancelled/Voided/deleted contracts |
+There are two distinct fields on the Lesson Allocation tracking capacity:
 
-Auto-calculation is recalculated when: contract updated, new contract added, contract cancelled/voided/deleted.
+| Field | Description | Source |
+|---|---|---|
+| **Purchased Slot** | Manually managed by SF users on UI | Manual entry only |
+| **Total Session Count** | Automatically aggregated from Riso Contracts | `SUM(contract.total)` for all Active contracts linked to the LA |
+
+- ~~**Auto-calculated from Contracts** (pending PBT-1812) | `LA.Purchased_Slot = SUM(Contract.Slot)` excluding Cancelled/Voided/deleted contracts~~ *(Superseded by LT-98533)*
+
+**Contract Aggregation Rules (LT-98533, 2026-06-19):**
+- `LA.Total_Session_Count` = SUM of `contract.total` for all Active contracts linked to the LA.
+- `LA.Start_Date` = Earliest `start_date` among all Active contracts.
+- `LA.End_Date` = Latest `end_date` among all Active contracts.
+- **Logical Deletion**: When the LAST Active contract on an LA is logically deleted, `Total_Session_Count` becomes 0, but `Start_Date` and `End_Date` retain their last known values.
 
 ## Order Lifecycle Isolation
 
@@ -147,3 +155,55 @@ Riso adds a **Subject field** (Subject Master lookup) to the lesson detail:
 ## CSV Import
 
 Same data rules and validations as UI creation. Validation errors are row-level with same error messages. Partial success supported (valid rows imported, invalid rows rejected).
+
+## Lesson Publish Notifications to Teachers (LT-101725, 2026-06-23)
+
+Riso adds two notification paths triggered on lesson publish. Both are gated by a **Lesson Publish Notification config flag** (Riso org only; OFF for all other tenants — AC-03, BR-27).
+
+### Path 1 — Single Publish: SF Chatter Post + Notification Center
+
+**Trigger:** lesson status changes Draft → Published (individual publish action).
+
+**Mechanism:** SF Flow Builder creates a Chatter post on the lesson record.
+
+| Aspect | Behavior |
+|---|---|
+| **Who is notified** | Each Lesson Teacher where `working_status = Available` AND `working_type IN (Full Time, Part Time)` |
+| **Notification mechanism** | Chatter post with @mention → SF Notification Center alert |
+| **Post content** | Lesson name, lesson date/time, @mention of each eligible teacher; hyperlink to lesson record (opens in new tab) |
+| **Language** | EN or JP based on teacher's SF locale setting |
+| **LBAC** | HQ Admin and Centre Manager with LBAC access can **view** the Chatter post but do **NOT** receive the notification center alert (not @mentioned) |
+| **Republish** | Each Draft→Published transition creates a **new** Chatter post; previous posts persist |
+| **Unavailable teachers** | Working_status=Unavailable → excluded from @mention |
+
+### Path 2 — Bulk Publish: Teacher Email
+
+**Trigger:** Bulk publish action (multi-lesson) from any of 3 surfaces.
+
+| Surface | Email Period Calculation |
+|---|---|
+| SF Lesson List | `min(lesson_date)` – `max(lesson_date)` in the batch |
+| SF Lesson Calendar | Calendar view **Start Date** – **End Date** (not individual lesson dates) |
+| BO Lesson Management | `min(lesson_date)` – `max(lesson_date)` in the batch |
+
+| Aspect | Behavior |
+|---|---|
+| **Who receives email** | Each unique Lesson Teacher where `working_status = Available` AND `working_type IN (Full Time, Part Time)` who has ≥1 Draft→Published lesson in the batch |
+| **Email count** | **One email per teacher per bulk publish action** (not per lesson) |
+| **Silent skip** | If 0 Draft→Published transitions (all already Published), no email sent, no error |
+| **Email failure isolation** | If email send fails, the lesson **remains Published** (not rolled back) |
+| **Regression (LT-98532)** | Student push notification fires on the same bulk publish event independently; neither blocks the other |
+
+### Config Flag Behavior
+
+| Config Flag | Single Publish | Bulk Publish |
+|---|---|---|
+| ON (Riso org) | Chatter post created | Teacher email sent |
+| OFF (non-Riso org) | No Chatter post | No teacher email |
+
+### What Does NOT Trigger Notifications
+
+- Bulk publish does NOT create a Chatter post (Path 1 = single publish only)
+- Single publish does NOT send an email (Path 2 = bulk publish only)
+- No cross-type dedup defined (open question Q1): a lesson single-published then included in a bulk publish may trigger both a Chatter @mention and an email
+

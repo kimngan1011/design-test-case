@@ -1,0 +1,88 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Riso] LA Aggregation – PATCH Re-link (C2b/C2c) – Old LA recalculates correctly,AC-PATCH-3 — Decision Table — Verify old LA recalculates all 3 aggregation fields when a contract is re-linked away from it.,"API Client is authenticated with correct scope
+- Old Lesson Allocation `LA_OLD` has `Total_Session_Count = 20`, `Start_Date = 2026-06-01`, `End_Date = 2026-06-30`
+- Contract A (active) is linked to `LA_OLD` (`slot = 10`, `start_date = 2026-06-15`, `end_date = 2026-06-30`)
+- Contract B (active) is also linked to `LA_OLD` (`slot = 10`, `start_date = 2026-06-01`, `end_date = 2026-06-15`)
+- New Lesson Allocation `LA_NEW` exists",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send PATCH request to update Contract A with `lesson_allocation_id = LA_NEW`""
+2. ""Query the `LA_OLD` record""
+3. ""Verify `Total_Session_Count` on `LA_OLD`""
+4. ""Verify `Start_Date` on `LA_OLD`""
+5. ""Verify `End_Date` on `LA_OLD`""
+","1. ""API returns HTTP 200 OK""
+2. ""`LA_OLD` is synchronously updated based only on remaining Contract B""
+3. ""`Total_Session_Count` = 10 (Contract B only)""
+4. ""`Start_Date` = 2026-06-01 (from Contract B)""
+5. ""`End_Date` = 2026-06-15 (from Contract B)""
+","1. ""`external_ref_id = REF_RELINK_01`, `lesson_allocation_id = LA_NEW`""
+2. """"
+3. """"
+4. """"
+5. """"
+",,,1,,[Riso] LA Aggregation – PATCH Events (C2b, C2c, V3, Unlinked→Linked),,,
+,[Riso] LA Aggregation – PATCH Re-link (C2b/C2c) – New LA recalculates correctly,AC-PATCH-3 — Decision Table — Verify new LA recalculates all 3 aggregation fields when a contract is re-linked to it.,"API Client is authenticated with correct scope
+- Contract C is currently linked to `LA_OLD` (`slot = 5`, `start_date = 2026-07-01`, `end_date = 2026-07-31`)
+- New Lesson Allocation `LA_NEW` exists with `Total_Session_Count = 5`, `Start_Date = 2026-08-01`, `End_Date = 2026-08-31`
+- Contract D (active) is linked to `LA_NEW` (`slot = 5`, `start_date = 2026-08-01`, `end_date = 2026-08-31`)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send PATCH request to update Contract C with `lesson_allocation_id = LA_NEW`""
+2. ""Query the `LA_NEW` record""
+3. ""Verify `Total_Session_Count` on `LA_NEW`""
+4. ""Verify `Start_Date` on `LA_NEW`""
+5. ""Verify `End_Date` on `LA_NEW`""
+","1. ""API returns HTTP 200 OK""
+2. ""`LA_NEW` is synchronously updated based on Contracts C and D""
+3. ""`Total_Session_Count` = 10 (Contract C 5 + Contract D 5)""
+4. ""`Start_Date` = 2026-07-01 (earliest of C and D)""
+5. ""`End_Date` = 2026-08-31 (latest of C and D)""
+","1. ""`external_ref_id = REF_RELINK_02`, `lesson_allocation_id = LA_NEW`""
+2. """"
+3. """"
+4. """"
+5. """"
+",,,1,,[Riso] LA Aggregation – PATCH Events (C2b, C2c, V3, Unlinked→Linked),,,
+,[Riso] LA Aggregation – PATCH Re-link – Unlinked to Linked – New LA recalculates correctly,AC-PATCH-3 — State Transition — Verify linking a previously unlinked contract triggers recalculation on the target LA.,"API Client is authenticated with correct scope
+- Contract E exists unlinked (`lesson_allocation_id` is null) with `slot = 8`, `start_date = 2026-09-01`, `end_date = 2026-09-30`
+- Target Lesson Allocation `LA_TARGET` exists with `Total_Session_Count = 10`, `Start_Date = 2026-10-01`, `End_Date = 2026-10-31`",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send PATCH request to update Contract E with `lesson_allocation_id = LA_TARGET`""
+2. ""Query the `LA_TARGET` record""
+3. ""Verify `Total_Session_Count` on `LA_TARGET`""
+4. ""Verify `Start_Date` on `LA_TARGET`""
+5. ""Verify `End_Date` on `LA_TARGET`""
+","1. ""API returns HTTP 200 OK""
+2. ""`LA_TARGET` is synchronously updated""
+3. ""`Total_Session_Count` = 18 (10 + 8)""
+4. ""`Start_Date` = 2026-09-01""
+5. ""`End_Date` = 2026-10-31""
+","1. ""`external_ref_id = REF_RELINK_03`, `lesson_allocation_id = LA_TARGET`""
+2. """"
+3. """"
+4. """"
+5. """"
+",,,1,,[Riso] LA Aggregation – PATCH Events (C2b, C2c, V3, Unlinked→Linked),,,
+,[Riso] LA Aggregation – PATCH Field Update (V3) – end_date updated – Recalculates End_Date only,AC-PATCH-2 — CRUD / Decision Table — Verify updating end_date via PATCH recalculates LA End_Date but leaves Total_Session_Count unaffected.,"API Client is authenticated with correct scope
+- Contract F is linked to `LA_UPDATE` with `end_date = 2026-11-15`, `slot = 10`
+- `LA_UPDATE` has `End_Date = 2026-11-15`, `Total_Session_Count = 10`",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send PATCH request to update Contract F with `end_date = 2026-11-30`""
+2. ""Query the `LA_UPDATE` record""
+3. ""Verify `End_Date` on `LA_UPDATE`""
+4. ""Verify `Total_Session_Count` on `LA_UPDATE`""
+","1. ""API returns HTTP 200 OK""
+2. ""`LA_UPDATE` is synchronously updated""
+3. ""`End_Date` = 2026-11-30""
+4. ""`Total_Session_Count` remains 10""
+","1. ""`external_ref_id = REF_PATCH_01`, `end_date = 2026-11-30`""
+2. """"
+3. """"
+4. """"
+",,,1,,[Riso] LA Aggregation – PATCH Events (C2b, C2c, V3, Unlinked→Linked),,,
+,[Riso] LA Aggregation – PATCH Field Update (V3) – slot updated – Recalculates Total_Session_Count,AC-PATCH-2 — CRUD — Verify updating slot via PATCH recalculates LA Total_Session_Count.,"API Client is authenticated with correct scope
+- Contract G is linked to `LA_UPDATE_2` with `slot = 5`, `start_date = 2026-12-01`
+- `LA_UPDATE_2` has `Total_Session_Count = 5`, `Start_Date = 2026-12-01`",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send PATCH request to update Contract G with `slot = 15`""
+2. ""Query the `LA_UPDATE_2` record""
+3. ""Verify `Total_Session_Count` on `LA_UPDATE_2`""
+4. ""Verify `Start_Date` on `LA_UPDATE_2`""
+","1. ""API returns HTTP 200 OK""
+2. ""`LA_UPDATE_2` is synchronously updated""
+3. ""`Total_Session_Count` = 15""
+4. ""`Start_Date` remains 2026-12-01""
+","1. ""`external_ref_id = REF_PATCH_02`, `slot = 15`""
+2. """"
+3. """"
+4. """"
+",,,1,,[Riso] LA Aggregation – PATCH Events (C2b, C2c, V3, Unlinked→Linked),,,

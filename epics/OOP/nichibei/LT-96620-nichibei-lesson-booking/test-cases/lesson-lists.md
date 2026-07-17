@@ -22,10 +22,10 @@ Student user has no active Lesson Allocation
 **Description:** AC 02.2 — BR-4,5,6,7: Decision Table: A lesson meeting all 4 visibility conditions must appear in Lesson Lists.
 
 **Preconditions:**
-Student user has an active LA for Location A.
+Student user has an active LA linked to a Location Course for Location A.
 A lesson exists that:
 
-- Location = Location A (linked to student's active LA)
+- Location = Location A (linked to student's active LA's Location Course)
 - Bookable_Flag = TRUE
 - Status = Published
 - Lesson date = 2026-05-26 (above the 3-day advance booking threshold; threshold = today + 3 days = 2026-05-22)
@@ -42,8 +42,8 @@ A lesson exists that:
 **Description:** AC 02.2 — BR-4: Decision Table: A lesson at a location not linked to the student's active LA must NOT be visible.
 
 **Preconditions:**
-Student user has active LA for Location A only.
-A lesson exists at Location B (not linked to student's LA). All other conditions (Bookable Flag=TRUE, Published, date = 2026-05-26) are met.
+Student user has active LA linked to a Location Course for Location A only.
+A lesson exists at Location B (not linked to student's LA's Location Course). All other conditions (Bookable Flag=TRUE, Published, date = 2026-05-26) are met.
 
 | #   | Action                                             | Expected Result                               | Test Data                                    |
 | --- | -------------------------------------------------- | --------------------------------------------- | -------------------------------------------- |
@@ -57,7 +57,7 @@ A lesson exists at Location B (not linked to student's LA). All other conditions
 **Description:** AC 02.2 — BR-5: Decision Table: A lesson with Bookable_Flag=FALSE must NOT appear in Lesson Lists.
 
 **Preconditions:**
-Student user has active LA for Location A.
+Student user has active LA linked to a Location Course for Location A.
 A lesson at Location A exists with Bookable_Flag=FALSE. All other conditions (Published, date = 2026-05-26) are met.
 
 | #   | Action                                             | Expected Result                              | Test Data                                    |
@@ -72,7 +72,7 @@ A lesson at Location A exists with Bookable_Flag=FALSE. All other conditions (Pu
 **Description:** AC 02.2 — BR-6: Decision Table: A lesson with status other than Draft or Published must NOT appear in Lesson Lists.
 
 **Preconditions:**
-Student user has active LA for Location A.
+Student user has active LA linked to a Location Course for Location A.
 A lesson at Location A exists with status = Cancelled. All other conditions (Bookable Flag=TRUE, date = 2026-05-26) are met.
 
 | #   | Action                                             | Expected Result                               | Test Data                                    |
@@ -87,7 +87,7 @@ A lesson at Location A exists with status = Cancelled. All other conditions (Boo
 **Description:** AC 02.2 — BR-6: Decision Table: A lesson with status = Draft AND Bookable_Flag=TRUE must appear in Lesson Lists (Draft is valid for browsing).
 
 **Preconditions:**
-Student user has active LA for Location A.
+Student user has active LA linked to a Location Course for Location A.
 A lesson at Location A exists with: Status=Draft, Bookable_Flag=TRUE, date = 2026-05-26 (above 3-day threshold).
 
 | #   | Action                                             | Expected Result                                                 | Test Data                                      |
@@ -102,7 +102,7 @@ A lesson at Location A exists with: Status=Draft, Bookable_Flag=TRUE, date = 202
 **Description:** AC 02.2 — BR-7: BVA: A lesson with date < 2026-05-22 (today + 3 days) must NOT appear in Lesson Lists.
 
 **Preconditions:**
-Student user has active LA for Location A.
+Student user has active LA linked to a Location Course for Location A.
 A lesson at Location A exists with: Bookable_Flag=TRUE, Published, lesson_date = 2026-05-21 (today + 2 days; 1 day below the 3-day threshold of 2026-05-22).
 
 | #   | Action                                             | Expected Result                            | Test Data                                                                     |
@@ -132,18 +132,19 @@ Lesson exists with lesson_date = 2026-05-22.
 
 ---
 
-### [Nichibei] Lesson Booking – Location Filter – Only student's LA locations shown
+### [Nichibei] Lesson Booking – Location Filter – Only student's LA's Location Course locations shown
 
-**Description:** AC 02.3 — BR-8: Decision Table: The Location filter dropdown must only contain locations linked to the student's active LA.
+**Description:** AC 02.3 — BR-8: Decision Table: The Location filter dropdown must only contain locations linked to the student's active LA's Location Course.
 
 **Preconditions:**
-Student user has active LA for Location A only.
+Student user has active LA linked to a Location Course for Location A only.
 System has Location A and Location B available.
 
 | #   | Action                                             | Expected Result                                                    | Test Data |
 | --- | -------------------------------------------------- | ------------------------------------------------------------------ | --------- |
 | 1   | Login to app as student user and open Lesson Lists | Lesson Lists screen shown                                          | —         |
-| 2   | Open the Location filter dropdown                  | Only Location A is shown in the dropdown; Location B is NOT listed | —         |
+| 2   | Tap Filter button to open Filter screen            | Filter screen opens                                                | —         |
+| 3   | Open the Location filter dropdown                  | Only Location A is shown in the dropdown; Location B is NOT listed | —         |
 
 ---
 
@@ -157,7 +158,7 @@ Student user has active LA. Lesson Lists shows multiple lessons on different dat
 | #   | Action                                                          | Expected Result                                                    | Test Data                            |
 | --- | --------------------------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------ |
 | 1   | Open Lesson Lists screen                                        | Multiple lesson cards visible across multiple dates                | —                                    |
-| 2   | Apply Schedule filter with date range: 2026-06-01 to 2026-06-07 | Only lessons with date between 2026-06-01 and 2026-06-07 are shown | Date range: 2026-06-01 to 2026-06-07 |
+| 2   | Tap Filter button to open Filter screen, then Apply Schedule filter with date range: 2026-06-01 to 2026-06-07 | Only lessons with date between 2026-06-01 and 2026-06-07 are shown | Date range: 2026-06-01 to 2026-06-07 |
 | 3   | Clear the date range filter                                     | All lessons (within visibility rules) are shown again              | —                                    |
 
 ---
@@ -172,7 +173,7 @@ Student user has active LA. Lesson Lists shows lessons on multiple days of the w
 | #   | Action                                    | Expected Result                          | Test Data    |
 | --- | ----------------------------------------- | ---------------------------------------- | ------------ |
 | 1   | Open Lesson Lists screen                  | Lessons on multiple days of week visible | —            |
-| 2   | Apply Schedule filter: select Monday only | Only Monday lessons are shown            | Day = Monday |
+| 2   | Tap Filter button to open Filter screen, then Apply Schedule filter: select Monday only | Only Monday lessons are shown            | Day = Monday |
 | 3   | Clear filter                              | All lessons shown again                  | —            |
 
 ---
@@ -187,38 +188,43 @@ Student user has active LA. Lesson Lists contains: 1 lesson already full, 1 less
 | #   | Action                                  | Expected Result                                                                             | Test Data |
 | --- | --------------------------------------- | ------------------------------------------------------------------------------------------- | --------- |
 | 1   | Open Lesson Lists screen                | All visible lessons shown (full + booked + available)                                       | —         |
-| 2   | Enable "available lessons only" toggle  | Only the available (reservable) lesson is shown; full and already-booked lessons are hidden | —         |
+| 2   | Tap Filter button to open Filter screen, then Enable "available lessons only" toggle  | Only the available (reservable) lesson is shown; full and already-booked lessons are hidden | —         |
 | 3   | Disable "available lessons only" toggle | All lessons shown again                                                                     | —         |
 
 ---
 
-### [Nichibei] Lesson Booking – Filter – Subject filter restricts list
+### [Nichibei] Lesson Booking – Filter – Eligible Subject filter is required and restricts list
 
-**Description:** AC 02.3 — Decision Table: Applying a Subject filter shows only lessons with the selected subject.
+**Description:** AC 02.3 — Decision Table: The "Eligible Subject" filter is a required field. Applying this filter shows only lessons with the selected subject.
 
 **Preconditions:**
-Student user has active LA. Lesson Lists contains lessons for Subject A and Subject B.
+Student user has active LA. Lesson Lists contains lessons for Subject A and Subject B. "Eligible Subject" filter is marked as Required.
 
 | #   | Action                             | Expected Result                             | Test Data |
 | --- | ---------------------------------- | ------------------------------------------- | --------- |
 | 1   | Open Lesson Lists screen           | Lessons for Subject A and Subject B visible | —         |
-| 2   | Select Subject A in Subject filter | Only Subject A lessons are shown            | Subject A |
-| 3   | Clear filter                       | All lessons shown again                     | —         |
+| 2   | Tap Filter button to open Filter screen, then Try to search/filter without selecting Eligible Subject | Validation error shown (field is required) | —         |
+| 3   | Select Subject A in Eligible Subject filter | Only Subject A lessons are shown            | Subject A |
+| 4   | Clear filter                       | All lessons shown again                     | —         |
 
 ---
 
-### [Nichibei] Lesson Booking – Filter – Teacher filter restricts list
+### [Nichibei] Lesson Booking – Filter – Teacher filter dropdown options depend on selected Locations and Subject
 
-**Description:** AC 02.3 — Decision Table: Applying a Teacher filter shows only lessons assigned to the selected teacher.
+**Description:** AC 02.3 — Decision Table: The options in the "Teacher" filter dropdown must be filtered and dependent on both the selected "Eligible Subject" and the selected "Locations".
 
 **Preconditions:**
-Student user has active LA. Lesson Lists contains lessons assigned to Teacher 1 and Teacher 2.
+Student user has active LA. System has:
+- Teacher 1 (assigned to Location A, Subject X)
+- Teacher 2 (assigned to Location A, Subject Y)
+- Teacher 3 (assigned to Location B, Subject X)
 
-| #   | Action                             | Expected Result                             | Test Data |
-| --- | ---------------------------------- | ------------------------------------------- | --------- |
-| 1   | Open Lesson Lists screen           | Lessons for Teacher 1 and Teacher 2 visible | —         |
-| 2   | Select Teacher 1 in Teacher filter | Only Teacher 1's lessons shown              | Teacher 1 |
-| 3   | Clear filter                       | All lessons shown again                     | —         |
+| #   | Action                                                              | Expected Result                                                           | Test Data |
+| --- | ------------------------------------------------------------------- | ------------------------------------------------------------------------- | --------- |
+| 1   | Open Lesson Lists screen                                            | Lesson Lists screen shown                                                 | —         |
+| 2   | Tap Filter button to open Filter screen, then Select Subject X in Eligible Subject and Location A in Location     | Subject X and Location A are selected                                     | Subject X, Location A |
+| 3   | Open Teacher filter dropdown                                        | Only Teacher 1 is shown; Teacher 2 and Teacher 3 are NOT shown            | Teacher 1 |
+| 4   | Select Teacher 1 and apply filter                                   | Only lessons assigned to Teacher 1 for Subject X at Location A are shown  | —         |
 
 ---
 
@@ -232,26 +238,26 @@ Student user has active LA. Lesson Lists contains "Math Lesson A" and "English L
 | #   | Action                                   | Expected Result                                     | Test Data        |
 | --- | ---------------------------------------- | --------------------------------------------------- | ---------------- |
 | 1   | Open Lesson Lists screen                 | Both "Math Lesson A" and "English Lesson B" visible | —                |
-| 2   | Enter "Math" in Lesson Name search field | Only "Math Lesson A" shown                          | keyword = "Math" |
+| 2   | Tap Filter button to open Filter screen, then Enter "Math" in Lesson Name search field | Only "Math Lesson A" shown                          | keyword = "Math" |
 | 3   | Clear search field                       | Both lessons shown again                            | —                |
 
 ---
 
 ### [Nichibei] Lesson Booking – Lesson Lists Card – Fields – Lesson Lists card displays all required fields
 
-**Description:** AC 02.4 — Display Testing: Each lesson card in Lesson Lists must display the core information fields a student needs to identify and decide whether to book: lesson name, date, start+end time, center (location), and teacher name.
+**Description:** AC 02.4 — Display Testing: Each lesson card in Lesson Lists must display the core information fields a student needs to identify and decide whether to book: lesson name, date, start+end time, center (location), and teacher name. The Location must be retrieved from the Location of LA's Location Course.
 
 **Preconditions:**
-Student has active LA for Location A. At least 1 bookable Published lesson is visible in Lesson Lists with known data:
-lesson name = "Math Lesson", lesson_date = 2026-05-25, start = 10:00 JST, end = 11:00 JST, center = "Center A", teacher = "Teacher A".
+Student has active LA linked to a Location Course for Location A. At least 1 bookable Published lesson is visible in Lesson Lists with known data:
+lesson name = "Math Lesson", lesson_date = 2026-05-25, start = 10:00 JST, end = 11:00 JST, Location of LA's Location Course = "Center A", teacher = "Teacher A".
 
 | #   | Action                                    | Expected Result                         | Test Data                                                                                    |
 | --- | ----------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------- |
-| 1   | Open Lesson Lists screen                  | Lesson card for "Math Lesson" visible   | lesson_date = 2026-05-25; start = 10:00; end = 11:00; center = Center A; teacher = Teacher A |
+| 1   | Open Lesson Lists screen                  | Lesson card for "Math Lesson" visible   | lesson_date = 2026-05-25; start = 10:00; end = 11:00; course_location = Center A; teacher = Teacher A |
 | 2   | Observe lesson name on the card           | "Math Lesson" is displayed              | —                                                                                            |
 | 3   | Observe date on the card                  | Date "2026-05-25" is displayed          | —                                                                                            |
 | 4   | Observe start and end time on the card    | "10:00" and "11:00" (JST) are displayed | —                                                                                            |
-| 5   | Observe center/location field on the card | "Center A" is displayed                 | —                                                                                            |
+| 5   | Observe center/location field on the card | "Center A" (from LA's Location Course) is displayed | —                                                                                            |
 | 6   | Observe teacher name on the card          | "Teacher A" is displayed                | —                                                                                            |
 
 ---
@@ -294,7 +300,7 @@ Student user has active LA. A bookable lesson exists: not full, within booking d
 **Description:** AC 02.4 — BR-10: Decision Table: Reserve button is disabled with tooltip when lesson has reached maximum capacity (session count = capacity).
 
 **Preconditions:**
-A bookable lesson exists at student's LA location. Session count = capacity (lesson is full). Student has not booked this lesson.
+A bookable lesson exists at student's LA's Location Course location. Session count = capacity (lesson is full). Student has not booked this lesson.
 
 | #   | Action                                    | Expected Result                                     | Test Data                                 |
 | --- | ----------------------------------------- | --------------------------------------------------- | ----------------------------------------- |
@@ -304,20 +310,19 @@ A bookable lesson exists at student's LA location. Session count = capacity (les
 
 ---
 
-### [Nichibei] Lesson Booking – Lesson Card Button – Past booking deadline – Reserve button disabled with tooltip
+### [Nichibei] Lesson Booking – Lesson Visibility – Past booking deadline – Lesson hidden
 
-**Description:** AC 02.4 — BR-10: BVA: Reserve button is disabled with tooltip when current time is past the booking deadline (current_time > lesson_start − booking_deadline_hours).
+**Description:** AC 02.2 — BR-10: Decision Table: A lesson must NOT appear in Lesson Lists if the current time is past its booking deadline (5:00 PM JPT the day before lesson date).
 
 **Preconditions:**
-A bookable lesson exists. Current time is past the booking deadline (current_time > lesson_start − booking_deadline_hours).
-today = 2026-05-20; lesson_date = 2026-05-20; lesson_start = 10:00 JST; booking_deadline = 08:00 JST (= lesson_start − 2h); current_time = 09:00 JST.
+A bookable lesson exists at student's LA's Location Course location. Current time is past the booking deadline (current_time > 5:00 PM JPT the day before lesson date).
+today = 2026-05-20; lesson_date = 2026-05-21; booking_deadline = 2026-05-20 17:00 JPT; current_time = 2026-05-20 18:00 JPT.
 Student has not booked this lesson.
 
 | #   | Action                                    | Expected Result                                                   | Test Data                                                                                                                             |
 | --- | ----------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Open Lesson Lists screen                  | Lesson card visible                                               | today = 2026-05-20; lesson_date = 2026-05-20; lesson_start = 10:00 JST; booking_deadline = 08:00 JST; current_time = 09:00 JST (past) |
-| 2   | View the action button on the lesson card | "Reserve" button is disabled (greyed out)                         | —                                                                                                                                     |
-| 3   | Tap or hover the disabled Reserve button  | Tooltip shown: "The booking deadline has passed for this lesson." | —                                                                                                                                     |
+| 1   | Open Lesson Lists screen                  | Lesson Lists screen shown                                         | today = 2026-05-20; lesson_date = 2026-05-21; booking_deadline = 2026-05-20 17:00 JPT; current_time = 2026-05-20 18:00 JPT (past) |
+| 2   | Scroll through the lesson list            | Lesson is NOT shown (hidden because booking deadline has passed)  | —                                                                                                                                     |
 
 ---
 
@@ -337,34 +342,34 @@ Student user has a staff-allocated lesson (Booking_Flag=FALSE) visible in Lesson
 
 ### [Nichibei] Lesson Booking – Lesson Card Button – Already booked lesson within deadline – Cancel button enabled
 
-**Description:** AC 02.4 — BR-9: State Transition: Cancel button shown and enabled for a lesson the student has already booked, within the cancellation deadline.
+**Description:** AC 02.4 — BR-9: State Transition: Cancel button shown and enabled for a lesson the student has already booked, when current time is before or at the 5:00 PM JPT deadline of the day before the lesson.
 
 **Preconditions:**
-Partner config: cancellation deadline X = 2 hours.
-Lesson date = 2026-05-22; Lesson start = 2026-05-22 14:00 JST; deadline = 2026-05-22 12:00 JST (14:00 − 2h).
-Current datetime = 2026-05-22 09:00 JST → 2026-05-22 09:00 ≤ 2026-05-22 12:00 → within deadline.
+Student user has already booked a lesson.
+Lesson date = 2026-05-22; cancellation deadline = 2026-05-21 17:00 JPT.
+Current datetime = 2026-05-21 09:00 JPT → 2026-05-21 09:00 ≤ 2026-05-21 17:00 → within deadline.
 
 | #   | Action                                                   | Expected Result                      | Test Data |
 | --- | -------------------------------------------------------- | ------------------------------------ | --------- |
-| 1   | Open Lesson Lists screen                                 | Lesson card visible                  | —         |
+| 1   | Open Lesson Lists screen                                 | Lesson card visible                  | lesson_date = 2026-05-22; deadline = 2026-05-21 17:00 JPT; current = 2026-05-21 09:00 JPT |
 | 2   | View the action button on the already-booked lesson card | "Cancel" button is shown and enabled | —         |
 
 ---
 
 ### [Nichibei] Lesson Booking – Lesson Card Button – Already booked lesson past cancellation deadline – Cancel button disabled
 
-**Description:** AC 02.4 — BR-10/BR-22: BVA: Cancel button shown but disabled for an already-booked lesson when current time is past the cancellation deadline (current > lesson start − X hours, BR-22). X is the partner-configured cancellation deadline setting. This is independent of the booking deadline.
+**Description:** AC 02.4 — BR-10/BR-22: BVA: Cancel button shown but disabled for an already-booked lesson when current time is past the cancellation deadline (5:00 PM JPT the day before lesson date).
 
 **Preconditions:**
-Partner config: cancellation deadline X = 2 hours.
-today = 2026-05-20; lesson_date = 2026-05-20; Lesson start = 2026-05-20 11:00 JST; deadline = 2026-05-20 09:00 JST (11:00 − 2h).
-Current datetime = 2026-05-20 10:00 JST → 2026-05-20 10:00 > 2026-05-20 09:00 → past deadline.
+Student user has already booked a lesson.
+today = 2026-05-20; lesson_date = 2026-05-21; deadline = 2026-05-20 17:00 JPT.
+Current datetime = 2026-05-20 18:00 JPT → 2026-05-20 18:00 > 2026-05-20 17:00 → past deadline.
 
 | #   | Action                                                   | Expected Result                                                          | Test Data                                                                                                                                                                            |
 | --- | -------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 1   | Open Lesson Lists screen                                 | Lesson card visible                                                      | today = 2026-05-20; lesson_date = 2026-05-20; lesson_start = 2026-05-20 11:00 JST; deadline = 2026-05-20 09:00 JST; current_time = 2026-05-20 10:00 JST → past cancellation deadline |
+| 1   | Open Lesson Lists screen                                 | Lesson card visible                                                      | today = 2026-05-20; lesson_date = 2026-05-21; deadline = 2026-05-20 17:00 JPT; current_time = 2026-05-20 18:00 JST → past cancellation deadline |
 | 2   | View the action button on the already-booked lesson card | "Cancel" button is shown but disabled with tooltip                       | —                                                                                                                                                                                    |
-| 3   | Tap the disabled Cancel button                           | Tooltip shown: "Cancellation not available within 2 hours of start time" | —                                                                                                                                                                                    |
+| 3   | Tap the disabled Cancel button                           | Tooltip shown: "Cannot cancel this lesson. The cancellation deadline has passed." | —                                                                                                                                                                                    |
 
 ---
 
@@ -376,7 +381,7 @@ Current datetime = 2026-05-20 10:00 JST → 2026-05-20 10:00 > 2026-05-20 09:00 
 
 **Preconditions:**
 Partner config: advance days X = 1. Today = 2026-05-19.
-Student has active LA for Location A.
+Student has active LA linked to a Location Course for Location A.
 Lesson at Location A: Bookable_Flag=TRUE, status=Published, lesson_date=2026-05-19 (today). All other visibility conditions met.
 
 | #   | Action                                                 | Expected Result                                                                       | Test Data                                                                     |
@@ -393,7 +398,7 @@ Lesson at Location A: Bookable_Flag=TRUE, status=Published, lesson_date=2026-05-
 
 **Preconditions:**
 Partner config: advance days X = 1. Today = 2026-05-19.
-Student has active LA for Location A.
+Student has active LA linked to a Location Course for Location A.
 Lesson at Location A: Bookable_Flag=TRUE, status=Published, lesson_date=2026-05-20 (today+1). All other visibility conditions met.
 
 | #   | Action                                             | Expected Result                                                            | Test Data                                                                      |
@@ -410,7 +415,7 @@ Lesson at Location A: Bookable_Flag=TRUE, status=Published, lesson_date=2026-05-
 
 **Preconditions:**
 Partner config: advance days X = 1. Today = 2026-05-19.
-Student has active LA for Location A.
+Student has active LA linked to a Location Course for Location A.
 Lesson at Location A: Bookable_Flag=TRUE, status=Published, lesson_date=2026-05-18 (yesterday). All other visibility conditions met.
 
 | #   | Action                                              | Expected Result                                                     | Test Data                                           |
@@ -418,6 +423,23 @@ Lesson at Location A: Bookable_Flag=TRUE, status=Published, lesson_date=2026-05-
 | 1   | Login to app as student user and open Lesson Lists  | Lesson Lists screen shown                                           | today = 2026-05-19; lesson_date = 2026-05-18; X = 1 |
 | 2   | Scroll through the lesson list                      | Lesson with lesson_date=2026-05-18 is NOT shown (past date, hidden) | lesson_date 2026-05-18 < today → past date → hidden |
 | 3   | Confirm no lesson card with date 2026-05-18 visible | Zero lesson cards for 2026-05-18 displayed                          | —                                                   |
+
+---
+
+### [Nichibei] Lesson Booking – Advance Days BVA – Lesson date > 14 days – Lesson hidden
+
+**Description:** AC 02.2: A lesson scheduled for > today + 14 days must NOT appear in Lesson Lists.
+
+**Preconditions:**
+Today = 2026-05-19.
+Student has active LA linked to a Location Course for Location A.
+Lesson at Location A: Bookable_Flag=TRUE, status=Published, lesson_date=2026-06-03 (today + 15 days). All other visibility conditions met.
+
+| #   | Action                                              | Expected Result                                                     | Test Data                                           |
+| --- | --------------------------------------------------- | ------------------------------------------------------------------- | --------------------------------------------------- |
+| 1   | Login to app as student user and open Lesson Lists  | Lesson Lists screen shown                                           | today = 2026-05-19; lesson_date = 2026-06-03        |
+| 2   | Scroll through the lesson list                      | Lesson with lesson_date=2026-06-03 is NOT shown (past 14 days limit, hidden) | lesson_date 2026-06-03 > today + 14 days → hidden |
+| 3   | Confirm no lesson card with date 2026-06-03 visible | Zero lesson cards for 2026-06-03 displayed                          | —                                                   |
 
 ---
 
@@ -431,7 +453,7 @@ Lesson at Location A: Bookable_Flag=TRUE, status=Published, lesson_date=2026-05-
 Partner config: advance days X = 3. Today = 2026-05-19.
 Lesson A: lesson_date=2026-05-20 (today+1) — currently hidden (threshold = today+3 = 2026-05-22).
 Lesson B: lesson_date=2026-05-22 (today+3) — currently visible.
-Both lessons: Bookable_Flag=TRUE, Published, at student's LA location.
+Both lessons: Bookable_Flag=TRUE, Published, at student's LA's Location Course location.
 
 | #   | Action                                                    | Expected Result                                                           | Test Data                                                                                                                         |
 | --- | --------------------------------------------------------- | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -449,7 +471,7 @@ Both lessons: Bookable_Flag=TRUE, Published, at student's LA location.
 **Preconditions:**
 Partner config: advance days X = 1. Today = 2026-05-19.
 Lesson C: lesson_date=2026-05-21 (today+2) — currently visible (threshold = today+1 = 2026-05-20).
-Both Bookable_Flag=TRUE, Published, at student's LA location.
+Both Bookable_Flag=TRUE, Published, at student's LA's Location Course location.
 
 | #   | Action                                                    | Expected Result                                                                | Test Data                                                                                      |
 | --- | --------------------------------------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
@@ -468,7 +490,7 @@ Both Bookable_Flag=TRUE, Published, at student's LA location.
 **Preconditions:**
 Lesson timezone = UTC+9 (JST). Student's device timezone = UTC+12 (NZST, 3 hours ahead).
 Current time = 2026-05-19 22:30 JST = 2026-05-20 01:30 NZST (device shows date = 2026-05-20).
-Partner config: X = 1. Lesson at student's LA location: lesson_date = 2026-05-20, Bookable_Flag=TRUE, Published.
+Partner config: X = 1. Lesson at student's LA's Location Course location: lesson_date = 2026-05-20, Bookable_Flag=TRUE, Published.
 
 Threshold calculation:
 

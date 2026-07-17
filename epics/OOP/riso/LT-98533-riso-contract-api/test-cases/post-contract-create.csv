@@ -1,0 +1,60 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Riso] POST Contract – Create – Valid required fields – New contract created successfully,AC-POST-1 — Equivalence Partitioning — Verify successful creation when all required fields are valid.,"API Client is authenticated with correct scope
+- A student exists in Manabie with `student_id = STUDENT123`",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with a new `external_ref_id` and all 11 required fields""
+2. ""Query the created Contract record in the database""
+","1. ""API returns HTTP 201 Created""
+2. ""The contract record is created with `contract_status = active` and the submitted field values""
+","1. ""`external_ref_id = NEW_REF_001`, `type = weekly`, `student_id = STUDENT123`""
+2. """"
+",,,1,,[Riso] POST Contract – Create & Upsert,,,
+,[Riso] POST Contract – Create – end_date omitted – Contract created successfully,AC-POST-1 / BR-32 — Boundary Value Analysis — Verify creation succeeds when optional end_date is omitted.,API Client is authenticated with correct scope,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with a new `external_ref_id`, all required fields, but omitting `end_date`""
+2. ""Query the created Contract record""
+","1. ""API returns HTTP 201 Created""
+2. ""The contract is created and `end_date` is null/empty""
+","1. ""`external_ref_id = NEW_REF_002`, `start_date = 2026-06-01`""
+2. """"
+",,,1,,[Riso] POST Contract – Create & Upsert,,,
+,[Riso] POST Contract – Create – end_date before start_date – Returns 422 Validation Error,AC-POST-1 / BR-32 — Boundary Value Analysis (Negative) — Verify creation is rejected if end_date is earlier than start_date.,"API Client is authenticated with correct scope
+- `start_date = 2026-06-15`",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with `end_date` set to 1 day before `start_date`""
+","1. ""API returns HTTP 422 Validation Error (or 400 Bad Request)""
+","1. ""`start_date = 2026-06-15`, `end_date = 2026-06-14`""
+",,,1,,[Riso] POST Contract – Create & Upsert,,,
+,[Riso] POST Contract – Create – Invalid type value – Returns 422 Validation Error,AC-POST-1 / BR-31 — Validation (Negative) — Verify creation is rejected if type is not one of the allowed values.,API Client is authenticated with correct scope,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with `type` set to an invalid string""
+","1. ""API returns HTTP 422 Validation Error (or 400 Bad Request)""
+","1. ""`type = daily` (valid values: weekly, monthly, one-time)""
+",,,1,,[Riso] POST Contract – Create & Upsert,,,
+,[Riso] POST Contract – Upsert – Existing external_ref_id – Contract updated successfully without duplicate,AC-POST-2 — State Transition / CRUD — Verify that POSTing an existing external_ref_id updates the existing record instead of creating a new one.,"API Client is authenticated with correct scope
+- Contract exists with `external_ref_id = REF_UPSERT_01`, `slot = 4`",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with `external_ref_id = REF_UPSERT_01` and `slot = 8`""
+2. ""Query the Contract records by `external_ref_id`""
+3. ""Verify audit history of the Contract""
+","1. ""API returns HTTP 200 OK (or 201 Created indicating upsert success)""
+2. ""Only one record exists. The `slot` field is updated to 8.""
+3. ""Audit history shows the `slot` field changed from 4 to 8""
+","1. ""`external_ref_id = REF_UPSERT_01`, `slot = 8`""
+2. """"
+3. """"
+",,,1,,[Riso] POST Contract – Create & Upsert,,,
+,[Riso] POST Contract – Duplicate – Exact same payload twice – Returns 409 Duplicate Record,AC-POST-1 / BR-08 — Data Integrity (Negative) — Verify that sending the exact same POST payload twice is rejected on the second attempt (as per AC-POST-1 contradiction resolved to 409).,API Client is authenticated with correct scope,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with a new `external_ref_id`""
+2. ""Send the exact same POST request again immediately""
+3. ""Query the Contract records""
+","1. ""API returns HTTP 201 Created""
+2. ""API returns HTTP 409 Duplicate Record""
+3. ""Only one record was created""
+","1. ""`external_ref_id = REF_DUP_01`""
+2. ""`external_ref_id = REF_DUP_01`""
+3. """"
+",,,1,,[Riso] POST Contract – Create & Upsert,,,
+,[Riso] POST Contract – Bulk Create – Partial success – Returns per-record success and error results,AC-POST-6 — CRUD / Decision Table — Verify bulk POST processes each item independently, returning partial success.,"API Client is authenticated with correct scope
+- Payload contains 3 contracts:
+  - Item 1: Valid new contract
+  - Item 2: Invalid contract (missing required field)
+  - Item 3: Valid new contract",,,high,high,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send bulk POST request to `/v1/contracts` with the 3 items""
+2. ""Inspect the response body""
+3. ""Query the Contract records""
+","1. ""API returns HTTP 207 Multi-Status (or 200 OK with detailed body)""
+2. ""Response indicates Item 1 and Item 3 succeeded, while Item 2 failed with a validation error""
+3. ""Contracts for Item 1 and Item 3 are created. Item 2 is not created.""
+","1. ""Array of 3 contract objects""
+2. """"
+3. """"
+",,,1,,[Riso] POST Contract – Create & Upsert,,,

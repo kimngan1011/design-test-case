@@ -52,7 +52,6 @@ For each test run:
 Order: as they appear in the plan, or as specified by the user.
 
 ### Step 4 — Mark wanted cases as Skipped
-**Applies only to:** `Long - Calendar`, `Hoang - Calendar`, `Thanh Hai`, `Quoc Bao`, `Van Loi`. **Skip for:** `Regression test for OOP features`, `Regression test for Renseikai full sandbox`.
 
 For each of the 5 member runs, mark only the wanted cases (subset from Step 2) as `skipped`:
 - `mcp_qase_create_results_bulk(code, id=<run_id>, results=[{case_id, status: "skipped"}, ...])`.

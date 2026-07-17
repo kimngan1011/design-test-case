@@ -35,9 +35,11 @@
 | 23  | AC 02.2   | Delete confirmation dialog must be shown before deletion                                                               |
 | 24  | AC 02.2   | On confirm delete: LA deleted, allocated lessons unlinked                                                              |
 | 25  | AC 02.2   | Delete button disabled when LA start date ≤ today                                                                      |
-| 26  | AC 03.1   | LA.Purchased_Slot = sum of Contract.Slot (excluding Cancelled, Voided, delete_flag = on)                               |
-| 27  | AC 03.1   | LA.Purchased_Slot recalculated when contract updated or new contract added for same LA                                 |
-| 28  | AC 03.2   | LA.End_Date = latest end date from linked contracts (excluding Cancelled/Voided/deleted) — TBC                         |     | 29  | Confirmed | UI-created LAs set `require_allocation = TRUE` automatically |
+| 26  | AC 05.1   | LA.Total Session Count = sum of Contract.Total for all active contracts (Contract_Status = Active); soft-deleted contracts excluded |
+| 27  | AC 05.1   | LA.Total Session Count recalculated when contract created, updated, or soft-deleted for the same LA                    |
+| 28  | AC 05.2   | LA.End_Date = latest end date among active contracts linked to the same LA                                             |
+| 28b | AC 05.2   | LA.Start_Date = earliest start date among active contracts linked to the same LA (LT-98533)                            |
+| 29  | Confirmed | UI-created LAs set `require_allocation = TRUE` automatically                                                           |
 | 30  | Confirmed | UI-created LAs are fully independent of the order lifecycle (void/withdrawal/LOA do not affect them)                   |
 | 31  | Confirmed | CSV validation errors are row-level; same error messages as UI creation                                                |
 | 32  | Confirmed | Lesson unlinking on delete is synchronous (immediate)                                                                  |
@@ -74,9 +76,10 @@
 | 23  | AC 02.2   | State transition                        |
 | 24  | AC 02.2   | Data integrity, Cross-system impact     |
 | 25  | AC 02.2   | Conditional logic                       |
-| 26  | AC 03.1   | Data integrity                          |
-| 27  | AC 03.1   | Data integrity, Cross-system impact     |
-| 28  | AC 03.2   | Data integrity (TBC)                    |
+| 26  | AC 05.1   | Data integrity                          |
+| 27  | AC 05.1   | Data integrity, Cross-system impact     |
+| 28  | AC 05.2   | Data integrity                          |
+| 28b | AC 05.2   | Data integrity                          |
 | 29  | Confirmed | Data integrity, Cross-system impact     |
 | 30  | Confirmed | Data integrity, Cross-system impact     |
 | 31  | Confirmed | Validation logic, Data integrity        |
@@ -128,9 +131,10 @@
 | AC 02.2 | Delete confirmation dialog shown                        | State transition                    | State Transition Testing           | Medium     | Standard       |
 | AC 02.2 | Confirm delete: LA deleted + allocated lessons unlinked | Data integrity, Cross-system        | CRUD Testing, Regression Analysis  | Critical   | Deep           |
 | AC 02.2 | Delete button disabled for past-start-date LAs          | Conditional logic                   | Decision Table, Negative Testing   | High       | Standard       |
-| AC 03.1 | Purchased Slot = sum of active contracts                | Data integrity                      | CRUD Testing                       | High       | Deep           |
-| AC 03.1 | Recalculated on contract create/update                  | Data integrity, Cross-system        | CRUD Testing, Regression Analysis  | High       | Deep           |
-| AC 03.2 | End Date = max end date of active contracts (TBC)       | Data integrity (TBC)                | CRUD Testing                       | Medium     | Standard       |
+| AC 05.1 | Total Session Count = sum of active contract totals     | Data integrity                      | CRUD Testing                       | High       | Deep           |
+| AC 05.1 | Recalculated on contract create/update/soft-delete      | Data integrity, Cross-system        | CRUD Testing, Regression Analysis  | High       | Deep           |
+| AC 05.2 | End Date = latest end date among active contracts       | Data integrity                      | CRUD Testing                       | High       | Standard       |
+| AC 05.2 | Start Date = earliest start date among active contracts  | Data integrity                      | CRUD Testing                       | High       | Standard       |
 | BR 29   | UI-created LAs set `require_allocation = TRUE`          | Data integrity, Cross-system impact | CRUD Testing, Regression Analysis  | Critical   | Deep           |
 | BR 30   | UI-created LAs independent of order lifecycle           | Data integrity, Cross-system impact | Regression Analysis                | Critical   | Deep           |
 | BR 31   | CSV validation errors are row-level (same as UI)        | Validation logic, Data integrity    | Equivalence Partitioning           | High       | Standard       |
@@ -192,10 +196,10 @@
 - Risk: If delete is enabled for past-start-date LAs, historical data can be destroyed; if disabled for future LAs, valid delete operations are blocked.
 - Approach: Decision table — start date in past, start date = today, start date in future. Verify button state and behavior in each case.
 
-**AC 03.1 — Purchased Slot auto-calc on contract events (BR 26, 27)**
+**AC 05.1 — Total Session Count auto-calc on contract events (BR 26, 27)**
 
-- Risk: If contracts are not properly excluded (Cancelled/Voided/deleted), the slot count will be inflated and students over-allocated. If recalculation doesn't trigger on contract update/create, the count will be stale.
-- Approach: CRUD — create LA, link contracts, cancel a contract, verify slot total updates; add a new contract, verify slot recalculates; mark contract as deleted, verify exclusion.
+- Risk: If soft-deleted/Cancelled/Voided contracts are not excluded, the total session count will be inflated and students over-allocated. If recalculation doesn't trigger on contract create/update/soft-delete, the count will be stale.
+- Approach: CRUD — create LA, link contracts (verify using Contract.Total not slot), soft-delete a contract, verify total recalculates; add a new contract with specific Contract.Total, verify total includes it; update Contract.Total, verify recalculation.
 
 ---
 
@@ -235,8 +239,9 @@
 | AC 02.1 — Trial Purchased Slot edit        | None               | None    | ✅ New TC: edit Trial vs Regular/Seasonal           |
 | AC 02.2 — Delete future vs past start date | None               | None    | ✅ New TC: decision table by start date             |
 | AC 02.2 — Delete confirmation + unlink     | None               | None    | ✅ New TC: confirm delete, verify lesson unlink     |
-| AC 03.1 — Purchased Slot auto-calc         | None               | None    | ✅ New TC: contract cancel/add/update triggers      |
-| AC 03.2 — End Date auto-calc (TBC)         | None               | None    | ⏸ Defer until AC 03.2 is confirmed                  |
+| AC 05.1 — Total Session Count auto-calc    | None               | None    | ✅ New TC: contract create/update/soft-delete triggers |
+| AC 05.2 — End Date auto-calc               | None               | None    | ✅ New TC: latest end date among active contracts    |
+| AC 05.2 — Start Date auto-calc             | None               | None    | ✅ New TC: earliest start date among active contracts |
 
 ---
 

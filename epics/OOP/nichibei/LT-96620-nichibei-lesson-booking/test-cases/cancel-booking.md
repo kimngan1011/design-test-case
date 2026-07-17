@@ -46,34 +46,32 @@ Student user has a staff-allocated lesson (Booking_Flag=FALSE) in the Lesson Lis
 
 ### [Nichibei] Lesson Booking – Cancel Deadline – Within deadline – Cancel button enabled
 
-**Description:** AC 04.2 — BR-22: BVA: Cancel button must be enabled when current time is at or before the cancellation deadline (current ≤ lesson start − X hours), where X is the partner-configured cancellation deadline setting.
+**Description:** AC 04.2 — BR-22: BVA: Cancel button must be enabled when current time is at or before the cancellation deadline (current <= 5:00 PM JPT the day before lesson date).
 
 **Preconditions:**
-Partner config: cancellation deadline X = 2 hours.
-Lesson date = 2026-05-22; Lesson start = 2026-05-22 14:00 JST; deadline = 2026-05-22 12:00 JST (14:00 − 2h).
-Current datetime = 2026-05-22 09:00 JST → 2026-05-22 09:00 ≤ 2026-05-22 12:00 → within deadline.
+Lesson date = 2026-05-22; deadline = 2026-05-21 17:00 JST.
+Current datetime = 2026-05-21 09:00 JST → 2026-05-21 09:00 <= 2026-05-21 17:00 JST → within deadline.
 
 | #   | Action                 | Expected Result                       | Test Data                                                                                  |
 | --- | ---------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------ |
 | 1   | Open My Lessons list   | Booked lesson card visible            | —                                                                                          |
-| 2   | View the Cancel button | Cancel button is enabled and tappable | X = 2 h; deadline = 2026-05-22 12:00 JST; current = 2026-05-22 09:00 JST → within deadline |
+| 2   | View the Cancel button | Cancel button is enabled and tappable | deadline = 2026-05-21 17:00 JST; current = 2026-05-21 09:00 JST → within deadline |
 
 ---
 
 ### [Nichibei] Lesson Booking – Cancel Deadline – Past deadline – Cancel button disabled with tooltip
 
-**Description:** AC 04.2 — BR-22: BVA: Cancel button must be disabled with tooltip when current time is past the cancellation deadline (current > lesson start − X hours), where X is the partner-configured cancellation deadline setting.
+**Description:** AC 04.2 — BR-22: BVA: Cancel button must be disabled with tooltip when current time is past the cancellation deadline (current > 5:00 PM JPT the day before lesson date).
 
 **Preconditions:**
-Partner config: cancellation deadline X = 2 hours.
-Lesson date = 2026-05-22; Lesson start = 2026-05-22 11:00 JST; deadline = 2026-05-22 09:00 JST (11:00 − 2h).
-Current datetime = 2026-05-22 10:00 JST → 2026-05-22 10:00 > 2026-05-22 09:00 → past deadline.
+Lesson date = 2026-05-22; deadline = 2026-05-21 17:00 JST.
+Current datetime = 2026-05-21 18:00 JST → 2026-05-21 18:00 > 2026-05-21 17:00 JST → past deadline.
 
 | #   | Action                                  | Expected Result                                                          | Test Data                                                                                |
 | --- | --------------------------------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
 | 1   | Open My Lessons list                    | Booked lesson card visible                                               | —                                                                                        |
-| 2   | View the Cancel button                  | Cancel button is disabled (greyed out)                                   | X = 2 h; deadline = 2026-05-22 09:00 JST; current = 2026-05-22 10:00 JST → past deadline |
-| 3   | Tap or hover the disabled Cancel button | Tooltip shown: "Cancellation not available within 2 hours of start time" | X = 2; tooltip text reflects configured X value                                          |
+| 2   | View the Cancel button                  | Cancel button is disabled (greyed out)                                   | deadline = 2026-05-21 17:00 JST; current = 2026-05-21 18:00 JST → past deadline |
+| 3   | Tap or hover the disabled Cancel button | Tooltip shown: "Cancellation not available after 5:00 PM the day before" | —                                          |
 
 ---
 
@@ -141,19 +139,105 @@ Student has a booked lesson within cancellation deadline. My Lessons list has on
 
 ---
 
-### [Nichibei] Lesson Booking – Cancel Booking – Auto-published lesson stays Published after cancellation
+### [Nichibei] Lesson Booking – Cancel Booking – Last student cancels auto-published lesson – Lesson reverts to Draft
 
-**Description:** AC 04.4 — BR-32: State Transition: When a Draft lesson was auto-published via booking (AC 03.2) and the student subsequently cancels, the lesson must remain in Published status — NOT revert to Draft.
+**Description:** AC 04.5 — BR-40 (LT-104541): State Transition: **Supersedes the previous rule** (which asserted the lesson stays Published forever). When the last remaining Student Session is deleted via app self-cancel on a Published lesson, the lesson must revert to Draft.
 
 **Preconditions:**
-A Draft lesson (Bookable_Flag=TRUE) exists. Student books it → lesson auto-published to Published. Student then cancels the booking.
+A Draft lesson (Bookable_Flag=TRUE) exists.
+Student A books it → lesson auto-published to Published (Student A is the only booked student).
+Lesson is within the cancellation deadline.
 
-| #   | Action                                                       | Expected Result                                           | Test Data |
-| --- | ------------------------------------------------------------ | --------------------------------------------------------- | --------- |
-| 1   | Confirm lesson status = Draft before booking                 | Lesson status = Draft in Salesforce                       | —         |
-| 2   | Student books the Draft lesson; confirm it is auto-published | Lesson status = Published after booking                   | —         |
-| 3   | Student cancels the booking                                  | Cancellation confirmed; Student Session deleted           | —         |
-| 4   | Verify lesson status in Salesforce after cancellation        | Lesson status remains = Published (not reverted to Draft) | —         |
+| #   | Action                                                        | Expected Result                                            | Test Data |
+| --- | -------------------------------------------------------------- | ----------------------------------------------------------- | --------- |
+| 1   | Confirm lesson status = Draft before booking                  | Lesson status = Draft in Salesforce                        | —         |
+| 2   | Student A books the Draft lesson; confirm it is auto-published | Lesson status = Published; Student Session count = 1        | —         |
+| 3   | Student A cancels the booking via app (Cancel → Cancel Reservation) | Cancellation confirmed; Student Session deleted; count = 0 | —         |
+| 4   | Verify lesson status in Salesforce after cancellation         | Lesson status = Draft (reverted from Published)             | —         |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Nichibei] Lesson Booking – Cancel Booking – One of multiple students cancels – Lesson remains Published
+
+**Description:** AC 04.5 — BR-40 (LT-104541): State Transition: When other Student Sessions still exist after a cancellation, the lesson must remain Published (no status change).
+
+**Preconditions:**
+Published lesson has 2 Student Sessions: Student A and Student B.
+Both bookings are within the cancellation deadline.
+
+| #   | Action                                                                       | Expected Result                                     | Test Data |
+| --- | ------------------------------------------------------------------------------ | ----------------------------------------------------- | --------- |
+| 1   | Confirm lesson status = Published; Student Session count = 2 (Student A, B) | Published; count = 2                                  | —         |
+| 2   | Student A cancels the booking via app                                        | Cancellation confirmed; Student Session count = 1 (Student B remains) | —         |
+| 3   | Verify lesson status in Salesforce after Student A's cancellation            | Lesson status remains Published (no status change)   | —         |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Nichibei] Lesson Booking – Cancel Booking – Staff manually removes last Student Session via SF – Lesson stays Published (no revert)
+
+**Description:** AC 04.5 — BR-41 (LT-104541): Negative Testing: Staff-initiated removal of the last Student Session via Salesforce must NOT trigger the Draft revert, even though it results in 0 students on a Published lesson. Only the app self-cancel path triggers the revert.
+
+**Preconditions:**
+Published lesson (auto-published via booking) has exactly 1 Student Session (Student A).
+Staff has Salesforce access.
+
+| #   | Action                                                              | Expected Result                                        | Test Data |
+| --- | ---------------------------------------------------------------------- | --------------------------------------------------------- | --------- |
+| 1   | Confirm lesson status = Published; Student Session count = 1          | Published; count = 1                                     | —         |
+| 2   | Staff deletes Student Session (Student A) directly from Salesforce (not via app) | Session removed from Salesforce; count = 0               | —         |
+| 3   | Verify lesson status in Salesforce after the staff removal            | Lesson status remains Published (NOT reverted to Draft)  | —         |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Nichibei] Lesson Booking – Cancel Booking – Last student cancels a staff-published lesson (never auto-published) – Lesson reverts to Draft
+
+**Description:** AC 04.5 — BR-40 (LT-104541): State Transition: The Draft revert applies to ANY Published lesson that reaches 0 students via app self-cancel, regardless of whether the lesson was auto-published via booking (AC 03.2) or manually published by staff before any booking existed.
+
+**Preconditions:**
+Staff manually publishes a lesson directly in Salesforce (status = Published) before any booking exists.
+Student A then books it via app.
+Lesson is within the cancellation deadline.
+
+| #   | Action                                                                          | Expected Result                                              | Test Data |
+| --- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------- | --------- |
+| 1   | Confirm lesson status = Published (staff-published, not via auto-publish); Student Session count = 0 before booking | Published; count = 0                                             | —         |
+| 2   | Student A books the lesson via app                                               | Student Session count = 1; lesson status remains Published        | —         |
+| 3   | Student A cancels the booking via app                                            | Cancellation confirmed; Student Session count = 0                 | —         |
+| 4   | Verify lesson status in Salesforce after cancellation                            | Lesson status = Draft (reverted, even though original publish was manual, not auto) | —         |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Nichibei] Lesson Booking – Cancel Booking – Last student cancels – CM Chatter post created AND lesson reverts to Draft together
+
+**Description:** AC 04.4 / AC 04.5 / AC 07.1–07.4 — Regression/Integration: Confirms LT-104607 (CM Chatter) and LT-104541 (Draft revert) both fire correctly on the same self-cancel trigger, without one blocking the other, and that no teacher notification fires (removed, PM update 2026-07-01).
+
+**Preconditions:**
+Published lesson at Location L1 (CM1 assigned to L1, Teacher A assigned) has exactly 1 Student Session (Student A).
+Lesson is within the cancellation deadline.
+No Chatter post exists yet on the lesson.
+
+| #   | Action                                                                | Expected Result                                                              | Test Data |
+| --- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | --------- |
+| 1   | Confirm lesson status = Published; Student Session count = 1; 0 existing Chatter posts under topic 予約授業のキャンセル | Published; count = 1; 0 posts                                                     | —         |
+| 2   | Student A cancels the booking via app (Cancel → Cancel Reservation)        | Cancellation confirmed; Student Session count = 0                                | —         |
+| 3   | Verify lesson status in Salesforce                                        | Lesson status = Draft                                                            | —         |
+| 4   | Check the Lesson's Chatter/Activity tab                                    | 1 new Chatter post present, Related To = this Lesson, CM1 mentioned/recipient    | —         |
+| 5   | Check Teacher A's Salesforce notification inbox                            | No notification received by Teacher A (teacher SF notification removed, PM update 2026-07-01) | —         |
+
+**Severity:** critical
+**Priority:** high
 
 ---
 
@@ -180,19 +264,18 @@ Student has a booked lesson within cancellation deadline.
 **Description:** AC 04.2 — BR-26: BVA (Timezone): When the student's device timezone is AHEAD of the lesson's timezone, the cancellation deadline must still be evaluated in the LESSON timezone. If the deadline has not yet passed in the lesson timezone, the Cancel button must remain enabled regardless of what the device clock shows.
 
 **Preconditions:**
-Partner config: cancellation deadline X = 2 hours.
 Lesson timezone = UTC+9 (JST). Student's device timezone = UTC+11 (AEST, 2 hours ahead).
-Lesson start = 2026-05-22 10:00 JST; deadline = 2026-05-22 08:00 JST (10:00 − 2h).
-Current datetime = 2026-05-22 07:30 JST = 2026-05-22 09:30 AEST.
+Lesson date = 2026-05-22; deadline = 2026-05-21 17:00 JST.
+Current datetime = 2026-05-21 16:30 JST = 2026-05-21 18:30 AEST.
 
 Deadline calculation:
 
-- Lesson TZ (JST): current 2026-05-22 07:30 JST ≤ deadline 2026-05-22 08:00 JST → **within deadline** ✅
-- Device TZ (AEST): device clock = 2026-05-22 09:30 AEST; device would calculate differently — but system must use lesson TZ
+- Lesson TZ (JST): current 2026-05-21 16:30 JST <= deadline 2026-05-21 17:00 JST → **within deadline** ✅
+- Device TZ (AEST): device clock = 2026-05-21 18:30 AEST; device would calculate differently — but system must use lesson TZ
 
 | #   | Action                                                                                                        | Expected Result                                            | Test Data                                                                                                                                     |
 | --- | ------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Confirm current datetime in JST = 2026-05-22 07:30 ≤ deadline 2026-05-22 08:00 — within cancellation deadline | Within cancellation deadline in lesson timezone            | X = 2 h; lesson_start = 2026-05-22 10:00 JST; deadline = 2026-05-22 08:00 JST; current = 2026-05-22 07:30 JST; device = 2026-05-22 09:30 AEST |
+| 1   | Confirm current datetime in JST = 2026-05-21 16:30 <= deadline 2026-05-21 17:00 — within cancellation deadline | Within cancellation deadline in lesson timezone            | deadline = 2026-05-21 17:00 JST; current = 2026-05-21 16:30 JST; device = 2026-05-21 18:30 AEST |
 | 2   | Open My Lessons list                                                                                          | Booked lesson card visible                                 | —                                                                                                                                             |
 | 3   | View Cancel button on the lesson card                                                                         | Cancel button is enabled and tappable                      | —                                                                                                                                             |
 | 4   | Tap Cancel and tap "Cancel Reservation"                                                                       | Cancellation succeeds; lesson removed from My Lessons list | —                                                                                                                                             |
@@ -204,22 +287,21 @@ Deadline calculation:
 **Description:** AC 04.2 — BR-26: BVA (Timezone): When the student's device timezone is BEHIND the lesson's timezone, the Cancel button must be DISABLED if the cancellation deadline has passed in the lesson timezone, even if the device clock shows the student is still within the deadline.
 
 **Preconditions:**
-Partner config: cancellation deadline X = 2 hours.
 Lesson timezone = UTC+9 (JST). Student's device timezone = UTC+7 (ICT, 2 hours behind).
-Lesson start = 2026-05-22 10:00 JST; deadline = 2026-05-22 08:00 JST (10:00 − 2h).
-Current datetime = 2026-05-22 08:30 JST = 2026-05-22 06:30 ICT.
+Lesson date = 2026-05-22; deadline = 2026-05-21 17:00 JST.
+Current datetime = 2026-05-21 17:30 JST = 2026-05-21 15:30 ICT.
 
 Deadline calculation:
 
-- Lesson TZ (JST): current 2026-05-22 08:30 JST > deadline 2026-05-22 08:00 JST → **past deadline** ❌
-- Device TZ (ICT): device clock = 2026-05-22 06:30 ICT; device would suggest still within deadline — but system must use lesson TZ
+- Lesson TZ (JST): current 2026-05-21 17:30 JST > deadline 2026-05-21 17:00 JST → **past deadline** ❌
+- Device TZ (ICT): device clock = 2026-05-21 15:30 ICT; device would suggest still within deadline — but system must use lesson TZ
 
 | #   | Action                                                                                                                                         | Expected Result                                                                | Test Data                                                                                                                                    |
 | --- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Confirm current datetime in JST = 2026-05-22 08:30 > deadline 2026-05-22 08:00 — past cancellation deadline; device shows 2026-05-22 06:30 ICT | Past cancellation deadline in lesson timezone despite device showing otherwise | X = 2 h; lesson_start = 2026-05-22 10:00 JST; deadline = 2026-05-22 08:00 JST; current = 2026-05-22 08:30 JST; device = 2026-05-22 06:30 ICT |
+| 1   | Confirm current datetime in JST = 2026-05-21 17:30 > deadline 2026-05-21 17:00 — past cancellation deadline; device shows 2026-05-21 15:30 ICT | Past cancellation deadline in lesson timezone despite device showing otherwise | deadline = 2026-05-21 17:00 JST; current = 2026-05-21 17:30 JST; device = 2026-05-21 15:30 ICT |
 | 2   | Open My Lessons list                                                                                                                           | Booked lesson card visible                                                     | —                                                                                                                                            |
 | 3   | View Cancel button on the lesson card                                                                                                          | Cancel button is DISABLED (greyed out)                                         | —                                                                                                                                            |
-| 4   | Tap the disabled Cancel button                                                                                                                 | Tooltip shown: "Cancellation not available within 2 hours of start time"       | X = 2; tooltip text reflects configured X value                                                                                              |
+| 4   | Tap the disabled Cancel button                                                                                                                 | Tooltip shown: "Cancellation not available after 5:00 PM the day before"       | —                                                                                              |
 
 ---
 
@@ -332,42 +414,4 @@ Lesson 1 is within the cancellation deadline.
 
 ---
 
-## Suite: Cancellation Deadline – Config Change
 
-### [Nichibei] Lesson Booking – Cancel Deadline Config – X decreased (4h→2h) – Previously disabled Cancel button becomes enabled
-
-**Description:** AC 04.2 — BR-22 / Config: When admin decreases the cancellation deadline X from 4 hours to 2 hours, a lesson that was previously past the deadline (Cancel button disabled) must immediately show the Cancel button as enabled after refresh — because the shorter deadline now places the current time within the new window.
-
-**Preconditions:**
-Partner config: cancellation deadline X = 4 hours.
-Student has booked Lesson A. Lesson A start = 2026-05-22 14:00 JST.
-Current datetime = 2026-05-22 11:30 JST.
-With X=4: deadline = 2026-05-22 10:00 JST; current 2026-05-22 11:30 > 2026-05-22 10:00 → **past deadline → Cancel DISABLED**.
-After config change to X=2: deadline = 2026-05-22 12:00 JST; current 2026-05-22 11:30 ≤ 2026-05-22 12:00 → **within deadline → Cancel ENABLED**.
-
-| #   | Action                                                        | Expected Result                                              | Test Data                                                                                                       |
-| --- | ------------------------------------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| 1   | Open My Lessons list with X=4 config                          | Lesson A Cancel button is DISABLED; tooltip shown on tap     | X = 4 h; Lesson A start = 2026-05-22 14:00 JST; deadline = 2026-05-22 10:00 JST; current = 2026-05-22 11:30 JST |
-| 2   | Admin updates partner cancellation deadline config from 4h→2h | Config updated successfully                                  | X changed: 4 → 2; new deadline = 2026-05-22 12:00 JST                                                           |
-| 3   | Student refreshes My Lessons list                             | Lesson A Cancel button is now ENABLED and tappable           | current 2026-05-22 11:30 JST ≤ new deadline 2026-05-22 12:00 JST → within deadline                              |
-| 4   | Tap Cancel on Lesson A → confirm cancellation                 | Cancellation succeeds; Lesson A removed from My Lessons list | —                                                                                                               |
-
----
-
-### [Nichibei] Lesson Booking – Cancel Deadline Config – X increased (2h→4h) – Previously enabled Cancel button becomes disabled
-
-**Description:** AC 04.2 — BR-22 / Config: When admin increases the cancellation deadline X from 2 hours to 4 hours, a lesson that was previously within the deadline (Cancel button enabled) must immediately show the Cancel button as disabled with tooltip after refresh — because the longer deadline now places the current time past the new window.
-
-**Preconditions:**
-Partner config: cancellation deadline X = 2 hours.
-Student has booked Lesson B. Lesson B start = 2026-05-22 14:00 JST.
-Current datetime = 2026-05-22 11:30 JST.
-With X=2: deadline = 2026-05-22 12:00 JST; current 2026-05-22 11:30 ≤ 2026-05-22 12:00 → **within deadline → Cancel ENABLED**.
-After change to X=4: deadline = 2026-05-22 10:00 JST; current 2026-05-22 11:30 > 2026-05-22 10:00 → **past deadline → Cancel DISABLED**.
-
-| #   | Action                                                        | Expected Result                                                          | Test Data                                                                                                       |
-| --- | ------------------------------------------------------------- | ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| 1   | Open My Lessons list with X=2 config                          | Lesson B Cancel button is ENABLED and tappable                           | X = 2 h; Lesson B start = 2026-05-22 14:00 JST; deadline = 2026-05-22 12:00 JST; current = 2026-05-22 11:30 JST |
-| 2   | Admin updates partner cancellation deadline config from 2h→4h | Config updated successfully                                              | X changed: 2 → 4; new deadline = 2026-05-22 10:00 JST                                                           |
-| 3   | Student refreshes My Lessons list                             | Lesson B Cancel button is now DISABLED (greyed out)                      | current 2026-05-22 11:30 JST > new deadline 2026-05-22 10:00 JST → past deadline                                |
-| 4   | Tap the disabled Cancel button                                | Tooltip shown: "Cancellation not available within 4 hours of start time" | X = 4; tooltip text reflects updated X value                                                                    |

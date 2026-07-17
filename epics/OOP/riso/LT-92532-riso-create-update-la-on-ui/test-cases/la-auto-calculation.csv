@@ -1,0 +1,138 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,,,LA – Total Session Count Auto-Calculation,2,,
+18068,[Riso] Lesson Allocation – Total Session Count – New Contracts Linked – Equals Sum of Active Contract Totals,"Ac 05.1 — CRUD Testing — LA.Total Session Count equals the sum of Contract.Total for all active contracts linked to the LA (spec scenario: New).","- Logged in as HQ or CM user
+- LA 1 exists for student (duration Jan 1–Jun 30)
+- Contract 1 (slot=2, type=one-time, total=2, Status=Active) is linked to LA 1
+- Contract 2 (slot=4, type=monthly, total=20, Status=Active) is linked to LA 1
+- Expected LA 1 Total Session Count = 22",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Student → Contact → Course tab""
+2. ""Locate LA 1 record in the table""
+3. ""Observe Total Session Count value""","1. ""Lesson Allocation table is displayed""
+2. ""LA row is found""
+3. ""Total Session Count = 22 (Contract 1 total=2 + Contract 2 total=20)""","1. """"
+2. """"
+3. ""Contract 1: slot=2, one-time, total=2; Contract 2: slot=4, monthly, total=20""",,,,,,,
+18069,[Riso] Lesson Allocation – Total Session Count – Contract Cancelled – Excluded from Total Session Count,"Ac 05.1 — CRUD Testing — When a linked contract is cancelled, LA.Total Session Count is recalculated to exclude the cancelled contract's total.","- Logged in as HQ or CM user
+- LA linked to Contract 1 (total=5, Status=Active) and Contract 2 (total=5, Status=Active)
+- Current LA Total Session Count = 10",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Cancel Contract 2""
+2. ""Navigate to the LA record""
+3. ""Observe Total Session Count value""","1. ""Contract 2 status = Cancelled""
+2. ""LA Purchased Slot has been recalculated""
+3. ""Total Session Count = 5 (only Contract 1 active; Contract 2 excluded as Cancelled)""","1. ""Contract 2: Cancelled""
+2. """"
+3. """"",,,,,,,
+18070,[Riso] Lesson Allocation – Total Session Count – Contract Voided – Excluded from Total Session Count,"Ac 05.1 — CRUD Testing — When a linked contract is voided, LA.Total Session Count is recalculated to exclude the voided contract's total.","- Logged in as HQ or CM user
+- LA linked to Contract 1 (total=5, Status=Active) and Contract 2 (total=5, Status=Active)
+- Current LA Total Session Count = 10",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Void Contract 2""
+2. ""Observe Total Session Count value""","1. ""Contract 2 status = Voided""
+2. ""Total Session Count = 5 (Contract 2 excluded as Voided)""","1. ""Contract 2: Voided""
+2. """"",,,,,,,
+18071,[Riso] Lesson Allocation – Total Session Count – Contract Soft-Deleted – Excluded from Total Session Count,"Ac 05.1 — CRUD Testing — When a linked contract is soft-deleted (status set to Deleted), LA.Total Session Count is recalculated to exclude it (spec scenario: Soft Delete).","- Logged in as HQ or CM user
+- LA 1 (Total Session Count = 22; duration Jan 1–Jun 30)
+- Contract 1 (slot=2, one-time, total=2, Status=Active) linked to LA 1
+- Contract 2 (slot=4, monthly, total=20, Status=Active) linked to LA 1",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set Contract 2 status to Deleted (soft-delete)""
+2. ""Navigate to LA 1 record""
+3. ""Observe Total Session Count value""","1. ""Contract 2 status = Deleted""
+2. ""LA table is shown""
+3. ""Total Session Count = 2 (only Contract 1 total=2 counted; Contract 2 excluded)""","1. ""Contract 2: Status → Deleted""
+2. """"
+3. """"",,,,,,,
+18072,[Riso] Lesson Allocation – Total Session Count – New Active Contract Added – Recalculated to Include New Contract Total,"Ac 05.1 — CRUD Testing — When a new active contract is linked to the LA, LA.Total Session Count is recalculated to include the new contract's total (spec scenario: Another New).","- Logged in as HQ or CM user
+- LA 1 (Total Session Count = 2; duration Jan 1–Jun 30)
+- Contract 1 (slot=2, one-time, total=2, Status=Active) linked to LA 1
+- Contract 2 (slot=4, monthly, total=20, Status=Deleted) linked to LA 1",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Create Contract 3 (slot=3, type=monthly, total=9, Apr 1–Jun 30) linked to LA 1""
+2. ""Navigate to LA 1 record""
+3. ""Observe Total Session Count value""","1. ""Contract 3 is created with Status=Active""
+2. ""LA table is shown""
+3. ""Total Session Count = 11 (Contract 1 total=2 + Contract 3 total=9)""","1. ""Contract 3: slot=3, monthly, total=9""
+2. """"
+3. """"",,,,,,,
+18073,[Riso] Lesson Allocation – Total Session Count – Active Contract Total Updated – Recalculated on Change,"Ac 05.1 — CRUD Testing — When an active linked contract's total is updated, LA.Total Session Count is recalculated to reflect the new total (spec scenario: Update).","- Logged in as HQ or CM user
+- LA 1 (Total Session Count = 11; duration Jan 1–Jun 30)
+- Contract 1 (slot=2, one-time, total=2, Status=Active) linked to LA 1
+- Contract 2 (slot=4, monthly, total=20, Status=Deleted) linked to LA 1
+- Contract 3 (slot=3, monthly, total=9, Status=Active, Apr 1–Jun 30) linked to LA 1",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Update Contract 3: change slot from 3 to 1, type from monthly to weekly, total from 9 to 8, end date to May 30""
+2. ""Navigate to LA 1 record""
+3. ""Observe Total Session Count value""","1. ""Contract 3 updated""
+2. ""LA table is shown""
+3. ""Total Session Count = 10 (Contract 1 total=2 + Contract 3 total=8)""","1. ""Contract 3: slot→1, type→weekly, total→8, end→May 30""
+2. """"
+3. """"",,,,,,,
+,[Riso] Lesson Allocation – Total Session Count – Multiple LAs per Student – Each Calculated from Its Own Linked Contracts Only,"Ac 05.1 — CRUD Testing — When a student has multiple LAs (different courses), each LA.Total Session Count is calculated only from contracts linked to that specific LA (isolated by lesson_allocation_id); contracts of one LA do not affect another.","- Logged in as HQ or CM user
+- Student has LA 1 (Course A) and LA 2 (Course B); both active
+- Contract 1 (total=10, Status=Active) is linked to LA 1 only
+- Contract 2 (total=8, Status=Active) is linked to LA 2 only",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Student → Contact → Course tab""
+2. ""Observe Total Session Count for LA 1""
+3. ""Observe Total Session Count for LA 2""","1. ""LA table is displayed showing LA 1 and LA 2""
+2. ""Total Session Count = 10 (only Contract 1 counted; Contract 2 belongs to LA 2 and is excluded)""
+3. ""Total Session Count = 8 (only Contract 2 counted; Contract 1 belongs to LA 1 and is excluded)""","1. """"
+2. ""Contract 1: linked to LA 1, total=10; Contract 2: linked to LA 2, total=8""
+3. """"",,,,,,,
+23196,[Riso] Lesson Allocation – Total Session Count – Last Active Contract Soft-Deleted – Total Session Count Becomes Zero; Start Date and End Date Retained,"Ac 05.1 / Ac 05.2 — CRUD Testing — When the last active contract linked to an LA is soft-deleted, Total Session Count becomes 0 but Start Date and End Date retain their last known values (LT-98533 Logical Deletion rule).","- Logged in as HQ or CM user
+- LA has exactly 1 active contract: Contract 1 (start=2026-01-01, end=2026-06-30, total=10, Status=Active)
+- LA Total Session Count = 10; LA Start Date = 2026-01-01; LA End Date = 2026-06-30",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set Contract 1 status to Deleted (the only active contract)""
+2. ""Navigate to the LA record""
+3. ""Observe Total Session Count value""
+4. ""Observe Start Date and End Date values""","1. ""Contract 1 status = Deleted""
+2. ""LA is displayed""
+3. ""Total Session Count = 0 (no remaining active contracts)""
+4. ""Start Date = 2026-01-01; End Date = 2026-06-30 (retained from last known state; not reset to null)""","1. ""Contract 1: Status → Deleted""
+2. """"
+3. """"
+4. """"",,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,LA – Start Date / End Date Auto-Calculation,2,,
+,[Riso] Lesson Allocation – Start Date – Active Contracts Present – Set to Earliest Contract Start Date,"Ac 05.2 — CRUD Testing — LA.Start_Date equals the earliest start date among all active contracts linked to the LA (LT-98533).","- Logged in as HQ or CM user
+- LA linked to Contract 1 (start_date=2026-01-01, Status=Active) and Contract 2 (start_date=2026-04-01, Status=Active)
+- Expected LA.Start_Date = 2026-01-01",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the LA record""
+2. ""Observe Start Date value""","1. ""LA is displayed""
+2. ""Start Date = 2026-01-01 (earliest start date among active contracts)""","1. """"
+2. ""Contract 1: start=2026-01-01; Contract 2: start=2026-04-01""",,,,,,,
+,[Riso] Lesson Allocation – Start Date – Contract with Earliest Start Date Soft-Deleted – Recalculated to Next Earliest,"Ac 05.2 — CRUD Testing — When the contract with the earliest start date is soft-deleted, LA.Start_Date recalculates to the next earliest start date among remaining active contracts (LT-98533).","- Logged in as HQ or CM user
+- LA linked to Contract 1 (start=2026-01-01, Status=Active) and Contract 2 (start=2026-04-01, Status=Active)
+- LA.Start_Date = 2026-01-01 (earliest)",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set Contract 1 status to Deleted (the one with start=2026-01-01)""
+2. ""Navigate to the LA record""
+3. ""Observe Start Date value""","1. ""Contract 1 status = Deleted""
+2. ""LA is displayed""
+3. ""Start Date = 2026-04-01 (recalculated to Contract 2's start date, now the only active contract)""","1. ""Contract 1: Status → Deleted""
+2. """"
+3. """"",,,,,,,
+23197,[Riso] Lesson Allocation – End Date – Contract with Latest End Date Deleted – LA End Date Recalculates to Past Date,"Ac 05.2 — CRUD Testing — When the contract with the latest (future) end date is soft-deleted and all remaining active contracts have past end dates, LA.End_Date auto-recalculates to a past date with no validation error.","- Logged in as HQ or CM user
+- Today = 2026-06-22
+- LA linked to Contract 1 (end=2025-03-31, Status=Active) and Contract 2 (end=2026-09-30, Status=Active)
+- LA.End_Date = 2026-09-30 (latest, currently future)",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set Contract 2 status to Deleted (the one with end=2026-09-30)""
+2. ""Navigate to the LA record""
+3. ""Observe End Date value""
+4. ""Verify no validation error is shown for the past End Date""","1. ""Contract 2 status = Deleted""
+2. ""LA is displayed""
+3. ""End Date = 2025-03-31 (recalculated to Contract 1's end date; past date accepted)""
+4. ""No error message displayed — auto-recalculated past dates bypass the manual future-date restriction""","1. ""Contract 2: Status → Deleted""
+2. """"
+3. """"
+4. """"",,,,,,,
+23198,[Riso] Lesson Allocation – End Date – Active Contract End Date Updated to Past – LA End Date Recalculates to Past Date,"Ac 05.2 — CRUD Testing — When the only active contract's end date is updated to a past date, LA.End_Date auto-recalculates to that past date with no validation error.","- Logged in as HQ or CM user
+- Today = 2026-06-22
+- LA linked to Contract 1 only (end=2026-09-30, Status=Active)
+- LA.End_Date = 2026-09-30",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Update Contract 1: change end date from 2026-09-30 to 2025-03-31""
+2. ""Navigate to the LA record""
+3. ""Observe End Date value""
+4. ""Verify no validation error is shown for the past End Date""","1. ""Contract 1 updated with end=2025-03-31""
+2. ""LA is displayed""
+3. ""End Date = 2025-03-31 (recalculated to updated contract end date; past date accepted)""
+4. ""No error message displayed — auto-recalculated past dates bypass the manual future-date restriction""","1. ""Contract 1: end → 2025-03-31""
+2. """"
+3. """"
+4. """"",,,,,,,
+18074,[Riso] Lesson Allocation – End Date – Active Contracts Present – Set to Latest Contract End Date,"Ac 05.2 — CRUD Testing — LA.End_Date equals the latest end date among all active contracts linked to the LA.","- Logged in as HQ or CM user
+- LA linked to Contract 1 (end_date=2026-06-30, Status=Active) and Contract 2 (end_date=2026-09-30, Status=Active)
+- Expected LA.End_Date = 2026-09-30",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the LA record""
+2. ""Observe End Date value""","1. ""LA is displayed""
+2. ""End Date = 2026-09-30 (latest end date among active contracts)""","1. """"
+2. """"",,,,,,,
+18075,[Riso] Lesson Allocation – End Date – Contract with Latest End Date Cancelled – Recalculated to Next Latest,"Ac 05.2 — CRUD Testing — When the contract with the latest end date is cancelled, LA.End_Date recalculates to the next latest end date among remaining active contracts.","- Logged in as HQ or CM user
+- LA linked to Contract 1 (end=2026-06-30, Status=Active) and Contract 2 (end=2026-09-30, Status=Active)
+- LA.End_Date = 2026-09-30",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Cancel Contract 2 (the one with end=2026-09-30)""
+2. ""Navigate to the LA record""
+3. ""Observe End Date value""","1. ""Contract 2 status = Cancelled""
+2. ""LA is displayed""
+3. ""End Date = 2026-06-30 (recalculated to Contract 1's end date)""","1. """"
+2. """"
+3. """"",,,,,,,

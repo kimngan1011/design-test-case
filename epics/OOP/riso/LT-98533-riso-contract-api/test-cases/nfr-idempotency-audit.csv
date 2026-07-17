@@ -1,0 +1,34 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Riso] Contract API – Idempotency – Safe retries on POST/PATCH updates – Same state maintained,NFR-03 — State Transition — Verify that repeating a state-mutating request with the exact same valid payload (upsert or update) is idempotent and does not cause unexpected side effects or errors.,"API Client is authenticated with correct scope
+- Contract exists with `external_ref_id = REF_IDEMP_01`",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` (upsert) or PATCH to `/v1/contracts/{external_ref_id}` with valid changes""
+2. ""Send the exact same request again immediately""
+3. ""Query the database""
+4. ""Query LA aggregation fields (if linked)""
+","1. ""API returns HTTP 200 OK (or 201 for upsert) and applies changes""
+2. ""API returns HTTP 200 OK (or 201). No error is thrown.""
+3. ""Contract state is exactly as it was after step 1. No duplicate records.""
+4. ""LA aggregation fields remain unchanged after the second identical request""
+","1. ""`external_ref_id = REF_IDEMP_01`, `slot = 10`""
+2. ""Same payload""
+3. """"
+4. """"
+",,,1,,[Riso] NFR – Idempotency & Audit Timestamps,,,
+,[Riso] Contract API – Audit Columns – Auto-populated on Create – created_at, updated_at set,NFR-05 — Component — Verify standard audit columns are populated automatically upon record creation.,API Client is authenticated with correct scope,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` to create a new contract""
+2. ""Query the database for the new contract""
+","1. ""API returns HTTP 201 Created""
+2. ""System populated `created_at`, `updated_at`, and `resource_path` correctly""
+","1. ""`external_ref_id = REF_AUDIT_01`""
+2. """"
+",,,1,,[Riso] NFR – Idempotency & Audit Timestamps,,,
+,[Riso] Contract API – Audit Columns – Auto-updated on PATCH – updated_at changes, created_at unchanged,NFR-05 — Component — Verify updated_at changes on modification while created_at remains the same.,"API Client is authenticated with correct scope
+- Contract exists with `external_ref_id = REF_AUDIT_02`
+- Wait for at least 1 second since creation",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Record current `created_at` and `updated_at` timestamps of the contract""
+2. ""Send PATCH request to `/v1/contracts/{external_ref_id}` with `slot = 20`""
+3. ""Query the database for the contract""
+","1. ""Timestamps noted""
+2. ""API returns HTTP 200 OK""
+3. ""`updated_at` is newer than the previously recorded value. `created_at` is exactly the same as before.""
+","1. """"
+2. ""`external_ref_id = REF_AUDIT_02`, `slot = 20`""
+3. """"
+",,,1,,[Riso] NFR – Idempotency & Audit Timestamps,,,

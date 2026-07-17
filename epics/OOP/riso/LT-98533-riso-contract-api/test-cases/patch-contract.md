@@ -1,0 +1,91 @@
+# Test Cases: LT-98533 — Riso | OOP | Contract API (Create/Update via External System)
+
+## Suite: [Riso] PATCH Contract – Field Update
+
+### [Riso] PATCH Contract – Valid fields – end_date, slot, total, LA updated successfully
+
+**Description:** AC-PATCH-1 — Equivalence Partitioning / CRUD — Verify mutable fields can be updated successfully via PATCH.
+
+**Preconditions:**
+- API Client is authenticated with correct scope
+- Contract exists with `external_ref_id = PATCH_REF_01` and is linked to `LA_OLD`
+- Another Lesson Allocation `LA_NEW` exists for the same student
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Send PATCH request to `/v1/contracts/{external_ref_id}` with new values for `end_date`, `slot`, `total`, and `lesson_allocation_id` | API returns HTTP 200 OK | `external_ref_id = PATCH_REF_01`, `end_date = 2026-12-31`, `slot = 15`, `total = 15`, `lesson_allocation_id = LA_NEW` |
+| 2 | Query the Contract record | The fields are updated successfully | "" |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] PATCH Contract – Immutable field – external_ref_id update ignored or rejected
+
+**Description:** AC-PATCH-1 — Negative — Verify attempt to update immutable external_ref_id is handled correctly.
+
+**Preconditions:**
+- API Client is authenticated with correct scope
+- Contract exists with `external_ref_id = PATCH_REF_02`
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Send PATCH request to `/v1/contracts/{external_ref_id}` trying to change `external_ref_id` | API returns HTTP 422 Validation Error (or ignores the field) | `external_ref_id = PATCH_REF_02`, payload contains `"external_ref_id": "NEW_REF"` |
+| 2 | Query the Contract record | The `external_ref_id` remains `PATCH_REF_02` | "" |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] PATCH Contract – Immutable field – student_id update ignored or rejected
+
+**Description:** AC-PATCH-1 — Negative — Verify attempt to update immutable student_id is handled correctly.
+
+**Preconditions:**
+- API Client is authenticated with correct scope
+- Contract exists with `external_ref_id = PATCH_REF_03` and `student_id = STUDENT_X`
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Send PATCH request to `/v1/contracts/{external_ref_id}` trying to change `student_id` | API returns HTTP 422 Validation Error (or ignores the field) | `external_ref_id = PATCH_REF_03`, payload contains `"student_id": "STUDENT_Y"` |
+| 2 | Query the Contract record | The `student_id` remains `STUDENT_X` | "" |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] PATCH Contract – Non-existent contract – Returns 404 Not Found
+
+**Description:** AC-PATCH-4 — Negative — Verify PATCH to an unknown external_ref_id returns 404.
+
+**Preconditions:**
+- API Client is authenticated with correct scope
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Send PATCH request to `/v1/contracts/NON_EXISTENT_REF` with valid update fields | API returns HTTP 404 Not Found | `external_ref_id = NON_EXISTENT_REF`, `slot = 10` |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] PATCH Contract – Invalid LA link – Returns 409 Dependency Missing
+
+**Description:** AC-POST-5 / AC-PATCH-1 — Negative — Verify updating to a non-existent LA returns 409.
+
+**Preconditions:**
+- API Client is authenticated with correct scope
+- Contract exists with `external_ref_id = PATCH_REF_04`
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Send PATCH request to `/v1/contracts/{external_ref_id}` with `lesson_allocation_id` set to a non-existent ID | API returns HTTP 409 Dependency Missing (or 422) | `external_ref_id = PATCH_REF_04`, `lesson_allocation_id = INVALID_LA` |
+
+**Severity:** major
+**Priority:** high
+
+---

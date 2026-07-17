@@ -1,0 +1,103 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+23246,[Riso] Monthly Lesson Assignment Report – Riso HQ or CM Staff – Report Page Accessible as Standalone,AC-06 — Permission Matrix — The Monthly Lesson Assignment report page is accessible as a standalone page to an authorized Riso HQ or CM Staff user.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- The Monthly Lesson Assignment report page URL is known
+- today = 2026-06-22",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate directly to the Monthly Lesson Assignment report page (standalone URL)
+2. Observe the page content","1. The report page loads without an error or permission denial
+2. The report page is fully rendered, showing the filter panel and report area","1. today = 2026-06-22; Riso HQ or CM Staff user
+2. """"",,,3043,3036,Report Access – Permission Gate,,,
+23247,[Riso] Monthly Lesson Assignment Report – Non-Riso Partner – Report Page Not Accessible,AC-06 — Negative — A user from a non-Riso partner org cannot access the Monthly Lesson Assignment report page; access is denied or the page is not reachable.,"- Logged in as HQ or CM Staff to a non-Riso partner Salesforce org
+- today = 2026-06-22",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Attempt to navigate to the Monthly Lesson Assignment report page (using the same URL as the Riso standalone report)
+2. Observe whether the report content or any data is exposed","1. The page does not load; user receives an access-denied message, is redirected, or the route is not found
+2. No report content or student data is visible to the non-Riso user","1. today = 2026-06-22; non-Riso partner user
+2. """"",,,3043,3036,Report Access – Permission Gate,,,
+23248,[Riso] Monthly Lesson Assignment Report – AY Filter – Defaults to Current AY on First Open,"AC-07 — Decision Table — When the report is opened for the first time in a session, the AY filter defaults to the current Academic Year without any user action.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- The report has not been opened in the current browser session (no cached filter state)
+- today = 2026-06-22; current_AY = 2025-2026",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page
+2. Observe the AY filter field without making any selection","1. Report page loads
+2. The AY filter displays 2025-2026 as the selected value","1. today = 2026-06-22; current_AY = 2025-2026
+2. Expected default: AY = 2025-2026",,,3044,3036,Report Filters – Defaults and Behavior,,,
+23249,[Riso] Monthly Lesson Assignment Report – Location Filter – Defaults to User's Assigned Location on First Open,"AC-07 — Decision Table — When the report is opened, the Location filter defaults to the user's assigned location without any user action.","- Logged in as HQ or CM Staff to the Riso Salesforce org whose assigned location is Tokyo Branch
+- The report has not been opened in the current browser session
+- today = 2026-06-22; user_location = Tokyo Branch",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page
+2. Observe the Location filter field without making any selection","1. Report page loads
+2. The Location filter displays Tokyo Branch as the pre-selected value","1. today = 2026-06-22; user_location = Tokyo Branch
+2. Expected default: Location = user's assigned location (Tokyo Branch)",,,3044,3036,Report Filters – Defaults and Behavior,,,
+23250,[Riso] Monthly Lesson Assignment Report – Student or Contact ID Filter – Multi-Select Supported,AC-07 — Equivalence Partitioning — The Student or Contact ID filter accepts multiple student selections simultaneously.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- At least three student contacts exist in the system
+- today = 2026-06-22; current_AY = 2025-2026",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page
+2. Click the Student or Contact ID filter field
+3. Select Student A from the filter
+4. Select Student B from the same filter without deselecting Student A
+5. Select Student C from the same filter
+6. Apply or observe the report data","1. Report page loads
+2. A dropdown or search input appears allowing multiple selections
+3. Student A is added to the filter; field shows Student A as selected
+4. Both Student A and Student B are shown as selected in the filter
+5. All three students (A, B, C) are shown as selected simultaneously
+6. Report shows rows for all three selected students","1. today = 2026-06-22
+2. """"
+3. Student A = Contact ID: STU-001
+4. Student B = Contact ID: STU-002
+5. Student C = Contact ID: STU-003
+6. """"",,,3044,3036,Report Filters – Defaults and Behavior,,,
+23251,[Riso] Monthly Lesson Assignment Report – Location Filter – Multi-Select Supported,AC-07 — Equivalence Partitioning — The Location filter accepts multiple location selections simultaneously.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- At least two locations exist (e.g., Tokyo Branch and Osaka Branch)
+- today = 2026-06-22; current_AY = 2025-2026",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page
+2. Click the Location filter field
+3. Select Tokyo Branch from the Location filter
+4. Select Osaka Branch from the same Location filter without deselecting Tokyo Branch
+5. Apply or observe the report data","1. Report page loads
+2. A dropdown appears allowing multiple selections
+3. Tokyo Branch is added to the filter selection
+4. Both Tokyo Branch and Osaka Branch are shown as selected in the filter
+5. Report shows rows for students from both Tokyo Branch and Osaka Branch","1. today = 2026-06-22
+2. """"
+3. Location 1: Tokyo Branch
+4. Location 2: Osaka Branch
+5. """"",,,3044,3036,Report Filters – Defaults and Behavior,,,
+23252,[Riso] Monthly Lesson Assignment Report – AY Filter Changed – Report Data Scope Updates,AC-07 — Decision Table — Changing the AY filter from the current AY to a previous AY causes the report rows to update to reflect the selected AY's data.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Contracts and sessions exist in both AY 2025-2026 and AY 2024-2025
+- today = 2026-06-22; current_AY = 2025-2026; previous_AY = 2024-2025",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page
+2. Note the number of rows shown for AY 2025-2026
+3. Change the AY filter to 2024-2025 and apply (or observe auto-apply)
+4. Confirm the displayed rows correspond to AY 2024-2025 contracts and sessions","1. Report loads with AY defaulting to 2025-2026
+2. A set of rows is displayed corresponding to AY 2025-2026 data
+3. Report rows update to show data for AY 2024-2025; rows for AY 2025-2026 are no longer shown
+4. All visible rows have contract data within AY 2024-2025","1. today = 2026-06-22; current_AY = 2025-2026
+2. """"
+3. AY selection: 2024-2025
+4. """"",,,3044,3036,Report Filters – Defaults and Behavior,,,
+23253,[Riso] Monthly Lesson Assignment Report – Student Filter Cleared – Empty Filter Behavior,"AC-07 — Negative — When all students are removed from the Student or Contact ID multi-select filter, the report behaves gracefully (either shows all students or shows an empty state).","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- The report is open with one or more students selected in the filter
+- today = 2026-06-22; current_AY = 2025-2026",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page with students pre-selected
+2. Remove all selected students from the Student or Contact ID filter
+3. Observe the report area","1. Report page loads showing rows for the selected students
+2. All student selections are cleared from the filter
+3. Report either shows rows for all available students (no filter = show all) or shows an empty state with no error or crash","1. today = 2026-06-22; Students pre-selected: STU-001, STU-002
+2. """"
+3. """"",,,3044,3036,Report Filters – Defaults and Behavior,,,
+23337,[Riso] Monthly Lesson Assignment Report – LBAC – Report Only Shows Data for User's Assigned Location,"LBAC — Permission Matrix — When the report is loaded, only data for the user's assigned location is returned. A user assigned to Tokyo Branch does not see student-course rows belonging to Osaka Branch, even if Osaka Branch exists in the system.","- Logged in as HQ or CM Staff to the Riso Salesforce org whose assigned location is Tokyo Branch only
+- Contracts and session data exist for students at both Tokyo Branch and Osaka Branch in AY 2025-2026
+- today = 2026-06-22; current_AY = 2025-2026; user_assigned_location = Tokyo Branch",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page
+2. Observe all rows in the report without changing any filter
+3. Confirm that Student Y (Osaka Branch) is absent from the report","1. Report page loads
+2. Only rows where Location = Tokyo Branch are displayed; no rows for Osaka Branch are shown
+3. No row with Location = Osaka Branch appears in the report data","1. today = 2026-06-22; user_assigned_location = Tokyo Branch
+2. Student X at Tokyo Branch; Student Y at Osaka Branch
+3. Expected: Student Y row is not visible to this user",,,3043,3036,Report Access – Permission Gate,,,
+23338,[Riso] Monthly Lesson Assignment Report – LBAC – Changing Location Filter Cannot Expose Unassigned Location Data,LBAC — Negative — A user assigned to Tokyo Branch cannot retrieve data for Osaka Branch by manually changing the Location filter to Osaka Branch. The system enforces location scope at the data layer not only via the default filter value.,"- Logged in as HQ or CM Staff to the Riso Salesforce org whose assigned location is Tokyo Branch only (not assigned to Osaka Branch)
+- Contracts and session data exist for students at Osaka Branch in AY 2025-2026
+- today = 2026-06-22; current_AY = 2025-2026; user_assigned_location = Tokyo Branch",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page
+2. Manually change the Location filter to Osaka Branch and apply
+3. Confirm that no Osaka Branch student rows appear","1. Report page loads; Location filter defaults to Tokyo Branch
+2. The report returns no rows (or only rows within the user's permitted scope); Osaka Branch data is not returned
+3. Report area shows empty state or unchanged Tokyo Branch data; no Osaka Branch rows are exposed","1. today = 2026-06-22; user_assigned_location = Tokyo Branch
+2. Attempting to filter by Osaka Branch (unassigned location)
+3. Expected: system blocks data access not just UI filtering",,,3043,3036,Report Access – Permission Gate,,,
+23410,[Riso] Monthly Lesson Assignment Report – Timezone – Month Filter Shows Correct Month Based on JST Not UTC,"TZ-06 — Timezone (JST vs UTC for month context) — If there is a default or auto-selected month, it must reflect the current month in JST. At 2026-06-30T23:30:00+09:00 JST, the month in JST is June; at 2026-07-01T00:30:00+09:00 JST, the month in JST is July. The Month filter must switch at the JST midnight boundary, not the UTC midnight boundary.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Scenario A: session opened at 2026-06-30T23:30:00+09:00 JST (= 2026-06-30T14:30Z)
+- Scenario B: session opened at 2026-07-01T00:30:00+09:00 JST (= 2026-06-30T15:30Z)
+- Note: Month filter default behavior is pending confirmation (Q6); this TC verifies the boundary behavior assuming a default exists",,timezone,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. (Scenario A) At 2026-06-30T23:30:00+09:00 JST, open the report and observe the Month filter or currently loaded month
+2. (Scenario B) At 2026-07-01T00:30:00+09:00 JST, open the report and observe the Month filter or currently loaded month","1. (Scenario A) Month context reflects June 2026 (JST date is June 30; UTC date is also June 30 and JST governs)
+2. (Scenario B) Month context reflects July 2026 (JST date is July 1; UTC date is still June 30 but JST governs)","1. Scenario A: JST = 2026-06-30T23:30; UTC = 2026-06-30T14:30; expected month = June 2026 (JST)
+2. Scenario B: JST = 2026-07-01T00:30; UTC = 2026-06-30T15:30; expected month = July 2026 (JST)",,,3044,3036,Report Filters – Defaults and Behavior,,,

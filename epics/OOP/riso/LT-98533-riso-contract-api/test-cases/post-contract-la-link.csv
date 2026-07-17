@@ -1,0 +1,34 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Riso] POST Contract – LA Link – Valid LA – Contract linked successfully,AC-POST-3 — Equivalence Partitioning — Verify contract is linked to LA when a valid lesson_allocation_id is provided and student matches.,"API Client is authenticated with correct scope
+- Lesson Allocation exists with `id = LA_001` and `student_id = STUDENT_X`",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with `student_id = STUDENT_X` and `lesson_allocation_id = LA_001`""
+2. ""Query the created Contract record""
+","1. ""API returns HTTP 201 Created""
+2. ""Contract is created and successfully linked to `LA_001`""
+","1. ""`student_id = STUDENT_X`, `lesson_allocation_id = LA_001`""
+2. """"
+",,,1,,[Riso] POST Contract – LA Linking,,,
+,[Riso] POST Contract – LA Link – Student mismatch – Returns 422 Validation Error,AC-POST-3 — Decision Table (Negative) — Verify creation is rejected if the LA belongs to a different student.,"API Client is authenticated with correct scope
+- Lesson Allocation exists with `id = LA_001` and `student_id = STUDENT_Y`
+- Student exists with `student_id = STUDENT_X`",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with `student_id = STUDENT_X` and `lesson_allocation_id = LA_001`""
+2. ""Query the Contract records""
+","1. ""API returns HTTP 422 Validation Error""
+2. ""Contract is NOT created""
+","1. ""`student_id = STUDENT_X`, `lesson_allocation_id = LA_001`""
+2. """"
+",,,1,,[Riso] POST Contract – LA Linking,,,
+,[Riso] POST Contract – Unlinked – lesson_allocation_id absent – Contract created unlinked,AC-POST-4 — Equivalence Partitioning — Verify contract is created as unlinked when lesson_allocation_id is not provided.,"API Client is authenticated with correct scope
+- Student exists with `student_id = STUDENT_X`",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with `student_id = STUDENT_X` and omit `lesson_allocation_id`""
+2. ""Query the created Contract record""
+","1. ""API returns HTTP 201 Created""
+2. ""Contract is created with `lesson_allocation_id` as null""
+","1. ""`student_id = STUDENT_X`""
+2. """"
+",,,1,,[Riso] POST Contract – LA Linking,,,
+,[Riso] POST Contract – LA Link – Non-existent LA – Returns 409 Dependency Missing,AC-POST-5 — Negative — Verify creation is rejected if the provided lesson_allocation_id does not exist.,"API Client is authenticated with correct scope
+- Student exists with `student_id = STUDENT_X`",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with `student_id = STUDENT_X` and a non-existent `lesson_allocation_id`""
+2. ""Query the Contract records""
+","1. ""API returns HTTP 409 Dependency Missing""
+2. ""Contract is NOT created""
+","1. ""`student_id = STUDENT_X`, `lesson_allocation_id = INVALID_LA_999`""
+2. """"
+",,,1,,[Riso] POST Contract – LA Linking,,,

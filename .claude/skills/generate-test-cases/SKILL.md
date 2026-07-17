@@ -53,7 +53,12 @@ Before writing any TC, internalize `.claude/references/test-case-rules.md`:
 Iterate each AC row in Section 4. For each:
 1. Apply the technique pattern from `.claude/references/test-case-generation-patterns.md` (EP, BVA, Decision Table, State Transition, Pairwise, CRUD, Permission Matrix, Regression, Negative, Component, Scenario).
 2. Honor **Coverage Depth** (Deep / Standard / Smoke) and **Risk Level** overrides (Critical/High always adds negative + boundary).
-3. **Skip rule**: if Section 6 marks Overlap = Full, do NOT regenerate — reference the existing TC ID.
+3. **Timezone coverage rule (MANDATORY)**: if the spec or AC references **any** time-related field — including but not limited to `start date`, `end date`, `start date time`, `end date time`, `lesson date`, `lesson time`, `schedule date/time`, `published date`, `created date`, or similar — you **MUST** generate test cases covering both **JST (Asia/Tokyo, UTC+9)** and **UTC** timezones. Specifically:
+   - At least one TC where the date/time falls on a **date boundary** between JST and UTC (e.g., `2025-07-01 00:30 JST` = `2025-06-30 15:30 UTC` — different calendar dates in each timezone).
+   - At least one TC confirming correct behavior when input/display uses JST while storage/API uses UTC (or vice-versa, per the system design).
+   - Step Data must anchor **both** the JST and UTC representations explicitly (e.g., `lessonDate = 2025-07-01 00:30 JST (= 2025-06-30 15:30 UTC)`).
+   - This rule applies regardless of Coverage Depth — even Smoke-level suites must include at least one timezone boundary TC when time fields are present.
+4. **Skip rule**: if Section 6 marks Overlap = Full, do NOT regenerate — reference the existing TC ID.
 
 ### Step 4 — Write each test case
 Produce every required field per `.claude/references/test-case-rules.md` §9:
@@ -116,6 +121,7 @@ Before saving, verify (see `.claude/references/test-case-rules.md` for full rule
 - No title contains forbidden words.
 - Every TC has concrete preconditions with explicit data + actor.
 - Every date/time/config TC follows the Test Data Anchoring Rule (no vague values).
+- **Timezone gate**: if the spec mentions any date/time field, at least one TC covers JST↔UTC date boundary conversion (Step 3 rule 3). Fail the gate if missing.
 - Every step has a deterministic expected result and a data entry (may be `""`).
 - Severity + priority match the Risk Level mapping.
 - OOP/tenant TCs are prefixed `[TenantName]`.

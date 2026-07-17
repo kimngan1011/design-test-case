@@ -1,0 +1,20 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Riso] Contract API – Type Validation – Start date wrong format – Returns 422,NFR-06 — Negative — Verify validation error when start_date format is incorrect.,API Client is authenticated with correct scope,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with `start_date` in `DD-MM-YYYY` format instead of `YYYY-MM-DD`""
+","1. ""API returns HTTP 422 Validation Error""
+","1. ""`start_date = 15-06-2026`""
+",,,1,,[Riso] Contract API – Error Paths,,,
+,[Riso] Contract API – Type Validation – Total is not integer – Returns 422,NFR-06 — Negative — Verify validation error when numeric field receives incorrect type.,API Client is authenticated with correct scope,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with `total` as a string or float""
+","1. ""API returns HTTP 422 Validation Error""
+","1. ""`total = ""ten""` or `10.5`""
+",,,1,,[Riso] Contract API – Error Paths,,,
+,[Riso] Contract API – Authentication – Invalid token – Returns 401 Unauthorized,NFR — Negative — Verify endpoints are protected against invalid authentication.,API Client has an expired or malformed token,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send GET request to `/v1/lesson-allocations`""
+2. ""Send POST request to `/v1/contracts`""
+","1. ""API returns HTTP 401 Unauthorized""
+2. ""API returns HTTP 401 Unauthorized""
+","1. ""Invalid Bearer token""
+2. ""Invalid Bearer token""
+",,,1,,[Riso] Contract API – Error Paths,,,
+,[Riso] Contract API – Authentication – Missing required scope – Returns 403 Forbidden,NFR — Negative — Verify endpoints enforce correct OAuth scope.,API Client is authenticated but lacks the specific scope required for writing contracts,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send POST request to `/v1/contracts` with valid payload""
+","1. ""API returns HTTP 403 Forbidden""
+","1. ""Valid payload, insufficient scope token""
+",,,1,,[Riso] Contract API – Error Paths,,,

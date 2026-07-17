@@ -1,0 +1,69 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Riso] GET Lesson Allocation – Required Params – Valid location and academic year – Returns matching LAs,AC-GET-1 — Equivalence Partitioning — Verify successful retrieval when both mandatory parameters are provided.,"API Client is authenticated with correct scope
+- At least one Lesson Allocation exists in the system with `location_id = LOC123`, `academic_year = 2025`, `require_allocation = true`, and status is active",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send GET request to `/v1/lesson-allocations` with parameters `location_id` and `academic_year`""
+2. ""Inspect the response body""
+","1. ""API returns HTTP 200 OK with a list of Lesson Allocations matching the parameters""
+2. ""Response contains the expected Lesson Allocations with required fields""
+","1. ""`location_id = LOC123`, `academic_year = 2025`""
+2. """"
+",,,1,,[Riso] GET Lesson Allocation API,,,
+,[Riso] GET Lesson Allocation – Required Params – Missing location – Returns 400 Bad Request,AC-GET-1 — Negative — Verify request fails when mandatory location_id is missing.,API Client is authenticated with correct scope,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send GET request to `/v1/lesson-allocations` with parameter `academic_year` only""
+","1. ""API returns HTTP 400 Bad Request (or 422 Validation Error)""
+","1. ""`academic_year = 2025`""
+",,,1,,[Riso] GET Lesson Allocation API,,,
+,[Riso] GET Lesson Allocation – Required Params – Missing academic year – Returns 400 Bad Request,AC-GET-1 — Negative — Verify request fails when mandatory academic_year is missing.,API Client is authenticated with correct scope,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send GET request to `/v1/lesson-allocations` with parameter `location_id` only""
+","1. ""API returns HTTP 400 Bad Request (or 422 Validation Error)""
+","1. ""`location_id = LOC123`""
+",,,1,,[Riso] GET Lesson Allocation API,,,
+,[Riso] GET Lesson Allocation – Course Filter – Valid course_offering_id – Returns only matching LAs,AC-GET-2 — Decision Table — Verify filtering by course_offering_id returns correct subset of LAs.,"API Client is authenticated with correct scope
+- Multiple Lesson Allocations exist for `location_id = LOC123`, `academic_year = 2025`
+- Some LAs belong to `course_offering_id = COURSE999`, others belong to `course_offering_id = COURSE888`",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send GET request to `/v1/lesson-allocations` including parameters `location_id`, `academic_year`, and `course_offering_id`""
+2. ""Inspect the returned LAs""
+","1. ""API returns HTTP 200 OK""
+2. ""All returned LAs have the specified course_offering_id. LAs with other course offering IDs are not returned.""
+","1. ""`location_id = LOC123`, `academic_year = 2025`, `course_offering_id = COURSE999`""
+2. ""`course_offering_id = COURSE999`""
+",,,1,,[Riso] GET Lesson Allocation API,,,
+,[Riso] GET Lesson Allocation – Incremental Pull – Valid last_modified_since – Returns recently modified LAs,AC-GET-3 — Decision Table — Verify incremental pull filters LAs by last_modified_since timestamp.,"API Client is authenticated with correct scope
+- LAs exist for the target location and academic year
+- `today = 2026-06-19T00:00:00Z`
+- LA-A was modified at `2026-06-18T10:00:00Z`
+- LA-B was modified at `2026-06-19T05:00:00Z`",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send GET request to `/v1/lesson-allocations` including parameters `location_id`, `academic_year`, and `last_modified_since`""
+2. ""Inspect the returned LAs""
+","1. ""API returns HTTP 200 OK""
+2. ""Only LA-B is returned. LA-A is excluded.""
+","1. ""`location_id = LOC123`, `academic_year = 2025`, `last_modified_since = 2026-06-19T00:00:00Z` (today)""
+2. ""`last_modified_since = 2026-06-19T00:00:00Z`""
+",,,1,,[Riso] GET Lesson Allocation API,,,
+,[Riso] GET Lesson Allocation – Exclusion Rules – Require Allocation is false – LA is excluded from response,AC-GET-4 — Decision Table / Negative — Verify LAs with Require Allocation = false are implicitly excluded.,"API Client is authenticated with correct scope
+- LA-C exists with `location_id = LOC123`, `academic_year = 2025`, status active, but `require_allocation = false`",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send GET request to `/v1/lesson-allocations` with valid `location_id` and `academic_year`""
+2. ""Inspect the returned LAs""
+","1. ""API returns HTTP 200 OK""
+2. ""LA-C is NOT present in the response""
+","1. ""`location_id = LOC123`, `academic_year = 2025`""
+2. """"
+",,,1,,[Riso] GET Lesson Allocation API,,,
+,[Riso] GET Lesson Allocation – Exclusion Rules – LA status is deleted or archived – LA is excluded from response,AC-GET-4 — Decision Table / Negative — Verify deleted or archived LAs are implicitly excluded.,"API Client is authenticated with correct scope
+- LA-D exists with `location_id = LOC123`, `academic_year = 2025`, `require_allocation = true`, but status is `deleted`
+- LA-E exists with same params but status is `archived`",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send GET request to `/v1/lesson-allocations` with valid `location_id` and `academic_year`""
+2. ""Inspect the returned LAs""
+","1. ""API returns HTTP 200 OK""
+2. ""LA-D and LA-E are NOT present in the response""
+","1. ""`location_id = LOC123`, `academic_year = 2025`""
+2. """"
+",,,1,,[Riso] GET Lesson Allocation API,,,
+,[Riso] GET Lesson Allocation – Pagination – Results exceed page size – Returns next_pointer and correct page size,AC-GET-5 — Boundary Value Analysis — Verify cursor pagination works when total results exceed default/requested page size.,"API Client is authenticated with correct scope
+- The system has 105 active, eligible LAs for `location_id = LOC123`, `academic_year = 2025`
+- API has a default page size limit of 100",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send GET request to `/v1/lesson-allocations` with valid `location_id` and `academic_year`""
+2. ""Inspect the response body""
+3. ""Send a second GET request including the `next_pointer`""
+4. ""Inspect the second response""
+","1. ""API returns HTTP 200 OK""
+2. ""Response contains exactly 100 LAs and a `next_pointer` cursor string""
+3. ""API returns HTTP 200 OK""
+4. ""Response contains the remaining 5 LAs""
+","1. ""`location_id = LOC123`, `academic_year = 2025`""
+2. """"
+3. ""`location_id = LOC123`, `academic_year = 2025`, `pointer = <next_pointer>`""
+4. """"
+",,,1,,[Riso] GET Lesson Allocation API,,,

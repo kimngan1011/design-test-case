@@ -1,0 +1,78 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,1,,Add Teacher Popup – Working Status Filter,1,,
+,Add Teacher Popup – Working Status Filter – Filter field is displayed,BR-01 — Component — Working Status multiselect filter field is present in the Add Teacher popup.,"- Logged in as HQ or CM Staff to the Back Office
+- A lesson exists with a status that allows teacher addition",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the lesson detail page""
+2. ""Click the Add Teacher button""
+3. ""Observe the filter area in the popup""
+","1. ""Lesson detail page is displayed""
+2. ""Add Teacher popup opens""
+3. ""Working Status filter field is visible""
+","1. """"
+2. """"
+3. """"
+",,,1,,Add Teacher Popup – Working Status Filter,,,
+,"Add Teacher Popup – Working Status Filter – Default selection is ""Available"" on popup open","BR-02 — EP — The Working Status filter defaults to ""Available"" when the Add Teacher popup first opens.","- Logged in as HQ or CM Staff to the Back Office
+- A lesson exists
+- The Add Teacher popup has not been opened in the current session (fresh open)",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the lesson detail page""
+2. ""Click the Add Teacher button""
+3. ""Observe the current value of the Working Status filter""
+","1. ""Lesson detail page is displayed""
+2. ""Add Teacher popup opens""
+3. ""Working Status filter shows Available as the selected default""
+","1. """"
+2. """"
+3. """"
+",,,1,,Add Teacher Popup – Working Status Filter,,,
+,"Add Teacher Popup – Working Status Filter – All four options (None, Available, On Leave, Resigned) are listed",BR-03 — EP — The Working Status filter dropdown contains exactly four selectable options.,"- Logged in as HQ or CM Staff to the Back Office
+- A lesson exists",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the lesson detail page""
+2. ""Click the Add Teacher button""
+3. ""Click to expand the Working Status filter dropdown""
+4. ""Read all available options in the dropdown""
+","1. ""Lesson detail page is displayed""
+2. ""Add Teacher popup opens""
+3. ""Dropdown opens showing a list of options""
+4. ""Dropdown shows exactly: None, Available, On Leave, Resigned""
+","1. """"
+2. """"
+3. """"
+4. ""Options: None, Available, On Leave, Resigned""
+",,,1,,Add Teacher Popup – Working Status Filter,,,
+,"Add Teacher Popup – Working Status Filter – Select ""Available"" – Only teachers with Available status are listed","BR-04 — Decision Table — Selecting ""Available"" filters the teacher list to show only teachers whose working status is Available.","- Logged in as HQ or CM Staff to the Back Office
+- A lesson exists
+- Teacher A has working status ""Available""
+- Teacher B has working status ""On Leave""
+- Teacher C has working status ""Resigned""",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the lesson detail page and click Add Teacher""
+2. ""Set Working Status filter to Available""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Filter is set to Available""
+3. ""Teacher A is shown; Teacher B and Teacher C are not shown""
+","1. """"
+2. ""Filter = Available""
+3. ""Teacher A = Available, Teacher B = On Leave, Teacher C = Resigned""
+",,,1,,Add Teacher Popup – Working Status Filter,,,
+,"Add Teacher Popup – Working Status Filter – Select ""Available"" and ""On Leave"" – Teachers from both statuses are listed","BR-04 — Decision Table — Selecting multiple statuses in the multiselect filter shows teachers from all selected status groups.","- Logged in as HQ or CM Staff to the Back Office
+- A lesson exists
+- Teacher A has working status ""Available""
+- Teacher B has working status ""On Leave""
+- Teacher C has working status ""Resigned""",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the lesson detail page and click Add Teacher""
+2. ""Select both Available and On Leave in the Working Status filter (multiselect)""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Both Available and On Leave are selected""
+3. ""Teacher A (Available) and Teacher B (On Leave) are both shown; Teacher C (Resigned) is not shown""
+","1. """"
+2. ""Filter = Available + On Leave""
+3. ""Teacher A = Available, Teacher B = On Leave, Teacher C = Resigned""
+",,,1,,Add Teacher Popup – Working Status Filter,,,
+,"Add Teacher Popup – ""Only teachers free at this time"" – Label is updated from ""Only available teachers""","BR-05 — Component — The toggle/checkbox label reads ""Only teachers free at this time"" and the old label ""Only available teachers"" does not appear.","- Logged in as HQ or CM Staff to the Back Office
+- A lesson exists",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the lesson detail page and click Add Teacher""
+2. ""Locate the free-time filter toggle/checkbox label""
+3. ""Confirm the old label is absent""
+","1. ""Add Teacher popup opens""
+2. ""Label reads: Only teachers free at this time""
+3. ""The text Only available teachers does not appear anywhere in the popup""
+","1. """"
+2. """"
+3. """"
+",,,1,,Add Teacher Popup – Working Status Filter,,,

@@ -4,19 +4,19 @@
 
 ### [Nichibei] Lesson Booking – My Lessons Card – Fields – Card displays all required fields
 
-**Description:** AC 01.1 — Display Testing: Each booked lesson card in My Lessons must display the core information fields: lesson name, date, start time, center (location), and teacher name, so the student can identify their booking at a glance.
+**Description:** AC 01.1 — Display Testing: Each booked lesson card in My Lessons must display the core information fields: lesson name, date, start time, center (location), and teacher name. The Location must be retrieved from the Location of LA's Location Course.
 
 **Preconditions:**
 Student has 1 booked lesson (Booking_Flag=TRUE, lesson_date >= today) with known data:
-lesson name = "Math Lesson", lesson_date = 2026-05-25, start = 10:00 JST, end = 11:00 JST, center = "Center A", teacher = "Teacher A".
+lesson name = "Math Lesson", lesson_date = 2026-05-25, start = 10:00 JST, end = 11:00 JST, Location of LA's Location Course = "Center A", teacher = "Teacher A".
 
 | #   | Action                                    | Expected Result                          | Test Data                                                                                    |
 | --- | ----------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------- |
-| 1   | Open "Reservation List" menu                | My Lessons screen shown with lesson card | lesson_date = 2026-05-25; start = 10:00; end = 11:00; center = Center A; teacher = Teacher A |
+| 1   | Open "Reservation List" menu                | My Lessons screen shown with lesson card | lesson_date = 2026-05-25; start = 10:00; end = 11:00; course_location = Center A; teacher = Teacher A |
 | 2   | Observe lesson name on the card           | "Math Lesson" is displayed               | —                                                                                            |
 | 3   | Observe date on the card                  | Date "2026-05-25" is displayed           | —                                                                                            |
 | 4   | Observe start time on the card            | "10:00" (JST) is displayed               | —                                                                                            |
-| 5   | Observe center/location field on the card | "Center A" is displayed                  | —                                                                                            |
+| 5   | Observe center/location field on the card | "Center A" (from LA's Location Course) is displayed | —                                                                                            |
 | 6   | Observe teacher name on the card          | "Teacher A" is displayed                 | —                                                                                            |
 
 ---
@@ -72,9 +72,9 @@ Student user has:
 
 ---
 
-### [Nichibei] Lesson Booking – Lesson Lists Button – Student has active LA – Button visible
+### [Nichibei] Lesson Booking – Reserve New Lesson Button – Student has active LA – Button visible
 
-**Description:** AC 01.1 — BR-2: Decision Table: Lesson Lists (+) button must be visible when student has an active Lesson Allocation.
+**Description:** AC 01.1 — BR-2: Decision Table: Reserve New Lesson button must be visible when student has an active Lesson Allocation.
 
 **Preconditions:**
 Student user has 1 active Lesson Allocation
@@ -83,13 +83,13 @@ Student user has 1 active Lesson Allocation
 | --- | ---------------------------------- | ------------------------------ | --------- |
 | 1   | Login to app as student user       | Home screen shown              | —         |
 | 2   | Open "Reservation List" menu         | My Lessons screen shown        | —         |
-| 3   | View the Lesson Lists button (+) | Button is visible and tappable | —         |
+| 3   | View the Reserve New Lesson button at the bottom | Button is visible and tappable | —         |
 
 ---
 
-### [Nichibei] Lesson Booking – Lesson Lists Button – Student has no active LA – Button hidden
+### [Nichibei] Lesson Booking – Reserve New Lesson Button – Student has no active LA – Button hidden
 
-**Description:** AC 01.1 — BR-2: Decision Table: Lesson Lists (+) button must NOT be visible when student has no active Lesson Allocation.
+**Description:** AC 01.1 — BR-2: Decision Table: Reserve New Lesson button must NOT be visible when student has no active Lesson Allocation.
 
 **Preconditions:**
 Student user has no active Lesson Allocation (expired or never created)
@@ -98,22 +98,22 @@ Student user has no active Lesson Allocation (expired or never created)
 | --- | ------------------------------- | ---------------------------------------- | --------- |
 | 1   | Login to app as student user    | Home screen shown                        | —         |
 | 2   | Open "Reservation List" menu      | My Lessons screen shown                  | —         |
-| 3   | View the My Lessons header area | Lesson Lists (+) button is NOT visible | —         |
+| 3   | View the My Lessons screen (bottom) | Reserve New Lesson button is NOT visible | —         |
 
 ---
 
 ### [Nichibei] Lesson Booking – My Lessons Cancel Button – Within cancellation deadline – Button enabled
 
-**Description:** AC 01.1 — BR-3 / BR-22: BVA: Cancel button on a booking card must be enabled when current time is before the cancellation deadline.
+**Description:** AC 01.1 — BR-3 / BR-22: BVA: Cancel button on a booking card must be enabled when current time is before or at the cancellation deadline.
 
 **Preconditions:**
-Student user has a booked lesson where current time < (lesson start − 2 hours).
-Lesson start = 14:00 JST; cancellation deadline = 12:00 JST (2 hours before start); current = 09:00 JST.
+Student user has a booked lesson where current time <= 5:00 PM JPT the day before lesson date.
+lesson_date = 2026-05-20; cancellation deadline = 2026-05-19 17:00 JST; current = 2026-05-19 09:00 JST.
 
 | #   | Action                                                      | Expected Result                       | Test Data                                                                              |
 | --- | ----------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------- |
 | 1   | Login to app as student user and open "Reservation List" menu | My Lessons screen shown               | —                                                                                      |
-| 2   | View the Cancel button on the booked lesson card            | Cancel button is enabled and tappable | Lesson start = 14:00 JST; deadline = 12:00 JST (2 h before start); current = 09:00 JST |
+| 2   | View the Cancel button on the booked lesson card            | Cancel button is enabled and tappable | lesson_date = 2026-05-20; deadline = 2026-05-19 17:00 JST; current = 2026-05-19 09:00 JST |
 
 ---
 
@@ -122,14 +122,14 @@ Lesson start = 14:00 JST; cancellation deadline = 12:00 JST (2 hours before star
 **Description:** AC 01.1 — BR-3 / BR-22: BVA: Cancel button on a booking card must be disabled with tooltip when current time is past the cancellation deadline.
 
 **Preconditions:**
-Student user has a booked lesson where current time > (lesson start − 2 hours).
-Lesson start = 11:00 JST; cancellation deadline = 09:00 JST (2 hours before start); current = 10:00 JST.
+Student user has a booked lesson where current time > 5:00 PM JPT the day before lesson date.
+lesson_date = 2026-05-20; cancellation deadline = 2026-05-19 17:00 JST; current = 2026-05-19 18:00 JST.
 
 | #   | Action                                                      | Expected Result                                                          | Test Data                                                                              |
 | --- | ----------------------------------------------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
 | 1   | Login to app as student user and open "Reservation List" menu | My Lessons screen shown                                                  | —                                                                                      |
-| 2   | View the Cancel button on the booked lesson card            | Cancel button is disabled (greyed out)                                   | Lesson start = 11:00 JST; deadline = 09:00 JST (2 h before start); current = 10:00 JST |
-| 3   | Tap or hover the disabled Cancel button                     | Tooltip shown: "Cancellation not available within 2 hours of start time" | —                                                                                      |
+| 2   | View the Cancel button on the booked lesson card            | Cancel button is disabled (greyed out)                                   | lesson_date = 2026-05-20; deadline = 2026-05-19 17:00 JST; current = 2026-05-19 18:00 JST |
+| 3   | Tap or hover the disabled Cancel button                     | Tooltip shown: "Cancellation not available after 5:00 PM the day before" | —                                                                                      |
 
 ---
 
@@ -164,4 +164,19 @@ Student user has no active Lesson Allocation (expired or never created).
 | 1   | Login to app as student user       | Home screen shown                                            | —         |
 | 2   | Open "Reservation List" menu         | My Lessons screen shown                                      | —         |
 | 3   | View the empty state message       | "No courses available for booking" is displayed              | —         |
-| 4   | View the Lesson Lists (+) button | Lesson Lists button is inactive (disabled or not tappable) | —         |
+| 4   | View the Reserve New Lesson button | Reserve New Lesson button is inactive (disabled or not tappable) | —         |
+
+---
+
+### [Nichibei] Lesson Booking – My Lessons – Reserve New Lesson Button – Click – Navigates to Filter page
+
+**Description:** LT-103640 / LT-103432 — Page Transition: When the user taps the "Reserve New Lesson" button from the My Lessons screen, they are navigated to the Filter page to start the booking flow.
+
+**Preconditions:**
+Student user has an active Lesson Allocation.
+
+| #   | Action                                     | Expected Result                                                | Test Data          |
+| --- | ------------------------------------------ | -------------------------------------------------------------- | ------------------ |
+| 1   | Login to app as student user               | Home screen shown                                              | today = 2026-06-18 |
+| 2   | Open "Reservation List" menu               | My Lessons screen shown                                        | —                  |
+| 3   | Tap the "Reserve New Lesson" button        | The application navigates to the Filter page (Booking search)  | —                  |

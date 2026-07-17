@@ -1,0 +1,102 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,,3054,,[Riso] SF Notification Center,1,,
+,[Riso] SF Notification Center – Available @mentioned teacher – Receives notification center alert after lesson published,"AC-06, BR-13 — State Transition — The teacher @mentioned in the Chatter post receives an SF notification center alert after lesson publish.","- Riso Salesforce org with Lesson Publish Notification config flag = ON
+- A Draft lesson English Class A with 1 Lesson Teacher: Tanaka Kenji (working_status=Available, working_type=Full Time)
+- Tanaka Kenji has an active Salesforce user account
+- Logged in as HQ or CM Staff to the Salesforce org to perform the publish action",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Publish the lesson English Class A (change status Draft to Published)""
+2. ""Log out as Staff; log in to Salesforce as Tanaka Kenji""
+3. ""Open the SF Notification Center (bell icon)""
+4. ""Look for the lesson publish notification""","1. ""Status = Published; Chatter post created with @Tanaka Kenji""
+2. ""Logged in successfully as Tanaka Kenji""
+3. ""Notification center panel opens""
+4. ""A notification message appears referencing the Chatter post @mention for English Class A""","1. ""lesson_name=English Class A; teacher=Tanaka Kenji""
+2. ""actor switches to Tanaka Kenji (teacher)""
+3. """"
+4. ""expected: 1 notification for the Chatter @mention"",,3054,,[Riso] SF Notification Center,,,
+,[Riso] SF Notification Center – HQ Admin with LBAC access – Can view Chatter post but receives no notification center alert,AC-07"," BR-14 — Permission Matrix — An HQ Admin with LBAC access to the lesson record can see the Chatter post but does NOT receive a notification center alert because they were not @mentioned.""","- Riso Salesforce org with config flag = ON
+- A published lesson with a Chatter post visible (1 Available teacher @Tanaka Kenji was @mentioned)
+- HQ Admin user Yamada Admin has LBAC access to the lesson record but is NOT a Lesson Teacher
+- Logged in to Salesforce as HQ Admin Yamada Admin",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the published lesson in SF Lesson Detail as HQ Admin Yamada Admin""
+2. ""Navigate to the Chatter section""
+3. ""Open the SF Notification Center (bell icon)""
+4. ""Check for any notification related to this lesson's Chatter post""","1. ""Lesson Detail page opens""
+2. ""Chatter section is visible; the Chatter post created on lesson publish is visible to Yamada Admin""
+3. ""Notification center panel opens""
+4. ""NO notification alert for Yamada Admin — notification center shows no lesson publish alert""","1. ""actor=Yamada Admin (HQ Admin, LBAC access; not a Lesson Teacher)""
+2. ""LBAC access allows viewing Chatter posts""
+3. """"
+4. ""HQ Admin was not @mentioned → no notification center alert"",,3054,,[Riso] SF Notification Center,,,
+,[Riso] SF Notification Center – Centre Manager with LBAC access – Can view Chatter post but receives no notification center alert,AC-07"," BR-14 — Permission Matrix — A Centre Manager with LBAC access to the lesson record can see the Chatter post but does NOT receive a notification center alert.""","- Riso Salesforce org with config flag = ON
+- A published lesson with a Chatter post visible (1 Available teacher @mentioned)
+- Centre Manager Suzuki CM has LBAC access to the lesson record but is NOT a Lesson Teacher
+- Logged in to Salesforce as Centre Manager Suzuki CM",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the published lesson in SF Lesson Detail as Suzuki CM""
+2. ""Navigate to the Chatter section""
+3. ""Open the SF Notification Center (bell icon)""
+4. ""Check for any notification for this lesson's Chatter post""","1. ""Lesson Detail page opens""
+2. ""Chatter section is visible; the lesson publish Chatter post is visible""
+3. ""Notification center panel opens""
+4. ""NO notification alert — notification center shows no lesson publish alert for Suzuki CM""","1. ""actor=Suzuki CM (Centre Manager, LBAC access; not a Lesson Teacher)""
+2. ""LBAC access allows viewing Chatter posts""
+3. """"
+4. ""Centre Manager was not @mentioned → no notification center alert"",,3054,,[Riso] SF Notification Center,,,
+,[Riso] SF Notification Center – Bulk publish lesson – Teacher does not receive SF notification center alert,AC-06"," BR-13 — Decision Table negative — Bulk publish triggers teacher email (not SF notification center). No Chatter post or notification center alert is created for bulk-published lessons.""","- Riso Salesforce org with config flag = ON
+- 3 Draft lessons in SF Lesson List, all assigned to Tanaka Kenji (working_status=Available, Full Time)
+- Tanaka Kenji has an active Salesforce user account
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Bulk publish all 3 Draft lessons from SF Lesson List""
+2. ""Log in to Salesforce as Tanaka Kenji""
+3. ""Open the SF Notification Center (bell icon)""
+4. ""Check for any lesson publish @mention notification""
+5. ""Navigate to the Chatter section of each published lesson""","1. ""All 3 lessons transition to Published status""
+2. ""Logged in as Tanaka Kenji""
+3. ""Notification center panel opens""
+4. ""NO @mention notification alert in notification center""
+5. ""No new Chatter posts created by bulk publish""","1. ""bulk_publish=true; 3 lessons; teacher=Tanaka Kenji""
+2. """"
+3. """"
+4. ""bulk publish triggers email, NOT SF notification center""
+5. ""Chatter posts are created only on single publish, not bulk publish"",,3054,,[Riso] SF Notification Center,,,
+,[Riso] SF Notification Center – Same lesson single-published then covered by bulk publish – Teacher notification experience observed [PENDING Q1],AC-05", AC-09," F-01 — Decision Table — Cross-type dedup risk: a teacher receives a Chatter @mention alert (single publish) and may also receive a bulk email for the same lesson. This TC records actual behavior for Q1 resolution.""","- Riso Salesforce org with config flag = ON
+- today = 2026-06-23; lesson_date = 2026-06-30
+- A lesson English Class A (lesson_date = 2026-06-30) with 1 Available teacher Tanaka Kenji
+- Tanaka Kenji has an active SF account and SF-registered email: tanaka@riso.jp
+- Logged in as HQ or CM Staff to the Salesforce org
+- Note: Expected behavior for cross-type dedup is unconfirmed (Q1 open). Record actual system behavior.",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Single-publish English Class A (change status Draft to Published individually)""
+2. ""Bulk-publish a period that includes English Class A (select the lesson in SF Lesson List, trigger bulk publish)""
+3. ""Log in as Tanaka Kenji; open the SF Notification Center""
+4. ""Check teacher email inbox at tanaka@riso.jp""
+5. ""Document findings""","1. ""Status = Published; Chatter post created with @Tanaka Kenji; teacher receives SF notification center alert""
+2. ""Bulk publish action completes; lesson was already Published""
+3. ""Record all notifications received (Chatter @mention alert from step 1; any additional alert from step 2)""
+4. ""Record whether a bulk publish email was received for English Class A""
+5. ""Record: teacher received Chatter @mention + notification center alert (step 1) AND/OR bulk publish email (step 4)""","1. ""today=2026-06-23; lesson_date=2026-06-30""
+2. """"
+3. """"
+4. """"
+5. ""Expected per Q1: confirm if cross-type dedup is required (Aso 2026-04-13 dual-path lesson-learned risk)"",,3054,,[Riso] SF Notification Center,,,
+"
+,[Riso] SF Notification Center – Teacher Added from SF Lesson Detail – Added teacher receives notification alert,"AC-01, BR-26, BR-13 — State Transition — A teacher added to a Published lesson via SF Lesson Detail gets @mentioned and receives a notification center alert.","- Riso Salesforce org with config flag = ON
+- A lesson in Published status with a future date
+- Teacher ""Tanaka Kenji"" exists in SF
+- Logged in as HQ or CM Staff to the Salesforce org",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Detail page of the published lesson
+2. Add ""Tanaka Kenji"" as a Lesson Teacher
+3. Log out and log in as ""Tanaka Kenji""
+4. Open the SF Notification Center","1. Lesson Detail page opens
+2. ""Tanaka Kenji"" is added
+3. Logged in as Tanaka Kenji
+4. A notification appears for the Chatter @mention","1. lesson_status=Published
+2. """"
+3. """"
+4. """"",,,3054,,,,,
+,[Riso] SF Notification Center – Teacher Added from SF Calendar – Added teacher receives notification alert,"AC-01, BR-26, BR-13 — State Transition — A teacher added to a Published lesson via SF Calendar gets @mentioned and receives a notification center alert.","- Riso Salesforce org with config flag = ON
+- A lesson in Published status with a future date
+- Teacher ""Yamamoto Yuki"" exists in SF
+- Logged in as HQ or CM Staff to the Salesforce org",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Calendar
+2. Edit the Published lesson and add ""Yamamoto Yuki""
+3. Log out and log in as ""Yamamoto Yuki""
+4. Open the SF Notification Center","1. Calendar view is displayed
+2. ""Yamamoto Yuki"" is added
+3. Logged in as Yamamoto Yuki
+4. A notification appears for the Chatter @mention","1. """"
+2. lesson_status=Published
+3. """"
+4. """"",,,3054,,,,,

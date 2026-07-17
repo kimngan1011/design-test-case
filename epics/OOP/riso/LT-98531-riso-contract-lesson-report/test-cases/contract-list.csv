@@ -1,0 +1,149 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+23230,[Riso] Contract List – Contact > Course Tab – Active Tab with Current-AY Contracts – Contract List Rendered,AC-01 — Component — Contract list is rendered on the Contact > Course Active tab for a Riso user when current-AY contracts exist.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student (Contact) exists with at least one contract in Academic Year 2025-2026
+- today = 2026-06-22; current_AY = 2025-2026",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record for the student
+2. Click the Course tab on the Contact record
+3. Observe the Active tab content","1. Contact record page loads
+2. Course tab is displayed
+3. A Contract List section is visible containing at least one contract row for AY 2025-2026","1. today = 2026-06-22; current_AY = 2025-2026
+2. """"
+3. """"",,,3038,3036,Contract List – Display & Columns,,,
+23231,[Riso] Contract List – Contact > Course Tab – All 6 Columns Present Simultaneously,"AC-01 — Component (Deep) — All six required columns (Lesson Allocation, Course, Start Date, End Date, Location, Contract Status) are present simultaneously in the contract list.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student (Contact) exists with one contract in AY 2025-2026 that has data for all six columns
+- today = 2026-06-22; current_AY = 2025-2026",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record for the student and click the Course tab
+2. Locate the Contract List section on the Active tab
+3. Observe the column headers of the Contract List
+4. Observe the data row for the test contract","1. Course tab displays, Active tab shown
+2. Contract List section is visible
+3. The following six columns are all present: Lesson Allocation, Course, Start Date, End Date, Location, Contract Status
+4. The row displays a non-empty value under each of the six columns","1. today = 2026-06-22; current_AY = 2025-2026
+2. """"
+3. Expected columns: Lesson Allocation, Course, Start Date, End Date, Location, Contract Status
+4. """"",,,3038,3036,Contract List – Display & Columns,,,
+23232,[Riso] Contract List – Contact > Course Tab – No Contracts Exist – Empty State Displayed,"AC-01 — Negative — When a contact has no contracts for the current AY, an empty state is displayed without an error.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student (Contact) exists with no contracts in AY 2025-2026
+- today = 2026-06-22; current_AY = 2025-2026",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record for the student and click the Course tab
+2. Observe the Active tab Contract List area","1. Course tab loads
+2. An empty state indicator is shown (e.g., placeholder message or empty table); no error or crash occurs","1. today = 2026-06-22; current_AY = 2025-2026
+2. """"",,,3038,3036,Contract List – Display & Columns,,,
+23233,[Riso] Contract List – Active Tab – Current-AY Contracts Shown; Prior-AY Contracts Not Shown,AC-01 — Decision Table — Active tab shows only current-AY (2025-2026) contracts; a contract from a prior AY (2024-2025) does not appear on Active tab.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student (Contact) has two contracts: one in AY 2025-2026 and one in AY 2024-2025
+- today = 2026-06-22; current_AY = 2025-2026; previous_AY = 2024-2025",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record and click the Course tab
+2. Observe the rows in the Contract List on the Active tab","1. Course tab loads showing the Active tab
+2. Only the AY 2025-2026 contract is listed; the AY 2024-2025 contract is not present","1. today = 2026-06-22; current_AY = 2025-2026; previous_AY = 2024-2025
+2. AY 2025-2026 contract: Start Date = 2025-04-01; AY 2024-2025 contract: Start Date = 2024-04-01",,,3038,3036,Contract List – Display & Columns,,,
+23234,[Riso] Contract List – Inactive Tab – Previous-AY Contracts Shown; Current-AY Contracts Not Shown,AC-01 — Decision Table — Inactive tab shows only previous-AY (2024-2025) contracts; the current-AY contract does not appear on the Inactive tab.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student (Contact) has contracts in both AY 2025-2026 and AY 2024-2025
+- today = 2026-06-22; current_AY = 2025-2026; previous_AY = 2024-2025",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record and click the Course tab
+2. Click the Inactive tab in the Contract List section
+3. Observe the rows in the Contract List on the Inactive tab","1. Course tab loads
+2. Inactive tab is displayed
+3. Only the AY 2024-2025 contract is listed; the AY 2025-2026 contract is not present","1. today = 2026-06-22; current_AY = 2025-2026; previous_AY = 2024-2025
+2. """"
+3. AY 2025-2026 contract: Start Date = 2025-04-01; AY 2024-2025 contract: Start Date = 2024-04-01",,,3038,3036,Contract List – Display & Columns,,,
+23235,"[Riso] Contract List – Active Tab Has Data, Inactive Tab Empty – Both Tabs Render Without Error","AC-01 — Negative — When Active tab has contracts but Inactive tab has none, both tabs render without error; and vice versa.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Scenario A: Student has a contract in AY 2025-2026 only
+- Scenario B: Student has a contract in AY 2024-2025 only
+- today = 2026-06-22; current_AY = 2025-2026; previous_AY = 2024-2025",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. (Scenario A) Open the Contact with only a current-AY contract; click Course tab
+2. (Scenario A) Click the Inactive tab
+3. (Scenario B) Open the Contact with only a prior-AY contract; click Course tab
+4. (Scenario B) Click the Inactive tab","1. Active tab shows one contract row
+2. Inactive tab shows an empty state without error
+3. Active tab shows an empty state without error
+4. Inactive tab shows one contract row; no error","1. today = 2026-06-22; Scenario A: contact has AY 2025-2026 contract only
+2. """"
+3. Scenario B: contact has AY 2024-2025 contract only
+4. """"",,,3038,3036,Contract List – Display & Columns,,,
+23236,[Riso] Contract List – Sort Order – Location ASC then Course ASC then Start Date ASC on Load,"AC-02 — Scenario — Contract list rows are sorted by Location ASC, then Course ASC, then Start Date ASC when the page first loads.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student (Contact) has three contracts in AY 2025-2026 with different Location and Course values
+- today = 2026-06-22; current_AY = 2025-2026",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record and click the Course tab
+2. Observe the row order in the Contract List","1. Course tab loads with the Active tab visible
+2. Rows appear in order: (1) Osaka–English–2025-04-01, (2) Tokyo–English–2025-04-01, (3) Tokyo–Math–2025-05-01","1. today = 2026-06-22; Contracts: (A) Location=Tokyo, Course=Math, Start=2025-05-01; (B) Location=Osaka, Course=English, Start=2025-04-01; (C) Location=Tokyo, Course=English, Start=2025-04-01
+2. Expected order: Osaka < Tokyo (Location ASC); within Tokyo: English < Math (Course ASC)",,,3039,3036,Contract List – Sort Order,,,
+23237,"[Riso] Contract List – Sort Order – Same Location and Course, Ordered by Start Date ASC","AC-02 — Pairwise — When two contracts share the same Location and Course, the tiebreaker is Start Date ASC.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student (Contact) has two contracts in AY 2025-2026 with identical Location and Course but different Start Dates
+- today = 2026-06-22; current_AY = 2025-2026",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record and click the Course tab
+2. Observe the two contract rows in the Contract List","1. Course tab loads with the Active tab visible
+2. Contract X (Start=2025-04-01) appears above Contract Y (Start=2025-07-01)","1. today = 2026-06-22; Contract X: Location=Tokyo, Course=English, Start=2025-04-01; Contract Y: Location=Tokyo, Course=English, Start=2025-07-01
+2. Expected: 2025-04-01 before 2025-07-01 (Start Date ASC tiebreaker)",,,3039,3036,Contract List – Sort Order,,,
+23238,[Riso] Contract List – Sort Order – Sort Re-applied After Page Refresh,"AC-02 — Scenario — The sort order (Location ASC, Course ASC, Start Date ASC) is preserved after the page is refreshed.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student (Contact) has three contracts with different Location and Course values
+- today = 2026-06-22; current_AY = 2025-2026",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record and click the Course tab; note the order of the three contract rows
+2. Refresh the browser page
+3. Return to the Contact Course tab and observe the row order","1. Rows appear in correct sorted order: Osaka–English, Tokyo–English, Tokyo–Math
+2. Page reloads
+3. Rows appear in the same sorted order as before: (1) Osaka–English–2025-04-01, (2) Tokyo–English–2025-04-01, (3) Tokyo–Math–2025-05-01","1. today = 2026-06-22; Contracts: (A) Tokyo/Math/2025-05-01; (B) Osaka/English/2025-04-01; (C) Tokyo/English/2025-04-01
+2. """"
+3. Expected: sort order is identical after refresh",,,3039,3036,Contract List – Sort Order,,,
+23239,[Riso] Contract List – NRA List – Hidden on Contact > Course Tab for Riso,AC-03 — Decision Table — The Not Require Allocation list section is not rendered on the Contact > Course tab when logged in as a Riso user.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- The Contact has at least one LA record with Require Allocation = FALSE
+- today = 2026-06-22",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open a Contact record and click the Course tab
+2. Inspect all sections rendered on the Course tab","1. Course tab loads
+2. No section labeled Not Require Allocation (or equivalent) is present on the page","1. today = 2026-06-22; Riso org user
+2. """"",,,3040,3036,Contract List – Not Require Allocation (NRA) List,,,
+23240,[Riso] Contract List – NRA List Hidden – Contract List Section Still Displayed (Isolation),AC-03 — Negative — Hiding the Not Require Allocation list does not remove or break the Contract List section on the same tab.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student (Contact) has at least one contract in AY 2025-2026
+- today = 2026-06-22; current_AY = 2025-2026",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record and click the Course tab
+2. Observe all sections on the Active tab
+3. Confirm the contract row data is complete and not corrupted","1. Course tab loads
+2. The Not Require Allocation section is absent; the Contract List section is present and shows the expected contract rows
+3. All six columns (Lesson Allocation, Course, Start Date, End Date, Location, Contract Status) display correct values","1. today = 2026-06-22; current_AY = 2025-2026
+2. """"
+3. """"",,,3040,3036,Contract List – Not Require Allocation (NRA) List,,,
+23241,[Riso] Contract List – REGRESSION LT-92532 – Contact > Course Tab No Longer Shows NRA Section,"AC-03 — Regression — Following the LT-98531 change, the Contact > Course tab for a Riso user no longer shows the Not Require Allocation list that was present under LT-92532.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- The Contact has LA records covering both Require Allocation = TRUE and Require Allocation = FALSE
+- today = 2026-06-22",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record and click the Course tab
+2. Review all visible sections on the Course tab
+3. Confirm the Require Allocation list section is still rendered correctly","1. Course tab loads; page does not throw an error
+2. Only the Require Allocation list (and the new Contract List) are present; the Not Require Allocation section is absent
+3. Require Allocation list section is present with its rows intact","1. today = 2026-06-22; Riso org; Contact has both Require=TRUE and Require=FALSE LA records
+2. """"
+3. """"",,,3040,3036,Contract List – Not Require Allocation (NRA) List,,,
+23242,[Riso] Contract List – Riso Partner – Contract List Rendered on Contact > Course Tab,AC-04 — Permission Matrix — A Riso HQ or CM user sees the Contract List section on the Contact > Course tab.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student (Contact) exists with at least one contract in AY 2025-2026
+- today = 2026-06-22; current_AY = 2025-2026",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record for the student and click the Course tab
+2. Observe the Active tab","1. Course tab loads
+2. A Contract List section is visible and shows contract rows","1. today = 2026-06-22; Riso HQ or CM user
+2. """"",,,3041,3036,Contract List – Partner Scope Gate,,,
+23243,[Riso] Contract List – Non-Riso Partner – Contract List Not Rendered,AC-04 — Negative — A user from a non-Riso partner org does not see the Contract List section on the Contact > Course tab.,"- Logged in as HQ or CM Staff to a non-Riso partner Salesforce org
+- A student (Contact) exists on that org
+- today = 2026-06-22",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record and click the Course tab
+2. Observe all sections on the Course tab","1. Course tab loads
+2. No Contract List section is present; the tab layout reflects the non-Riso configuration","1. today = 2026-06-22; non-Riso partner user
+2. """"",,,3041,3036,Contract List – Partner Scope Gate,,,
+23244,[Riso] Contract List – Lesson Allocation Column – Linked LA Record Displayed,AC-05 — Component — The Lesson Allocation column in the contract list shows the name or identifier of the LA record linked to the contract.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student (Contact) has a contract in AY 2025-2026 that is linked to a Lesson Allocation (LA) record
+- today = 2026-06-22; current_AY = 2025-2026",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record and click the Course tab
+2. Locate the contract row in the Contract List","1. Course tab loads with the Active tab
+2. The Lesson Allocation column displays the linked LA record identifier (e.g., LA-2025-001)","1. today = 2026-06-22; Contract linked to LA record named LA-2025-001
+2. Expected Lesson Allocation value: the linked LA record name",,,3042,3036,Contract List – Lesson Allocation Display,,,
+23245,[Riso] Contract List – Lesson Allocation Column – Blank When No LA Linked,AC-05 — Negative — The Lesson Allocation column is blank for a contract that has no linked LA record.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student (Contact) has a contract in AY 2025-2026 with no linked Lesson Allocation record
+- today = 2026-06-22; current_AY = 2025-2026",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record and click the Course tab
+2. Locate the contract row in the Contract List","1. Course tab loads with the Active tab
+2. The Lesson Allocation column cell is blank (empty, no value) for that contract row","1. today = 2026-06-22; Contract with no linked LA record
+2. """"",,,3042,3036,Contract List – Lesson Allocation Display,,,
+23335,[Riso] Contract List – LBAC – Staff Sees Only Contracts for Their Assigned Location,"LBAC — Permission Matrix — A staff user assigned to Tokyo Branch can only see contracts belonging to Tokyo Branch in the Contract List on the Contact > Course tab. Contracts from other locations (e.g., Osaka Branch) are not visible regardless of which Contact is opened.","- Logged in as HQ or CM Staff to the Riso Salesforce org whose assigned location is Tokyo Branch only
+- A student (Contact) has two contracts in AY 2025-2026: one at Tokyo Branch and one at Osaka Branch
+- today = 2026-06-22; current_AY = 2025-2026",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record for the student and click the Course tab
+2. Observe the rows in the Contract List
+3. Confirm the Osaka Branch contract is absent from the list","1. Course tab loads with the Active tab
+2. Only the Tokyo Branch contract row is displayed; the Osaka Branch contract row is not visible
+3. No row with Location = Osaka Branch appears in the contract list","1. today = 2026-06-22; user_assigned_location = Tokyo Branch only
+2. Contract A: Location = Tokyo Branch; Contract B: Location = Osaka Branch
+3. Expected: only Contract A (Tokyo Branch) is shown",,,3041,3036,Contract List – Partner Scope Gate,,,
+23336,[Riso] Contract List – LBAC – Staff Cannot View Contracts from Unassigned Location,LBAC — Negative — A staff user who is not assigned to Osaka Branch cannot see any contracts at Osaka Branch in the Contract List even if the Contact has active contracts there.,"- Logged in as HQ or CM Staff to the Riso Salesforce org whose assigned location is Tokyo Branch only (not assigned to Osaka Branch)
+- A student (Contact) has at least one contract in AY 2025-2026 at Osaka Branch and no contract at Tokyo Branch
+- today = 2026-06-22; current_AY = 2025-2026",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record for the student and click the Course tab
+2. Observe the Contract List on the Active tab","1. Course tab loads with the Active tab
+2. The Contract List is empty (empty state shown) or the Osaka Branch contract row is not visible","1. today = 2026-06-22; user_assigned_location = Tokyo Branch; student has only Osaka Branch contract
+2. Expected: no contract rows displayed; the Osaka Branch contract is not accessible to this user",,,3041,3036,Contract List – Partner Scope Gate,,,
+23411,[Riso] Contract List – Timezone – Contract Start Date and End Date Displayed in JST,"TZ-08 — Timezone (JST display) — Contract Start Date and End Date in the Contract List must be rendered in JST. A contract stored with Start Date = 2025-03-31T15:00:00Z (UTC) has a JST Start Date of 2025-04-01T00:00:00+09:00 and must display as 2025-04-01, not 2025-03-31.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student (Contact) has a contract where Start Date is stored as 2025-03-31T15:00:00Z in the DB (= JST: 2025-04-01T00:00:00+09:00)
+- Contract is for AY 2025-2026
+- today = 2026-06-22; current_AY = 2025-2026",,timezone,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Contact record and click the Course tab
+2. Locate the contract row in the Active tab Contract List
+3. Observe the Start Date cell value","1. Course tab loads with the Active tab
+2. The contract row is visible
+3. Start Date displays 2025-04-01 (JST value), NOT 2025-03-31 (UTC value)","1. today = 2026-06-22; contract Start Date stored as UTC = 2025-03-31T15:00:00Z (= JST 2025-04-01T00:00:00+09:00)
+2. Expected display: 2025-04-01 (JST); must NOT show 2025-03-31 (raw UTC date)",,,3038,3036,Contract List – Display & Columns,,,

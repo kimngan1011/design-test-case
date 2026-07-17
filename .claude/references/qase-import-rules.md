@@ -15,12 +15,12 @@ Field mapping, multi-line formatting, and report template for `import-to-qase`.
 | `suite_id` | Resolved Qase suite ID | Integer. |
 | `severity` | Severity field | Map: critical→critical, major→major, normal→**minor**, minor→minor. (`normal` is NOT a valid Qase slug.) |
 | `priority` | Priority field | high→high, medium→medium, low→low. |
-| `type` | Fixed | `functional` |
-| `behavior` | Fixed | `undefined` |
-| `automation` | Fixed | `is-not-automated` |
-| `status` | Fixed | `draft` |
-| `is_flaky` | Fixed | `false` |
-| `layer` | Fixed | `unknown` |
+| `type` | Fixed | `functional` → API numeric: `2` |
+| `behavior` | Fixed | `undefined` → API numeric: `1` |
+| `automation` | Fixed | `is-not-automated` → API numeric: `2` |
+| `status` | Fixed | `draft` → API numeric: `1` (**NOT 2** — 2 = deprecated) |
+| `is_flaky` | Fixed | `false` → API boolean: `false` |
+| `layer` | Fixed | `unknown` → API numeric: `1` |
 | `steps_type` | Fixed | `classic` |
 
 ### Step object format

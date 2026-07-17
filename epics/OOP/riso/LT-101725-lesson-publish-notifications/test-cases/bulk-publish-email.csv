@@ -1,0 +1,186 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,,3055,,[Riso] Bulk Publish – Teacher Email,1,,
+,[Riso] Bulk Publish Email – SF Lesson List bulk publish – Available Full-Time teacher receives email,"AC-09, BR-16 — State Transition — Bulk publishing Draft lessons from SF Lesson List triggers one email to each Available Full-Time teacher.","- Riso Salesforce org with Lesson Publish Notification config flag = ON
+- 2 Draft lessons in SF Lesson List, both assigned to Tanaka Kenji (working_status=Available, working_type=Full Time)
+- Tanaka Kenji has SF-registered email: tanaka@riso.jp
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to SF Lesson List; select the 2 Draft lessons""
+2. ""Trigger Bulk Publish""
+3. ""Wait for the bulk publish job to complete""
+4. ""Check the email inbox for tanaka@riso.jp""","1. ""2 lessons selected""
+2. ""Bulk publish job runs""
+3. ""All selected lessons transition to Published status""
+4. ""1 email received from the SF system email address""","1. ""surface=SF Lesson List; teacher=Tanaka Kenji""
+2. """"
+3. """"
+4. ""teacher_email=tanaka@riso.jp"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – SF Lesson Calendar bulk publish – Available Part-Time teacher receives email,"AC-09, BR-16 — State Transition — Bulk publishing Draft lessons from SF Lesson Calendar triggers one email to each Available Part-Time teacher.","- Riso Salesforce org with config flag = ON
+- SF Lesson Calendar view set to June 2026: calendar_start = 2026-06-01, calendar_end = 2026-06-30
+- Multiple Draft lessons within the calendar view assigned to Yamamoto Yuki (working_status=Available, working_type=Part Time)
+- Yamamoto Yuki has SF-registered email: yamamoto@riso.jp
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open SF Lesson Calendar for June 2026""
+2. ""Trigger Bulk Publish from the calendar view""
+3. ""Wait for the job to complete""
+4. ""Check the email inbox for yamamoto@riso.jp""","1. ""Calendar view shows Start Date = 2026-06-01, End Date = 2026-06-30""
+2. ""Bulk publish job runs""
+3. ""Draft lessons within the calendar period transition to Published""
+4. ""1 email received""","1. ""calendar_start=2026-06-01; calendar_end=2026-06-30; surface=SF Lesson Calendar""
+2. """"
+3. """"
+4. ""teacher_email=yamamoto@riso.jp; working_type=Part Time"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – BO Lesson Management bulk publish – Available teacher receives email,"AC-09, BR-16 — State Transition — Bulk publishing Draft lessons from the Back Office Lesson Management page triggers one email to each Available teacher.","- Riso Back Office environment with config flag = ON
+- Multiple Draft lessons in BO Lesson Management assigned to Nakamura Hana (working_status=Available, working_type=Full Time)
+- Nakamura Hana has SF-registered email: nakamura@riso.jp
+- Logged in as HQ Staff to the Back Office",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to BO Lesson Management""
+2. ""Select Draft lessons and trigger Bulk Publish""
+3. ""Wait for the job to complete""
+4. ""Check the email inbox for nakamura@riso.jp""","1. ""Lesson list visible""
+2. ""Bulk publish job runs""
+3. ""Draft lessons transition to Published status""
+4. ""1 email received from SF system email""","1. ""surface=BO Lesson Management""
+2. """"
+3. """"
+4. ""teacher_email=nakamura@riso.jp"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – Teacher assigned to multiple lessons in batch – Receives exactly one email for the entire batch,"AC-10, BR-18 — CRUD — One teacher assigned to multiple lessons in the same bulk publish batch receives exactly 1 email (not one email per lesson).","- Riso Salesforce org with config flag = ON
+- 5 Draft lessons in SF Lesson List, ALL assigned to Tanaka Kenji (Available, Full Time)
+- Tanaka Kenji has SF-registered email: tanaka@riso.jp
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select all 5 Draft lessons in SF Lesson List""
+2. ""Trigger Bulk Publish""
+3. ""Wait for the job to complete""
+4. ""Check the email inbox for tanaka@riso.jp""","1. ""5 lessons selected""
+2. ""Bulk publish job runs""
+3. ""All 5 lessons = Published""
+4. ""Exactly 1 email received (not 5 emails)""","1. ""lesson_count=5; all assigned to Tanaka Kenji""
+2. """"
+3. """"
+4. ""expected_email_count=1; actual_lesson_count=5"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – Unavailable teacher assigned to lesson in batch – Does not receive email,"AC-09, BR-04 — Decision Table negative — A Lesson Teacher with working_status=Unavailable is excluded from bulk publish teacher email.","- Riso Salesforce org with config flag = ON
+- 3 Draft lessons, each assigned to Tanaka Kenji (working_status=Available, Full Time; email: tanaka@riso.jp) and Sato Hiroshi (working_status=Unavailable, Full Time; email: sato@riso.jp)
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Bulk publish the 3 Draft lessons from SF Lesson List""
+2. ""Check email inbox for tanaka@riso.jp""
+3. ""Check email inbox for sato@riso.jp""","1. ""All 3 lessons transition to Published status""
+2. ""1 email received for Tanaka Kenji (Available → included)""
+3. ""NO email received for Sato Hiroshi (Unavailable → excluded)""","1. ""Teacher A=Available; Teacher B=Unavailable""
+2. ""working_status=Available → receives email""
+3. ""working_status=Unavailable → excluded from email"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – Email content – English subject and body – All required fields rendered,"AC-09, BR-17, BR-19, BR-21 — Component — The EN email received by the teacher contains the correct subject line, greeting, body text, and period in the correct format.","- Riso Salesforce org with config flag = ON
+- today = 2026-06-23; SF Lesson List bulk publish of lessons dated 2026-06-05 to 2026-06-25
+- 1 Available teacher Tanaka Kenji (Full Time); SF-registered email: tanaka@riso.jp
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Bulk publish lessons (SF Lesson List) dated 2026-06-05 through 2026-06-25""
+2. ""Open the email received by tanaka@riso.jp""
+3. ""Read the email subject line""
+4. ""Read the email greeting""
+5. ""Read the email body text""
+6. ""Read the duration line""","1. ""Lessons = Published""
+2. ""Email opens""
+3. ""Subject = Lesson Schedule Published""
+4. ""Greeting = Hi Tanaka Kenji,""
+5. ""Body contains: Lesson schedules for the following period have been published:""
+6. ""Duration = Duration: June 5, 2026 ~ June 25, 2026""","1. ""today=2026-06-23; earliest_lesson_date=2026-06-05; latest_lesson_date=2026-06-25""
+2. """"
+3. ""expected EN subject per BR-17""
+4. ""teacher_name=Tanaka Kenji""
+5. ""expected EN body per BR-19""
+6. ""earliest=2026-06-05; latest=2026-06-25; EN date format per BR-21"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – Email content – Japanese subject and body – All required fields rendered,"AC-09, BR-20, BR-22 — Component — The JP email received by the teacher contains the correct Japanese subject line, greeting, body text, and period in Japanese date format.","- Riso Salesforce org with config flag = ON
+- today = 2026-06-23; SF Lesson List bulk publish of lessons dated 2026-06-05 to 2026-06-25
+- 1 Available teacher 田中健二 (Full Time); SF-registered email: tanaka@riso.jp
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Bulk publish lessons (SF Lesson List) dated 2026-06-05 through 2026-06-25""
+2. ""Open the email received by tanaka@riso.jp""
+3. ""Read the email subject line""
+4. ""Read the email greeting""
+5. ""Read the email body text""
+6. ""Read the duration line""","1. ""Lessons = Published""
+2. ""Email opens""
+3. ""Subject = 授業予定が公開されました""
+4. ""Greeting = 田中健二様,""
+5. ""Body contains: 下記の期間の授業が公開されました。""
+6. ""Duration = 2026年6月5日～2026年6月25日""","1. ""today=2026-06-23; earliest=2026-06-05; latest=2026-06-25""
+2. """"
+3. ""expected JP subject per BR-20""
+4. ""teacher_name=田中健二""
+5. ""expected JP body per BR-20""
+6. ""earliest=2026-06-05; latest=2026-06-25; JP date format per BR-22"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – SF Lesson Calendar bulk publish period – Email shows calendar view Start and End Date,"AC-09, BR-23 — Decision Table — When triggered from SF Lesson Calendar, the email period shows the calendar view Start Date and End Date, not the earliest/latest lesson date in the batch.","- Riso Salesforce org with config flag = ON
+- SF Lesson Calendar view set to June 2026: calendar_start = 2026-06-01, calendar_end = 2026-06-30
+- Only 2 lessons within the view, dated 2026-06-10 and 2026-06-20 (batch min/max differ from calendar view dates)
+- 1 Available teacher Tanaka Kenji; email: tanaka@riso.jp
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open SF Lesson Calendar for June 2026""
+2. ""Trigger Bulk Publish from calendar view""
+3. ""Open the email received by tanaka@riso.jp""
+4. ""Read the duration in the email""","1. ""Calendar view Start = 2026-06-01, End = 2026-06-30""
+2. ""Bulk publish runs""
+3. ""Email opens""
+4. ""Duration shows June 1, 2026 ~ June 30, 2026 — the calendar view Start/End Date, NOT the batch min/max (June 10 ~ June 20)""","1. ""calendar_start=2026-06-01; calendar_end=2026-06-30; lesson_dates=2026-06-10, 2026-06-20""
+2. ""surface=SF Lesson Calendar""
+3. """"
+4. ""expected: calendar dates (2026-06-01 ~ 2026-06-30); NOT batch min/max (2026-06-10 ~ 2026-06-20)"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – SF Lesson List bulk publish period – Email shows earliest and latest lesson date in the batch,"AC-09, BR-24 — Decision Table — When triggered from SF Lesson List, the email period shows the earliest and latest lesson date across the batch.","- Riso Salesforce org with config flag = ON
+- SF Lesson List with 3 selected Draft lessons: lesson dates = 2026-06-05, 2026-06-15, 2026-06-25
+- 1 Available teacher Yamamoto Yuki; email: yamamoto@riso.jp
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select 3 Draft lessons (dates: 2026-06-05, 2026-06-15, 2026-06-25) in SF Lesson List""
+2. ""Trigger Bulk Publish""
+3. ""Open the email received by yamamoto@riso.jp""
+4. ""Read the duration in the email""","1. ""3 lessons selected""
+2. ""Bulk publish runs""
+3. ""Email opens""
+4. ""Duration shows June 5, 2026 ~ June 25, 2026 (earliest and latest lesson date in the batch)""","1. ""lesson_dates=[2026-06-05, 2026-06-15, 2026-06-25]; earliest=2026-06-05; latest=2026-06-25""
+2. ""surface=SF Lesson List""
+3. """"
+4. ""expected: June 5, 2026 ~ June 25, 2026"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – Single-day bulk publish batch – Email period shows same date as both start and end,"AC-09, BR-24 — BVA — Boundary case: when all lessons in the bulk publish batch are on the same date, the email period start and end are identical.","- Riso Salesforce org with config flag = ON
+- SF Lesson List with 2 Draft lessons, both dated 2026-06-15
+- 1 Available teacher Nakamura Hana; email: nakamura@riso.jp
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select 2 Draft lessons (both dated 2026-06-15) in SF Lesson List""
+2. ""Trigger Bulk Publish""
+3. ""Open the email received by nakamura@riso.jp""
+4. ""Read the duration in the email""","1. ""2 lessons selected""
+2. ""Bulk publish runs""
+3. ""Email opens""
+4. ""Duration shows June 15, 2026 ~ June 15, 2026 (same date for both start and end)""","1. ""lesson_dates=[2026-06-15, 2026-06-15]; earliest=2026-06-15; latest=2026-06-15""
+2. """"
+3. """"
+4. ""expected: same date repeated; BVA edge case"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – All lessons in batch already Published – No email sent and no error shown to user,"AC-09, BR-28, F-13 — Decision Table negative — When all lessons in the bulk publish batch are already Published (0 Draft to Published transitions), no email is sent and no error is shown.","- Riso Salesforce org with config flag = ON
+- SF Lesson List with 3 lessons ALL in Published status (no Draft lessons)
+- 1 teacher Tanaka Kenji; email: tanaka@riso.jp
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select 3 Published lessons in SF Lesson List""
+2. ""Trigger Bulk Publish""
+3. ""Wait for the bulk publish job to complete""
+4. ""Check the email inbox for tanaka@riso.jp""","1. ""All 3 lessons already in Published status""
+2. ""Bulk publish action runs""
+3. ""No error message or warning is shown to the staff user — silent completion""
+4. ""NO email received — silent skip (0 Draft to Published transitions means no notification triggered)""","1. ""all_lessons_status=Published; zero_draft_transitions=true""
+2. """"
+3. """"
+4. ""expected: no email; silent skip per BR-28"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – Email delivery failure – Lessons remain Published and failure is logged for debugging,"AC-11, BR-25 — Negative — An email send failure does not block or roll back lesson publication. The lesson stays Published and the failure is logged.","- Riso Salesforce org with config flag = ON
+- Draft lessons available for bulk publish
+- 1 Available teacher Tanaka Kenji with email configured to an invalid address (simulates send failure)
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Configure Tanaka Kenji's SF registered email to an invalid address""
+2. ""Trigger Bulk Publish on the Draft lessons""
+3. ""Wait for the job to complete""
+4. ""Check the status of each lesson in the batch""
+5. ""Check the SF system debug log for email failure""","1. ""Email configured to invalid address""
+2. ""Bulk publish job runs""
+3. ""Job completes""
+4. ""ALL lessons are in Published status — publication was NOT rolled back by the email failure""
+5. ""A failure log entry is visible for the email send attempt""","1. ""teacher_email=invalid@nonexistent-domain-xyz.xyz (simulates delivery failure)""
+2. """"
+3. """"
+4. ""expected: lessons = Published regardless of email failure""
+5. ""expected: failure logged; lesson publish NOT blocked"",,3055,,[Riso] Bulk Publish – Teacher Email,,,
+,[Riso] Bulk Publish Email – LT-98532 student push notification – Fires independently when teacher email also triggered,"AC-09, F-09 — Regression — LT-98532 student push notification and LT-101725 teacher email both fire on the same bulk publish event without interfering with each other.","- Riso Salesforce org with config flag = ON for both LT-101725 (teacher email) and LT-98532 (student push) configurations
+- 2 Draft lessons, each assigned to 1 Available teacher Tanaka Kenji (email: tanaka@riso.jp) and 1 student with a parent contact having a mobile device registered
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Trigger Bulk Publish on the 2 Draft lessons from SF Lesson Calendar""
+2. ""Wait for the job to complete""
+3. ""Check email inbox for tanaka@riso.jp (teacher email — LT-101725)""
+4. ""Check the student/parent Mobile app notification inbox (LT-98532)""
+5. ""Confirm no cross-interference""","1. ""Bulk publish job runs""
+2. ""All lessons = Published""
+3. ""Teacher Tanaka Kenji receives 1 bulk publish email with correct period""
+4. ""Student and parent receive push notification for the same bulk publish""
+5. ""Both teacher email (LT-101725) AND student push notification (LT-98532) delivered independently — neither blocked the other""","1. ""both LT-98532 and LT-101725 active; surface=SF Lesson Calendar""
+2. """"
+3. ""LT-101725 teacher email path""
+4. ""LT-98532 student push path""
+5. ""expected: both systems fire independently; no shared failure mode"",,3055,,[Riso] Bulk Publish – Teacher Email,,,

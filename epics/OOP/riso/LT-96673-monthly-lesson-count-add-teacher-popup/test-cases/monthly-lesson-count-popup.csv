@@ -101,7 +101,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. """"
 4. """"",,,,,,,
 ,"[Riso] Add Teacher Popup – Monthly Lesson Count – Timezone Boundary Last Day of Month","AC 01.2 + AC 01.3 — Boundary Value Analysis — A lesson on the last day of a month at late evening local time (JST) is counted in that month, not the next month.","- Org is Riso OOP (Japan Standard Time, UTC+9)
-- Teacher H is assigned to a lesson: Date Jan 31 2026, Time 23:30 JST (= Feb 1 00:30 UTC), Status: Published
+- Teacher H is assigned to a lesson: Date Jan 31 2026, Time 23:30 JST (= Jan 31 14:30 UTC), Status: Published
 - Teacher H has no other lessons in January or February 2026
 - Target lesson is in January 2026",,,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the January 2026 target lesson detail""
 2. ""Click Add Teachers to open the popup""

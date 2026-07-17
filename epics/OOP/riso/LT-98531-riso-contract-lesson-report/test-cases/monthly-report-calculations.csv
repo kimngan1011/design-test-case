@@ -1,0 +1,177 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+23254,[Riso] Monthly Lesson Assignment Report – Report Columns – All 7 Columns Present Simultaneously,"AC-08 — Component (Deep) — All seven required columns (Location, Student Name, Course, Student Course Duration Per Month, Purchased Slot, Lesson Allocated, Diff) are present simultaneously in the report.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- At least one student-course combination exists with a contract and sessions for the selected month
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page
+2. Select AY 2025-2026 and month June 2026 in the filters then apply
+3. Observe the column headers of the report table
+4. Observe the data row for the test student-course combination","1. Report page loads
+2. Report renders at least one data row
+3. The following seven columns are all visible: Location, Student Name, Course, Student Course Duration Per Month, Purchased Slot, Lesson Allocated, Diff
+4. Each column cell contains a value or an appropriate placeholder (not blank due to a crash)","1. today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06
+2. target_month = 2026-06; AY = 2025-2026
+3. Expected columns: Location, Student Name, Course, Student Course Duration Per Month, Purchased Slot, Lesson Allocated, Diff
+4. """"",,,3045,3036,Report Columns – Structure and Sort,,,
+23255,[Riso] Monthly Lesson Assignment Report – Row Sort Order – Location ASC then Student Name ASC then Course ASC then Start Date ASC,"AC-08 — Scenario — Report rows are ordered by Location ASC, then Student Name ASC, then Course ASC, then Start Date ASC.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Three student-course rows exist for the selected month with different Location and Student Name values
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, select AY 2025-2026 and month June 2026, then apply
+2. Observe the row order in the report","1. Report renders three rows
+2. Rows appear from top to bottom: (1) Osaka–Ito–Math, (2) Tokyo–Sato–English, (3) Tokyo–Tanaka–English","1. today = 2026-06-22; Rows: (A) Location=Tokyo, Student=Tanaka, Course=English, Start=2025-04-01; (B) Location=Osaka, Student=Ito, Course=Math, Start=2025-05-01; (C) Location=Tokyo, Student=Sato, Course=English, Start=2025-04-01
+2. Expected: Osaka < Tokyo (Location ASC); within Tokyo: Sato < Tanaka (Student Name ASC)",,,3045,3036,Report Columns – Structure and Sort,,,
+23256,[Riso] Monthly Lesson Assignment Report – Row With Null or Missing Values – Renders Without Error,AC-08 — Negative — A student-course row with missing or null optional field values renders without breaking or crashing the report.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student-course combination exists in the report month where one or more optional fields (e.g., Student Course Duration Per Month) are null or unpopulated
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page and apply filters for AY 2025-2026 and June 2026
+2. Locate the row for the student with missing field values
+3. Confirm other rows in the report are unaffected","1. Report loads and renders all rows including the row with missing data
+2. The row renders; the cell with missing data shows an empty value or dash — the report does not crash or throw an error
+3. All other rows display their data correctly","1. today = 2026-06-22; Student with null Student Course Duration Per Month field
+2. """"
+3. """"",,,3045,3036,Report Columns – Structure and Sort,,,
+23257,[Riso] Monthly Lesson Assignment Report – Purchased Slot – Monthly Contract Uses Contract.slot,"AC-09 — Decision Table — For a Monthly contract, the Purchased Slot column displays the value from Contract.slot.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student has a Monthly contract with Contract.slot = 8 for AY 2025-2026
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set filters to AY 2025-2026 and June 2026, then apply
+2. Locate the row for the student with the Monthly contract","1. Report loads
+2. The Purchased Slot column shows 8","1. today = 2026-06-22; Contract type = Monthly; Contract.slot = 8
+2. Expected Purchased Slot = 8 (from Contract.slot)",,,3046,3036,Purchased Slot – Contract Type Calculation,,,
+23258,[Riso] Monthly Lesson Assignment Report – Purchased Slot – Weekly Contract Uses Contract.slot,"AC-09 — Decision Table — For a Weekly contract, the Purchased Slot column displays the value from Contract.slot.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student has a Weekly contract with Contract.slot = 4 for AY 2025-2026
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set filters to AY 2025-2026 and June 2026, then apply
+2. Locate the row for the student with the Weekly contract","1. Report loads
+2. The Purchased Slot column shows 4","1. today = 2026-06-22; Contract type = Weekly; Contract.slot = 4
+2. Expected Purchased Slot = 4 (from Contract.slot)",,,3046,3036,Purchased Slot – Contract Type Calculation,,,
+23259,[Riso] Monthly Lesson Assignment Report – Purchased Slot – One Time Contract Uses Contract.total,"AC-09 — Decision Table — For a One Time contract, the Purchased Slot column displays the value from Contract.total (not Contract.slot).","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student has a One Time contract with Contract.total = 10 and Contract.slot = 2 for AY 2025-2026
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set filters to AY 2025-2026 and June 2026, then apply
+2. Locate the row for the student with the One Time contract","1. Report loads
+2. The Purchased Slot column shows 10 (Contract.total) not 2 (Contract.slot)","1. today = 2026-06-22; Contract type = One Time; Contract.total = 10; Contract.slot = 2
+2. Expected Purchased Slot = 10 (from Contract.total); must NOT show 2",,,3046,3036,Purchased Slot – Contract Type Calculation,,,
+23260,[Riso] Monthly Lesson Assignment Report – Purchased Slot – All Three Contract Types Show Correct Values in One Report View,"AC-09 — Pairwise (Deep) — Monthly, Weekly, and One Time contracts each display the correct Purchased Slot value simultaneously in the same report view.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Three students exist: Student A has Monthly (slot=8), Student B has Weekly (slot=4), Student C has One Time (total=10, slot=2)
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set AY 2025-2026 and June 2026, select Students A, B, C, then apply
+2. Locate the row for Student A (Monthly contract)
+3. Locate the row for Student B (Weekly contract)
+4. Locate the row for Student C (One Time contract)","1. Report loads showing three rows
+2. Purchased Slot = 8
+3. Purchased Slot = 4
+4. Purchased Slot = 10 (not 2)","1. today = 2026-06-22; Student A: Monthly, slot=8; Student B: Weekly, slot=4; Student C: One Time, total=10, slot=2
+2. Monthly: Contract.slot = 8
+3. Weekly: Contract.slot = 4
+4. One Time: Contract.total = 10; Contract.slot = 2",,,3046,3036,Purchased Slot – Contract Type Calculation,,,
+23261,[Riso] Monthly Lesson Assignment Report – Lesson Allocated – Absent + In Advance Notice – Session Included in Count,"AC-10 — Decision Table (Critical, Deep) — A session where Attendance = Absent AND Notice = In Advance is INCLUDED in the Lesson Allocated count.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student A has exactly one session in June 2026: Attendance = Absent, Notice = In Advance
+- Contract for Student A: Monthly, slot = 8
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set AY 2025-2026 and June 2026, select Student A, then apply
+2. Locate Student A's row in the report
+3. Observe the Diff column for Student A","1. Report loads showing Student A's row
+2. The Lesson Allocated column shows 1 (the Absent+InAdvance session is counted)
+3. Diff = 8 − 1 = 7","1. today = 2026-06-22; Student A session: Attendance = Absent; Notice = In Advance; target_month = 2026-06
+2. Expected Lesson Allocated = 1; session is INCLUDED because Notice = In Advance
+3. Purchased Slot = 8; Lesson Allocated = 1; Diff = 7",,,3047,3036,Lesson Allocated – Attendance Calculation,,,
+23262,[Riso] Monthly Lesson Assignment Report – Lesson Allocated – Absent + No In Advance Notice – Session Excluded from Count,"AC-10 — Decision Table (Critical, Deep) — A session where Attendance = Absent AND Notice is NOT In Advance (e.g., Same Day) is EXCLUDED from the Lesson Allocated count.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student B has exactly one session in June 2026: Attendance = Absent, Notice = Same Day
+- Contract for Student B: Monthly, slot = 8
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set AY 2025-2026 and June 2026, select Student B, then apply
+2. Locate Student B's row in the report
+3. Observe the Diff column for Student B","1. Report loads showing Student B's row
+2. The Lesson Allocated column shows 0 (the Absent+SameDay session is excluded)
+3. Diff = 8 − 0 = 8","1. today = 2026-06-22; Student B session: Attendance = Absent; Notice = Same Day; target_month = 2026-06
+2. Expected Lesson Allocated = 0; session is EXCLUDED because Attendance = Absent AND Notice != In Advance
+3. Purchased Slot = 8; Lesson Allocated = 0; Diff = 8",,,3047,3036,Lesson Allocated – Attendance Calculation,,,
+23263,[Riso] Monthly Lesson Assignment Report – Lesson Allocated – Present Attendance – Session Included in Count,"AC-10 — Decision Table (Critical, Deep) — A session where Attendance = Present is INCLUDED in the Lesson Allocated count regardless of Notice value.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student C has exactly one session in June 2026: Attendance = Present
+- Contract for Student C: Monthly, slot = 8
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set AY 2025-2026 and June 2026, select Student C, then apply
+2. Locate Student C's row in the report
+3. Observe the Diff column for Student C","1. Report loads showing Student C's row
+2. The Lesson Allocated column shows 1 (the Present session is counted)
+3. Diff = 8 − 1 = 7","1. today = 2026-06-22; Student C session: Attendance = Present; target_month = 2026-06
+2. Expected Lesson Allocated = 1; Present attendance is always INCLUDED
+3. Purchased Slot = 8; Lesson Allocated = 1; Diff = 7",,,3047,3036,Lesson Allocated – Attendance Calculation,,,
+23264,[Riso] Monthly Lesson Assignment Report – Lesson Allocated – All Three Attendance Branches Verified in Same Report Context,"AC-10 — Decision Table (Critical, Deep) — All three attendance combinations are validated simultaneously: Absent+InAdvance INCLUDED; Absent+SameDay EXCLUDED; Present INCLUDED.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student A: one session, Attendance=Absent, Notice=In Advance; Student B: one session, Attendance=Absent, Notice=Same Day; Student C: one session, Attendance=Present
+- All three contracts: Monthly, slot=8
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set AY 2025-2026 and June 2026, select Students A B C, then apply
+2. Locate Student A's row (Absent + In Advance)
+3. Locate Student B's row (Absent + Same Day)
+4. Locate Student C's row (Present)","1. Report loads showing three rows
+2. Lesson Allocated = 1; Diff = 7
+3. Lesson Allocated = 0; Diff = 8
+4. Lesson Allocated = 1; Diff = 7","1. today = 2026-06-22; Student A: Absent+InAdvance; Student B: Absent+SameDay; Student C: Present; all contracts Monthly slot=8; target_month = 2026-06
+2. Student A: Absent + Notice=In Advance → INCLUDED; Purchased Slot=8; Lesson Allocated=1; Diff=7
+3. Student B: Absent + Notice=Same Day → EXCLUDED; Purchased Slot=8; Lesson Allocated=0; Diff=8
+4. Student C: Present → INCLUDED; Purchased Slot=8; Lesson Allocated=1; Diff=7",,,3047,3036,Lesson Allocated – Attendance Calculation,,,
+23265,[Riso] Monthly Lesson Assignment Report – Lesson Allocated – Cancelled Lesson Not Excluded from Count,AC-10 — Negative — A session with lesson status = Cancelled is NOT excluded from the Lesson Allocated count; only the attendance rule applies.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student D has exactly two sessions in June 2026: Session 1 status=Active Attendance=Present; Session 2 status=Cancelled Attendance=Present
+- Contract for Student D: Monthly, slot = 8
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set AY 2025-2026 and June 2026, select Student D, then apply
+2. Locate Student D's row in the report
+3. Observe the Diff column for Student D","1. Report loads showing Student D's row
+2. Lesson Allocated = 2 (both sessions counted; Cancelled status is not filtered out)
+3. Diff = 8 − 2 = 6","1. today = 2026-06-22; Student D: Session 1: status=Active, Attendance=Present; Session 2: status=Cancelled, Attendance=Present; target_month = 2026-06
+2. Expected Lesson Allocated = 2; Cancelled lesson is NOT excluded; only attendance exclusion rule applies
+3. Purchased Slot = 8; Lesson Allocated = 2; Diff = 6",,,3047,3036,Lesson Allocated – Attendance Calculation,,,
+23266,[Riso] Monthly Lesson Assignment Report – Diff – Positive Value When Purchased Slot Greater Than Lesson Allocated,AC-11 — Boundary Value Analysis — Diff displays as a positive number when Purchased Slot > Lesson Allocated.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student has a Monthly contract with slot = 8; the student attended 5 sessions in the target month (all Present)
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set AY 2025-2026 and June 2026, select the student, then apply
+2. Locate the student's row and observe the Diff column","1. Report loads showing the student's row
+2. Diff = 3 (positive value; displayed without a minus sign)","1. today = 2026-06-22; Purchased Slot = 8; Lesson Allocated = 5; target_month = 2026-06
+2. Purchased Slot = 8; Lesson Allocated = 5; Diff = 8 − 5 = 3",,,3048,3036,Diff Formula,,,
+23267,[Riso] Monthly Lesson Assignment Report – Diff – Zero Value When Purchased Slot Equals Lesson Allocated,AC-11 — Boundary Value Analysis — Diff displays as zero when Purchased Slot = Lesson Allocated.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student has a Monthly contract with slot = 6; the student attended exactly 6 sessions in the target month (all Present)
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set AY 2025-2026 and June 2026, select the student, then apply
+2. Locate the student's row and observe the Diff column","1. Report loads showing the student's row
+2. Diff = 0 (zero displayed not blank)","1. today = 2026-06-22; Purchased Slot = 6; Lesson Allocated = 6; target_month = 2026-06
+2. Purchased Slot = 6; Lesson Allocated = 6; Diff = 6 − 6 = 0",,,3048,3036,Diff Formula,,,
+23268,[Riso] Monthly Lesson Assignment Report – Diff – Negative Value When Purchased Slot Less Than Lesson Allocated,AC-11 — Boundary Value Analysis — Diff displays as a negative number (with minus sign) when Purchased Slot < Lesson Allocated; no absolute value substitution occurs.,"- Logged in as HQ or CM Staff to the Riso Salesforce org
+- A student has a Monthly contract with slot = 4; the student has 6 sessions counted in the target month
+- today = 2026-06-22; current_AY = 2025-2026; target_month = 2026-06",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page, set AY 2025-2026 and June 2026, select the student, then apply
+2. Locate the student's row and observe the Diff column","1. Report loads showing the student's row
+2. Diff = −2 (negative value with minus sign; NOT blank and NOT 2)","1. today = 2026-06-22; Purchased Slot = 4; Lesson Allocated = 6; target_month = 2026-06
+2. Purchased Slot = 4; Lesson Allocated = 6; Diff = 4 − 6 = −2",,,3048,3036,Diff Formula,,,
+23407,[Riso] Monthly Lesson Assignment Report – Timezone – Session at JST Month-End Counted in JST Month Not UTC Month,"TZ-01 — Timezone (JST) — A lesson session starting at 23:30 JST on the last day of a month (2026-06-30T23:30+09:00 = 2026-06-30T14:30Z) must be counted in June 2026 (JST), not July 2026. The report uses JST as the timezone reference for month boundaries.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student A has exactly one session: start_time = 2026-06-30T23:30:00+09:00 (JST); Attendance = Present
+- Contract for Student A: Monthly, slot = 8
+- today = 2026-07-01T00:00:00+09:00; current_AY = 2025-2026",,timezone,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page
+2. Set AY 2025-2026 and Month = June 2026; select Student A; then apply
+3. Observe Lesson Allocated for Student A
+4. Switch Month filter to July 2026 and re-apply
+5. Observe Lesson Allocated for Student A in July","1. Report page loads
+2. Report renders Student A's row for June 2026
+3. Lesson Allocated = 1 (the 23:30 JST session on June 30 is counted in June)
+4. Report re-renders for July 2026
+5. Lesson Allocated = 0 (session is not double-counted or shifted to July)","1. today = 2026-07-01T00:00:00+09:00; session start = 2026-06-30T23:30:00+09:00 (= 2026-06-30T14:30Z); Attendance = Present
+2. Month = June 2026; AY = 2025-2026; Student A selected
+3. Expected Lesson Allocated = 1; JST date is June 30 → counted in June
+4. Month = July 2026
+5. Expected Lesson Allocated = 0; session is not in July JST",,,3047,3036,Lesson Allocated – Attendance Calculation,,,
+23408,[Riso] Monthly Lesson Assignment Report – Timezone – Session at JST Month-Start Counted in New Month Not Prior UTC Day,"TZ-02 — Timezone (JST) — A lesson session starting at 00:00 JST on the first day of a month (2026-07-01T00:00+09:00 = 2026-06-30T15:00Z) must be counted in July 2026 (JST), not June 2026 (the UTC date is still June 30). The report uses JST as the timezone reference.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student B has exactly one session: start_time = 2026-07-01T00:00:00+09:00 (JST); Attendance = Present
+- Contract for Student B: Monthly, slot = 8
+- today = 2026-07-01T09:00:00+09:00; current_AY = 2025-2026",,timezone,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page
+2. Set AY 2025-2026 and Month = June 2026; select Student B; then apply
+3. Observe Lesson Allocated for Student B in June
+4. Switch Month filter to July 2026 and re-apply
+5. Observe Lesson Allocated for Student B in July","1. Report page loads
+2. Report renders Student B's row for June 2026
+3. Lesson Allocated = 0 (the 00:00 JST July 1 session belongs to July, not June)
+4. Report re-renders for July 2026
+5. Lesson Allocated = 1 (session counted correctly in July)","1. today = 2026-07-01T09:00:00+09:00; session start = 2026-07-01T00:00:00+09:00 (= 2026-06-30T15:00Z); Attendance = Present
+2. Month = June 2026
+3. Expected Lesson Allocated = 0; JST date is July 1 → NOT counted in June
+4. Month = July 2026
+5. Expected Lesson Allocated = 1; JST date is July 1 → counted in July",,,3047,3036,Lesson Allocated – Attendance Calculation,,,
+23409,[Riso] Monthly Lesson Assignment Report – Timezone – Session Stored in UTC Assigned to Correct Month After JST Conversion,"TZ-03 — Timezone (UTC storage vs JST display) — Even though session timestamps are stored in UTC in the database, the month assignment for Lesson Allocated must be evaluated after converting to JST. A session stored as 2026-06-30T15:00:00Z (= 2026-07-01T00:00 JST) must be assigned to July 2026, not June 2026.","- Logged in as HQ or CM Staff to the Riso Salesforce org
+- Student C has exactly one session stored as 2026-06-30T15:00:00Z in the DB (= JST: 2026-07-01T00:00:00+09:00); Attendance = Present
+- Contract for Student C: Monthly, slot = 8
+- today = 2026-07-01T09:00:00+09:00; current_AY = 2025-2026",,timezone,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the Monthly Lesson Assignment report page
+2. Set AY 2025-2026 and Month = June 2026; select Student C; then apply
+3. Note the Lesson Allocated for June
+4. Switch Month to July 2026 and re-apply
+5. Note the Lesson Allocated for July","1. Report page loads
+2. June 2026 row renders for Student C
+3. Lesson Allocated = 0 (UTC 2026-06-30T15:00Z = JST 2026-07-01T00:00; JST month is July not June)
+4. Report re-renders for July 2026
+5. Lesson Allocated = 1 (session correctly counted in July after JST conversion)","1. today = 2026-07-01T09:00:00+09:00; session UTC = 2026-06-30T15:00:00Z (= JST 2026-07-01T00:00:00+09:00); Attendance = Present
+2. Month = June 2026
+3. Expected Lesson Allocated = 0; UTC-to-JST conversion places session in July
+4. Month = July 2026
+5. Expected Lesson Allocated = 1; correct JST month assignment",,,3047,3036,Lesson Allocated – Attendance Calculation,,,

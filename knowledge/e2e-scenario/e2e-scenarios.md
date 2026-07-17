@@ -42,7 +42,7 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 | 4   | [SF]     | Staff **adds students** to the lesson on Lesson Detail (verify LA Require Allocation = True filter)                                                 |
 | 5   | [System] | Verify **Lesson Report** auto-created with Draft status and Lesson Report Details per student                                                       |
 | 6   | [System] | Verify **Lesson Allocation** updated: Lesson Allocated incremented, status updated                                                                  |
-| 7   | [SF]     | Staff changes lesson status from **Draft → Published**                                                                                              |
+| 7   | [SF]     | Staff changes lesson status from **Draft → Published** *(Riso org only: verify Chatter post created in lesson Chatter section with @mention of assigned teacher; non-Riso org: confirm no Chatter post created — LT-101725)* |
 | 8   | [BO]     | Teacher logs in (CPU) → sees the lesson on **BO Calendar** (filtered by lesson teacher)                                                             |
 | 9   | [BO]     | Teacher opens lesson detail on BO → **collects attendance** for each student                                                                        |
 | 10  | [BO]     | Teacher **writes and submits lesson report** on BO Lesson Detail                                                                                    |
@@ -576,14 +576,15 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 | 5   | [SF]     | Staff assigns teacher with **eligible subject** matching lesson subject                                                                                                            |
 | 6   | [SF]     | Staff assigns students → LA consumption tracked                                                                                                                                    |
 | 7   | [SF]     | Staff updates LA duration → class member auto-reassignment triggered                                                                                                               |
-| 8   | [SF]     | Staff **publishes** the lesson                                                                                                                                                     |
-| 9   | [BO]     | Teacher views lesson with subject info on **BO Calendar**                                                                                                                          |
-| 10  | [Mobile] | Student views the lesson on **Learner App** schedule                                                                                                                               |
-| 11  | [SF]     | Staff creates a **recurring lesson** (3 occurrences) with **Subject set** → verifies all 3 generated lessons display the same subject in Lesson Detail (AC 01.1)                   |
-| 12  | [SF]     | Staff edits Subject on occurrence 2 using **"Only this lesson"** → verifies only occurrence 2 updated; occurrences 1 and 3 unchanged (AC 01.1)                                     |
-| 13  | [SF]     | Staff edits Subject on occurrence 2 using **"This and the following"** → verifies occurrences 2–3 updated; occurrence 1 unchanged (AC 01.1)                                        |
-| 14  | [SF]     | Staff adds a lesson via **"Add Lesson"** on Lesson Schedule Detail → verifies **Subject field is blank** by default; sets subject manually; verifies chain is unaffected (AC 01.1) |
-| 15  | [SF]     | Staff **duplicates** a lesson that has a subject → verifies **Subject field is pre-filled** in the create form for the duplicate (AC 01.1)                                         |
+| 8   | [SF]     | Staff **publishes** the lesson; navigate to the Chatter section → verify **1 Chatter post created** with @mention of the assigned teacher (LT-101725 — Riso single publish)       |
+| 9   | [SF]     | Log in to Salesforce as the assigned teacher → open **SF Notification Center (bell icon)** → verify @mention notification alert received (LT-101725 — AC-06)              |
+| 10  | [BO]     | Teacher views lesson with subject info on **BO Calendar**                                                                                                                          |
+| 11  | [Mobile] | Student views the lesson on **Learner App** schedule                                                                                                                               |
+| 12  | [SF]     | Staff creates a **recurring lesson** (3 occurrences) with **Subject set** → verifies all 3 generated lessons display the same subject in Lesson Detail (AC 01.1)                   |
+| 13  | [SF]     | Staff edits Subject on occurrence 2 using **"Only this lesson"** → verifies only occurrence 2 updated; occurrences 1 and 3 unchanged (AC 01.1)                                     |
+| 14  | [SF]     | Staff edits Subject on occurrence 2 using **"This and the following"** → verifies occurrences 2–3 updated; occurrence 1 unchanged (AC 01.1)                                        |
+| 15  | [SF]     | Staff adds a lesson via **"Add Lesson"** on Lesson Schedule Detail → verifies **Subject field is blank** by default; sets subject manually; verifies chain is unaffected (AC 01.1) |
+| 16  | [SF]     | Staff **duplicates** a lesson that has a subject → verifies **Subject field is pre-filled** in the create form for the duplicate (AC 01.1)                                         |
 
 **Features covered:**
 
@@ -596,6 +597,8 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 - Customization > Riso > Subject in Lesson Detail > Edit scope: "Only this" / "This and following" (LT-94698)
 - Customization > Riso > Subject in Lesson Detail > Add lesson from Schedule (blank default) (LT-94698)
 - Customization > Riso > Subject in Lesson Detail > Duplicate lesson prefill (LT-94698)
+- Customization > Riso > Lesson Publish Notification > Single Publish Chatter Post + @mention (LT-101725)
+- Customization > Riso > Lesson Publish Notification > SF Notification Center alert to @mentioned teacher (LT-101725)
 
 ---
 
@@ -1273,6 +1276,67 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 
 ---
 
+## E2E-43: [Riso] Single Publish — Teacher Chatter Notification
+
+> **Theme:** LT-101725 — When a Riso lesson is published individually (Draft→Published), a Chatter post is created with @mention of each assigned available teacher, triggering an SF Notification Center alert to that teacher only.
+
+| #   | Platform   | Action                                                                                                                                                                            |
+| --- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [SF]       | Set up a Draft lesson with 1 assigned teacher: Tanaka Kenji (working_status=Available, working_type=Full Time) in Riso Salesforce org with Lesson Publish Notification config = ON |
+| 2   | [SF]       | Change lesson status from Draft to **Published** individually (single publish)                                                                                                     |
+| 3   | [SF]       | Navigate to Lesson Chatter section → verify **1 Chatter post created** referencing the lesson with @Tanaka Kenji @mention (AC-04, AC-05)                                           |
+| 4   | [SF]       | Verify Chatter post **content**: lesson name, lesson date/time, @mention text in correct language (EN or JP by teacher locale); verify **hyperlink** to lesson record present      |
+| 5   | [SF]       | Click hyperlink in Chatter post → verify lesson record opens in a **new tab** (AC-08)                                                                                              |
+| 6   | [SF]       | Log in to Salesforce as **Tanaka Kenji** → open **SF Notification Center (bell icon)** → verify @mention notification alert received for lesson publish Chatter post (AC-06)       |
+| 7   | [SF]       | Log in as **HQ Admin** (LBAC access to lesson, not @mentioned) → verify Chatter post **visible** in lesson; open Notification Center → verify **no alert** for this post (AC-07)  |
+| 8   | [SF]       | Assign an Unavailable teacher (Nakamura Hiroshi, working_status=Unavailable) → publish → verify Nakamura Hiroshi **NOT @mentioned** in Chatter post (teacher filter — AC-05)       |
+| 9   | [SF]       | Change lesson back to Draft → re-publish → verify **new Chatter post created** (old post persists; republish creates additional post — AC-01 republish behavior)                   |
+| 10  | [SF]       | Trigger **Bulk Publish** on Draft lessons → navigate to lesson Chatter section → verify **no Chatter post** created by bulk publish (bulk path = email only — AC-09)               |
+
+**Features covered:**
+
+- Customization > Riso > Lesson Publish Notification > Single Publish Chatter Post (LT-101725)
+- Customization > Riso > Lesson Publish Notification > Chatter post content: lesson name, date, @mention, hyperlink (LT-101725)
+- Customization > Riso > Lesson Publish Notification > SF Notification Center alert to @mentioned teacher (LT-101725)
+- Customization > Riso > Lesson Publish Notification > LBAC visibility vs notification isolation (LT-101725)
+- Customization > Riso > Lesson Publish Notification > Teacher filter: Available FT/PT only (LT-101725)
+- Customization > Riso > Lesson Publish Notification > Republish — new Chatter post per Draft→Published transition (LT-101725)
+- Customization > Riso > Lesson Publish Notification > Bulk publish does not trigger Chatter post (LT-101725)
+
+---
+
+## E2E-44: [Riso] Bulk Publish — Teacher Email Notification
+
+> **Theme:** LT-101725 — When lessons are bulk-published from any of 3 surfaces (SF Lesson List, SF Lesson Calendar, BO Lesson Management), each unique available teacher with at least one Draft→Published lesson receives exactly 1 email. Period calculation differs by surface.
+
+| #   | Platform   | Action                                                                                                                                                                            |
+| --- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [SF]       | Set up 3 Draft lessons (lesson dates: 2026-06-25, 2026-06-27, 2026-06-30) all assigned to 1 Available teacher Tanaka Kenji (Full Time, email: tanaka@riso.jp) in Riso org         |
+| 2   | [SF]       | Trigger **Bulk Publish from SF Lesson List** (select all 3 lessons → bulk publish)                                                                                                |
+| 3   | [Email]    | Check Tanaka Kenji's inbox → verify exactly **1 email received** (one per teacher, not per lesson); verify subject contains period reference (AC-09)                              |
+| 4   | [Email]    | Verify email content: teacher greeting (EN or JP by locale), lesson period = **2026-06-25 – 2026-06-30** (min–max lesson date — SF Lesson List surface rule) (AC-09)              |
+| 5   | [SF]       | Log in to **SF Lesson Calendar** → set calendar view to 2026-07-01 – 2026-07-07 → bulk publish 2 Draft lessons with lesson dates 2026-07-02 and 2026-07-05                       |
+| 6   | [Email]    | Verify email period = **2026-07-01 – 2026-07-07** (calendar view Start/End Date, not individual lesson dates — AC-10 calendar surface period rule)                                |
+| 7   | [BO]       | Log in to **BO Lesson Management** → bulk publish 2 Draft lessons (dates 2026-07-10, 2026-07-15) assigned to Tanaka Kenji                                                         |
+| 8   | [Email]    | Verify email received from BO surface; email period = **2026-07-10 – 2026-07-15** (min–max lesson date in batch — AC-11 BO surface period rule)                                   |
+| 9   | [SF]       | Assign Unavailable teacher (Nakamura Hiroshi, working_status=Unavailable) to lessons in a new bulk publish → verify **no email** sent to Nakamura Hiroshi (AC-09 teacher filter)  |
+| 10  | [SF]       | Bulk publish a set where all lessons are **already Published** (0 Draft→Published transitions) → verify **no email** sent and no error (silent skip rule — AC-09)                  |
+| 11  | [System]   | Simulate email send failure for 1 teacher after bulk publish → verify **lesson status remains Published** (email failure does not roll back lesson status — AC-11)                 |
+| 12  | [System]   | Verify **student push notification** (LT-98532 regression) fires independently alongside teacher email → both notifications delivered; neither blocks the other                    |
+
+**Features covered:**
+
+- Customization > Riso > Lesson Publish Notification > Bulk Publish Teacher Email — SF Lesson List surface (LT-101725)
+- Customization > Riso > Lesson Publish Notification > Bulk Publish Teacher Email — SF Lesson Calendar surface + period = view Start/End Date (LT-101725)
+- Customization > Riso > Lesson Publish Notification > Bulk Publish Teacher Email — BO Lesson Management surface (LT-101725)
+- Customization > Riso > Lesson Publish Notification > One email per teacher per bulk action (LT-101725)
+- Customization > Riso > Lesson Publish Notification > Teacher filter: Available FT/PT only (LT-101725)
+- Customization > Riso > Lesson Publish Notification > Silent skip: 0 Draft→Published transitions → no email (LT-101725)
+- Customization > Riso > Lesson Publish Notification > Email failure isolation — lesson stays Published (LT-101725)
+- Customization > Riso > Lesson Publish Notification > LT-98532 regression — student push + teacher email independence (LT-101725)
+
+---
+
 ## Coverage Matrix
 
 | E2E Scenario                                                                        | Qase Cases Covered | Key Domains                                                                     |
@@ -1295,7 +1359,7 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 | E2E-16: Teacher Access & Cross-Location Visibility                                  |               ~295 | Teacher, BO, Permissions                                                        |
 | E2E-17: Renseikai — Attendance & Error Configuration                                |                ~71 | Renseikai, Attendance                                                           |
 | E2E-18: EEA Dual Lesson — Paired Locations                                          |               ~111 | Dual Lesson, EEA                                                                |
-| E2E-19: Riso — Lesson Allocation & Subject in Detail                                |               ~118 | Riso, LA, Subject                                                               |
+| E2E-19: Riso — Lesson Allocation & Subject in Detail                                |               ~118 | Riso, LA, Subject, Notification (LT-101725)                                     |
 | E2E-20: Withus Juku — Custom Event Management                                       |                ~91 | Withus Juku, Event                                                              |
 | E2E-21: Extend Recurring Lesson                                                     |                ~64 | Extend, Recurring                                                               |
 | E2E-22: Import Lesson & CSV Operations                                              |                ~58 | Import, Bulk                                                                    |
@@ -1319,6 +1383,8 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 | E2E-40: [Riso] Bulk Publish Lessons for Selected Students                           |               ~new | Riso, Bulk Publish, Calendar Student Filter, Checkbox, Async job                |
 | E2E-41: [Riso] Mobile Notification after Bulk Publish                               |               ~new | Riso, Push Notification, Deduplication, Partial failure, Deep-link, Parent      |
 | E2E-42: [Riso] Bulk Action Monitoring                                               |               ~new | Riso, Bulk Action Monitoring, Job Status, Batch Grouping, Filters               |
+| E2E-43: [Riso] Single Publish — Teacher Chatter Notification                       |               ~new | Riso, Chatter Post, SF Notification Center, LBAC, Teacher Filter                |
+| E2E-44: [Riso] Bulk Publish — Teacher Email Notification                           |               ~new | Riso, Bulk Publish, Email, 3 Surfaces, Period Rule, Regression LT-98532         |
 
 > **Note:** Some test cases are covered by multiple E2E scenarios (shared features like Calendar views, LA updates). The total unique coverage exceeds 4,191 when cross-references are included.
 >
@@ -1340,3 +1406,5 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 > - E2E-40 ← new: Riso Bulk Publish Lessons for Selected Students — SF Calendar checkbox + async job (LT-98532)
 > - E2E-41 ← new: Riso Mobile Notification after Bulk Publish — deduplication, recipients, content, deep-link (LT-98532)
 > - E2E-42 ← new: Riso Bulk Action Monitoring — job records, status lifecycle, filters, permission guard (LT-98532)
+> - E2E-43 ← new: Riso Single Publish — Teacher Chatter Notification — Chatter post content, SF notification center alert, LBAC isolation, teacher filter (LT-101725)
+> - E2E-44 ← new: Riso Bulk Publish — Teacher Email Notification — 3 surfaces, period rules, one-per-teacher, silent skip, email failure isolation, LT-98532 regression (LT-101725)

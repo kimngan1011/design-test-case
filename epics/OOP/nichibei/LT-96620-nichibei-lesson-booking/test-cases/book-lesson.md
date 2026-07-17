@@ -228,7 +228,7 @@ A bookable lesson with capacity=1. Another student has already booked it (sessio
 **Description:** AC 03.3 — BR-18: BVA: Booking must be rejected when submitted after the booking deadline has passed.
 
 **Preconditions:**
-Current time is past (lesson start − booking deadline hours). Student attempts to submit booking.
+Current time is past 5:00 PM JPT the day before the lesson date. Student attempts to submit booking.
 
 | #   | Action                                                             | Expected Result                                                 | Test Data               |
 | --- | ------------------------------------------------------------------ | --------------------------------------------------------------- | ----------------------- |
@@ -322,12 +322,12 @@ Student user has active LA. My Lessons list is initially empty.
 
 **Preconditions:**
 Lesson timezone = UTC+9 (JST). Student's device timezone = UTC+11 (AEST, 2 hours ahead).
-Lesson start = today at 10:00 JST. Booking deadline = 2 hours before start = 08:00 JST.
-Current time = 07:30 JST (within deadline) = 09:30 AEST.
+Lesson date = 2026-05-20. Booking deadline = 2026-05-19 17:00 JST.
+Current time = 2026-05-19 16:30 JST (within deadline) = 2026-05-19 18:30 AEST.
 
 | #   | Action                                                       | Expected Result                                       | Test Data                                                 |
 | --- | ------------------------------------------------------------ | ----------------------------------------------------- | --------------------------------------------------------- |
-| 1   | Confirm current JST time = 07:30 (within 08:00 JST deadline) | Within booking deadline in lesson timezone            | Current time: 07:30 JST / 09:30 AEST; Deadline: 08:00 JST |
+| 1   | Confirm current JST time = 16:30 (within 17:00 JST deadline) | Within booking deadline in lesson timezone            | Current time: 16:30 JST / 18:30 AEST; Deadline: 17:00 JST |
 | 2   | Open Lesson Lists and tap "Reserve" on the lesson            | Booking Confirmation Screen opens                     | —                                                         |
 | 3   | Tap "Confirm"                                                | Booking succeeds                                      | —                                                         |
 | 4   | View result                                                  | Booking Success Screen shown; Student Session created | —                                                         |
@@ -340,12 +340,12 @@ Current time = 07:30 JST (within deadline) = 09:30 AEST.
 
 **Preconditions:**
 Lesson timezone = UTC+9 (JST). Student's device timezone = UTC+7 (ICT, 2 hours behind).
-Lesson start = today at 10:00 JST. Booking deadline = 2 hours before start = 08:00 JST.
-Current time = 08:30 JST (past deadline) = 06:30 ICT (device appears to show 1.5h before deadline).
+Lesson date = 2026-05-20. Booking deadline = 2026-05-19 17:00 JST.
+Current time = 2026-05-19 17:30 JST (past deadline) = 2026-05-19 15:30 ICT (device appears to show 1.5h before deadline).
 
 | #   | Action                                                                             | Expected Result                                                           | Test Data                                                |
 | --- | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------- |
-| 1   | Confirm current JST time = 08:30 (past 08:00 JST deadline), device shows 06:30 ICT | Past booking deadline in lesson timezone despite device showing otherwise | Current time: 08:30 JST / 06:30 ICT; Deadline: 08:00 JST |
+| 1   | Confirm current JST time = 17:30 (past 17:00 JST deadline), device shows 15:30 ICT | Past booking deadline in lesson timezone despite device showing otherwise | Current time: 17:30 JST / 15:30 ICT; Deadline: 17:00 JST |
 | 2   | Attempt to submit booking (tap Reserve → Confirm)                                  | Booking rejected                                                          | —                                                        |
 | 3   | View error message                                                                 | Error shown: "The booking deadline has passed for this lesson."           | —                                                        |
 
@@ -500,19 +500,19 @@ Student has active LA for lesson's location.
 
 ### [Nichibei] Lesson Booking – Stale Confirmation Screen – Booking deadline passes while on Confirmation Screen – Confirm blocked
 
-**Description:** AC 03.3 — BR-18 / Stale UI: When a student opens the Booking Confirmation Screen before the deadline (e.g., 09:55 JST), but the booking deadline passes (10:00 JST) while the student is still on the screen, submitting Confirm at 10:01 JST must be rejected even though the Confirmation Screen still shows an active state.
+**Description:** AC 03.3 — BR-18 / Stale UI: When a student opens the Booking Confirmation Screen before the deadline (e.g., 16:55 JST), but the booking deadline passes (17:00 JST) while the student is still on the screen, submitting Confirm at 17:01 JST must be rejected even though the Confirmation Screen still shows an active state.
 
 **Preconditions:**
 Today = 2026-05-19. Lesson TZ = UTC+9 (JST).
-Lesson B: lesson_date=2026-05-22, lesson start=11:00 JST, booking deadline=10:00 JST (1 hour before start).
+Lesson B: lesson_date=2026-05-20, booking deadline=2026-05-19 17:00 JST.
 Student has active LA; Lesson B has capacity ≥ 1.
-Student opens Booking Confirmation Screen at 09:55 JST (5 minutes before deadline).
+Student opens Booking Confirmation Screen at 16:55 JST (5 minutes before deadline).
 
 | #   | Action                                                                                 | Expected Result                                                         | Test Data                                                    |
 | --- | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------ |
-| 1   | At 09:55 JST, tap Reserve on Lesson B → Booking Confirmation Screen opens              | Confirmation Screen shown with lesson details; still within deadline    | Time: 09:55 JST; Deadline: 10:00 JST; lesson_date=2026-05-22 |
+| 1   | At 16:55 JST, tap Reserve on Lesson B → Booking Confirmation Screen opens              | Confirmation Screen shown with lesson details; still within deadline    | Time: 16:55 JST; Deadline: 17:00 JST; lesson_date=2026-05-20 |
 | 2   | Student stays on Confirmation Screen without submitting (e.g., reading lesson details) | Confirmation Screen remains open (deadline has not passed yet)          | —                                                            |
-| 3   | At 10:01 JST (deadline now passed), tap Confirm without refreshing                     | Booking request sent to server                                          | Time: 10:01 JST (1 min past deadline)                        |
+| 3   | At 17:01 JST (deadline now passed), tap Confirm without refreshing                     | Booking request sent to server                                          | Time: 17:01 JST (1 min past deadline)                        |
 | 4   | View server response                                                                   | Booking rejected: "The booking deadline has passed for this lesson."    | —                                                            |
 | 5   | Verify no Student Session created in Salesforce for (Student, Lesson B)                | No session created; booking correctly blocked at server-side validation | —                                                            |
 

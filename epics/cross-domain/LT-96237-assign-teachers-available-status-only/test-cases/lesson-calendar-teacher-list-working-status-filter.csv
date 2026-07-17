@@ -1,0 +1,37 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,2,,Lesson Calendar – Teacher's List – Working Status Filter,1,,
+,Lesson Calendar – Teacher's List – Working Status Filter – Filter field is displayed,BR-06 — Component — Working Status filter field is present in the Teacher's List section of the Lesson Calendar.,"- Logged in as HQ or CM Staff to the Back Office
+- Lesson Calendar view is accessible",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Lesson Calendar""
+2. ""Open the Teacher's List panel""
+3. ""Observe the filter area in the panel""
+","1. ""Lesson Calendar is displayed""
+2. ""Teacher's List panel is visible""
+3. ""Working Status filter field is displayed""
+","1. """"
+2. """"
+3. """"
+",,,2,,Lesson Calendar – Teacher's List – Working Status Filter,,,
+,"Lesson Calendar – Teacher's List – Working Status Filter – Default selection is ""Available"" on calendar open","BR-06 — EP — The Working Status filter defaults to ""Available"" when the Lesson Calendar Teacher's List first loads.","- Logged in as HQ or CM Staff to the Back Office
+- Lesson Calendar view is accessible",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Lesson Calendar""
+2. ""Open the Teacher's List panel""
+3. ""Observe the current value of the Working Status filter""
+","1. ""Lesson Calendar is displayed""
+2. ""Teacher's List panel is visible""
+3. ""Working Status filter shows Available as the selected default""
+","1. """"
+2. """"
+3. """"
+",,,2,,Lesson Calendar – Teacher's List – Working Status Filter,,,
+,"Lesson Calendar – Teacher's List – Working Status Filter – Select ""On Leave"" – Only On Leave teachers are listed","BR-06 — Decision Table — Changing the filter to ""On Leave"" updates the teacher list to show only On Leave teachers.","- Logged in as HQ or CM Staff to the Back Office
+- Lesson Calendar view is accessible
+- Teacher A has working status ""Available""
+- Teacher B has working status ""On Leave""",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Lesson Calendar and open the Teacher's List panel""
+2. ""Change Working Status filter to On Leave""
+3. ""Observe the teacher list""
+","1. ""Teacher's List shows Available teachers by default""
+2. ""Filter updates to On Leave""
+3. ""Teacher B (On Leave) is shown; Teacher A (Available) is not shown""
+","1. """"
+2. ""Filter = On Leave""
+3. ""Teacher A = Available, Teacher B = On Leave""
+",,,2,,Lesson Calendar – Teacher's List – Working Status Filter,,,
