@@ -1,0 +1,405 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3200,3202,[EN] Substitute Teacher – Teacher Filter,1,,
+24984,[EN] Substitute Teacher – Available Teacher Filter – Checkbox OFF – Teacher with overlapping lesson visible in results,"AC 02.1 — Decision Table — When the Available Teacher checkbox is OFF, the combined availability filter does not apply; teachers with conflicting lessons at the target lesson time can still appear in the list if they pass the other filters.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher A exists, affiliated with the target lesson's brand-level location; Teacher A has an existing lesson from 10:30–11:30 JST on the same date as the target lesson
+- Target lesson time: 10:00–11:00 JST on 2026-08-01",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Confirm the Available Teacher checkbox is unchecked (OFF)""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Available Teacher checkbox shows unchecked state""
+3. ""Teacher A appears in the list despite having a lesson overlap at 10:30–11:30 JST, because the availability checkbox is OFF""
+","1. ""lesson_date = 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. """"
+3. ""Teacher A has existing lesson 10:30–11:30 JST on 2026-08-01""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24985,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and Teacher within working hours and no conflict – Teacher appears in candidate list,"AC 02.1, BR-03, BR-04 — Decision Table — When the Available Teacher checkbox is ON, a teacher fully covered by their registered working hours and with no overlapping lessons appears in the candidate list.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher A exists, affiliated with target brand; working hours = 09:00–18:00 JST daily; no existing lessons on 2026-08-01
+- Target lesson: 10:00–11:00 JST on 2026-08-01",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher A appears in the results because both checks pass: working hours fully cover 10:00–11:00 JST and no existing lesson overlaps""
+","1. ""lesson_date = 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. ""Teacher A working hours = 09:00–18:00 JST; no lessons on 2026-08-01""
+3. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24986,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and Teacher outside working hours – Teacher excluded from results,"AC 02.1, BR-03 — Decision Table — When the Available Teacher checkbox is ON, a teacher whose registered working hours do not cover the lesson time is excluded from the candidate list, even if the teacher has no lesson conflict.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher B exists, affiliated with target brand; working hours = 13:00–18:00 JST daily; no existing lessons on 2026-08-01
+- Target lesson: 10:00–11:00 JST on 2026-08-01",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher B does not appear in the results""
+","1. ""lesson_date = 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. ""Teacher B working hours = 13:00–18:00 JST; no lessons on 2026-08-01""
+3. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25059,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and working hours partially overlap target lesson – Teacher excluded from results,"AC 02.1, BR-03 — Boundary Value Analysis — A partial overlap with working hours is not enough. The teacher must have working hours that fully cover the target lesson (staff_start_time <= lesson_start_time < lesson_end_time <= staff_end_time).","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher B2 exists, affiliated with target brand; working hours registered as 10:30–18:00 JST on 2026-08-01; no existing lessons on 2026-08-01
+- Target lesson: 10:00–11:00 JST on 2026-08-01",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher B2 does not appear because the working-hours record starts after the lesson start time""
+","1. ""lesson_date = 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. ""Teacher B2 working hours = 10:30–18:00 JST; no lessons on 2026-08-01""
+3. ""Required coverage formula fails: 10:30 <= 10:00 is false""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25060,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and teacher has Off Day or no working-hours record – Teacher excluded from results,"AC 02.1, BR-03 — Decision Table — When the Available Teacher checkbox is ON, a teacher is excluded if the lesson date is marked as Off Day or no matching working-hours record exists for that weekday/time, even if the teacher has no lesson conflict.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher B3 exists, affiliated with target brand; Saturday working hours are absent or marked Off Day; no existing lessons on 2026-08-01
+- Target lesson: Saturday 2026-08-01 10:00–11:00 JST",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher B3 does not appear because working-hours availability is not registered for the target lesson time""
+","1. ""lesson_date = Saturday 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. ""Teacher B3: Saturday = Off Day or no working-hours record; no lessons on 2026-08-01""
+3. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24987,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and Teacher has overlapping lesson – Teacher excluded from results,"AC 02.1, BR-04 — Decision Table — When the Available Teacher checkbox is ON, a teacher with an existing lesson that overlaps the target lesson time is excluded from results even when working-hours coverage passes.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher C exists, affiliated with target brand; working hours 09:00–18:00 JST; has an existing lesson 10:30–11:30 JST on 2026-08-01 (overlaps target)
+- Target lesson: 10:00–11:00 JST on 2026-08-01",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher C does not appear in the results due to lesson overlap, even though working hours cover the target lesson""
+","1. ""lesson_date = 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. ""Teacher C working hours = 09:00–18:00 JST; existing lesson = 10:30–11:30 JST on 2026-08-01""
+3. ""Overlap formula is true: 10:30 < 11:00 AND 10:00 < 11:30""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25061,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and teacher has overlapping lesson in another location – Teacher excluded from results,"AC 02.1, BR-04 — Decision Table — Existing lesson conflicts are checked across any location. A teacher who has an overlapping lesson in a different location is excluded when the Available Teacher checkbox is ON.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher C2 exists, affiliated with target brand; working hours 09:00–18:00 JST; has an existing lesson 10:15–10:45 JST on 2026-08-01 at Location B
+- Target lesson: 10:00–11:00 JST on 2026-08-01 at Location A",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher C2 does not appear because existing lesson overlap is evaluated across locations""
+","1. ""target_location = Location A; lesson_date = 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. ""Teacher C2 working hours = 09:00–18:00 JST; existing lesson = 10:15–10:45 JST at Location B""
+3. ""Overlap formula is true: 10:15 < 11:00 AND 10:00 < 10:45""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25062,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and teacher has overlapping Draft or Published lesson – Teacher excluded from results,"AC 02.1, BR-04 — Decision Table — Draft and Published existing lessons are included in the no-overlap conflict set. When either status overlaps the target lesson, the teacher is excluded while the Available Teacher checkbox is ON.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher C3 exists, affiliated with target brand; working hours 09:00–18:00 JST; has an existing Draft lesson 15:30–16:30 JST on 2026-07-17
+- Teacher C4 exists, affiliated with target brand; working hours 09:00–18:00 JST; has an existing Published lesson 15:30–16:30 JST on 2026-07-17
+- Target lesson: 15:00–16:00 JST on 2026-07-17",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher C3 and Teacher C4 do not appear because Draft/Published overlapping lessons are treated as conflicts""
+","1. ""lesson_date = 2026-07-17; lesson_start = 15:00 JST; lesson_end = 16:00 JST""
+2. ""Teacher C3 existing lesson status = Draft; Teacher C4 existing lesson status = Published""
+3. ""Overlap formula is true: 15:30 < 16:00 AND 15:00 < 16:30""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25063,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and teacher has overlapping Cancelled or Completed lesson – Teacher not excluded,"AC 02.1, BR-04 — Decision Table — Cancelled and Completed existing lessons are excluded from the no-overlap conflict set. A teacher whose only overlapping lessons are Cancelled or Completed remains eligible if all other filters pass.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher C5 exists, affiliated with target brand; working hours 09:00–18:00 JST; has an existing Cancelled lesson 15:30–16:30 JST on 2026-07-17
+- Teacher C6 exists, affiliated with target brand; working hours 09:00–18:00 JST; has an existing Completed lesson 15:30–16:30 JST on 2026-07-17
+- Target lesson: 15:00–16:00 JST on 2026-07-17",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher C5 and Teacher C6 appear because Cancelled/Completed overlapping lessons are ignored by the conflict check""
+","1. ""lesson_date = 2026-07-17; lesson_start = 15:00 JST; lesson_end = 16:00 JST""
+2. ""Teacher C5 existing lesson status = Cancelled; Teacher C6 existing lesson status = Completed""
+3. ""Both teachers pass working-hours coverage and have no Draft/Published overlap""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24988,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and Teacher has adjacent lesson with end equal to target start – Teacher not excluded,"AC 02.1, BR-04 — Boundary Value Analysis — A teacher whose existing lesson ends exactly when the target lesson starts (adjacent, zero overlap) is NOT excluded when the Available Teacher checkbox is ON.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher D exists, affiliated with target brand; working hours 08:00–18:00 JST; has an existing lesson 09:00–10:00 JST on 2026-08-01 (ends exactly at target start)
+- Target lesson: 10:00–11:00 JST on 2026-08-01",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher D appears in the results; adjacent lesson is not treated as an overlap and working hours cover the target lesson""
+","1. ""lesson_date = 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. ""Teacher D existing lesson = 09:00–10:00 JST on 2026-08-01; end (10:00) = target start (10:00)""
+3. ""Existing lesson end equals target start: 10:00 = 10:00""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24989,[EN] Substitute Teacher – Available Teacher Filter – Lesson at midnight JST boundary – Availability evaluated using JST date not UTC,"AC 02.1, BR-03, BR-04 — Boundary Value Analysis (Timezone) — When the target lesson falls at a JST/UTC midnight boundary, the Available Teacher filter uses JST date for availability evaluation, not UTC date.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher A: working hours 00:00–02:00 JST on Fridays; no conflicting lessons
+- Teacher B: working hours 09:00–18:00 JST daily; no conflicting lessons
+- Target lesson: 2026-07-03 00:30 JST (= 2026-07-02 15:30 UTC); 2026-07-03 is a Friday",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the midnight-boundary lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe Teacher A in the teacher list""
+4. ""Observe Teacher B in the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher A appears in results (available at 00:30 JST on Friday July 3)""
+4. ""Teacher B does not appear (00:30 JST is outside their 09:00–18:00 working hours)""
+","1. ""lesson_date (JST) = 2026-07-03; lesson_start = 00:30 JST (= 2026-07-02 15:30 UTC)""
+2. ""Teacher A: working hours 00:00–02:00 JST on Fridays; Teacher B: 09:00–18:00 JST daily""
+3. ""Lesson date used for comparison = 2026-07-03 JST (not 2026-07-02 UTC)""
+4. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25093,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and working hours exactly match target lesson – Teacher appears in candidate list,"AC 02.1, BR-03 — Boundary Value Analysis — A teacher whose working-hours start equals lesson start and working-hours end equals lesson end is included because both boundaries are inclusive.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher A2 exists, affiliated with target brand; working hours registered as 10:00–11:00 JST on 2026-08-01; no existing lessons on 2026-08-01
+- Target lesson: 10:00–11:00 JST on 2026-08-01",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher A2 appears because staff_start_time <= lesson_start_time and lesson_end_time <= staff_end_time are both true at equality""
+","1. ""lesson_date = 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. ""Teacher A2 working hours = 10:00–11:00 JST; no lessons on 2026-08-01""
+3. ""Boundary equality: staff_start = lesson_start and staff_end = lesson_end""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25088,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and working hours end before target lesson end – Teacher excluded from results,"AC 02.1, BR-03 — Boundary Value Analysis — A teacher is excluded when their working-hours record starts before the lesson but ends before the target lesson end time.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher B4 exists, affiliated with target brand; working hours registered as 09:00–10:30 JST on 2026-08-01; no existing lessons on 2026-08-01
+- Target lesson: 10:00–11:00 JST on 2026-08-01",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher B4 does not appear because the working-hours record ends before the lesson end time""
+","1. ""lesson_date = 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. ""Teacher B4 working hours = 09:00–10:30 JST; no lessons on 2026-08-01""
+3. ""Required coverage formula fails: 11:00 <= 10:30 is false""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25089,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and teacher has lesson at exact same time – Teacher excluded from results,"AC 02.1, BR-04 — Boundary Value Analysis — A teacher with an existing Draft/Published lesson whose start and end time exactly match the target lesson is excluded.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher C7 exists, affiliated with target brand; working hours 09:00–18:00 JST; has an existing Published lesson 09:00–10:00 JST on 2026-04-27
+- Target lesson: 09:00–10:00 JST on 2026-04-27",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher C7 does not appear because exact same-time existing lessons are conflicts""
+","1. ""lesson_date = 2026-04-27; lesson_start = 09:00 JST; lesson_end = 10:00 JST""
+2. ""Teacher C7 existing lesson = 09:00–10:00 JST; status = Published""
+3. ""Overlap formula is true: 09:00 < 10:00 AND 09:00 < 10:00""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25090,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and existing lesson fully contains target lesson – Teacher excluded from results,"AC 02.1, BR-04 — Boundary Value Analysis — A teacher is excluded when an existing Draft/Published lesson starts before the target lesson and ends after the target lesson.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher C8 exists, affiliated with target brand; working hours 08:00–18:00 JST; has an existing Draft lesson 09:00–12:00 JST on 2026-08-01
+- Target lesson: 10:00–11:00 JST on 2026-08-01",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher C8 does not appear because the existing lesson fully contains the target lesson time""
+","1. ""lesson_date = 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. ""Teacher C8 existing lesson = 09:00–12:00 JST; status = Draft""
+3. ""Overlap formula is true: 09:00 < 11:00 AND 10:00 < 12:00""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25091,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and existing lesson starts when target lesson ends – Teacher not excluded,"AC 02.1, BR-04 — Boundary Value Analysis — A teacher whose existing lesson starts exactly when the target lesson ends is not excluded because the lessons are adjacent, not overlapping.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Teacher D2 exists, affiliated with target brand; working hours 08:00–18:00 JST; has an existing Published lesson 11:00–12:00 JST on 2026-08-01
+- Target lesson: 10:00–11:00 JST on 2026-08-01",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Teacher D2 appears because the existing lesson starts exactly at the target lesson end time""
+","1. ""lesson_date = 2026-08-01; lesson_start = 10:00 JST; lesson_end = 11:00 JST""
+2. ""Teacher D2 existing lesson = 11:00–12:00 JST on 2026-08-01""
+3. ""Overlap formula is false: existing_start 11:00 < target_end 11:00 is false""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25092,[EN] Substitute Teacher – Available Teacher Filter – Checkbox ON and teacher has same-time lesson in non-affiliated location – Teacher excluded from results,"AC 02.1, BR-04 — Regression — Existing lesson conflicts are checked by teacher assignment, not only by the teacher affiliation or selected search location. A same-time lesson in another or non-affiliated location still excludes the teacher.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- Staff A is affiliated with Location 1 and has working hours covering 09:00–10:00 JST on 2026-04-27
+- Staff A is already assigned to Lesson 1 at Location 2 from 09:00–10:00 JST on 2026-04-27
+- Staff B opens Add Teacher for Lesson 2 at Location 1 from 09:00–10:00 JST on 2026-04-27",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson 2 at Location 1 and click Add Teacher""
+2. ""Enable the Available Teacher checkbox""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Checkbox is checked (ON)""
+3. ""Staff A does not appear because the existing same-time lesson is a conflict even though it is in another or non-affiliated location""
+","1. ""target_location = Location 1; lesson_date = 2026-04-27; lesson_start = 09:00 JST; lesson_end = 10:00 JST""
+2. ""Staff A affiliation = Location 1; existing Lesson 1 location = Location 2; existing lesson time = 09:00–10:00 JST""
+3. ""Conflict source = teacher already assigned to another lesson at the same time""
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24990,[EN] Substitute Teacher – Location Filter – Select brand-level area – Only teachers affiliated to that brand shown,"AC 02.1, BR-05, BR-06 — Decision Table — Selecting a brand-level area in the Location Selector limits the teacher list to teachers affiliated with that brand.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- Brand A exists with 5 affiliated teachers; Brand B exists with 3 different affiliated teachers
+- A lesson affiliated with Brand A is open on Lesson Detail",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail and click Add Teacher""
+2. ""In the Location Selector, select Brand A as the area""
+3. ""Observe the teacher list""
+4. ""Change the Location Selector to Brand B""
+5. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Location filter is set to Brand A""
+3. ""Only the 5 teachers affiliated with Brand A are shown; Brand B's 3 teachers are absent""
+4. ""Filter updates""
+5. ""Brand B's 3 teachers are shown; Brand A's teachers are absent""
+","1. """"
+2. ""Brand A (5 teachers); Brand B (3 different teachers)""
+3. """"
+4. """"
+5. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24991,[EN] Substitute Teacher – Location Filter – Exclude sub-location from brand selection – Teacher count decreases for that sub-location,"AC 02.1, BR-05 — Decision Table — After selecting a brand, excluding a specific sub-location reduces the teacher count to remove teachers affiliated only at that sub-location.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- Brand A has sub-locations: Center X (3 teachers), Center Y (2 teachers); total = 5 Brand A teachers
+- A lesson is open on Lesson Detail",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail and click Add Teacher""
+2. ""Select Brand A in the Location Selector""
+3. ""In the Location Selector, exclude Center X from the selection""
+4. ""Observe the teacher list and match count""
+","1. ""Add Teacher popup opens""
+2. ""5 teachers from Brand A are shown""
+3. ""Filter updates""
+4. ""2 teachers (Center Y only) are shown; Center X's 3 teachers are absent; match count = 2""
+","1. """"
+2. ""Brand A total = 5 (Center X: 3, Center Y: 2)""
+3. """"
+4. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24992,[EN] Substitute Teacher – Location Filter – Teacher with Area-level affiliation – Teacher appears when area is within selected brand,"AC 02.1, BR-06 — Permission Matrix — A teacher affiliated at Area level appears in results when the selected brand contains that area.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- Teacher E has an Area-level affiliation with Kanto Area (under Brand A)
+- Brand A is selected in the Location Selector",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail and click Add Teacher""
+2. ""Select Brand A in the Location Selector""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Location filter set to Brand A""
+3. ""Teacher E appears in the results (Area affiliation is within the selected brand)""
+","1. """"
+2. ""Teacher E affiliation = Kanto Area (under Brand A)""
+3. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24993,[EN] Substitute Teacher – Location Filter – Teacher registered as community plus user – Teacher appears in filtered results,"AC 02.1, BR-07 — Decision Table — A teacher who is a community plus user type appears in the candidate list when their affiliation matches the selected location.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- Teacher F is a community plus user, affiliated with Brand A
+- Brand A is selected in the Location Selector",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail and click Add Teacher""
+2. ""Select Brand A in the Location Selector""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Location filter set to Brand A""
+3. ""Teacher F appears in the results""
+","1. """"
+2. ""Teacher F = community plus user; affiliation = Brand A""
+3. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24994,[EN] Substitute Teacher – Location Filter – Teacher registered as contact-level user – Teacher appears in filtered results,"AC 02.1, BR-07 — Decision Table — A teacher who is a contact-level user type also appears in the candidate list when their affiliation matches the selected location.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- Teacher G is a contact-level user (not community plus), affiliated with Brand A
+- Brand A is selected in the Location Selector",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail and click Add Teacher""
+2. ""Select Brand A in the Location Selector""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Location filter set to Brand A""
+3. ""Teacher G appears in the results""
+","1. """"
+2. ""Teacher G = contact-level user; affiliation = Brand A""
+3. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24995,[EN] Substitute Teacher – Flagged Teacher Filter – Popup open – Flagged checkbox unchecked by default,"AC 02.1, BR-08 — Component — When the Add Teacher popup first opens, the Flagged Teacher checkbox is unchecked (OFF) by default.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- A lesson is open on Lesson Detail; Add Teacher popup not yet opened in this session",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail for the target lesson""
+2. ""Click the Add Teacher button""
+3. ""Observe the Flagged Teacher checkbox state""
+","1. ""Lesson Detail is displayed""
+2. ""Add Teacher popup opens (fresh open)""
+3. ""The Flagged Teacher (要注意講師) checkbox is unchecked (OFF)""
+","1. """"
+2. """"
+3. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24996,[EN] Substitute Teacher – Flagged Teacher Filter – Checkbox OFF and flagged teacher – Flagged teacher excluded from results,"AC 02.1, BR-08, BR-09 — Decision Table — When the Flagged Teacher checkbox is OFF (default), a teacher with Flagged checked on their Contact record does not appear in the candidate list.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- Teacher H exists, affiliated with target brand; Teacher H's Contact record has the Flagged field checked
+- A lesson is open on Lesson Detail",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail and click Add Teacher""
+2. ""Confirm the Flagged Teacher checkbox is unchecked (OFF)""
+3. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Flagged checkbox is unchecked""
+3. ""Teacher H does not appear in the results""
+","1. """"
+2. ""Teacher H: Flagged = true on Contact""
+3. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24997,[EN] Substitute Teacher – Flagged Teacher Filter – Checkbox ON and flagged teacher – Flagged teacher included in results,"AC 02.1, BR-09 — Decision Table — When the Flagged Teacher checkbox is enabled (ON), teachers with Flagged checked on their Contact record are included in the candidate list.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- Teacher H exists, affiliated with target brand; Teacher H's Contact record has Flagged checked
+- A lesson is open on Lesson Detail",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail and click Add Teacher""
+2. ""Confirm Teacher H is absent from the list (Flagged checkbox OFF by default)""
+3. ""Enable the Flagged Teacher (要注意講師) checkbox""
+4. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Teacher H not visible""
+3. ""Checkbox is checked (ON)""
+4. ""Teacher H appears in the results; the Flagged column shows the flag indicator for Teacher H""
+","1. """"
+2. ""Teacher H: Flagged = true on Contact""
+3. """"
+4. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24998,[EN] Substitute Teacher – Flagged Teacher Filter – Enable then disable Flagged checkbox – Flagged teacher removed from results after disable,"AC 02.1, BR-09 — Decision Table — After enabling then disabling the Flagged Teacher checkbox, the flagged teacher is removed from results, restoring default exclusion behavior.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- Teacher H exists, affiliated with target brand; Flagged = true on Contact
+- A lesson is open on Lesson Detail",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail and click Add Teacher""
+2. ""Enable the Flagged Teacher checkbox""
+3. ""Disable the Flagged Teacher checkbox (uncheck it)""
+4. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Teacher H appears in the list""
+3. ""Checkbox returns to unchecked state; teacher list updates""
+4. ""Teacher H is no longer visible in the results""
+","1. """"
+2. ""Teacher H: Flagged = true""
+3. """"
+4. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+24999,[EN] Substitute Teacher – Flagged Teacher Filter – Teacher list Flagged column – Column visible with correct flag indicator per teacher,"AC 02.1, BR-10 — Component — The teacher list in the Add Teacher popup shows a Flagged (要注意講師) column; the column correctly reflects each teacher's flag status.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- Teacher H: Flagged = true on Contact; Teacher I: Flagged = false on Contact
+- A lesson is open on Lesson Detail; Flagged Teacher checkbox is enabled (ON)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail and click Add Teacher; enable the Flagged Teacher checkbox""
+2. ""Observe the Flagged (要注意講師) column header in the teacher list""
+3. ""Observe Teacher H's row in the Flagged column""
+4. ""Observe Teacher I's row in the Flagged column""
+","1. ""Add Teacher popup shows both Teacher H and Teacher I""
+2. ""The column header Flagged (要注意講師) is visible""
+3. ""Teacher H's Flagged column shows a flag indicator (marked as flagged)""
+4. ""Teacher I's Flagged column shows no flag indicator (not flagged)""
+","1. ""Teacher H: Flagged = true; Teacher I: Flagged = false""
+2. """"
+3. """"
+4. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25000,[EN] Substitute Teacher – Match Count – Apply filter – Count updates in real time without page reload,"AC 02.1, BR-11 — Scenario — When a filter criterion changes, the displayed match count updates immediately, without page reload.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- Brand A has 8 teachers total; 3 are flagged (Flagged = true on Contact); 5 are unflagged
+- A lesson is open on Lesson Detail; Location Selector set to Brand A; Flagged checkbox OFF",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail and click Add Teacher; set Location Selector to Brand A""
+2. ""Read the match count display""
+3. ""Enable the Flagged Teacher checkbox""
+4. ""Read the match count display""
+5. ""Disable the Flagged Teacher checkbox again""
+6. ""Read the match count display""
+","1. ""Add Teacher popup shows 5 unflagged teachers""
+2. ""Match count shows 5""
+3. ""Filter updates without page reload""
+4. ""Match count updates to 8 (all teachers including 3 flagged)""
+5. ""Filter updates without page reload""
+6. ""Match count returns to 5""
+","1. ""Brand A total = 8 teachers; flagged = 3; unflagged = 5; Flagged checkbox OFF""
+2. """"
+3. """"
+4. """"
+5. """"
+6. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,
+25001,[EN] Substitute Teacher – Subject Filter – Filter by eligible subject [TBC] – Only teachers with matching subject shown,"AC 02.1, BR-12 — Decision Table [TBC — subject scope for EN unconfirmed] — When a subject is selected in the Subject filter, the teacher list is limited to teachers with that eligible subject. Note: pending confirmation of subject scope (clarification Q5).","- Logged in as HQ or CM Staff to the EN Salesforce org
+- Subject filter is available for EN (TBC)
+- Teacher J: eligible subject = Math; Teacher K: eligible subject = English
+- A lesson of type Math is open on Lesson Detail",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson Detail and click Add Teacher""
+2. ""Locate the Subject filter in the popup""
+3. ""Select Math as the subject filter""
+4. ""Observe the teacher list""
+","1. ""Add Teacher popup opens""
+2. ""Subject filter is visible (TBC); label shows Subject / 科目""
+3. ""Filter is applied""
+4. ""Teacher J appears; Teacher K does not appear""
+","1. """"
+2. ""Subject filter label = Subject / 科目""
+3. ""Teacher J: subject = Math; Teacher K: subject = English""
+4. """"
+",,,3200,3202,[EN] Substitute Teacher – Teacher Filter,,,

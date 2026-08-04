@@ -1,7 +1,7 @@
 # Manabie Scheduling — E2E Scenarios
 
 > **Purpose:** Cross-feature end-to-end scenarios covering the full user workflow across SF → BO → Mobile App. Each scenario integrates multiple features to maximize coverage per test.
-> **Last updated:** 2026-05-05
+> **Last updated:** 2026-07-22
 > **Coverage:** 4,191 test cases across Lesson Management, Calendar, Event, Customization, and Master Data.
 
 ---
@@ -1337,6 +1337,35 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 
 ---
 
+## E2E-45: [EN] Find and Email Substitute Teacher Candidates
+
+> **Theme:** LT-105350 — EN staff finds substitute teacher candidates from Lesson Detail, filters candidates by brand/area, working-hours coverage, no existing lesson overlap, and flagged status, then sends candidate emails without exposing recipients.
+
+| #   | Platform | Action                                                                                                                                                                         |
+| --- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1   | [SF]     | Open an EN lesson that needs a substitute teacher from SF Lesson Calendar, then open Lesson Detail                                                                              |
+| 2   | [SF]     | Click **Add Teacher** in the Lesson Teacher section to open the enhanced Add Teacher popup                                                                                      |
+| 3   | [SF]     | Set the Location Selector to the target brand/area and confirm the teacher count updates                                                                                        |
+| 4   | [SF]     | Enable **Available Teacher / Only teachers free at this time** and verify candidates must pass both checks: working-hours coverage and no existing lesson overlap in any location |
+| 5   | [SF]     | Verify a teacher whose working hours fully cover the lesson and has no overlapping lesson appears                                                                               |
+| 6   | [SF]     | Verify a teacher outside working hours is excluded even with no lesson conflict                                                                                                 |
+| 7   | [SF]     | Verify a teacher within working hours but with an overlapping existing lesson is excluded; adjacent lessons are not treated as overlap                                           |
+| 8   | [SF]     | Toggle **Flagged Teacher** ON/OFF and verify flagged teachers are included only when the filter is enabled and the Flagged column indicates flagged status                       |
+| 9   | [SF]     | Select multiple valid candidates and click **Send Email**                                                                                                                       |
+| 10  | [SF]     | Verify the email editor opens with selected candidate count, blank/editable subject/body per EN rules, and recipient list generated from selected candidates                     |
+| 11  | [Email]  | Send the email via the company email tool and verify recipients cannot see each other's email addresses (BCC/separate send)                                                     |
+| 12  | [SF]     | Confirm the Lesson Teacher assignment is not automatically changed; staff assigns the final substitute manually after out-of-system negotiation                                  |
+
+**Features covered:**
+
+- EN > Substitute Teacher > Entry point via Lesson Detail Add Teacher (LT-105350)
+- EN > Substitute Teacher > Available Teacher filter: working-hours coverage from LT-64009 (LT-105350)
+- EN > Substitute Teacher > Existing lesson no-overlap across locations (LT-105350)
+- EN > Substitute Teacher > Flagged teacher filter and column (LT-105350)
+- EN > Substitute Teacher > Bulk candidate email, recipient privacy, post-send manual assignment (LT-105350)
+
+---
+
 ## Coverage Matrix
 
 | E2E Scenario                                                                        | Qase Cases Covered | Key Domains                                                                     |
@@ -1385,6 +1414,7 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 | E2E-42: [Riso] Bulk Action Monitoring                                               |               ~new | Riso, Bulk Action Monitoring, Job Status, Batch Grouping, Filters               |
 | E2E-43: [Riso] Single Publish — Teacher Chatter Notification                       |               ~new | Riso, Chatter Post, SF Notification Center, LBAC, Teacher Filter                |
 | E2E-44: [Riso] Bulk Publish — Teacher Email Notification                           |               ~new | Riso, Bulk Publish, Email, 3 Surfaces, Period Rule, Regression LT-98532         |
+| E2E-45: [EN] Find and Email Substitute Teacher Candidates                          |               ~new | EN, Substitute Teacher, Working Hours, Lesson Overlap, Email Privacy            |
 
 > **Note:** Some test cases are covered by multiple E2E scenarios (shared features like Calendar views, LA updates). The total unique coverage exceeds 4,191 when cross-references are included.
 >
@@ -1408,3 +1438,4 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 > - E2E-42 ← new: Riso Bulk Action Monitoring — job records, status lifecycle, filters, permission guard (LT-98532)
 > - E2E-43 ← new: Riso Single Publish — Teacher Chatter Notification — Chatter post content, SF notification center alert, LBAC isolation, teacher filter (LT-101725)
 > - E2E-44 ← new: Riso Bulk Publish — Teacher Email Notification — 3 surfaces, period rules, one-per-teacher, silent skip, email failure isolation, LT-98532 regression (LT-101725)
+> - E2E-45 ← new: EN Find and Email Substitute Teacher Candidates — available-teacher filter checks working-hours coverage (LT-64009) plus existing lesson no-overlap, then sends private candidate emails (LT-105350)

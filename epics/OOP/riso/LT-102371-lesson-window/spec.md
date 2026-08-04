@@ -12,14 +12,14 @@ internal_uat_date: 2026-06-15
 production_release_date: 2026-08-10
 prd_status: Done
 prd_owner: Angelica Abu
-last_updated: 2026-07-14
+last_updated: 2026-08-03
 ---
 
 # LT-102371: [Riso] OOP | Lesson Window
 
 ## Summary
 
-This feature introduces a **Location Lesson Window (LLW)** (`Location_Lesson_Window__c`) object in Salesforce for Riso partner. An LLW is a closure record for a specific location-period combination. CMs create LLWs and mark them **Complete** to signal that a month's lessons are finalized. Once a LLW is marked **Complete**, new lesson creation **and** lesson date updates are blocked for that location within the closed date range. CMs and HQ can **reopen** a Complete LLW (subject to time restrictions). Riso's external system retrieves closure data nightly via a GET API.
+This feature introduces a **Location Lesson Window (LLW)** (`Location_Lesson_Window__c`) object in Salesforce for Riso partner. An LLW is a closure record for a specific location-period combination. CMs create LLWs and mark them **Complete** to signal that a month's lessons are finalized. Once a LLW is marked **Complete**, a **one-time** lesson whose Lesson Date is within the closed date range is blocked with an error. A recurring Create form evaluates every generated occurrence from Lesson Date through End Date and skips only occurrences within the closed range, including when Lesson Date or End Date is in the range. CMs and HQ can **reopen** a Complete LLW (subject to time restrictions). Riso's external system retrieves closure data nightly via a GET API.
 
 **Out of scope:** Standalone `Lesson_Window__c` object (not needed — `Location_Lesson_Window__c` is the only new object), lesson status management, timesheet calculation.
 
@@ -52,7 +52,7 @@ This feature introduces a **Location Lesson Window (LLW)** (`Location_Lesson_Win
   - Auto-fills: Academic Year = current academic year; Status = Open; Location = current location (non-editable).
   - Month dropdown defaults to current month. Selecting a Month auto-populates Start Date and End Date from the Academic Year's calendar range. User can manually override after auto-population.
   - End Date auto-populates when Start Date is entered.
-- **Delete button**: Visible only on records where Status = **Open**. Follows Salesforce standard data dependency behavior (blocked if linked detail records exist). Available to **staff with `full_access_v2` PS only** (CM without this PS cannot see the Delete button).
+- **Delete button**: Visible only on records where Status = **Open**. Follows Salesforce standard data dependency behavior (blocked if linked detail records exist). Available to staff assigned **at least one** of `full_access_v2` or `llw_full_access` Permission Sets; a user with neither Permission Set cannot see the Delete button.
 - **Status toggle / Complete action**: Available inline or via record action. Sets Status = Complete.
 - **Reopen action**: Sets Status = Open. Subject to restrictions in AC-06, AC-07, AC-08.
 
@@ -80,7 +80,7 @@ This feature introduces a **Location Lesson Window (LLW)** (`Location_Lesson_Win
 **AC-05 — Delete restriction**
 - The Delete action is only available on records where Status = **Open**.
 - If the LLW has linked detail records, Salesforce standard data dependency behavior applies (deletion blocked).
-- **Staff with `full_access_v2` PS only.** CM without this PS cannot delete.
+- **Delete Permission Set requirement**: `full_access_v2` **or** `llw_full_access`. Staff with neither Permission Set cannot delete.
 
 ---
 
@@ -101,18 +101,20 @@ This feature introduces a **Location Lesson Window (LLW)** (`Location_Lesson_Win
 
 ---
 
-### US-03: Lesson Creation Blocked in Closed Window
+### US-03: Lesson Validation in Closed Window
 
 **AC-09 — Validation on lesson creation and date update — all paths**
-- When a user **creates** a new lesson OR **updates** `Lesson_Date__c` on an existing lesson, and the date falls within `Start_Date__c` and `End_Date__c` of a **Complete** LLW for the **same location AND same Academic Year** → the save is **blocked**.
+- When a user **creates** a single lesson OR **updates** `Lesson_Date__c` on an existing single lesson, and the date falls within `Start_Date__c` and `End_Date__c` of a **Complete** LLW for the **same location AND same Academic Year** → that lesson is **blocked**.
 - A Complete LLW for the same location but a **different Academic Year** does **not** block lesson creation.
 - Applies to **all** lesson creation and date-change paths:
   1. SF Lesson List
   2. Lesson Schedule detail page
   3. SF Calendar (including **drag-and-drop** to a new date)
   4. Lesson Schedule CSV import
-  5. Recurring lesson creation
+  5. Recurring lesson creation and recurrence extension; scoped recurring edits remain subject to date-update validation
 - Also applies to **lesson date updates** when `Lesson_Date__c` is changed on an existing lesson (via Edit form or DnD).
+- **Recurring Create rule:** Generate recurring occurrences from **Lesson Date** through **End Date** in the business timezone (**JST**) and evaluate each occurrence independently. Skip only occurrence(s) in a Complete LLW, including when Lesson Date or End Date is in the window. Valid occurrence(s) continue; do not reject the whole form and do not show the LLW validation error solely because an occurrence is skipped. The recurring **Edit** form does not allow End Date to be edited.
+- The LLW date range is inclusive. Compare the lesson's JST calendar date derived from its start date/time: `Start_Date <= Lesson_Date (JST) <= End_Date`. A time on the day before/after the range is outside the window; `00:00` on Start Date and `23:59` on End Date are inside.
 - **Note:** ACI closed-date validation silently **skips** lesson creation (no error shown); LLW validation shows an explicit **error message**. The two mechanisms behave differently and do not conflict.
 
 **AC-10 — Error message**
@@ -140,7 +142,7 @@ This feature introduces a **Location Lesson Window (LLW)** (`Location_Lesson_Win
 - Endpoint path and authentication method: **to be confirmed with tech**.
 
 **AC-15 — Response content**
-- Each record in the response includes: Location ID, Location Name, Academic Year, Start Date, End Date, Status, Last Modified Date, Last Modified By.
+- Each record in the response includes: **Partner Internal ID** (instead of Salesforce Location ID), Location Name, Academic Year, Start Date, End Date, Status, Last Modified Date, and **Last Modified By External User ID** (the related Contact's `external_user_id`, instead of a Salesforce user ID/name).
 
 **AC-16 / AC-17 — Sample request / response** — TBC with tech.
 
@@ -172,14 +174,14 @@ LBAC is applied at **two independent layers** for this new object.
 
 ### Layer 1 — Object-level permissions (Profile / Permission Set)
 
-| Operation | User with `full_access_v2` PS | CM (no `full_access_v2` PS) | BO Teacher |
+| Operation | Staff with `full_access_v2` or `llw_full_access` PS | Staff with neither delete PS | BO Teacher |
 |---|---|---|---|
 | Create | ✅ | ✅ | ❌ |
 | Read | ✅ | ✅ | ❌ |
 | Update (fields + status) | ✅ | ✅ (with BR-03 reopen restriction) | ❌ |
 | Delete | ✅ | ❌ | ❌ |
 
-- **Delete permission gate:** `full_access_v2` Permission Set. Staff with this PS can delete LLW; CM without it cannot.
+- **Delete permission gate:** staff must hold **at least one** of `full_access_v2` or `llw_full_access` Permission Sets. Staff with neither cannot delete LLW.
 - BO Teacher has **no object visibility** — cannot see, create, or interact with LLW in any way.
 - Riso-specific: all permissions gated to Riso org/package only. No impact to other partners.
 
@@ -194,8 +196,8 @@ LBAC is applied at **two independent layers** for this new object.
 
 | User | Object access | Records visible |
 |---|---|---|
-| Staff with `full_access_v2` PS | Full CRUD (incl. Delete) | All locations |
-| CM (no `full_access_v2` PS) | Create / Read / Update (with BR-03 reopen restriction) | Own location(s) only |
+| Staff with `full_access_v2` or `llw_full_access` PS | Full CRUD (incl. Delete) | All locations |
+| Staff with neither delete PS | Create / Read / Update (with BR-03 reopen restriction); no Delete | Per LBAC assignment |
 | BO Teacher | None | None |
 
 ---
@@ -215,7 +217,7 @@ LBAC is applied at **two independent layers** for this new object.
 | BR-10 | **Academic Year scoping**: Uniqueness is scoped per Location + Academic Year. The same date range may exist for the same location under a **different academic year** without conflict. | [SF] |
 | BR-11a | **Month-to-date mapping**: Academic Year defaults to current; mandatory. If Academic Year cleared → Month dropdown, Start Date, End Date are **disabled**. When Month selected → Start Date and End Date auto-populate from the Academic Year's calendar range. User can manually override after auto-population. | [SF] |
 | BR-11b | **Edit restriction**: LLW fields (Academic Year, Month, Start Date, End Date) are editable only when Status = Open. Complete LLWs are read-only except via the Reopen action. Academic Year is always read-only on edit. | [SF] |
-| BR-CRUD | **CRUD permissions**: Create: all staff (Admin/HQ/CM). Read: all staff. Update: all staff (CM with BR-03 reopen restriction). Delete: **staff with `full_access_v2` PS only** (CM without this PS cannot delete). All subject to LBAC (both object + record level). | [SF] |
+| BR-CRUD | **CRUD permissions**: Create: all staff (Admin/HQ/CM). Read: all staff. Update: all staff (CM with BR-03 reopen restriction). Delete: **staff with either `full_access_v2` or `llw_full_access` PS**. Staff with neither cannot delete. All subject to LBAC (both object + record level). | [SF] |
 
 ---
 
@@ -225,7 +227,7 @@ LBAC is applied at **two independent layers** for this new object.
 
 | # | Tag | Source | Description |
 |---|---|---|---|
-| 1 | [CONFLICT — RESOLVED by PRD] | Jira SR-03 vs PRD BR-CRUD / AC-05 | Jira description says "for CM to create/delete LLW." PRD resolves: Delete = Admin/HQ only. CM has NO delete access. Account detail page Delete button must NOT be shown to CM. |
+| 1 | [CLARIFIED] | Permission Sets / AC-05 | Delete requires **at least one** of `full_access_v2` or `llw_full_access`; role alone does not grant Delete. Account detail page Delete button must not be shown when both Permission Sets are missing. |
 | 2 | [CONFLICT — RESOLVED] | AC-09/AC-12 vs existing DnD behavior | **Resolved (2026-07-14):** DnD IS blocked by LLW. LLW blocks ALL create and edit lesson flows including DnD on SF Calendar. This is intentional divergence from ACI behavior (ACI silently skips, LLW shows error). |
 | 3 | [CONFLICT] | BR-11a: Academic Year required | Academic Year is mandatory and defaults to current. If no Academic Year exists for the current period (org data setup missing), the creation form would be non-functional. No fallback defined in PRD. |
 
@@ -236,10 +238,10 @@ LBAC is applied at **two independent layers** for this new object.
 | A | How does LLW get date range? | Academic Year (required) + Month dropdown. Month auto-populates Start/End Date. Manual override allowed. |
 | B | All 6 lesson creation paths? | YES — AC-09 covers all 5 paths + lesson date updates. |
 | C | Edit existing lesson date blocked? | YES — BR-06 + AC-12 confirm. |
-| D | CM can delete? | NO — Delete = HQ/Admin only (AC-05, BR-CRUD). |
+| D | Who can delete? | Staff assigned **either** `full_access_v2` or `llw_full_access` can delete; a user with neither cannot (AC-05, BR-CRUD). |
 | E | Lessons unblocked after reopen? | YES — immediately (AC-13). |
 | F | What fields CM can update on LLW? | Start Date, End Date, Month, Status (when Open). Academic Year = read-only always on edit. |
-| G | GET API response fields? | Location ID, Location Name, Academic Year, Start Date, End Date, Status, Last Modified Date, Last Modified By (AC-15). |
+| G | GET API response fields? | Partner Internal ID, Location Name, Academic Year, Start Date, End Date, Status, Last Modified Date, Last Modified By External User ID (AC-15). |
 
 ### Gaps Resolved by Clarification (2026-07-14)
 
@@ -251,11 +253,13 @@ LBAC is applied at **two independent layers** for this new object.
 | Q5 | Bulk creation skip UX (Path B) | **Skip silently** — no special feedback/summary required. Locations with overlap are skipped; the rest are created. |
 | Q6 | GET API tech spec | **Follow PRD.** Test against AC-14/AC-15 response fields. No additional Swagger needed for test design. |
 
-### Remaining Gaps
+### Gaps Resolved by LT-106482 (2026-08-03)
 
-| # | Tag | Description |
+| # | Question | Answer |
 |---|---|---|
-| 1 | [MISSING BEHAVIOR — PENDING] | Recurring lesson chain with partial LLW overlap: create valid occurrences only, or block the entire batch? _(Reply pending from PM)_ |
+| R1 | Recurring Lesson Date or generated chain overlaps a Complete LLW | **Generate through End Date and skip every closed generated occurrence, including one at Lesson Date or End Date; do not show an LLW error.** |
+| R2 | All generated occurrences are in a Complete LLW | **Skip all occurrences.** The operation is not rejected by the LLW rule and no occurrence is created/updated. |
+| R3 | Which date/time determines the window comparison? | Use the lesson start's **JST calendar date**. Start/end dates of LLW are inclusive: Start Date `00:00` and End Date `23:59` are closed. |
 
 ### Lesson-Learned Risks
 
@@ -268,7 +272,7 @@ LBAC is applied at **two independent layers** for this new object.
 | Scenario | Impact | Action |
 |---|---|---|
 | E2E-01: Lesson Lifecycle — Create, Teach, Report, View | Create lesson step can be blocked if test location has a Complete LLW covering the test date. Preconditions must ensure no Complete LLW covers test lesson date/location. | UPDATE |
-| E2E-02: Recurring Lesson — Create, Edit Chain, Delete, Calendar DnD | Recurring creation and DnD may be blocked by LLW. Preconditions need LLW-awareness. | UPDATE |
+| E2E-02: Recurring Lesson — Create, Edit Chain, Delete, Calendar DnD | Assert recurring creation skips occurrences in LLW, including at Lesson Date and End Date; use JST boundary data. End Date is read-only on recurring Edit. | UPDATE |
 | E2E-LLW-01 (NEW) | Full LLW lifecycle: Create LLW → Complete → lesson creation blocked → Reopen → lesson creation succeeds → CM tries to reopen old LLW (blocked) → HQ reopens old LLW (success). | CREATE |
 
 ---
@@ -283,8 +287,8 @@ LBAC is applied at **two independent layers** for this new object.
 2. ✅ **[RESOLVED — LLW vs ACI interaction]** Which validation runs first? Can both errors show simultaneously?
    → **LLW shows an error message. ACI silently skips lesson creation (no error). Different behaviors — no conflict, no simultaneous error.**
 
-3. ⏳ **[PENDING — Recurring partial overlap]** For a recurring lesson chain where SOME dates fall in a Complete LLW and others do not: create valid occurrences only, or block the entire batch?
-   → _Reply pending from PM._
+3. ✅ **[RESOLVED — Recurring partial overlap, LT-106482]** For a recurring lesson chain where SOME dates fall in a Complete LLW and others do not: create valid occurrences only, or block the entire batch?
+   → **If Lesson Date is within the closed range, show the error. Otherwise, create/update valid generated occurrences through End Date and skip only the closed occurrence(s).**
 
 4. ✅ **[RESOLVED — Retroactive LLW]** If LLW is created with Start_Date in the past, does it block new creation for that date range?
    → **Yes — any lesson creation/date update where lesson date falls in the Complete LLW range is blocked, regardless of when the LLW was created. Existing lessons already created are unaffected.**
@@ -330,7 +334,7 @@ LBAC is applied at **two independent layers** for this new object.
 **LLW CRUD (Account page — Path A):**
 - AC-01.1: New button, auto-fill fields, Month auto-populate Start/End Date, manual override
 - AC-04: Complete action (any time, no content validation)
-- AC-05: Delete restriction (Status=Open only, HQ/Admin only)
+- AC-05: Delete restriction (Status=Open only, staff with at least one delete Permission Set)
 - AC-20: Edit LLW (Status=Open only; Academic Year read-only; validation on save)
 - AC-21: Edit dates → mark Complete → new scope locks lessons
 
@@ -348,8 +352,8 @@ LBAC is applied at **two independent layers** for this new object.
 
 **LBAC — Object-level permissions:**
 - All staff (Admin/HQ/CM) can see the object; BO Teacher has no access
-- CM **without `full_access_v2` PS** cannot delete (object permission)
-- Delete button not rendered for CM without `full_access_v2` PS on Account detail page
+- Staff with neither `full_access_v2` nor `llw_full_access` cannot delete (object permission)
+- Delete button not rendered on Account detail page when both delete Permission Sets are missing
 
 **LBAC — Record-level sharing:**
 - AC-03: CM can only see/manage LLW records for their assigned location(s)

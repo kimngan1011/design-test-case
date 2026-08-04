@@ -18,7 +18,7 @@
 |---|--------|-----------------|-----------|
 | 1 | Send a GET request to the LLW API endpoint with valid authentication | Request is sent | endpoint = TBC with tech; auth = standard Riso-Manabie auth |
 | 2 | Receive the API response | HTTP 200 response is returned | — |
-| 3 | Inspect each record in the response for Record 1 (Location A, July) | Response contains: **Location ID** (Location A's Salesforce ID), **Location Name** = "Location A", **Academic Year** = 2026, **Start Date** = 2026-07-01, **End Date** = 2026-07-31, **Status** = "Complete", **Last Modified Date** = a valid datetime, **Last Modified By** = a valid user ID/name | expected_fields = [Location ID, Location Name, Academic Year, Start Date, End Date, Status, Last Modified Date, Last Modified By] |
+| 3 | Inspect each record in the response for Record 1 (Location A, July) | Response contains: **Partner Internal ID** = Location A's configured partner identifier (not Salesforce Location ID), **Location Name** = "Location A", **Academic Year** = 2026, **Start Date** = 2026-07-01, **End Date** = 2026-07-31, **Status** = "Complete", **Last Modified Date** = a valid datetime, **Last Modified By External User ID** = the modifying Contact's external user ID | expected_fields = [Partner Internal ID, Location Name, Academic Year, Start Date, End Date, Status, Last Modified Date, Last Modified By External User ID] |
 | 4 | Inspect each record in the response for Record 2 (Location B, August) | All eight fields present and correct for Record 2 | — |
 | 5 | Confirm no extra undocumented fields are required to parse the response | Response schema matches AC-15 specification | — |
 

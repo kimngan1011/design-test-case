@@ -14,8 +14,8 @@ When the user provides a plan URL without specifying run titles, use this config
 | `PSG PT teacher - Long - Aver lesson report` | From reference run | ✓ Yes | Untested → Skipped → Retest |
 | `Quoc Bao` | From reference run | ✓ Yes | Untested → Skipped → Retest |
 | `Van Loi` | From reference run | ✓ Yes | Untested → Skipped → Retest |
-| `PSv1 Regression test for Renseikai full sandbox` | From reference run | ✗ Skip | (no bulk status update) |
-| `PSv2 Regression test OOP features for EEA, Juku, Riso` | From reference run | ✗ Skip | (no bulk status update) |
+| `PSv1 Regression test OOP and some core features for Aver, Aso and Nozomi` | From reference run | ✗ Skip | (no bulk status update) |
+| `PSv2 Regression test for Renseikai (main focus), EEA and Nichibei (OOP)` | From reference run | ✗ Skip | (no bulk status update) |
 
 "From reference run" = look up the most recent existing run with the same title and `plan_id`. If no reference run exists, fall back to all cases from the plan.
 

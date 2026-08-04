@@ -1,0 +1,41 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+"","[Riso] Classroom Adjustment – Tenant configuration – Riso setting enabled – Action is available","Config — Decision Table — The feature is enabled for the intended tenant.","- Logged in as HQ or CM Staff to the Riso Salesforce org.
+- Optimize Classroom Assignment = ON for Riso.
+- Location = Riso Shinjuku; lesson_date = 2026-07-23.","","LT-98512,Riso","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open Lesson Calendar Daily View.","1. Classroom Adjustment is available in the action menu.","1. tenant = Riso; Optimize Classroom Assignment = ON","","","3232","3231","Scope Isolation and Riso Configuration","0","",""
+"","[Riso] Classroom Adjustment – Tenant configuration – Riso setting disabled – Action is unavailable","Config — Negative — Disabling the Riso setting removes the feature without affecting Daily View.","- Logged in as HQ or CM Staff to the Riso Salesforce org.
+- Optimize Classroom Assignment = OFF for Riso.
+- Location = Riso Shinjuku; lesson_date = 2026-07-23.","","LT-98512,Riso","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open Lesson Calendar Daily View and open the action menu.","1. Classroom Adjustment is not displayed; existing Print Out remains available.","1. tenant = Riso; Optimize Classroom Assignment = OFF","","","3232","3231","Scope Isolation and Riso Configuration","0","",""
+"","[Riso] Classroom Adjustment – Tenant configuration – Non-Riso tenant – Riso action is unavailable","Config — Permission Matrix — A tenant without the Riso feature configuration cannot invoke it.","- Logged in as HQ or CM Staff to a non-Riso Salesforce org.
+- Optimize Classroom Assignment is not enabled for that tenant.
+- Location = Tokyo Main; lesson_date = 2026-07-23.","","LT-98512,Riso","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open Lesson Calendar Daily View and open the action menu.","1. Classroom Adjustment is not displayed.","1. tenant = Tokyo Main; Optimize Classroom Assignment = OFF","","","3232","3231","Scope Isolation and Riso Configuration","0","",""
+"","[Riso] Classroom Adjustment – Processing scope – Selected Location and date – Only eligible lessons change","AC-03, AC-06 — Decision Table — The run updates only Individual lessons in the chosen scope.","- Logged in as HQ or CM Staff to the Riso Salesforce org.
+- Optimize Classroom Assignment = ON.
+- Selected Location = Riso Shinjuku; lesson_date = 2026-07-23.
+- Seed eligible Individual lessons in Riso Shinjuku on 2026-07-23 and control lessons at another location, another date, and Group teaching.","","LT-98512,Riso","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Run Classroom Adjustment for Riso Shinjuku on 2026-07-23.
+2. Compare every control lesson with its original classroom.","1. Only Individual lessons at Riso Shinjuku on 2026-07-23 are candidates for reassignment.
+2. Other-location, other-date, and Group lessons retain their original classroom.","1. in-scope = Shinjuku, 2026-07-23, Individual
+2. controls = Ikebukuro 2026-07-23, Shinjuku 2026-07-24, Group lesson","","","3232","3231","Scope Isolation and Riso Configuration","0","",""
+"","[Riso] Classroom Adjustment – Processing scope – JST and UTC date boundary – Selected Japanese lesson date is isolated","AC-03, AC-06 — Boundary Value Analysis — The selected Lesson Date is not shifted by UTC storage/display conversion.","- Logged in as HQ or CM Staff to the Riso Salesforce org.
+- Optimize Classroom Assignment = ON; Location = Riso Shinjuku.
+- Individual lesson A starts 2026-07-01 00:30 JST (= 2026-06-30 15:30 UTC); control lesson B starts 2026-06-30 23:30 JST (= 2026-06-30 14:30 UTC).","","LT-98512,Riso","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open Daily View for 2026-07-01 and run Classroom Adjustment.
+2. View the resulting classrooms in Daily View.","1. Lesson A is processed as the 2026-07-01 lesson; lesson B is outside the selected date and is unchanged.
+2. The displayed result is associated with 2026-07-01 JST, not 2026-06-30 UTC.","1. lesson_date JST = 2026-07-01; A = 00:30 JST / 15:30 UTC; B = 2026-06-30 23:30 JST / 14:30 UTC
+2. display timezone = Asia/Tokyo; storage reference = UTC","","","3232","3231","Scope Isolation and Riso Configuration","0","",""
+"","[Riso] Classroom Adjustment – Processing scope – Group lesson – Classroom remains unchanged","AC-03 — Negative — Group teaching is excluded from this individual-teaching feature.","- Logged in as HQ or CM Staff to the Riso Salesforce org.
+- Optimize Classroom Assignment = ON; Location = Riso Shinjuku; lesson_date = 2026-07-23.
+- Group lesson G at 10:00 is assigned to Room C; eligible Individual lesson I is also present.","","LT-98512,Riso","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Run Classroom Adjustment.
+2. Compare Group lesson G with its original room.","1. Lesson I may be processed; Group lesson G is not reassigned.
+2. Group lesson G still has Room C.","1. G = Teaching Method Group, Room C; I = Teaching Method Individual
+2. expected Group classroom = Room C","","","3232","3231","Scope Isolation and Riso Configuration","0","",""
+"","[Riso] Classroom Adjustment – Processing scope – No Individual lessons – No classroom writes occur","AC-03, AC-14 — Negative — A scope containing only excluded lessons does not create unintended updates.","- Logged in as HQ or CM Staff to the Riso Salesforce org.
+- Optimize Classroom Assignment = ON; Location = Riso Shinjuku; lesson_date = 2026-07-25.
+- The scope contains Group lessons only, each with a recorded original classroom.","","LT-98512,Riso","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Run Classroom Adjustment.
+2. Compare all lesson classrooms with their original values.","1. The run completes without updating any lesson.
+2. Every Group lesson retains its original classroom.","1. lesson_date = 2026-07-25; Individual lessons = 0
+2. expected writes = 0","","","3232","3231","Scope Isolation and Riso Configuration","0","",""
+"","[Riso] Classroom Adjustment – Processing scope – Different selected locations – Each run preserves the other location","AC-06 — Decision Table — Location filtering is applied independently per run.","- Logged in as HQ or CM Staff to the Riso Salesforce org.
+- Optimize Classroom Assignment = ON; lesson_date = 2026-07-23.
+- Riso Shinjuku and Riso Ikebukuro each contain eligible Individual lessons with different classroom fixtures.","","LT-98512,Riso","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Run Classroom Adjustment with Location = Riso Shinjuku.
+2. Compare Riso Ikebukuro lesson classrooms with their originals.","1. Only Riso Shinjuku lessons can change.
+2. All Riso Ikebukuro classrooms are unchanged.","1. selected location = Riso Shinjuku
+2. control location = Riso Ikebukuro","","","3232","3231","Scope Isolation and Riso Configuration","0","",""

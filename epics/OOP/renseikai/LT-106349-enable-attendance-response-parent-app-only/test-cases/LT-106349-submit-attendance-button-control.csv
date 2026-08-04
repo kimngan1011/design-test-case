@@ -1,0 +1,94 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[Renseikai] Lesson Attendance – Submit Attendance – Config audience=[""parent""] – Button visible in Parent App","Decision Table — When lesson.submit_attendance.audience = [""parent""], the Submit Attendance button is shown to the parent user in the Learner App.","Config lesson.submit_attendance.audience = [""parent""] is set for the Renseikai tenant
+Lesson L1 is Published and visible in the Learner App
+Parent A is linked to Student A assigned to Lesson L1
+Parent A is logged into the Learner App (parent mode)",,LT-106349,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Learner App as Parent A and navigate to Lesson L1 detail
+2. Observe the lesson action area","1. Lesson detail screen is displayed
+2. Submit Attendance button is visible and tappable","1. Lesson L1
+2. Parent A",,,3191,451,"[Renseikai] Lesson Attendance – Submit Attendance Button Control",,,
+,"[Renseikai] Lesson Attendance – Submit Attendance – Config audience=[""parent""] – Button hidden in Student App","Decision Table — When lesson.submit_attendance.audience = [""parent""], the Submit Attendance button is NOT shown to the student in the Learner App.","Config lesson.submit_attendance.audience = [""parent""] is set for the Renseikai tenant
+Lesson L1 is Published and visible in the Learner App
+Student A is assigned to Lesson L1 and logged into the Learner App (student mode)",,LT-106349,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Learner App as Student A and navigate to Lesson L1 detail
+2. Observe the lesson action area","1. Lesson detail screen is displayed
+2. Submit Attendance button is NOT visible","1. Lesson L1
+2. Student A",,,3191,451,"[Renseikai] Lesson Attendance – Submit Attendance Button Control",,,
+,"[Renseikai] Lesson Attendance – Submit Attendance – Config audience=[""student""] – Button visible for student, hidden for parent","Decision Table — When lesson.submit_attendance.audience = [""student""], the Submit Attendance button is shown to the student but NOT to the parent.","Config lesson.submit_attendance.audience = [""student""] is set for the Renseikai tenant
+Lesson L2 is Published and visible in the Learner App
+Student B is assigned to Lesson L2; Parent B is linked to Student B
+Both Student B and Parent B are logged into their respective Learner App sessions",,LT-106349,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Learner App as Student B and navigate to Lesson L2 detail
+2. Observe the lesson action area as Student B
+3. Open Learner App as Parent B and navigate to Lesson L2 detail
+4. Observe the lesson action area as Parent B","1. Lesson detail screen is displayed
+2. Submit Attendance button is visible and tappable
+3. Lesson detail screen is displayed
+4. Submit Attendance button is NOT visible","1. Lesson L2
+2. Student B
+3. Lesson L2
+4. Parent B",,,3191,451,"[Renseikai] Lesson Attendance – Submit Attendance Button Control",,,
+,"[Renseikai] Lesson Attendance – Submit Attendance – Config audience=[""student"",""parent""] – Button visible for both user types","Decision Table — When lesson.submit_attendance.audience = [""student"",""parent""], the Submit Attendance button is shown to both student and parent.","Config lesson.submit_attendance.audience = [""student"",""parent""] is set for the Renseikai tenant
+Lesson L3 is Published and visible in the Learner App
+Student C is assigned to Lesson L3; Parent C is linked to Student C
+Both Student C and Parent C are logged into their respective Learner App sessions",,LT-106349,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Learner App as Student C and navigate to Lesson L3 detail
+2. Observe the lesson action area as Student C
+3. Open Learner App as Parent C and navigate to Lesson L3 detail
+4. Observe the lesson action area as Parent C","1. Lesson detail screen is displayed
+2. Submit Attendance button is visible
+3. Lesson detail screen is displayed
+4. Submit Attendance button is visible","1. Lesson L3
+2. Student C
+3. Lesson L3
+4. Parent C",,,3191,451,"[Renseikai] Lesson Attendance – Submit Attendance Button Control",,,
+,"[Renseikai] Lesson Attendance – Submit Attendance – Config audience=[] with is_enable=true – Both user types see button (legacy fallback)","Decision Table — When lesson.submit_attendance.audience = [] (empty array), the system falls back to lesson.submit_attendance.is_enable. With is_enable = true, both student and parent see the Submit Attendance button.","Config lesson.submit_attendance.audience = [] (empty array) is set for the Renseikai tenant
+Config lesson.submit_attendance.is_enable = true is set (fallback enabled)
+Lesson L4 is Published and visible in the Learner App
+Student D is assigned to Lesson L4; Parent D is linked to Student D
+Both Student D and Parent D are logged into their respective Learner App sessions",,LT-106349,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Learner App as Student D and navigate to Lesson L4 detail
+2. Observe the lesson action area as Student D
+3. Open Learner App as Parent D and navigate to Lesson L4 detail
+4. Observe the lesson action area as Parent D","1. Lesson detail screen is displayed
+2. Submit Attendance button is visible (fallback: is_enable = true)
+3. Lesson detail screen is displayed
+4. Submit Attendance button is visible (fallback: is_enable = true)","1. Lesson L4
+2. Student D
+3. Lesson L4
+4. Parent D",,,3191,451,"[Renseikai] Lesson Attendance – Submit Attendance Button Control",,,
+,"[Renseikai] Lesson Attendance – Submit Attendance – Config audience=[] with is_enable=false – Button hidden for all users (legacy fallback)","Decision Table — When lesson.submit_attendance.audience = [] (empty array) and lesson.submit_attendance.is_enable = false, the Submit Attendance button is hidden for all user types.","Config lesson.submit_attendance.audience = [] (empty array) is set for the Renseikai tenant
+Config lesson.submit_attendance.is_enable = false is set (fallback disabled)
+Lesson L5 is Published and visible in the Learner App
+Student E and linked Parent E can both view Lesson L5",,LT-106349,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Learner App as Student E and navigate to Lesson L5 detail
+2. Observe the lesson action area as Student E
+3. Open Learner App as Parent E and navigate to Lesson L5 detail
+4. Observe the lesson action area as Parent E","1. Lesson detail screen is displayed
+2. Submit Attendance button is NOT visible
+3. Lesson detail screen is displayed
+4. Submit Attendance button is NOT visible","1. Lesson L5
+2. Student E
+3. Lesson L5
+4. Parent E",,,3191,451,"[Renseikai] Lesson Attendance – Submit Attendance Button Control",,,
+,"[Renseikai] Lesson Attendance – Submit Attendance – Config audience=[""parent""] – All status options available for parent","Happy Path — When lesson.submit_attendance.audience = [""parent""], the parent can open the response form and all four status options (Attend, Absent, Late, Leave Early) are available. Parent submits successfully.","Config lesson.submit_attendance.audience = [""parent""] is set for the Renseikai tenant
+Lesson L6 is Published and upcoming; Parent F is linked to Student F assigned to Lesson L6
+Parent F has not submitted an attendance response for Lesson L6",,LT-106349,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Learner App as Parent F and navigate to Lesson L6 detail
+2. Tap the Submit Attendance button
+3. Observe the list of available status options
+4. Select status = Attend and tap Submit
+5. Re-open Lesson L6 detail","1. Lesson detail is displayed; Submit Attendance button is visible
+2. Attendance response form opens
+3. Options shown: Attend, Absent, Late, Leave Early (4 options total)
+4. Submission succeeds; success feedback is shown
+5. Submitted attendance response is displayed as Attend","1. Lesson L6
+2. Parent F
+3. —
+4. Status: Attend
+5. Lesson L6",,,3191,451,"[Renseikai] Lesson Attendance – Submit Attendance Button Control",,,
+,"[Renseikai] Lesson Attendance – Submit Attendance – Config audience=[""parent""] – Parent updates previously submitted response","State Transition — When lesson.submit_attendance.audience = [""parent""], a parent who already submitted an attendance response can open the form again and change the status.","Config lesson.submit_attendance.audience = [""parent""] is set for the Renseikai tenant
+Lesson L7 is Published and not yet started; Parent G is linked to Student G assigned to Lesson L7
+Parent G has already submitted attendance status = Absent for Lesson L7",,LT-106349,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Learner App as Parent G and navigate to Lesson L7 detail
+2. Tap the Submit Attendance button again
+3. Change status to Late and tap Submit
+4. Re-open Lesson L7 detail","1. Lesson detail is displayed; existing response shown as Absent
+2. Attendance response form opens with Absent pre-selected
+3. Submission succeeds; success feedback is shown
+4. Attendance response is updated to Late","1. Lesson L7
+2. Parent G
+3. New status: Late
+4. Lesson L7",,,3191,451,"[Renseikai] Lesson Attendance – Submit Attendance Button Control",,,

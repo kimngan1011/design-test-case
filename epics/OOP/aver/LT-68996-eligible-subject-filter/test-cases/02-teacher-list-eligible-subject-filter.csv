@@ -1,0 +1,30 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[A.ver] Teacher List – Eligible subject filter – Multiple selected subjects – Only full matches are displayed","AC 01, AC 04 — Decision Table — The Teacher list applies AND matching to the selected eligible subjects.","- Logged in as HQ or CM Staff to the A.ver Salesforce org.
+- The eligible-subject filter customization is enabled for A.ver.
+- Teacher A is eligible for Mathematics, English, and Science; Teacher B is eligible for Mathematics and English; Teacher C is eligible for Mathematics and Science.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Teacher list.
+2. Select Mathematics, English, and Science in the Eligible Subject filter.
+3. Apply the filter.","1. The Eligible Subject filter is available.
+2. All three subjects appear as active criteria.
+3. Teacher A is displayed; Teachers B and C are not displayed.","1. tenant = A.ver
+2. required_subjects = {Mathematics, English, Science}
+3. Teacher A = all 3; Teacher B = Mathematics, English; Teacher C = Mathematics, Science",,,,3223,327,"Teacher list eligible subject filter",,,""
+,"[A.ver] Teacher List – Eligible subject filter – Partial match – Teacher is omitted from results","AC 02 — Negative — A teacher who matches one of two selected subjects is omitted from the filtered list.","- Logged in as HQ or CM Staff to the A.ver Salesforce org.
+- The eligible-subject filter customization is enabled for A.ver.
+- Teacher B is eligible for Mathematics only; Teacher C is eligible for English only; no teacher is eligible for both subjects.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Teacher list.
+2. Select Mathematics and English in the Eligible Subject filter.
+3. Apply the filter.
+4. Search for Teacher B and Teacher C.","1. The Eligible Subject filter is available.
+2. Both subjects appear as active criteria.
+3. The list shows no matching teacher.
+4. Neither teacher is returned while both subjects remain selected.","1. tenant = A.ver
+2. required_subjects = {Mathematics, English}
+3. Teacher B = {Mathematics}; Teacher C = {English}; full_matches = none
+4. search_names = Teacher B, Teacher C",,,,3223,327,"Teacher list eligible subject filter",,,""
+,"Teacher List – Eligible subject filter – Non-A.ver tenant – Existing OR matching is retained","AC 05 — Regression — The tenant-specific configuration does not change the existing non-A.ver OR filter behavior.","- Logged in as HQ or CM Staff to a non-A.ver tenant where the A.ver customization is not enabled.
+- Teacher B is eligible for Mathematics only; Teacher C is eligible for English only.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Teacher list.
+2. Select Mathematics and English in the Eligible Subject filter.
+3. Apply the filter.","1. The Eligible Subject filter is available.
+2. Both subjects appear as active criteria.
+3. Teachers B and C are displayed because each matches at least one selected subject.","1. tenant = non-A.ver; eligible-subject-filter-config = disabled
+2. selected_subjects = {Mathematics, English}
+3. expected_matching_rule = OR; Teacher B = {Mathematics}; Teacher C = {English}",,,,3223,327,"Teacher list eligible subject filter",,,""

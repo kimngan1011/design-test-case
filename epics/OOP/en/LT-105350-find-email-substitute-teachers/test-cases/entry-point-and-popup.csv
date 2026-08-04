@@ -1,0 +1,50 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3199,3202,[EN] Substitute Teacher – Entry Point & Popup,1,,
+24981,"[EN] Substitute Teacher – Entry Point – ""Add Teacher"" button on Lesson Detail – No separate substitute menu exists","AC 01.2 — Component — ""Add Teacher"" button is the sole entry point for substitute teacher search; no separate ""Find Substitute Teachers"" menu item is present on Lesson Detail.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- A lesson exists on the Lesson Calendar with at least one vacant teacher slot",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Lesson Calendar in Salesforce""
+2. ""Click on the target lesson card to open Lesson Detail""
+3. ""Locate the Lesson Teacher section on Lesson Detail""
+4. ""Observe all buttons and menu options within the Lesson Teacher section""
+","1. ""Lesson Calendar page is displayed""
+2. ""Lesson Detail page opens""
+3. ""The Lesson Teacher section is visible""
+4. ""An Add Teacher button is visible; no separate Find Substitute Teachers button or menu item exists""
+","1. """"
+2. """"
+3. """"
+4. """"
+",,,3199,3202,[EN] Substitute Teacher – Entry Point & Popup,,,
+24982,"[EN] Substitute Teacher – Entry Point – Click ""Add Teacher"" button – Teacher list popup opens",AC 01.2 — Component — Clicking the Add Teacher button on Lesson Detail opens the enhanced Teacher list popup.,"- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- A lesson is open on Lesson Detail page",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the target lesson on Lesson Detail""
+2. ""Click the Add Teacher button in the Lesson Teacher section""
+3. ""Observe the popup is interactive""
+","1. ""Lesson Detail page is displayed""
+2. ""Add Teacher popup opens; popup is fully loaded""
+3. ""Filter controls and teacher list are responsive""
+","1. """"
+2. """"
+3. """"
+",,,3199,3202,[EN] Substitute Teacher – Entry Point & Popup,,,
+24983,[EN] Substitute Teacher – Add Teacher Popup – Initial display – All filter components visible,"AC 01.2, AC 02.1 — Component — On fresh open, the Add Teacher popup displays all required components: Location Selector, Available Teacher Checkbox / ""Only teachers free at this time"" toggle, Flagged Teacher Checkbox, real-time match count, teacher list with Flagged column, and Send Email button.","- Logged in as HQ or CM Staff to the EN Salesforce org
+- EN organization feature is enabled
+- A lesson is open on Lesson Detail; Add Teacher popup not yet opened in this session",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the target lesson on Lesson Detail""
+2. ""Click the Add Teacher button""
+3. ""Observe the filter area at the top of the popup""
+4. ""Observe the teacher results area""
+5. ""Observe the match count indicator""
+6. ""Observe the bottom action bar of the popup""
+","1. ""Lesson Detail page is displayed""
+2. ""Add Teacher popup opens""
+3. ""Location Selector, Available Teacher Checkbox / ""Only teachers free at this time"" toggle, and Flagged Teacher Checkbox are all visible""
+4. ""A list of teachers is displayed; a column labelled Flagged (要注意講師) is visible in the header row""
+5. ""A count of currently matching teachers is displayed and reflects the current unfiltered list""
+6. ""A Send Email (メールを送信する) button is visible""
+","1. """"
+2. """"
+3. """"
+4. """"
+5. """"
+6. """"
+",,,3199,3202,[EN] Substitute Teacher – Entry Point & Popup,,,

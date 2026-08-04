@@ -2,7 +2,8 @@
 
 **Jira:** https://manabie.atlassian.net/browse/LT-102371
 **PRD:** https://manabie.atlassian.net/wiki/spaces/PRDM/pages/2604597491
-**Date:** 2026-07-14
+**Date:** 2026-08-03
+**Change source:** LT-106482 — recurring operations skip only occurrences within a Complete LLW.
 
 ---
 
@@ -17,7 +18,7 @@
 > - Lesson Window tab label matches JA: `授業完了期間`
 > - Tab list columns: Academic Year, Start Date, End Date, Status, Last Modified Date, Last Modified By
 > - Creation form fields: Academic Year (auto-fill), Month (dropdown), Start Date, End Date, Status
-> - Delete button visibility (Status=Open only; staff with `full_access_v2` PS only)
+> - Delete button visibility (Status=Open only; staff with either `full_access_v2` or `llw_full_access` PS)
 > - LLW List View: Location column as clickable link; no Complete/Reopen actions
 >
 > **Decision:** ⏳ Proceed with coverage strategy (no confirmed spec–Figma 🔴 mismatch known). Confirm visually before UAT.
@@ -29,7 +30,7 @@
 | # | AC | Business Rule |
 |---|---|---|
 | BR-01 | AC-02 | No two LLW records for same Location + Academic Year may have overlapping date ranges. Trigger on before-insert/before-update. Error: "A Lesson Window already exists for this location and period." |
-| BR-02 | AC-09, AC-12 | `Lesson_Date__c` on creation or update blocked if it falls within `Start_Date__c`–`End_Date__c` of any LLW with **Status = Complete** for the **same location AND same Academic Year**. A Complete LLW for a different Academic Year does NOT block. Fires on `Lesson__c` before-insert/before-update. |
+| BR-02 | AC-09, AC-12 | A **one-time** Create/Edit form whose JST Lesson Date falls within `Start_Date__c`–`End_Date__c` (inclusive) of a Complete LLW for the same location and Academic Year is blocked with the LLW error. A recurring Create form generates occurrences through End Date and skips only those in the Complete LLW, including occurrences at Lesson Date or End Date; no LLW error is shown. Recurring Edit does not allow End Date to be edited. A Complete LLW for a different Academic Year does not apply. |
 | BR-03 | AC-06, AC-07 | CM can set Complete → Open only if LLW's month = current or immediately preceding calendar month. Older months cannot be reopened by CM. |
 | BR-04 | AC-01.1 | Audit trail via SF standard system fields: `CreatedById`, `CreatedDate`, `LastModifiedById`, `LastModifiedDate`. No custom fields required. |
 | BR-05 | AC-03 | LBAC — record level: OWD = Private. CM can only see/manage LLW records for own assigned location(s). HQ/Admin see all. |
@@ -39,7 +40,7 @@
 | BR-10 | AC-02 | Uniqueness scoped per Location + Academic Year. Same date range is allowed for same location under a **different academic year** without conflict. |
 | BR-11a | AC-01.1 | Month dropdown defaults to current month. Academic Year mandatory, defaults to current. If AY cleared → Month, Start Date, End Date **disabled**. When Month selected → Start Date and End Date auto-populate from AY calendar range. Manual override allowed. |
 | BR-11b | AC-20 | LLW fields (AY, Month, Start Date, End Date) editable only when Status = Open. Status = Complete → record is read-only (except via Reopen action). Academic Year always read-only on edit. |
-| BR-CRUD | AC-01.1, AC-03, AC-05, AC-08 | Create: all staff. Read: all staff. Update: all staff (CM with BR-03 reopen restriction). Delete: **staff with `full_access_v2` PS only**. BO Teacher: no access. All subject to LBAC (object + record level). |
+| BR-CRUD | AC-01.1, AC-03, AC-05, AC-08 | Create: all staff. Read: all staff. Update: all staff (CM with BR-03 reopen restriction). Delete: **staff with either `full_access_v2` or `llw_full_access` PS**; a user with neither cannot delete. BO Teacher: no access. All subject to LBAC (object + record level). |
 
 ---
 
@@ -88,10 +89,13 @@
 - [N/A] No capacity/numeric config thresholds in this feature
 
 ### B. Date / Time logic
-- [x] BR-02: Lesson date = first day of LLW Start_Date (boundary inclusive) → blocked
-- [x] BR-02: Lesson date = last day of LLW End_Date (boundary inclusive) → blocked
-- [x] BR-02: Lesson date = day before Start_Date → allowed
-- [x] BR-02: Lesson date = day after End_Date → allowed
+- [x] BR-02: single lesson date = first day of LLW Start_Date (boundary inclusive) → blocked
+- [x] BR-02: single lesson date = last day of LLW End_Date (boundary inclusive) → blocked
+- [x] BR-02: recurring occurrence at Start Date 00:00 JST and End Date 23:59 JST → skipped (inclusive)
+- [x] BR-02: recurring occurrence at 23:59 JST before Start Date and 00:00 JST after End Date → created/updated
+- [x] BR-02: JST↔UTC date boundary is explicit for both LLW start and end comparisons
+- [x] BR-02: partial recurring overlap → only closed occurrence(s) skipped; valid occurrence(s) continue
+- [x] BR-02: all recurring occurrences in Complete LLW → all skipped, operation not rejected
 - [x] BR-11a: Month auto-populate — verify correct start/end dates for each month in the Academic Year
 - [x] BR-03: "Current month" vs "preceding month" at month boundary — test on the 1st of a new month
 - [N/A] DST — JST does not observe DST (N/A for Riso)
@@ -120,7 +124,9 @@
 - [x] LLW Complete → Lesson creation blocked on Lesson Schedule detail
 - [x] LLW Complete → Lesson creation blocked on SF Calendar (create + DnD)
 - [x] LLW Complete → Lesson creation blocked via CSV import
-- [x] LLW Complete → Lesson creation blocked for Recurring lesson
+- [x] LLW Complete → Recurring creation/extension skips only occurrence(s) in the closed date range
+- [x] Recurring Create skips occurrences in Complete LLW, including at Lesson Date or End Date, without an error; recurring Edit End Date is read-only
+- [x] Recurring range contains both Complete LLW date(s) and ACI closed date(s) → occurrences covered by either rule are skipped; valid occurrences continue
 - [x] LLW Reopen → Lesson creation immediately unblocked on all surfaces
 - [x] LLW Complete → Lesson date update (edit form) blocked
 - [x] ACI closed-date validation vs LLW validation: both active on same date → LLW shows error, ACI silently skips (no conflict per clarification)
@@ -129,8 +135,8 @@
 
 | Primary Action | Downstream Effect | Affected Surface | TC Owner |
 |---|---|---|---|
-| LLW Status → Complete | Lesson creation blocked for this location within date range (all 5 creation paths) | SF Lesson creation forms, Triggers | llw-lesson-validation.md |
-| LLW Status → Complete | Lesson date update blocked (edit form + DnD) | SF Lesson edit, SF Calendar DnD | llw-lesson-validation.md |
+| LLW Status → Complete | Single lesson creation is blocked; recurring creation/extension skips only closed occurrence(s) | SF Lesson creation forms, recurrence processing | llw-lesson-validation.md |
+| LLW Status → Complete | Recurring Create skips generated occurrences in the window, including at Lesson Date or End Date, without an error; recurring Edit End Date is read-only | SF Lesson create/edit, recurrence processing | llw-lesson-validation.md |
 | LLW Status → Open (Reopen) | Lesson creation immediately unblocked (no cache) | All lesson creation paths | llw-lesson-validation.md |
 | LLW dates edited + Status → Complete | New date range scope blocks lessons in new range | Lesson__c trigger | llw-create-manage.md |
 | LLW Created | Record visible in Lesson Window tab on Account detail page | Account detail page | llw-create-manage.md |
@@ -142,7 +148,7 @@
 
 | Screen / Component | Required Fields | Conditional Fields | Sort Rule | Tooltip / Text to Assert |
 |---|---|---|---|---|
-| Lesson Window tab (Account page — Path A) | Academic Year, Start Date, End Date, Status, Last Modified Date, Last Modified By | Delete button (visible: Status=Open, **staff with `full_access_v2` PS** only; hidden: Status=Complete or CM without PS) | Not defined in spec | "A Lesson Window already exists for this location and period." (overlap) / "この期間のレコードは既に存在します。" |
+| Lesson Window tab (Account page — Path A) | Academic Year, Start Date, End Date, Status, Last Modified Date, Last Modified By | Delete button (visible: Status=Open, **staff with either `full_access_v2` or `llw_full_access` PS**; hidden: Status=Complete or both PS missing) | Not defined in spec | "A Lesson Window already exists for this location and period." (overlap) / "この期間のレコードは既に存在します。" |
 | LLW creation form | Academic Year (auto-fill=current), Month (dropdown, default=current), Start Date (auto-populate), End Date (auto-populate), Status (Open default), Location (auto-fill, non-editable) | Month + Start Date + End Date disabled when Academic Year cleared | None | None |
 | LLW List View (Path B) | Location (clickable link), Academic Year, Start Date, End Date, Status | No Complete/Reopen actions in List View | Not defined in spec | None |
 | Lesson creation error | Error message inline or system error | Shown only when lesson date in Complete LLW range | N/A | EN: "Selected lesson date is already closed." · JA: "選択された授業期間は既に完了済です" |
@@ -160,7 +166,7 @@
 | AC-01.1 | Manual override of Start/End Date after auto-population works | Conditional logic | Negative | Medium | Standard |
 | AC-01.1 | If Academic Year cleared → Month, Start Date, End Date disabled | Conditional logic | Decision Table | Medium | Standard |
 | AC-01.1 | Delete button visible only when Status=Open; hidden when Status=Complete | Conditional logic, State transition | Decision Table | High | Standard |
-| AC-01.1 | Delete button only visible/accessible to **staff with `full_access_v2` PS**; hidden for CM without this PS | Permission logic | Permission Matrix | High | Standard |
+| AC-01.1 | Delete button only visible/accessible to **staff with either `full_access_v2` or `llw_full_access` PS**; hidden when both PS are missing | Permission logic | Permission Matrix | High | Standard |
 | AC-01.1 | Audit trail fields (Created Date, Last Modified Date, Last Modified By) auto-populated | Display completeness | Component | Low | Smoke |
 | AC-01.2 | LLW List View: New button with multi-select Location field | CRUD | CRUD | Medium | Standard |
 | AC-01.2 | Multi-location creation: overlap in one location → skip that location, create for rest | Data integrity | CRUD, Negative | Medium | Standard |
@@ -177,7 +183,7 @@
 | AC-04 | Admin/HQ/CM can set LLW to Complete at any point (no date or content validation) | State transition | State Transition | High | Standard |
 | AC-05 | Delete only available when Status=Open; button hidden/disabled when Complete | State transition, Conditional logic | State Transition, Negative | High | Standard |
 | AC-05 | Delete blocked when LLW has linked detail records (Salesforce standard) | Data integrity | CRUD | Medium | Standard |
-| AC-05 | Delete only for **staff with `full_access_v2` PS**; CM without this PS cannot delete | Permission logic | Permission Matrix | High | Standard |
+| AC-05 | Delete for **staff with either `full_access_v2` or `llw_full_access` PS**; staff with neither PS cannot delete | Permission logic | Permission Matrix | High | Standard |
 | AC-06 | CM can reopen LLW whose month = **current calendar month** → Status=Open | State transition, Boundary/range | State Transition, BVA | Critical | Deep |
 | AC-06 | CM can reopen LLW whose month = **immediately preceding calendar month** → Status=Open | State transition, Boundary/range | State Transition, BVA | Critical | Deep |
 | AC-06 | Lesson creation in that date range is immediately unblocked after CM reopen (no cache) | State transition | State Transition | Critical | Standard |
@@ -188,7 +194,9 @@
 | AC-09 | Lesson creation on **Lesson Schedule detail page** with date in Complete LLW → blocked | Conditional logic | Decision Table, Negative | Critical | Deep |
 | AC-09 | Lesson creation on **SF Calendar** with date in Complete LLW → blocked | Cross-system impact | Regression, Negative | Critical | Deep |
 | AC-09 | Lesson creation via **Lesson Schedule CSV import** with date in Complete LLW → blocked | Cross-system impact | Regression, Negative | Critical | Deep |
-| AC-09 | **Recurring lesson creation** where date in Complete LLW → blocked | Conditional logic | Decision Table, Negative | Critical | Deep |
+| AC-09 | Recurring lesson creation with mixed closed/valid occurrences → skip only closed occurrence(s), create valid occurrence(s) | Conditional logic | Decision Table | Critical | Deep |
+| AC-09 | Recurring creation with all occurrences closed / no occurrences closed → no records / all records created without whole-operation rejection | Conditional logic | Equivalence Partitioning | Critical | Deep |
+| AC-09 | Recurrence extension overlapping Complete LLW → skip only generated closed occurrence(s) | Cross-system impact | Regression, Decision Table | Critical | Deep |
 | AC-09 | Lesson date = **first day** of Complete LLW Start_Date (inclusive BVA) → blocked | Boundary/range | BVA | Critical | Deep |
 | AC-09 | Lesson date = **last day** of Complete LLW End_Date (inclusive BVA) → blocked | Boundary/range | BVA | Critical | Deep |
 | AC-09 | Lesson date = **day before** Start_Date → allowed | Boundary/range | BVA | Critical | Deep |
@@ -200,8 +208,12 @@
 | AC-12 | Edit lesson date via **edit form** to date in Complete LLW → update blocked with same error | Conditional logic, Cross-system | Regression, Negative | Critical | Deep |
 | AC-12 | **DnD** lesson on SF Calendar to date in Complete LLW → move blocked with error | Cross-system impact | Regression, Negative | Critical | Deep |
 | AC-12 | Edit lesson date from Complete LLW range to a date in **Open LLW range** → allowed | Conditional logic | Equivalence Partitioning | High | Standard |
+| AC-12 | Recurring Edit form: End Date is read-only | Conditional logic | Negative | High | Standard |
+| AC-12 | Move a recurring occurrence by calendar drag-and-drop to a closed Lesson Date → move blocked with the LLW error | Cross-system impact | Regression, Negative | High | Standard |
+| AC-09, AC-12 | Recurring occurrence time BVA at LLW start/end in JST, with UTC date conversion | Boundary/range | BVA | Critical | Deep |
+| LLW+ACI | Recurring form Lesson Date outside both rules; generated range contains both ACI closed date(s) and Complete LLW date(s) → both types skipped | Cross-system impact | Decision Table, Regression | Critical | Deep |
 | AC-13 | Reopen LLW → lesson creation in that date range immediately unblocked (test on all creation paths, at least 1) | State transition | State Transition | Critical | Standard |
-| AC-14, AC-15 | GET API returns all required fields: Location ID, Name, AY, Start Date, End Date, Status, Last Modified Date, Last Modified By | Cross-system impact | CRUD | Medium | Standard |
+| AC-14, AC-15 | GET API returns all required fields: Partner Internal ID, Name, AY, Start Date, End Date, Status, Last Modified Date, Last Modified By External User ID | Cross-system impact | CRUD | Medium | Standard |
 | AC-19 | GET API supports nightly batch call (response time acceptable, no rate limit error) | Cross-system impact | Regression | Medium | Smoke |
 | AC-20 | Edit LLW when Status=Open → edits to Start Date, End Date, Month, Status succeed | State transition | State Transition | High | Standard |
 | AC-20 | Edit LLW when Status=Complete → all fields read-only (cannot edit) | State transition | State Transition, Negative | High | Standard |
@@ -220,7 +232,7 @@
 
 | Area | Reason | Recommended Approach |
 |---|---|---|
-| BR-02 / AC-09: Lesson creation block (all 5 paths) | Core enforcement mechanism. If any path bypasses LLW validation, Riso's monthly closing process is worthless. Data integrity for timesheet calculations is compromised. | Deep: test every creation path independently. BVA on Start_Date and End_Date boundaries. |
+| BR-02 / AC-09: Recurring Lesson Date and End Date evaluation | The form skips each closed occurrence, including one at Lesson Date or End Date, without rejecting the recurring creation. | Deep: Lesson Date and End Date partitions, generated-date BVA at JST start/end boundaries. |
 | BR-06 / AC-12: Lesson date update block (edit form + DnD) | Lesson date change via edit or DnD is equally dangerous if not blocked. Bypass = CM can silently re-date existing lessons into closed periods. | Deep: test both edit form path and DnD path explicitly. |
 | BR-03 / AC-06 / AC-07: CM reopen restriction — month boundary | If the month comparison fails (off-by-one or timezone issue at month start/end), CM could reopen windows they shouldn't. | BVA: test on last day of preceding month, first day of current month, 2+ months ago. |
 | AC-13: Immediate unblock after Reopen | If unblocking is delayed or cached, CM may be incorrectly blocked from creating lessons after Reopen, creating support incidents. | Test immediately after Reopen (no delay). |
@@ -240,7 +252,7 @@
 |---|---|---|
 | BR-11a: Month auto-populate from Academic Year | Incorrect month-to-date mapping (e.g., wrong year boundary for AY April–March) causes incorrect Start/End dates. | Decision Table: test each month for a non-standard AY (April–March). |
 | AC-01.2: Path B multi-location creation + skip on overlap | Partial creation (some locations succeed, some skip) could leave inconsistent state if save is not transactional. | Test with 3 locations: 1 overlaps, 2 valid → verify exactly 2 created, 1 skipped. |
-| AC-14/AC-15: GET API response fields | Missing fields in API response breaks Riso's nightly batch. | Component test asserting all 8 fields present for each record. |
+| AC-14/AC-15: GET API response mapping | Sending Salesforce IDs instead of Partner Internal ID / Contact External User ID breaks Riso's nightly batch mapping. | Component test asserting all 8 fields and their external identifiers for each record. |
 
 ---
 
@@ -249,7 +261,7 @@
 | Gap Area | Existing Test Case | Overlap | New Coverage Needed |
 |---|---|---|---|
 | LLW object CRUD | None (new object) | None | ✅ All: Create (Path A & B), Uniqueness, Edit, Delete, Complete, Reopen, LBAC |
-| Lesson creation blocking by LLW | None | None | ✅ All 5 paths + DnD + edit form |
+| Lesson validation by LLW | Existing LLW suite | Partial — recurring case blocks whole series | ✅ Cover one-time Lesson Date error, recurring per-occurrence skip through End Date, and recurring Edit End Date read-only |
 | LLW state transitions | None | None | ✅ Open→Complete, Complete→Open (CM/HQ), restrictions |
 | GET API | None | None | ✅ Response fields, nightly call |
 | LLW + existing lesson flows (regression) | `LT-98532` bulk-publish test cases | Low overlap (bulk-publish tests create lessons; LLW could block if date overlaps) | ✅ Add LLW-awareness note to LT-98532 preconditions (ensure no Complete LLW covers bulk-publish test dates) |
@@ -274,7 +286,7 @@ epics/OOP/riso/LT-102371-lesson-window/test-cases/
 ├── llw-lesson-validation.md
 │     AC-09, AC-10, AC-11, AC-12, AC-13
 │     BR-02, BR-06
-│     → Lesson creation/update blocking across all 5 paths + DnD + edit form; BVA on date boundaries
+│     → One-time Lesson Date error vs. recurring generated-range-to-End-Date skip; BVA on JST date-time boundaries
 │
 └── llw-get-api.md
       AC-14, AC-15, AC-18, AC-19

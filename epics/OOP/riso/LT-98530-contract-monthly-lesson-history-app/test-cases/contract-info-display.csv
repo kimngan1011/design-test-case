@@ -1,0 +1,60 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3250,,[Riso] Contract Info — Display & List,1,,
+,[Riso] Contract Info – Header – Student Selected – Icon and Full Name Displayed,"AC01.1 - Component: Header remains unchanged, showing the selected student's icon and full name.","Logged in as Student to the Riso Learner App
+Student ""Yuki Tanaka"" is the currently selected profile",,,low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page from User Profile""
+","1. ""Header shows the student's icon and the full name ""Yuki Tanaka""""
+","1. ""student = Yuki Tanaka""
+",,,3250,,[Riso] Contract Info — Display & List,,,
+,[Riso] Contract Info – Header – Edit Icon Tapped – Full Name Edit Field Opens,AC01.1 - Component: Tapping the edit icon opens the existing full-name edit flow (unchanged behavior).,"Logged in as Student to the Riso Learner App
+Student ""Yuki Tanaka"" is the currently selected profile",,,low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page""
+2. ""Tap the edit icon""
+","1. ""Header shows edit icon in the top-right corner""
+2. ""The full-name edit field opens pre-filled with ""Yuki Tanaka""""
+","1. """"
+2. ""student = Yuki Tanaka""
+",,,3250,,[Riso] Contract Info — Display & List,,,
+,[Riso] Contract Info – Static Text – Section Label and Info Banner Displayed,AC01.1 - Component: Section header label and the data-timing info banner display the exact PRD-specified EN/JP text.,"Logged in as Student to the Riso Learner App, English locale",,,low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page""
+2. ""View the info banner below the month selector""
+3. ""Switch app locale to Japanese and reopen the page""
+","1. ""Section header shows ""Contract Info""""
+2. ""Banner shows ""Due to the timing of data updates, new contract details may not be reflected immediately.""""
+3. ""Section header shows ""契約情報"" and banner shows ""データ更新のタイミングにより、新規ご契約内容が即座に反映されない場合がございます。""""
+","1. ""locale = EN""
+2. ""locale = EN""
+3. ""locale = JP""
+",,,3250,,[Riso] Contract Info — Display & List,,,
+,[Riso] Contract Info – Month Selector – Default Value – Last Month of Current Academic Year,AC01.1 - BVA: Month selector defaults to the last month of the current Academic Year on first page load.,"Logged in as Student to the Riso Learner App
+Current Academic Year runs 2025-04-01 to 2026-03-31",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page for the first time in the session""
+","1. ""Month selector defaults to ""Mar 2026""""
+","1. ""today = 2026-07-27; AY = 2025-04-01 to 2026-03-31; expected default = 2026-03 (last month of AY)""
+",,,3250,,[Riso] Contract Info — Display & List,,,
+,[Riso] Contract Info – Month Selector – Format Displayed – EN and JP Formats Rendered,AC01.1 - Component: Month selector renders the exact EN ""MM YYYY"" and JP ""YYYY年MM月"" formats.,Logged in as Student to the Riso Learner App,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page in English locale, month = September 2025""
+2. ""Switch to Japanese locale""
+","1. ""Month selector shows ""Sep 2025""""
+2. ""Month selector shows ""2025年9月""""
+","1. ""locale = EN; month = 2025-09""
+2. ""locale = JP; month = 2025-09""
+",,,3250,,[Riso] Contract Info — Display & List,,,
+,[Riso] Contract Info – LA List – Filter Applied – Only Require-Allocation-True LAs in Current AY Shown,AC01.1 - Decision Table: The LA list includes only Lesson Allocations with require_allocation = TRUE and Academic Year = Current AY.,"Logged in as Student to the Riso Learner App
+Student has 3 LAs: LA-1 (require_allocation=TRUE, AY=Current), LA-2 (require_allocation=FALSE, AY=Current), LA-3 (require_allocation=TRUE, AY=Previous)",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page""
+2. ""Inspect the LA list for LA-2 and LA-3""
+","1. ""Only LA-1's card is displayed""
+2. ""LA-2 and LA-3 are NOT displayed""
+","1. ""LA-1: require_allocation=TRUE, AY=Current; expected = shown""
+2. ""LA-2: require_allocation=FALSE -> hidden; LA-3: AY=Previous -> hidden""
+",,,3250,,[Riso] Contract Info — Display & List,,,
+,[Riso] Contract Info – LA Card – All Required Fields Displayed Together,AC01.1 - Component: A single LA card simultaneously shows Course Master Name, Academic Year, Location, Total Slot, and Lesson Allocated.,"Logged in as Student to the Riso Learner App
+LA-1 links to Location Course ""Essential Course"" (Course Master ""Essential Course""), Academic Year = 2025, Location = ""Location Name 01"", Total Slot = 50, Lesson Allocated = 52 for the selected month",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page and view LA-1's card""
+","1. ""Card shows all 5 fields together: ""Essential Course"", ""2025"", ""Location Name 01"", Total Slot ""50"", Lesson Allocated ""52""""
+","1. ""course=Essential Course; AY=2025; location=Location Name 01; total_slot=50; lesson_allocated=52""
+",,,3250,,[Riso] Contract Info — Display & List,,,
+,[Riso] Contract Info – LA List – Sort Order – Ordered by Start Date, End Date, Created Date,"AC01.1 - Scenario: Multiple LA cards are ordered by LA start date ASC, then end date ASC, then created_at ASC.","Logged in as Student to the Riso Learner App
+Student has 3 qualifying LAs: LA-A (start=2025-04-01, end=2026-03-31, created=2025-03-01), LA-B (start=2025-04-01, end=2025-09-30, created=2025-03-05), LA-C (start=2025-06-01, end=2026-03-31, created=2025-05-01)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page""
+","1. ""Cards appear in order: LA-B, LA-A, LA-C""
+","1. ""LA-A: start=2025-04-01,end=2026-03-31; LA-B: start=2025-04-01,end=2025-09-30; LA-C: start=2025-06-01,end=2026-03-31; expected order = B (same start, earlier end), A, C (later start)""
+",,,3250,,[Riso] Contract Info — Display & List,,,
+,[Riso] Contract Info – LA List – Empty State – No Qualifying LA (Pending Confirmation),"AC01.1 - Negative: When no LA matches the filter (require_allocation=TRUE AND Current AY), the page shows a graceful empty state. Exact copy pending PM confirmation (spec Clarification Question #6).","Logged in as Student to the Riso Learner App
+Student has zero LAs with require_allocation=TRUE for the Current AY",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page""
+","1. ""An empty-state placeholder is shown (no crash, no blank white screen); exact copy pending confirmation""
+","1. ""qualifying_LA_count = 0""
+",,,3250,,[Riso] Contract Info — Display & List,,,

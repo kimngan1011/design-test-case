@@ -1,0 +1,36 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[A.ver] Calendar – Teacher filter – Multiple selected subjects – Only full eligible-subject matches are available","AC 01, AC 04 — Decision Table — The Manacalendar teacher filter uses AND matching for A.ver.","- Logged in as HQ or CM Staff to the A.ver Salesforce org.
+- The eligible-subject filter customization is enabled for A.ver.
+- Teacher A is eligible for Mathematics and English; Teacher B is eligible for Mathematics only; Teacher C is eligible for English only.
+- The calendar contains lessons for each teacher in the active calendar range.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Manacalendar.
+2. Open the Teacher filter and select Mathematics and English.
+3. View the available teacher choices.
+4. Select Teacher A and apply the filter.","1. The Calendar filter is available.
+2. Both subjects appear as active eligibility criteria.
+3. Teacher A is available; Teachers B and C are unavailable.
+4. Only Teacher A's lessons are shown in the calendar range.","1. tenant = A.ver; calendar_range = 2026-07-20 to 2026-07-26
+2. required_subjects = {Mathematics, English}
+3. Teacher A = {Mathematics, English}; Teacher B = {Mathematics}; Teacher C = {English}
+4. selected_teacher = Teacher A",,,,3222,327,"Calendar eligible subject filter",,,""
+,"[A.ver] Calendar – Teacher filter – Partial eligible-subject match – Teacher and lessons are excluded","AC 02 — Negative — A partial eligible-subject match is not available and cannot populate the calendar.","- Logged in as HQ or CM Staff to the A.ver Salesforce org.
+- The eligible-subject filter customization is enabled for A.ver.
+- Teacher B is eligible for Mathematics only and has lessons in the active calendar range.
+- No teacher is eligible for both Mathematics and English.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Manacalendar.
+2. Select Mathematics and English in the Teacher filter.
+3. Search for Teacher B in the available teacher choices.
+4. Apply the filter without a teacher selection.","1. The Calendar filter is available.
+2. Both subjects appear as active eligibility criteria.
+3. Teacher B is unavailable for selection.
+4. No Teacher B lesson is shown; the calendar indicates no eligible teacher match.","1. tenant = A.ver; calendar_range = 2026-07-20 to 2026-07-26
+2. required_subjects = {Mathematics, English}
+3. Teacher B = {Mathematics}; missing_subjects = {English}
+4. eligible_for_all_selected_subjects = none",,,,3222,327,"Calendar eligible subject filter",,,""
+,"[A.ver] Calendar – Teacher filter – One selected subject – Teachers eligible for that subject remain available","AC 03 — Equivalence Partitioning — A one-subject Calendar filter returns every eligible teacher for that subject.","- Logged in as HQ or CM Staff to the A.ver Salesforce org.
+- The eligible-subject filter customization is enabled for A.ver.
+- Teacher A is eligible for Mathematics and English; Teacher B is eligible for Mathematics only; Teacher C is eligible for English only.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Manacalendar.
+2. Select Mathematics as the only subject in the Teacher filter.
+3. View the available teacher choices.","1. The Calendar filter is available.
+2. Mathematics is the only active eligibility criterion.
+3. Teachers A and B are available; Teacher C is unavailable.","1. tenant = A.ver; calendar_range = 2026-07-20 to 2026-07-26
+2. required_subjects = {Mathematics}
+3. Teacher A = {Mathematics, English}; Teacher B = {Mathematics}; Teacher C = {English}",,,,3222,327,"Calendar eligible subject filter",,,""

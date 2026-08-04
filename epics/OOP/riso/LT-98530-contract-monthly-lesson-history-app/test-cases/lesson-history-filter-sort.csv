@@ -1,0 +1,35 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3254,,[Riso] Lesson History — Filter & Sort (Pending Confirmation),1,,
+,[Riso] Lesson History – Status Filter – Completed Lesson Included,AC02.1 - Decision Table: A lesson with Status = Completed is included in the Lesson History list.,"Logged in as Student to the Riso Learner App
+Student has a lesson on 2025-09-05 with Status = Completed",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson History for September 2025""
+","1. ""The lesson on 2025-09-05 is shown in the list""
+","1. ""lesson_status=Completed; expected=included""
+",,,3254,,[Riso] Lesson History — Filter & Sort (Pending Confirmation),,,
+,[Riso] Lesson History – Status Filter – Published Lesson Not Yet Occurred – Excluded,AC02.1 - Decision Table / Negative: A lesson with Status = Published (scheduled but not yet completed) must NOT appear in Lesson History.,"Logged in as Student to the Riso Learner App
+Student has a future lesson on 2025-09-25 with Status = Published",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson History for September 2025""
+","1. ""The lesson on 2025-09-25 is NOT shown in the list""
+","1. ""lesson_status=Published; expected=excluded""
+",,,3254,,[Riso] Lesson History — Filter & Sort (Pending Confirmation),,,
+,[Riso] Lesson History – Status Filter – Cancelled Lesson – Excluded (Pending Confirmation),"AC02.1 - Decision Table / Negative: A Cancelled-status lesson is excluded, per the background RFP intent. PRD's own inline comment marks this as unresolved (spec Clarification Question #3).","Logged in as Student to the Riso Learner App
+Student has a lesson on 2025-09-08 with Status = Cancelled",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson History for September 2025""
+","1. ""The lesson on 2025-09-08 is NOT shown in the list (pending confirmation this remains correct)""
+","1. ""lesson_status=Cancelled; expected=excluded (pending confirmation)""
+",,,3254,,[Riso] Lesson History — Filter & Sort (Pending Confirmation),,,
+,[Riso] Lesson History – Month Filter – Lesson Date Outside Selected Month – Excluded,AC02.1 - Decision Table: A Completed lesson whose date falls outside the selected month is excluded from the list.,"Logged in as Student to the Riso Learner App
+Student has a Completed lesson on 2025-08-30 and another on 2025-10-01",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson History for September 2025""
+","1. ""Neither the 2025-08-30 nor the 2025-10-01 lesson is shown""
+","1. ""selected_month=2025-09; lesson_dates=[2025-08-30, 2025-10-01]; expected=both excluded""
+",,,3254,,[Riso] Lesson History — Filter & Sort (Pending Confirmation),,,
+,[Riso] Lesson History – Sort Order – Same-Day Lessons Ordered by Start Time Ascending,AC02.1 - Scenario: Multiple Completed lessons on the same day are ordered by Lesson start time ascending.,"Logged in as Student to the Riso Learner App
+Student has 2 Completed lessons on 2025-09-10: Lesson-A (14:00-15:00) and Lesson-B (09:00-10:00)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson History for September 2025""
+","1. ""Lesson-B (09:00) appears before Lesson-A (14:00)""
+","1. ""Lesson-A start=14:00; Lesson-B start=09:00; expected order = B, A""
+",,,3254,,[Riso] Lesson History — Filter & Sort (Pending Confirmation),,,
+,[Riso] Lesson History – Month Boundary – Lesson Time Near Midnight JST vs UTC,AC02.1 - BVA (mandatory timezone rule): Lesson Date-to-month attribution must use the JST-displayed date, not the raw UTC-stored value.,"Logged in as Student to the Riso Learner App
+Student has a Completed lesson stored as 2025-08-31 15:05 UTC (= 2025-09-01 00:05 JST)",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson History for September 2025""
+2. ""Open Lesson History for August 2025""
+","1. ""The lesson appears in September's list (JST date)""
+2. ""The lesson does NOT appear in August's list""
+","1. ""lesson_utc=2025-08-31 15:05 UTC; lesson_jst=2025-09-01 00:05 JST; selected_month=2025-09; expected=included in September (JST)""
+2. ""selected_month=2025-08; expected=excluded from August""
+",,,3254,,[Riso] Lesson History — Filter & Sort (Pending Confirmation),,,

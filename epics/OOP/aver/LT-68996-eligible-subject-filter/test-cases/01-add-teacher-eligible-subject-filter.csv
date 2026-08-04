@@ -1,0 +1,31 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[A.ver] Lesson Teacher – Add Teacher – Multiple selected subjects – Only teachers eligible for every subject are listed","AC 01, AC 04 — Decision Table — The Add Teacher search returns the intersection of eligible subjects for A.ver.","- Logged in as HQ or CM Staff to the A.ver Salesforce org.
+- The eligible-subject filter customization is enabled for A.ver.
+- Teacher A is eligible for Mathematics and English; Teacher B is eligible for Mathematics only; Teacher C is eligible for English only.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the lesson's Add Teacher component.
+2. Select Mathematics and English as the required subjects.
+3. View the available teachers.","1. The teacher search is available.
+2. The selected-subject criteria show both subjects.
+3. Teacher A is listed; Teachers B and C are not listed.","1. tenant = A.ver; selected_subjects = Mathematics, English
+2. required_subjects = {Mathematics, English}
+3. Teacher A = {Mathematics, English}; Teacher B = {Mathematics}; Teacher C = {English}",,,,3221,327,"Add Teacher eligible subject filter",,,""
+,"[A.ver] Lesson Teacher – Add Teacher – Partial eligible-subject match – Teacher is excluded","AC 02 — Negative — A teacher matching only a subset of the selected subjects cannot be selected.","- Logged in as HQ or CM Staff to the A.ver Salesforce org.
+- The eligible-subject filter customization is enabled for A.ver.
+- Teacher B is eligible for Mathematics only; no teacher is eligible for both Mathematics and English.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the lesson's Add Teacher component.
+2. Select Mathematics and English as the required subjects.
+3. Search for Teacher B.
+4. View the teacher results without a name search.","1. The teacher search is available.
+2. Both subjects are active filter criteria.
+3. Teacher B is not returned and cannot be added.
+4. The component shows no eligible teacher result.","1. tenant = A.ver; Teacher B = {Mathematics}
+2. required_subjects = {Mathematics, English}
+3. matched_subjects = {Mathematics}; missing_subjects = {English}
+4. eligible_for_all_selected_subjects = none",,,,3221,327,"Add Teacher eligible subject filter",,,""
+,"[A.ver] Lesson Teacher – Add Teacher – One selected subject – All teachers eligible for that subject remain listed","AC 03 — Equivalence Partitioning — A single selected subject retains single-subject eligibility behavior.","- Logged in as HQ or CM Staff to the A.ver Salesforce org.
+- The eligible-subject filter customization is enabled for A.ver.
+- Teacher A is eligible for Mathematics and English; Teacher B is eligible for Mathematics only; Teacher C is eligible for English only.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the lesson's Add Teacher component.
+2. Select Mathematics as the only required subject.
+3. View the available teachers.","1. The teacher search is available.
+2. Mathematics is the only active filter criterion.
+3. Teachers A and B are listed; Teacher C is not listed.","1. tenant = A.ver
+2. required_subjects = {Mathematics}
+3. Teacher A = {Mathematics, English}; Teacher B = {Mathematics}; Teacher C = {English}",,,,3221,327,"Add Teacher eligible subject filter",,,""

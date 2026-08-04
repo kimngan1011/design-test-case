@@ -132,50 +132,70 @@
 
 ---
 
-### [Riso] Location Lesson Window – Delete Button – Visible only on Open status records for staff with full_access_v2 PS
+### [Riso] Location Lesson Window – Delete Button – Visible only on Open status records for staff with either delete Permission Set
 
-**Description:** AC-05, BR-09 — Permission Matrix — The Delete button is visible only when the LLW Status = Open and the user has the `full_access_v2` Permission Set.
+**Description:** AC-05, BR-09 — Permission Matrix — The Delete button is visible only when the LLW Status = Open and the staff user has **at least one** of `full_access_v2` or `llw_full_access` Permission Sets.
 
 **Preconditions:**
-- Logged in as a staff user with **`full_access_v2` Permission Set** in the Riso Salesforce org
+- Staff A has **`full_access_v2` only**; Staff B has **`llw_full_access` only** in the Riso Salesforce org
 - Two LLW records exist for Location A: one with Status = **Open**, one with Status = **Complete**
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
-| 1 | Navigate to Account detail page for Location A → Lesson Window tab | Both LLW records are visible | — |
+| 1 | Log in as Staff A, navigate to Account detail page for Location A → Lesson Window tab | Both LLW records are visible | user = Staff A; PS = full_access_v2 only |
 | 2 | Observe the record row where Status = **Open** | **Delete button is visible** on this row | — |
-| 3 | Observe the record row where Status = **Complete** | Delete button is **not visible** on this row | — |
+| 3 | Repeat steps 1–2 as Staff B | **Delete button is visible** on the Open record | user = Staff B; PS = llw_full_access only |
+| 4 | As either staff user, observe the record row where Status = **Complete** | Delete button is **not visible** on this row | — |
 
 **Severity:** major
 **Priority:** high
 
 ---
 
-### [Riso] Location Lesson Window – Delete Button – Not shown to CM users without full_access_v2 PS
+### [Riso] Location Lesson Window – Delete Button – Not shown when staff has neither delete Permission Set
 
-**Description:** AC-05, BR-CRUD — Permission Matrix (negative) — CM users **without** the `full_access_v2` Permission Set do not see the Delete button on any LLW record, regardless of status.
+**Description:** AC-05, BR-CRUD — Permission Matrix (negative) — A staff user who has neither `full_access_v2` nor `llw_full_access` does not see the Delete button on an Open LLW record.
 
 **Preconditions:**
-- Logged in as **CM Staff** (without `full_access_v2` PS) in the Riso Salesforce org
+- Logged in as staff **without `full_access_v2` and without `llw_full_access`** in the Riso Salesforce org
 - One LLW record exists for Location A: Status = **Open**
 - Navigate to Account detail page for Location A → Lesson Window tab
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
-| 1 | Observe the LLW record row where Status = Open | **No Delete button is shown** for CM | — |
-| 2 | Attempt to delete via any available UI action | No delete action is available to CM | — |
+| 1 | Observe the LLW record row where Status = Open | **No Delete button is shown** | — |
+| 2 | Attempt to delete via any available UI action | No delete action is available | — |
 
 **Severity:** major
 **Priority:** high
 
 ---
 
-### [Riso] Location Lesson Window – Delete – Open Status, No Linked Records – Deletion succeeds for user with full_access_v2 PS
+### [Riso] Location Lesson Window – Delete – Open Status, No Linked Records – Deletion succeeds with llw_full_access PS only
 
-**Description:** AC-05, BR-09 — CRUD — A user with the `full_access_v2` Permission Set can delete an LLW record when Status = Open and no linked detail records exist.
+**Description:** AC-05, BR-09 — CRUD — A staff user with `llw_full_access` but without `full_access_v2` can delete an LLW record when Status = Open and no linked detail records exist.
 
 **Preconditions:**
-- Logged in as a staff user with **`full_access_v2` Permission Set** in the Riso Salesforce org
+- Logged in as staff with `llw_full_access` but **without `full_access_v2`** in the Riso Salesforce org
+- LLW record exists: Location A, AY = 2026, Start Date = 2026-06-01, End Date = 2026-06-30, Status = **Open**, no linked child records
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Navigate to the LLW record (Status = Open) and click **Delete** | Delete confirmation dialog appears | — |
+| 2 | Confirm deletion | Record is deleted | — |
+| 3 | Return to the Lesson Window tab for Location A | The deleted LLW record no longer appears in the list | — |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Location Lesson Window – Delete – Open Status, No Linked Records – Deletion succeeds with full_access_v2 PS only
+
+**Description:** AC-05, BR-09 — CRUD — A staff user with `full_access_v2` but without `llw_full_access` can delete an LLW record when Status = Open and no linked detail records exist.
+
+**Preconditions:**
+- Logged in as a staff user with `full_access_v2` but **without `llw_full_access`** in the Riso Salesforce org
 - LLW record exists: Location A, AY = 2026, Start Date = 2026-06-01, End Date = 2026-06-30, Status = **Open**, no linked child records
 
 | # | Action | Expected Result | Test Data |
@@ -194,7 +214,7 @@
 **Description:** AC-05, BR-09 — State Transition (negative) — A Complete LLW record cannot be deleted; the Delete action is absent.
 
 **Preconditions:**
-- Logged in as HQ Staff to the Riso Salesforce org
+- Logged in as staff with `full_access_v2` to the Riso Salesforce org
 - LLW record exists: Status = **Complete**
 
 | # | Action | Expected Result | Test Data |

@@ -1,0 +1,55 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3251,,[Riso] Total Slot Calculation (Pending Confirmation),1,,
+,[Riso] Total Slot – Monthly Contract – Elapsed Months From Start – Slot Times Month Count,AC01.2 - BVA: Total Slot for a Monthly-type contract equals Monthly Slot multiplied by the number of elapsed months from Contract Start Month to Selected Month. PENDING CONFIRMATION - conflicts with LT-98533.,"Logged in as Student to the Riso Learner App
+LA has one Active Monthly-type Riso Contract: start=2025-04, end=2026-02, monthly slot=4",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the Contract Info month selector to September 2025 and view the LA card""
+","1. ""Total Slot shows 24""
+","1. ""contract_start=2025-04; monthly_slot=4; selected_month=2025-09; elapsed_months=6; expected=4x6=24""
+",,,3251,,[Riso] Total Slot Calculation (Pending Confirmation),,,
+,[Riso] Total Slot – Monthly Contract – Selected Month Equals Start Month – Boundary of One Elapsed Month,AC01.2 - BVA (exact boundary): When the selected month equals the contract start month, the elapsed-month count is 1, not 0.,"Logged in as Student to the Riso Learner App
+LA has one Active Monthly-type Riso Contract: start=2025-04, end=2026-02, monthly slot=4",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to April 2025 (= contract start month) and view the LA card""
+","1. ""Total Slot shows 4""
+","1. ""contract_start=2025-04; selected_month=2025-04; elapsed_months=1 (boundary); expected=4x1=4""
+",,,3251,,[Riso] Total Slot Calculation (Pending Confirmation),,,
+,[Riso] Total Slot – Monthly Contract – Selected Month Before Start Month – Zero Counted,AC01.2 - BVA (below boundary): When the selected month is before the contract start month, this contract contributes zero to Total Slot.,"Logged in as Student to the Riso Learner App
+LA has one Active Monthly-type Riso Contract: start=2025-04, monthly slot=4",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to March 2025 (1 month before contract start) and view the LA card""
+","1. ""Total Slot shows 0 for this contract""
+","1. ""contract_start=2025-04; selected_month=2025-03 (below boundary); expected=0""
+",,,3251,,[Riso] Total Slot Calculation (Pending Confirmation),,,
+,[Riso] Total Slot – Seasonal Contract – Selected Month Within Range – Full Slot Counted,AC01.2 - BVA: For a Seasonal-type contract, the full slot value is counted once the selected month (EOM) is on or after the contract start month.,"Logged in as Student to the Riso Learner App
+LA has one Active Seasonal-type Riso Contract: start=2025-08, end=2025-09, total slot=100",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to September 2025 and view the LA card""
+","1. ""Total Slot shows 100""
+","1. ""contract_start=2025-08; selected_month(EOM)=2025-09-30; 2025-08 <= 2025-09-30 -> full slot; expected=100""
+",,,3251,,[Riso] Total Slot Calculation (Pending Confirmation),,,
+,[Riso] Total Slot – Seasonal Contract – Selected Month Before Start – Zero Counted,AC01.2 - BVA (below boundary): A Seasonal-type contract contributes zero when the selected month (EOM) is before the contract start month.,"Logged in as Student to the Riso Learner App
+LA has one Active Seasonal-type Riso Contract: start=2025-08, end=2025-09, total slot=100",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to May 2025 and view the LA card""
+","1. ""Total Slot shows 0 for this contract""
+","1. ""contract_start=2025-08; selected_month(EOM)=2025-05-31; 2025-08 > 2025-05-31 -> zero; expected=0""
+",,,3251,,[Riso] Total Slot Calculation (Pending Confirmation),,,
+,[Riso] Total Slot – Multiple Active Contracts on Same LA – Sum of All Contributions,AC01.2 - Decision Table / Data Integrity: Total Slot sums the contributions of every Active Riso Contract linked to the LA.,"Logged in as Student to the Riso Learner App
+LA has 2 Active Riso Contracts for the selected month (Sep 2025): Contract-1 (Monthly, contributes 24), Contract-2 (Seasonal, contributes 100)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to September 2025 and view the LA card""
+","1. ""Total Slot shows 124""
+","1. ""contract_1_contribution=24; contract_2_contribution=100; expected sum=124""
+",,,3251,,[Riso] Total Slot Calculation (Pending Confirmation),,,
+,[Riso] Total Slot – Logically Deleted Contract – Excluded From Sum,AC01.2 - Negative: A logically deleted (contract_status=Deleted) Riso Contract must not contribute to Total Slot.,"Logged in as Student to the Riso Learner App
+LA has Contract-1 (Active, Monthly, contributes 24) and Contract-2 (logically Deleted, would have contributed 100)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to September 2025 and view the LA card""
+","1. ""Total Slot shows 24 (Contract-2 excluded)""
+","1. ""contract_1=24 (Active); contract_2=100 (Deleted, excluded); expected=24""
+",,,3251,,[Riso] Total Slot Calculation (Pending Confirmation),,,
+,[Riso] Total Slot – Trial Contract Type – No Confirmed Calculation Formula (Pending Confirmation),AC01.2 - Negative / Placeholder: Figma shows a Trial-type LA card but no calculation rule is defined anywhere. Documents the gap (spec Clarification Question #5).,"Logged in as Student to the Riso Learner App
+LA is of Trial type with an Active Riso Contract",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to any month and view the Trial-type LA card""
+","1. ""A Total Slot value is displayed without crashing; exact formula is pending PM confirmation and must be re-validated once defined""
+","1. ""la_type=Trial; formula=undefined (pending)""
+",,,3251,,[Riso] Total Slot Calculation (Pending Confirmation),,,
+,[Riso] Total Slot – Month Boundary – Contract Comparison Near Midnight JST vs UTC,AC01.2 - BVA (mandatory timezone rule): Month/date comparisons must be derived from the JST-displayed date, not the raw UTC-stored value.,"Logged in as Student to the Riso Learner App
+LA has one Active Monthly-type Riso Contract with start_date stored as 2025-08-31 15:30 UTC (= 2025-09-01 00:30 JST)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to September 2025 and view the LA card""
+","1. ""Contract Start Month is treated as September 2025 (JST date), not August 2025 (UTC date)""
+","1. ""contract_start_utc=2025-08-31 15:30 UTC; contract_start_jst=2025-09-01 00:30 JST; selected_month=2025-09; expected start month = 2025-09 (JST)""
+",,,3251,,[Riso] Total Slot Calculation (Pending Confirmation),,,
+,[Riso] Total Slot – Cross-Surface Consistency – App Value vs Contract API Aggregation,AC01.2 - Regression: Compares the App's computed Total Slot against the backend's LA.Total_Session_Count (flat SUM aggregation per LT-98533). Surfaces spec Clarification Question #1.,"Logged in as Student to the Riso Learner App and as HQ or CM Staff to the Salesforce org (same student's LA)
+LA has one Active Monthly-type Riso Contract: start=2025-04, monthly slot=4, selected month=Sep 2025",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""View Total Slot on the App Contract Info page""
+2. ""View LA.Total_Session_Count for the same LA on Salesforce""
+","1. ""App shows 24 (per PRD's month-prorated formula)""
+2. ""SF shows the flat SUM of contract.total (per LT-98533), which will differ from the App's 24 unless the contract's total field is separately set to 24""
+","1. ""app_total_slot = 4x6 = 24""
+2. ""sf_total_session_count = SUM(contract.total); expected mismatch flagged as pending confirmation, not a pass/fail assertion""
+",,,3251,,[Riso] Total Slot Calculation (Pending Confirmation),,,

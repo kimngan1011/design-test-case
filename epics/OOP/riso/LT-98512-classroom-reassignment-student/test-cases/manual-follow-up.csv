@@ -1,0 +1,13 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+"","[Riso] Classroom Adjustment – Manual follow-up – Completed run – Classroom remains editable","US03 duplicate AC-17 — State Transition — Staff can correct a classroom after automation.","- Logged in as HQ or CM Staff; Optimize Classroom Assignment = ON.
+- Location = Riso Shinjuku; lesson_date = 2026-07-23.
+- Classroom Adjustment completed and assigned Student A's 11:00 lesson to Room A; Room B is eligible at 11:00.","","LT-98512,Riso","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Open Student A's 11:00 lesson after adjustment.
+2. Change the classroom to Room B and save.","1. The classroom field is editable.
+2. The lesson shows Room B after save.","1. current room = Room A
+2. new room = Room B","","","3233","3231","Manual Follow-up","0","",""
+"","[Riso] Classroom Adjustment – Manual follow-up – Conflicting room choice – Existing clash safeguard remains active","US03 duplicate AC-17 — Regression — Automation does not bypass normal manual clash prevention.","- Logged in as HQ or CM Staff; Optimize Classroom Assignment = ON.
+- Location = Riso Shinjuku; lesson_date = 2026-07-23.
+- Classroom Adjustment completed; Room A is occupied by another lesson from 11:00 to 12:00; Student A's lesson is 11:00 to 12:00 in Room B.","","LT-98512,Riso","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Attempt to change Student A's classroom from Room B to Room A and save.","1. The existing clash safeguard blocks the conflicting manual change; Student A remains in Room B.","1. target = 11:00–12:00; Room A = occupied; current = Room B","","","3233","3231","Manual Follow-up","0","",""
+"","[Riso] Classroom Adjustment – Manual follow-up – Corrected room – Print Out reflects the staff change","US03 duplicate AC-17, AC-05 — Cross-system — The manual correction survives into the continuing daily flow.","- Logged in as HQ or CM Staff; Optimize Classroom Assignment = ON.
+- Location = Riso Shinjuku; lesson_date = 2026-07-23.
+- Adjustment completed; Student A's classroom was manually changed to Room B and saved.","","LT-98512,Riso","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. Select Print Out from Daily View.","1. The print flow opens with Student A assigned to Room B.","1. expected classroom = Room B","","","3233","3231","Manual Follow-up","0","",""

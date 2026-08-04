@@ -1,0 +1,121 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3194,2993,"Location Course – Auto-Create – Trigger",1,,
+24952,"[Renseikai] Location Course – Auto-Create – One-Time Product – Product Location Added – Location Course Created","AC 01.1 — Decision Table — Adding a Product Location to a One-Time product triggers automatic creation of a Location Course linked to the corresponding Course Master and Location.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Product ""AutoLC_Onetime"" with Product Type = One-time exists and is linked to Course Master ""AutoLC_Onetime""
+- Location ""Location_H001"" exists in the system
+- No Location Course exists for Course Master ""AutoLC_Onetime"" at Location_H001","","LT-105359","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""Open the Product record ""AutoLC_Onetime""""
+2. ""Add ""Location_H001"" to the Product Location related list and save""
+3. ""Navigate to Master > Location Course and search for ""AutoLC_Onetime""""
+","1. ""Detail page opens; Product Location related list shows 0 items for Location_H001""
+2. ""Product Location record is saved and linked to Location_H001""
+3. ""A Location Course record ""AutoLC_Onetime - Location_H001"" appears in the list, linked to Course Master = AutoLC_Onetime and Account = Location_H001""
+","1. """"
+2. ""Location = Location_H001""
+3. """"
+","","",3194,2993,"Location Course – Auto-Create – Trigger",,,
+24953,"[Renseikai] Location Course – Auto-Create – Slot-Based Product – Product Location Added – Location Course Created","AC 01.2 — Decision Table — Adding a Product Location to a Slot-Based product triggers automatic creation of a Location Course linked to the corresponding Course Master and Location.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Product ""AutoLC_Slot"" with Product Type = Slot-based exists and is linked to Course Master ""AutoLC_Slot""
+- Location ""Location_H001"" exists in the system
+- No Location Course exists for Course Master ""AutoLC_Slot"" at Location_H001","","LT-105359","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""Open the Product record ""AutoLC_Slot""""
+2. ""Add ""Location_H001"" to the Product Location related list and save""
+3. ""Navigate to Master > Location Course and search for ""AutoLC_Slot""""
+","1. ""Detail page opens; Product Location related list shows 0 items for Location_H001""
+2. ""Product Location record is saved and linked to Location_H001""
+3. ""A Location Course record ""AutoLC_Slot - Location_H001"" appears in the list, linked to Course Master = AutoLC_Slot and Account = Location_H001""
+","1. """"
+2. ""Location = Location_H001""
+3. """"
+","","",3194,2993,"Location Course – Auto-Create – Trigger",,,
+24954,"[Renseikai] Location Course – Auto-Create – Scheduled Product – Product Location Added – Location Course Created","AC 01.3 — Decision Table — Adding a Product Location to a Scheduled product triggers automatic creation of a Location Course linked to the corresponding Course Master and Location.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Product ""AutoLC_Scheduled"" with Product Type = Scheduled exists and is linked to Course Master ""AutoLC_Scheduled""
+- Location ""Location_H001"" exists in the system
+- No Location Course exists for Course Master ""AutoLC_Scheduled"" at Location_H001","","LT-105359","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""Open the Product record ""AutoLC_Scheduled""""
+2. ""Add ""Location_H001"" to the Product Location related list and save""
+3. ""Navigate to Master > Location Course and search for ""AutoLC_Scheduled""""
+","1. ""Detail page opens; Product Location related list shows 0 items for Location_H001""
+2. ""Product Location record is saved and linked to Location_H001""
+3. ""A Location Course record ""AutoLC_Scheduled - Location_H001"" appears in the list, linked to Course Master = AutoLC_Scheduled and Account = Location_H001""
+","1. """"
+2. ""Location = Location_H001""
+3. """"
+","","",3194,2993,"Location Course – Auto-Create – Trigger",,,
+24955,"[Renseikai] Location Course – Auto-Create – Frequency Product – Product Location Added – Location Course Created","AC 01.4 — Decision Table — Adding a Product Location to a Frequency product triggers automatic creation of a Location Course linked to the corresponding Course Master and Location.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Product ""AutoLC_Frequency"" with Product Type = Frequency exists and is linked to Course Master ""AutoLC_Frequency""
+- Location ""Location_H001"" exists in the system
+- No Location Course exists for Course Master ""AutoLC_Frequency"" at Location_H001","","LT-105359","high","critical","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""Open the Product record ""AutoLC_Frequency""""
+2. ""Add ""Location_H001"" to the Product Location related list and save""
+3. ""Navigate to Master > Location Course and search for ""AutoLC_Frequency""""
+","1. ""Detail page opens; Product Location related list shows 0 items for Location_H001""
+2. ""Product Location record is saved and linked to Location_H001""
+3. ""A Location Course record ""AutoLC_Frequency - Location_H001"" appears in the list, linked to Course Master = AutoLC_Frequency and Account = Location_H001""
+","1. """"
+2. ""Location = Location_H001""
+3. """"
+","","",3194,2993,"Location Course – Auto-Create – Trigger",,,
+24956,"[Renseikai] Location Course – Auto-Create – Multiple Locations for Same Product – Two Distinct Location Courses Created","AC 01.5 — Scenario — Adding two different Product Locations to the same product creates two distinct Location Courses, one per location.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Product ""MultiLoc_TC"" with Product Type = One-time exists and is linked to Course Master ""MultiLoc_TC""
+- Location_H001 and Location_H002 exist in the system
+- No Location Course exists for Course Master ""MultiLoc_TC""","","LT-105359","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""Open Product ""MultiLoc_TC"" and add Location_H001 to the Product Location related list""
+2. ""Add Location_H002 to the Product Location related list and save""
+3. ""Navigate to Master > Location Course and search for ""MultiLoc_TC""""
+","1. ""Product Location record for Location_H001 is created; a Location Course ""MultiLoc_TC - Location_H001"" is auto-created""
+2. ""Product Location record for Location_H002 is created; a Location Course ""MultiLoc_TC - Location_H002"" is auto-created""
+3. ""Two Location Course records exist: ""MultiLoc_TC - Location_H001"" and ""MultiLoc_TC - Location_H002"", each linked to its corresponding location""
+","1. ""Location = Location_H001""
+2. ""Location = Location_H002""
+3. """"
+","","",3194,2993,"Location Course – Auto-Create – Trigger",,,
+,,,,,,,,,,,,,,,,,,,,3195,2993,"Location Course – Auto-Create – Record Content",1,,
+24957,"[Renseikai] Location Course – Auto-Create – Name Format – Course Master Name Hyphen Location Name Applied","AC 02.1 — Scenario — The auto-created Location Course name strictly follows the format <Course Master Name> - <Location Name>.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Product ""NameCheck_TC"" with Product Type = Scheduled exists and is linked to Course Master ""NameCheck_TC""
+- Location ""Location_H002"" exists in the system
+- No Location Course exists for Course Master ""NameCheck_TC"" at Location_H002","","LT-105359","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""Open Product ""NameCheck_TC"" and add Location_H002 to the Product Location related list and save""
+2. ""Navigate to Master > Location Course and search for ""NameCheck_TC""""
+3. ""Open the Location Course detail page""
+","1. ""Product Location record is created""
+2. ""A Location Course record ""NameCheck_TC - Location_H002"" appears in the list""
+3. ""Name field shows ""NameCheck_TC - Location_H002""; Account = Location_H002; Course Master = NameCheck_TC""
+","1. ""Course Master = NameCheck_TC; Location = Location_H002""
+2. """"
+3. """"
+","","",3195,2993,"Location Course – Auto-Create – Record Content",,,
+24958,"[Renseikai] Location Course – Auto-Create – Record Linking – Course Master and Account Correctly Referenced","AC 02.2 — Component — Auto-created Location Course correctly references the Course Master linked to the product and the Account corresponding to the location.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Product ""LinkCheck_TC"" with Product Type = Frequency exists and is linked to Course Master ""LinkCheck_TC""
+- Location ""Location_H003"" exists in the system with Account = ""Location_H003""
+- No Location Course exists for Course Master ""LinkCheck_TC"" at Location_H003","","LT-105359","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""Open Product ""LinkCheck_TC"" and add Location_H003 to the Product Location related list and save""
+2. ""Navigate to Master > Location Course, search for and open ""LinkCheck_TC - Location_H003""""
+3. ""Inspect the Information section""
+","1. ""Product Location record is created""
+2. ""Detail page opens""
+3. ""Course Master = ""LinkCheck_TC""; Account = ""Location_H003""; Name = ""LinkCheck_TC - Location_H003""""
+","1. ""Location = Location_H003""
+2. """"
+3. """"
+","","",3195,2993,"Location Course – Auto-Create – Record Content",,,
+,,,,,,,,,,,,,,,,,,,,3196,2993,"Location Course – Auto-Create – Duplicate Prevention",1,,
+24959,"[Renseikai] Location Course – Auto-Create – Same Product Location Added Again – No Duplicate Location Course Created","AC 03.1 — Negative — Attempting to add the same location to a product a second time does not result in a duplicate Location Course being created.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Product ""DupLC_TC"" with Product Type = One-time exists and is linked to Course Master ""DupLC_TC""
+- A Product Location for Location_H001 already exists on this Product
+- Exactly 1 Location Course ""DupLC_TC - Location_H001"" already exists","","LT-105359","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""Open Product ""DupLC_TC""""
+2. ""Attempt to add Location_H001 again to the Product Location related list""
+3. ""Navigate to Master > Location Course and search for ""DupLC_TC""""
+","1. ""Product Location related list shows Location_H001 already added""
+2. ""System shows an error or the duplicate addition is blocked; no second Product Location record is created""
+3. ""Exactly 1 Location Course record ""DupLC_TC - Location_H001"" exists; no duplicate was created""
+","1. """"
+2. ""Location = Location_H001 (duplicate)""
+3. """"
+","","",3196,2993,"Location Course – Auto-Create – Duplicate Prevention",,,
+24960,"[Renseikai] Location Course – Auto-Create – Location Course Pre-Exists Manually – Product Location Added – No Duplicate Created","AC 03.2 — Negative — When a Location Course already exists for a Course Master + Location combination (created manually via Generate Courses), adding a Product Location for the same combination does not create a duplicate.","- Logged in as HQ or CM Staff to the Salesforce org
+- A Product ""ManualLC_TC"" with Product Type = Slot-based exists and is linked to Course Master ""ManualLC_TC""
+- A Location Course ""ManualLC_TC - Location_H001"" already exists (created manually via the Generate Courses button on Course Master)
+- No Product Location for Location_H001 exists on this Product yet","","LT-105359","high","major","functional","undefined","is-not-automated","draft","no","unknown","classic","1. ""Navigate to Master > Location Course and search for ""ManualLC_TC""""
+2. ""Open Product ""ManualLC_TC"" and add Location_H001 to the Product Location related list and save""
+3. ""Navigate to Master > Location Course and search for ""ManualLC_TC""""
+","1. ""1 Location Course record ""ManualLC_TC - Location_H001"" is visible (manually created)""
+2. ""Product Location record is created""
+3. ""Still exactly 1 Location Course record ""ManualLC_TC - Location_H001""; the auto-create mechanism did not generate a duplicate""
+","1. """"
+2. ""Location = Location_H001""
+3. """"
+","","",3196,2993,"Location Course – Auto-Create – Duplicate Prevention",,,

@@ -1,5 +1,6 @@
 # Secrets & tokens — keep local only
 .vscode/mcp.json
+.codex/config.toml
 
 # OS
 .DS_Store

@@ -28,6 +28,16 @@ Teachers filtered by:
 - **Subject** — teacher's eligible subjects (used by Riso and other orgs).
 - **Working Hours** — teacher's scheduled working time.
 
+### Available Teacher / "Only teachers free at this time"
+
+For substitute teacher candidate search (EN — LT-105350) and Add Teacher popup availability filtering, a teacher is available only when both checks pass:
+
+| Check | Rule |
+|---|---|
+| Working-hours coverage | The target lesson must be fully covered by a non-Off Day working-hours record from LT-64009: `staff_start_time <= lesson_start_time < lesson_end_time <= staff_end_time`. Use the lesson's displayed local/JST date and time for weekday and time comparison. |
+| Existing lesson no-overlap | The teacher must have no existing Draft/Published lesson overlapping the target lesson time in any location. Overlap is `existing_start < target_end AND target_start < existing_end`. Cancelled and Completed lessons are excluded from the conflict set. |
+| Adjacent boundary | `existing_end = target_start` or `existing_start = target_end` is adjacent, not overlapping, so it must not exclude the teacher. |
+
 ## Clashing Alert (34 cases)
 
 Time overlap detection between lessons assigned to the same teacher:
