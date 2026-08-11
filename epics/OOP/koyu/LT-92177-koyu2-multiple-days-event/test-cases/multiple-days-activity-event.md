@@ -37,10 +37,12 @@
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
 | 1 | Open Event Master 'Koyu Outdoor Experience' and click New Activity Event. | New Activity Event form opens. | today = 2026-09-01; timezone = Asia/Tokyo |
-| 2 | Enter Activity Event Name 'Koyu Camp 3D2N', Location 'Tokyo Center', Event Medium 'Offline', Event Capacity 30. | General information fields accept the values. | capacity = 30 |
-| 3 | Enter Start Date 2026-12-12, Start Time 10:00, End Date 2026-12-14, End Time 17:00. | Duration Days shows '3 days'. | start = 2026-12-12 10:00 JST; end = 2026-12-14 17:00 JST |
-| 4 | Keep Send To = Parent & Student, Allow Response = Parent & Student, then save. | Activity Event is created successfully as one record. | status = Published |
-| 5 | Open the created Activity Event detail page. | Date Range shows 2026/12/12 - 2026/12/14; Start Time shows 10:00; End Time shows 17:00. |  |
+| 2 | Verify inherited/default fields from Event Master. | Event Master lookup is preselected and disabled; Activity Event Name and Description are prefilled from Event Master; Send To = Parent & Student; Allow Response = Student only; Reminder Days is inherited when Event Master has Reminders; Event Status defaults to Published if the draft-status setting is enabled. | Event Master = Koyu Outdoor Experience; Who Can Reserve = Student Only |
+| 3 | Fill required/general Activity Event fields: Activity Event Name 'Koyu Camp 3D2N', Location 'Tokyo Center', Event Medium 'Offline', Event Capacity 30; leave Classrooms empty unless automation needs a classroom fixture. | Required general fields are valid; selecting Location clears any previously selected Classroom; Event Capacity accepts value greater than 0. | capacity = 30; classroomIds = [] |
+| 4 | Confirm conditional fields: Product Offering and Order Location are not shown because Event Type = Free; Allow Submit Proposal = unchecked; Allow Extra Participants = unchecked and Extra Participants remains blank; fill every visible required Additional Field with a valid value. | Free Activity Event has no paid-event required fields; extra-participant validation is not triggered; all dynamic additional fields pass validation. | eventType = Free; allowExtraParticipants = false |
+| 5 | Enter Start Date 2026-12-12, Start Time 10:00, End Date 2026-12-14, End Time 17:00. | Duration Days shows '3 days'; Start Date Time is before End Date Time. | start = 2026-12-12 10:00 JST; end = 2026-12-14 17:00 JST |
+| 6 | Click Save. | Activity Event is created successfully as one record and success toast is shown. | status = Published |
+| 7 | Open the created Activity Event detail page. | Date Range shows 2026/12/12 - 2026/12/14; Start Time shows 10:00; End Time shows 17:00; Event Master, Location, Event Medium, Send To, Allow Response, Capacity, and Status match the values saved from the form. |  |
 
 **Severity:** critical
 **Priority:** high

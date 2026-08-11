@@ -17,18 +17,24 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 - Feature setting MANAERP__Enable_Multiple_Event_Days__c is enabled unless the case says otherwise.
 - An Event Master named 'Koyu Outdoor Experience' exists with Event Type = Free, Send To = Parent & Student, Who Can Reserve = Student Only, Open To Booking System = true, Booking Start Date = 2026-09-01, Booking End Date = 2026-12-31.
 - Target Location = Tokyo Center; Target Grade = G7; Target Course = Outdoor Program.",,LT-92177;Koyu2;Multiple Days Event,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Event Master 'Koyu Outdoor Experience' and click New Activity Event.""
-2. ""Enter Activity Event Name 'Koyu Camp 3D2N', Location 'Tokyo Center', Event Medium 'Offline', Event Capacity 30.""
-3. ""Enter Start Date 2026-12-12, Start Time 10:00, End Date 2026-12-14, End Time 17:00.""
-4. ""Keep Send To = Parent & Student, Allow Response = Parent & Student, then save.""
-5. ""Open the created Activity Event detail page.""","1. ""New Activity Event form opens.""
-2. ""General information fields accept the values.""
-3. ""Duration Days shows '3 days'.""
-4. ""Activity Event is created successfully as one record.""
-5. ""Date Range shows 2026/12/12 - 2026/12/14; Start Time shows 10:00; End Time shows 17:00.""","1. ""today = 2026-09-01; timezone = Asia/Tokyo""
-2. ""capacity = 30""
-3. ""start = 2026-12-12 10:00 JST; end = 2026-12-14 17:00 JST""
-4. ""status = Published""
-5. """"",,,3296,311,Koyu2,,,no
+2. ""Verify inherited/default fields from Event Master.""
+3. ""Fill required/general Activity Event fields: Activity Event Name 'Koyu Camp 3D2N', Location 'Tokyo Center', Event Medium 'Offline', Event Capacity 30; leave Classrooms empty unless automation needs a classroom fixture.""
+4. ""Confirm conditional fields: Product Offering and Order Location are not shown because Event Type = Free; Allow Submit Proposal = unchecked; Allow Extra Participants = unchecked and Extra Participants remains blank; fill every visible required Additional Field with a valid value.""
+5. ""Enter Start Date 2026-12-12, Start Time 10:00, End Date 2026-12-14, End Time 17:00.""
+6. ""Click Save.""
+7. ""Open the created Activity Event detail page.""","1. ""New Activity Event form opens.""
+2. ""Event Master lookup is preselected and disabled; Activity Event Name and Description are prefilled from Event Master; Send To = Parent & Student; Allow Response = Student only; Reminder Days is inherited when Event Master has Reminders; Event Status defaults to Published if the draft-status setting is enabled.""
+3. ""Required general fields are valid; selecting Location clears any previously selected Classroom; Event Capacity accepts value greater than 0.""
+4. ""Free Activity Event has no paid-event required fields; extra-participant validation is not triggered; all dynamic additional fields pass validation.""
+5. ""Duration Days shows '3 days'; Start Date Time is before End Date Time.""
+6. ""Activity Event is created successfully as one record and success toast is shown.""
+7. ""Date Range shows 2026/12/12 - 2026/12/14; Start Time shows 10:00; End Time shows 17:00; Event Master, Location, Event Medium, Send To, Allow Response, Capacity, and Status match the values saved from the form.""","1. ""today = 2026-09-01; timezone = Asia/Tokyo""
+2. ""Event Master = Koyu Outdoor Experience; Who Can Reserve = Student Only""
+3. ""capacity = 30; classroomIds = []""
+4. ""eventType = Free; allowExtraParticipants = false""
+5. ""start = 2026-12-12 10:00 JST; end = 2026-12-14 17:00 JST""
+6. ""status = Published""
+7. """"",,,3296,311,Koyu2,,,no
 25983,[Koyu2] Activity Event – Multi-day create – Two-day overnight event saved,AC 01 — Boundary Value — Minimum true multi-day event across two dates is accepted.,"- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
 - Feature setting MANAERP__Enable_Multiple_Event_Days__c is enabled unless the case says otherwise.
 - An Event Master named 'Koyu Outdoor Experience' exists with Event Type = Free, Send To = Parent & Student, Who Can Reserve = Student Only, Open To Booking System = true, Booking Start Date = 2026-09-01, Booking End Date = 2026-12-31.
