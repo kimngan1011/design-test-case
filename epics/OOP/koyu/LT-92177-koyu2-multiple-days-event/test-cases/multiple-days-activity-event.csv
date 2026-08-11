@@ -512,7 +512,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 2. ""start = 2026-12-12 10:00; end = 2026-12-14 17:00""
 3. ""example invalid value = -1 or above configured maximum""
 4. """"",,,3296,311,Koyu2,,,no
-,[Koyu2] SF Bulk Import – Activity Event multi-day row imports successfully,AC 15 — Import Happy Path — Bulk import creates one Activity Event record with Start Date Time and End Date Time spanning multiple days.,"- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
+26055,[Koyu2] SF Bulk Import – Activity Event multi-day row imports successfully,AC 15 — Import Happy Path — Bulk import creates one Activity Event record with Start Date Time and End Date Time spanning multiple days.,"- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
 - Multiple event days is enabled.
 - Event Master 'Koyu Outdoor Experience' exists.
 - A valid Activity Event import CSV is prepared with Start Date Time = 2026-12-12 10:00 and End Date Time = 2026-12-14 17:00.",,LT-92177;Koyu2;Multiple Days Event;Import,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Salesforce bulk import flow for Activity Event.""
@@ -525,7 +525,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 2. ""start = 2026-12-12 10:00; end = 2026-12-14 17:00""
 3. """"
 4. """"",,,3296,311,Koyu2,,,no
-,[Koyu2] SF Bulk Import – Single-day Activity Event row still imports after multi-day change,AC 15 — Import Regression — Existing one-day Activity Event import remains valid when Start Date Time and End Date Time are on the same calendar date.,"- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
+26056,[Koyu2] SF Bulk Import – Single-day Activity Event row still imports after multi-day change,AC 15 — Import Regression — Existing one-day Activity Event import remains valid when Start Date Time and End Date Time are on the same calendar date.,"- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
 - Multiple event days is enabled.
 - Event Master 'Koyu Outdoor Experience' exists.
 - A valid Activity Event import CSV is prepared with Start Date Time = 2026-10-10 10:00 and End Date Time = 2026-10-10 12:00.",,LT-92177;Koyu2;Multiple Days Event;Import,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Salesforce bulk import flow for Activity Event.""
@@ -538,7 +538,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 2. ""start date = end date""
 3. """"
 4. """"",,,3296,311,Koyu2,,,no
-,[Koyu2] SF Bulk Import – Invalid multi-day row with End Date before Start Date is rejected,AC 15 — Import Negative — Bulk import enforces Activity Event date range validation and rejects rows where End Date Time is before Start Date Time.,"- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
+26057,[Koyu2] SF Bulk Import – Invalid multi-day row with End Date before Start Date is rejected,AC 15 — Import Negative — Bulk import enforces Activity Event date range validation and rejects rows where End Date Time is before Start Date Time.,"- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
 - Multiple event days is enabled.
 - Event Master 'Koyu Outdoor Experience' exists.
 - An Activity Event import CSV is prepared with Start Date Time = 2026-12-14 10:00 and End Date Time = 2026-12-12 17:00.",,LT-92177;Koyu2;Multiple Days Event;Import,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Salesforce bulk import flow for Activity Event.""
@@ -551,7 +551,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 2. ""start > end""
 3. """"
 4. """"",,,3296,311,Koyu2,,,no
-,[Koyu2] SF Bulk Import – Mixed valid and invalid rows only create valid Activity Events,AC 15 — Import Data Integrity — A mixed import file creates valid multi-day rows and rejects invalid rows without corrupting Event Master or Activity Event data.,"- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
+26058,[Koyu2] SF Bulk Import – Mixed valid and invalid rows only create valid Activity Events,AC 15 — Import Data Integrity — A mixed import file creates valid multi-day rows and rejects invalid rows without corrupting Event Master or Activity Event data.,"- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
 - Multiple event days is enabled.
 - Event Master 'Koyu Outdoor Experience' exists.
 - A mixed Activity Event import CSV is prepared with two valid rows and one invalid row where End Date Time is before Start Date Time.",,LT-92177;Koyu2;Multiple Days Event;Import,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Salesforce bulk import flow for Activity Event.""
