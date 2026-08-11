@@ -1014,3 +1014,91 @@
 **Priority:** high
 
 ---
+
+### [Koyu2] SF Bulk Import – Activity Event multi-day row imports successfully
+
+**Description:** AC 15 — Import Happy Path — Bulk import creates one Activity Event record with Start Date Time and End Date Time spanning multiple days.
+
+**Preconditions:**
+- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
+- Multiple event days is enabled.
+- Event Master 'Koyu Outdoor Experience' exists.
+- A valid Activity Event import CSV is prepared with Start Date Time = 2026-12-12 10:00 and End Date Time = 2026-12-14 17:00.
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Open the Salesforce bulk import flow for Activity Event. | Import page opens. | object = Activity Event |
+| 2 | Upload the prepared CSV file. | File is accepted and preview shows the multi-day row without validation errors. | start = 2026-12-12 10:00; end = 2026-12-14 17:00 |
+| 3 | Execute the import. | Import completes successfully. |  |
+| 4 | Open the imported Activity Event detail page. | One Activity Event exists under the Event Master and Date Range shows 2026/12/12 - 2026/12/14 with Start Time 10:00 and End Time 17:00. |  |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Koyu2] SF Bulk Import – Single-day Activity Event row still imports after multi-day change
+
+**Description:** AC 15 — Import Regression — Existing one-day Activity Event import remains valid when Start Date Time and End Date Time are on the same calendar date.
+
+**Preconditions:**
+- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
+- Multiple event days is enabled.
+- Event Master 'Koyu Outdoor Experience' exists.
+- A valid Activity Event import CSV is prepared with Start Date Time = 2026-10-10 10:00 and End Date Time = 2026-10-10 12:00.
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Open the Salesforce bulk import flow for Activity Event. | Import page opens. |  |
+| 2 | Upload the single-day Activity Event CSV. | File is accepted and row preview is valid. | start date = end date |
+| 3 | Execute the import. | Import completes successfully. |  |
+| 4 | Open the imported Activity Event detail page. | Detail shows Date 2026/10/10, Start Time 10:00, End Time 12:00; no duplicate per-day records are created. |  |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Koyu2] SF Bulk Import – Invalid multi-day row with End Date before Start Date is rejected
+
+**Description:** AC 15 — Import Negative — Bulk import enforces Activity Event date range validation and rejects rows where End Date Time is before Start Date Time.
+
+**Preconditions:**
+- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
+- Multiple event days is enabled.
+- Event Master 'Koyu Outdoor Experience' exists.
+- An Activity Event import CSV is prepared with Start Date Time = 2026-12-14 10:00 and End Date Time = 2026-12-12 17:00.
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Open the Salesforce bulk import flow for Activity Event. | Import page opens. |  |
+| 2 | Upload the invalid CSV file. | Import preview or validation result marks the row invalid. | start > end |
+| 3 | Execute import if the UI allows continuing. | Invalid row is rejected and no Activity Event is created for that row. |  |
+| 4 | Search Activity Events by the row name. | No record exists for the rejected row. |  |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Koyu2] SF Bulk Import – Mixed valid and invalid rows only create valid Activity Events
+
+**Description:** AC 15 — Import Data Integrity — A mixed import file creates valid multi-day rows and rejects invalid rows without corrupting Event Master or Activity Event data.
+
+**Preconditions:**
+- Logged in as HQ or CM Staff to Koyu2 Salesforce org.
+- Multiple event days is enabled.
+- Event Master 'Koyu Outdoor Experience' exists.
+- A mixed Activity Event import CSV is prepared with two valid rows and one invalid row where End Date Time is before Start Date Time.
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Open the Salesforce bulk import flow for Activity Event. | Import page opens. |  |
+| 2 | Upload the mixed CSV file. | Valid rows are accepted; invalid row is flagged with date range validation. | row A valid multi-day; row B invalid; row C valid one-day |
+| 3 | Execute the import. | Only valid rows are imported; invalid row is skipped or rejected with an error result. |  |
+| 4 | Open Event Master related Activity Events list. | Exactly the valid imported Activity Events are listed; the invalid row name is absent. | expected created rows = A and C only |
+
+**Severity:** critical
+**Priority:** high
+
+---

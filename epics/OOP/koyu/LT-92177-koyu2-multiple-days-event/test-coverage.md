@@ -17,6 +17,7 @@ The previous 31 generated cases must be treated as invalid wherever they put Sta
 | BOOK-01 | Booking list/reserve/search/capacity/cancellation deadline | 5 | critical |
 | API-01 | Get Event API and Activity Event API date range rules | 5 | major |
 | OPS-01 | Attendance, participant export, paid/extra participant regressions | 5 | major |
+| IMP-01 | SF Bulk Import Activity Event multi-day date range rules | 4 | critical |
 
 ## Required Regression Rules
 
@@ -25,3 +26,4 @@ The previous 31 generated cases must be treated as invalid wherever they put Sta
 - Calendar can show the same Activity Event on multiple days, but clicking any visible entry must open the same Activity Event ID.
 - Booking and API date filtering must be tested explicitly because API uses full-containment date range logic.
 - Feature flags must be split: SF custom setting and BO FeatureSettingConfig.
+- CSV/Bulk import must follow the same Activity Event date range rules as the UI: valid multi-day ranges import, one-day rows still import, invalid rows are rejected, and a mixed file must not create records from invalid rows.
