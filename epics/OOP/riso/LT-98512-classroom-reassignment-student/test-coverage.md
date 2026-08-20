@@ -1,9 +1,9 @@
 # Test Coverage: LT-98512 — Riso Classroom Reassignment by Student
 
-**Jira:** https://manabie.atlassian.net/browse/LT-98512  
-**Primary requirement source:** [PRD v8](https://manabie.atlassian.net/wiki/spaces/PRDM/pages/2416181249/Riso+OOP+Classroom+Reassignment+by+Student+Classroom+Optimization)  
-**Date:** 2026-07-23  
-**Qase baseline:** PX suite 3231 exists and contains 0 cases.
+**Jira:** https://manabie.atlassian.net/browse/LT-98512
+**Primary requirement source:** [PRD v8](https://manabie.atlassian.net/wiki/spaces/PRDM/pages/2416181249/Riso+OOP+Classroom+Reassignment+by+Student+Classroom+Optimization)
+**Date:** 2026-08-20
+**Qase target:** PX suite 3231 parent, child suites 3232-3237.
 
 > The unresolved PRD questions remain product-review items. Coverage below creates explicit decision tests for them; no expected behavior is invented where the PRD is ambiguous.
 
@@ -26,7 +26,7 @@
 | 11 | AC-08–09 | Rule 1/Rule 2 outcome becomes the candidate for the next chronological lesson. |
 | 12 | AC-10 | Rule 2 chooses the eligible classroom with lowest Classroom Sequence. |
 | 13 | AC-11 | Eligible classroom belongs to the selected Location. |
-| 14 | AC-11 | Eligible classroom has Type = Private. |
+| 14 | AC-11 | Eligible classroom has Type = Private per PRD; current repository implementation does not filter by type/status, so include a gap-detection testcase. |
 | 15 | AC-11 | Eligible classroom is not assigned to another lesson in the same slot. |
 | 16 | AC-12 | Never select a classroom that would clash. |
 | 17 | AC-13 | Re-evaluate every lesson for a student with 3+ lessons. |
@@ -86,7 +86,7 @@
 | AC-08 | Reuse the most recently processed earlier classroom when it is eligible. | Conditional logic; Data integrity | Decision Table; CRUD | High | Deep |
 | AC-09 | Fall back to Rule 2 when Rule 1's candidate is unavailable. | Conditional logic | Decision Table; Negative | High | Deep |
 | AC-10 | Rule 2 selects the lowest eligible Classroom Sequence. | Ordering / Sort | Scenario; Pairwise | High | Deep |
-| AC-11 | Eligibility requires same Location, Private type, and no same-slot clash; status/selectability is a pending V1 decision. | Validation logic; Data integrity | Equivalence Partitioning; Negative | High | Deep |
+| AC-11 | Eligibility requires same Location, Private type, and no same-slot clash per PRD; current code must be verified for type/status filtering gap. | Validation logic; Data integrity | Equivalence Partitioning; Negative | High | Deep |
 | AC-12 | Reject Rule 1/2 candidate that clashes, including partial-overlap regression coverage. | Data integrity | CRUD; Regression; Decision Table | High | Deep |
 | AC-13 | Apply Rules 1/2 repeatedly for 3+ lessons; verify room continuity after a Rule 2 switch. | Conditional logic; Data integrity | Decision Table; Scenario | High | Deep |
 | AC-14 | One failed assignment does not stop remaining lessons. | Data integrity | CRUD; Negative | High | Deep |
@@ -114,7 +114,7 @@
 |---|---|---|
 | Scope isolation | Wrong Location/date or group lesson updates are unintended data writes. | Seed selected and non-selected locations/dates/methods; assert every unaffected classroom remains unchanged. |
 | Rule 1/Rule 2 sequencing | A wrong prior-room candidate or sort tie-breaker changes many assignments. | Multi-lesson, multi-student scenarios with start-time and Lesson-ID ties. |
-| Availability and overlap | Existing partial-overlap clash behavior must remain intact. | Include exact-slot and partial-overlap fixtures across Private/non-Private and foreign Location rooms. |
+| Availability and overlap | Existing partial-overlap clash behavior must remain intact; PRD Private-only rule may not match implementation. | Include exact-slot, boundary-touching, foreign Location, non-Private/status fixtures, and explicitly flag code/PRD mismatch. |
 | Existing clashes / no-room fallback | The PRD has competing no-room statements and unresolved clashes are safety-sensitive. | Run only after product decision; assert preservation/reassignment, counter category, continuation, and manual follow-up. |
 | Tenant configuration / manual follow-up | Incorrect exposure changes partner behavior or locks staff out of daily correction. | Feature-flag and role matrix plus post-run manual edit and Print Out regression. |
 
@@ -157,6 +157,15 @@
 | Student lesson processing | Classroom selected for each eligible lesson | Rule 1 vs Rule 2; skipped/unresolved branches | start time ascending, then Lesson ID ascending; Rule 2 sequence ascending | None specified |
 | Classroom manual edit | Existing classroom value and edit affordance | Available after adjustment | Existing Calendar behavior | None specified |
 
+## I. Repository Implementation Notes Added During Review
+
+| Area | File | QA Impact |
+|---|---|---|
+| FE action guard | `/Users/chaut/Documents/Manabie/erp-salesforce/packages/lesson/main/default/lwc/individualCalendar/individualCalendar.js` | Missing `locationId`, missing `lessonDate`, or non-Individual teaching method returns `false` before calling Apex; add a no-call/no-toast testcase. |
+| Assignment writeback | `/Users/chaut/Documents/Manabie/erp-salesforce/packages/lesson/main/default/classes/ClassroomReassignmentController.cls` | If a lesson has no `Lesson_Classroom__c` and an available room is found, code inserts a junction; add coverage for currently roomless eligible lessons. |
+| Classroom ordering | `/Users/chaut/Documents/Manabie/erp-salesforce/packages/lesson/main/default/classes/repository/LessonRepo.cls` | Rule 2 order is `Sequence__c ASC NULLS LAST, Name ASC, CreatedDate ASC`; add null-sequence/name ordering coverage. |
+| Private/status filtering | `/Users/chaut/Documents/Manabie/erp-salesforce/packages/lesson/main/default/classes/repository/LessonRepo.cls` | Current query filters only by location; add explicit gap case for non-Private/status-ineligible classrooms. |
+
 ### H.1 Spec–Figma Mismatch Report
 
 **N/A:** no Figma URL is present in the Jira ticket or primary PRD.
@@ -175,4 +184,4 @@ epics/OOP/riso/LT-98512-classroom-reassignment-student/test-cases/
 
 ## 8. Open Decisions Carried Forward
 
-The following must be resolved before test cases assert a single expected outcome: AC-15 no-room result, overlap definition, AC-04 counter reconciliation, Rule 1 candidate after an invalid/changed earliest lesson, Classroom Status/selectability in V1, non-1/non-2 student behavior, duplicate AC identifier, NFR-01 benchmark/timeout, concurrency outcome, and Salesforce/BO role scope.
+The following must be resolved before test cases assert a single expected outcome: AC-15 no-room result, AC-04 counter reconciliation, Rule 1 candidate after an invalid/changed earliest lesson, Classroom Type/Status/selectability in V1, non-1/non-2 student behavior, duplicate AC identifier, NFR-01 benchmark/timeout, concurrency outcome, and Salesforce/BO role scope.

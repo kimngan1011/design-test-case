@@ -4,10 +4,10 @@ ticket_url: https://manabie.atlassian.net/browse/LT-98512
 title: Riso Classroom Reassignment by Student (Classroom Optimization)
 module: scheduling
 bucket: OOP/riso
-status: Ready for Development
+status: Ready for QA
 internal_uat_date: 2026-09-07
 production_release_date: 2026-09-07
-last_updated: 2026-07-23
+last_updated: 2026-08-20
 ---
 
 # LT-98512: Riso Classroom Reassignment by Student
@@ -16,7 +16,7 @@ last_updated: 2026-07-23
 
 Add a Riso-only Classroom Adjustment action to Salesforce Lesson Calendar Daily View. For the selected Location and Lesson Date, it assigns/reassigns classrooms for Individual lessons student-by-student to maximize room continuity while preventing classroom clashes; users can then review, manually correct, and print the daily plan.
 
-The primary source is [the Confluence PRD](https://manabie.atlassian.net/wiki/spaces/PRDM/pages/2416181249/Riso+OOP+Classroom+Reassignment+by+Student+Classroom+Optimization), version 8 (Done). The target Qase suite is `PX` suite 3231 and currently has zero cases.
+The primary source is [the Confluence PRD](https://manabie.atlassian.net/wiki/spaces/PRDM/pages/2416181249/Riso+OOP+Classroom+Reassignment+by+Student+Classroom+Optimization), current page status Done. The target Qase suite root is `PX` suite 3231, with child suites 3232-3237 for this epic's grouped cases.
 
 ---
 
@@ -96,6 +96,8 @@ The PRD labels this criterion as **AC-17** again: after automation, users can st
 |---:|---|---|---|---|
 | 1 | [CONFLICT] | Confluence PRD 2416181249 | AC-15 | AC-15 and Tech Consideration retain the current classroom, while embedded Set B/B3 leaves the lesson unassigned. |
 | 2 | [REGRESSION RISK] | `epics/calendar/LT-XXXX-drag-drop-edit-lesson-time/Drag and drop to edit Lesson time on Calendar.csv` | AC-11/12 | Existing Calendar tests define a partial same-classroom overlap as a clash. “Same slot” must not be implemented as exact-time equality only. |
+| 3 | [IMPLEMENTATION GAP] | `ClassroomReassignmentController.cls` + `LessonRepo.getClassroomsByLocation` | AC-11 | Current code orders classrooms by `Sequence__c ASC NULLS LAST, Name ASC, CreatedDate ASC` for the selected location but does not filter Classroom Type = Private or Classroom Status/selectability. |
+| 4 | [IMPLEMENTATION DETAIL] | `individualCalendar.js` | AC-03/04 | FE ignores optimize payloads when teaching method is not Individual or when location/date is missing; no Apex call and no success toast should be produced. |
 
 ### Missing in Requirements
 
@@ -104,7 +106,7 @@ The PRD labels this criterion as **AC-17** again: after automation, users can st
 | 1 | [ROLE GAP] | `knowledge/domain-knowledge/scheduling/calendar/calendar-bo.md` | Daily View is available on BO, but BO Calendar is read-only; the PRD must explicitly name the target platform/roles. |
 | 2 | [MISSING BEHAVIOR] | PRD AC-04 | Counter categories and their reconciliation are undefined. |
 | 3 | [MISSING BEHAVIOR] | PRD AC-08 | No candidate-room rule for an invalid/changed earliest lesson. |
-| 4 | [MISSING BEHAVIOR] | PRD AC-11 | V1 use of existing Classroom Status/selectability is ambiguous. |
+| 4 | [MISSING BEHAVIOR] | PRD AC-11 | V1 use of existing Classroom Type, Classroom Status, and selectability is ambiguous versus the current repository query. |
 | 5 | [MISSING BEHAVIOR] | PRD AC-16 | Zero- and 3+-student Individual lesson handling is undefined. |
 | 6 | [MISSING BEHAVIOR] | PRD AC-17 | AC-17 is duplicated for two unrelated requirements. |
 | 7 | [MISSING BEHAVIOR] | PRD NFR-01 | No approved performance threshold, timeout, or benchmark dataset. |
@@ -131,34 +133,34 @@ No historical incident passed the required two-factor match (same entity and sam
 
 ## Clarification Questions
 
-1. **[CONFLICT]** When neither Rule 1 nor Rule 2 can find a room, which outcome is authoritative: retain the current classroom, or leave the lesson without a classroom? Define the summary category too.  
+1. **[CONFLICT]** When neither Rule 1 nor Rule 2 can find a room, which outcome is authoritative: retain the current classroom, or leave the lesson without a classroom? Define the summary category too.
    _Evidence: `Confluence PRD 2416181249` — AC-15/Tech Consideration conflict with Set B/B3._
 
-2. **[REGRESSION RISK]** Does “same slot” mean any time overlap is unavailable, including partial overlaps?  
+2. **[REGRESSION RISK]** Does “same slot” mean any time overlap is unavailable, including partial overlaps?
    _Evidence: `epics/calendar/LT-XXXX-drag-drop-edit-lesson-time/Drag and drop to edit Lesson time on Calendar.csv` — partial overlap is an existing classroom clash._
 
-3. **[MISSING BEHAVIOR]** How must AC-04 counters handle overlapping categories such as a clash resolved through Rule 2?  
+3. **[MISSING BEHAVIOR]** How must AC-04 counters handle overlapping categories such as a clash resolved through Rule 2?
    _Evidence: `Confluence PRD 2416181249` — counter categories have no counting rules._
 
-4. **[MISSING BEHAVIOR]** What is Rule 1’s candidate when the earliest lesson is invalid or changed by clash resolution?  
+4. **[MISSING BEHAVIOR]** What is Rule 1’s candidate when the earliest lesson is invalid or changed by clash resolution?
    _Evidence: `Confluence PRD 2416181249` — AC-08 has no branch for this case._
 
-5. **[MISSING BEHAVIOR]** Does V1 also apply existing Classroom Status/selectability rules?  
-   _Evidence: `Confluence PRD 2416181249` — it is marked “Later maybe v2.”_
+5. **[MISSING BEHAVIOR / IMPLEMENTATION GAP]** Does V1 apply Classroom Type = Private, Classroom Status, or selectability rules?
+   _Evidence: `Confluence PRD 2416181249` says Private; current `LessonRepo.getClassroomsByLocation` only filters by Account/location._
 
-6. **[MISSING BEHAVIOR]** How are zero- or 3+-student Individual lessons handled?  
+6. **[MISSING BEHAVIOR]** How are zero- or 3+-student Individual lessons handled?
    _Evidence: `Confluence PRD 2416181249` — AC-16 covers exactly two students only._
 
-7. **[MISSING BEHAVIOR]** Please assign unique IDs to both AC-17 requirements.  
+7. **[MISSING BEHAVIOR]** Please assign unique IDs to both AC-17 requirements.
    _Evidence: `Confluence PRD 2416181249` — US02 and US03 reuse AC-17._
 
-8. **[MISSING BEHAVIOR]** What approved runtime, timeout/error behavior, and dataset define NFR-01 performance acceptance?  
+8. **[MISSING BEHAVIOR]** What approved runtime, timeout/error behavior, and dataset define NFR-01 performance acceptance?
    _Evidence: `Confluence PRD 2416181249` — benchmark figures are notes, not final criteria._
 
-9. **[MISSING BEHAVIOR]** What observable result is required for simultaneous actions or manual edits during processing?  
+9. **[MISSING BEHAVIOR]** What observable result is required for simultaneous actions or manual edits during processing?
    _Evidence: `Confluence PRD 2416181249` — NFR-08 gives no concurrency outcome._
 
-10. **[ROLE GAP]** Is this Salesforce Daily View only, or also BO Daily View? Which current roles are eligible?  
+10. **[ROLE GAP]** Is this Salesforce Daily View only, or also BO Daily View? Which current roles are eligible?
     _Evidence: `knowledge/domain-knowledge/scheduling/calendar/calendar-bo.md` — BO Calendar is read-only._
 
 ---
@@ -168,6 +170,10 @@ No historical incident passed the required two-factor match (same entity and sam
 - `epics/calendar/LT-XXXX-drag-drop-edit-lesson-time/spec.md` — existing Calendar Daily/Classroom View update and clash behavior.
 - `epics/calendar/LT-89471-calendar-bug-fix/spec.md` — Daily View horizontal-navigation regression surface.
 - `epics/calendar/LT-98532-bulk-publish-lessons-by-student/spec.md` — independent Riso Calendar action/config baseline.
+- `/Users/chaut/Documents/Manabie/erp-salesforce/packages/lesson/main/default/classes/ClassroomReassignmentController.cls` — Apex assignment algorithm and summary counters.
+- `/Users/chaut/Documents/Manabie/erp-salesforce/packages/lesson/main/default/classes/repository/LessonRepo.cls` — classroom query ordered by sequence/name/created date.
+- `/Users/chaut/Documents/Manabie/erp-salesforce/packages/lesson/main/default/lwc/individualCalendar/individualCalendar.js` — LWC Apex call, guard clauses, toast summary, and calendar refresh.
+- `/Users/chaut/Documents/Manabie/school-portal-admin/src/squads/calendar/domains/CalendarV2/Calendar/hooks/useCalendarAction/useCalendarAction.ts` — SPA action placement when `VITE_SF` and optimize setting are enabled.
 
 ## Related Test Cases
 
@@ -176,5 +182,5 @@ No historical incident passed the required two-factor match (same entity and sam
 
 ## QASE Coverage Gaps
 
-- Qase `PX` suite 3231 exists with **0 cases**.
-- All confirmed ACs require new cases: action placement/visibility, scope, Rules 1–2, eligibility/clash semantics, skips, pre-existing clashes, result summary, manual follow-up, Print Out continuity, configuration, performance, and concurrency.
+- Qase `PX` suite 3231 is the parent suite for this epic's testcase set; child suites 3232-3237 are used for import grouping.
+- Confirmed ACs are covered by new cases for action placement/visibility, scope, Rules 1-2, eligibility/clash semantics, skips, pre-existing clashes, result summary, manual follow-up, Print Out continuity, configuration, performance, and concurrency.

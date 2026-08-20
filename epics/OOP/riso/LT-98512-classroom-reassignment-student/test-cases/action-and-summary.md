@@ -16,7 +16,7 @@
 | 1 | Open Lesson Calendar Daily View for Riso Shinjuku on 2026-07-23. | The Daily View action menu is available. | location = Riso Shinjuku; lesson_date = 2026-07-23 |
 | 2 | Open the action menu. | Classroom Adjustment is shown immediately above Print Out. | menu order = Classroom Adjustment, Print Out |
 
-**Severity:** minor  
+**Severity:** minor
 **Priority:** medium
 
 ---
@@ -35,7 +35,7 @@
 | 1 | Open Lesson Calendar Week View for 2026-07-23. | Classroom Adjustment is not shown in the action menu. | view = Week; lesson_date = 2026-07-23 |
 | 2 | Open Lesson Calendar Month View for July 2026. | Classroom Adjustment is not shown in the action menu. | view = Month; month = 2026-07 |
 
-**Severity:** minor  
+**Severity:** minor
 **Priority:** medium
 
 ---
@@ -54,7 +54,7 @@
 | 1 | Open Daily View and run Classroom Adjustment. | The adjustment completes for the selected scope. | lesson_date = 2026-07-23; Student A: 09:00 Room A, 11:00 unassigned candidate |
 | 2 | Read the completion feedback. | The message is `Classroom adjustment completed`; Previous room applied, Sequence assigned, Skipped, Clash resolved, and Clash unresolved (kept as-is) are all displayed. | expected text = Classroom adjustment completed |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
@@ -73,7 +73,7 @@
 | 1 | Run Classroom Adjustment from Daily View. | The run completes without changing any lesson. | location = Riso Shinjuku; lesson_date = 2026-07-24; Individual lessons = 0 |
 | 2 | Read the completion feedback. | `Classroom adjustment completed` is displayed with all required counter labels and zero updates. | expected updated lessons = 0 |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
@@ -92,7 +92,7 @@
 | 1 | Run Classroom Adjustment and dismiss the completion feedback. | Daily View remains available after the run. | Student A = Room B to Room A |
 | 2 | Select Print Out. | The existing Print Out flow opens and includes Student A with Room A. | expected classroom in print flow = Room A |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
@@ -111,5 +111,25 @@
 | 1 | Run Classroom Adjustment. | One duplicated lesson is reassigned to Room B and the other remains in Room A. | 10:00 duplicate = Lesson 100 in Room A, Lesson 101 in Room A; Room B sequence = 2 |
 | 2 | Read the completion feedback. | Clash resolved shows `1` for the resolved duplicate. | expected Clash resolved = 1 |
 
-**Severity:** major  
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Classroom Adjustment – Invalid trigger payload – Missing location or lesson date – Apex is not called
+
+**Description:** AC-03, AC-04 — Negative — The Calendar LWC guard must not run classroom adjustment without required Daily View context.
+
+**Preconditions:**
+- Logged in as HQ or CM Staff to the Riso Salesforce org.
+- Optimize Classroom Assignment = ON.
+- Test harness can observe the `ClassroomReassignmentController.reassign` Apex call or network request.
+
+| # | Action | Expected Result | Test Data |
+|---:|---|---|---|
+| 1 | Trigger `optimizeClassroomAssignment` with `teachingMethod = Individual` and blank `locationId`. | The action returns without calling Apex and no success summary is shown. | locationId = blank; lessonDate = 2026-07-23 |
+| 2 | Trigger `optimizeClassroomAssignment` with `teachingMethod = Individual` and blank `lessonDate`. | The action returns without calling Apex and no classroom records are changed. | locationId = Riso Shinjuku SF Id; lessonDate = blank |
+| 3 | Trigger `optimizeClassroomAssignment` with `teachingMethod = Group`. | The action returns without calling Apex. | teachingMethod = Group |
+
+**Severity:** major
 **Priority:** high

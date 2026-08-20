@@ -15,7 +15,7 @@
 |---:|---|---|---|
 | 1 | Run Classroom Adjustment. | Student A's 11:00 lesson uses Room A and Student B's 11:00 lesson uses Room B. | A = Room A history; B = Room B history |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
@@ -33,7 +33,7 @@
 |---:|---|---|---|
 | 1 | Run Classroom Adjustment. | The 09:00 lesson is the earlier processed lesson and the 11:00 lesson receives Room A through Rule 1. | 09:00 < 11:00; Room A available at 11:00 |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
@@ -52,7 +52,7 @@
 | 1 | Run Classroom Adjustment. | Lesson ID 100 is processed before Lesson ID 101 when start times are equal. | start time = 10:00; Lesson IDs = 100, 101 |
 | 2 | Inspect the room outcome. | The outcome follows Lesson ID 100 as the first tie-break candidate. | tie-break = Lesson ID ascending |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
@@ -70,7 +70,7 @@
 |---:|---|---|---|
 | 1 | Run Classroom Adjustment. | Student A's 11:00 and 13:00 lessons are assigned Room A through Rule 1. | Room A available at 11:00 and 13:00 |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
@@ -89,7 +89,7 @@
 | 1 | Run Classroom Adjustment. | The 11:00 lesson receives Room B through Rule 2. | Room A unavailable at 11:00; Room B sequence = 2 |
 | 2 | Inspect the 13:00 and 16:00 lessons. | Both later lessons use Room B through Rule 1. | Room B available at 13:00 and 16:00 |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
@@ -107,7 +107,7 @@
 |---:|---|---|---|
 | 1 | Run Classroom Adjustment. | The later lesson is assigned Room B, not Room A or Room C. | Room A = occupied; Room B sequence = 2; Room C sequence = 3 |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
@@ -125,14 +125,14 @@
 |---:|---|---|---|
 | 1 | Run Classroom Adjustment. | The lesson is assigned Room A with Sequence 10. | Room A = 10; Room B = 20; Room C = 30 |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
 
-### [Riso] Classroom Adjustment – Eligibility – Foreign location and non-Private rooms – Ineligible rooms are excluded
+### [Riso] Classroom Adjustment – Eligibility – Foreign location and non-Private rooms – PRD ineligible rooms are excluded
 
-**Description:** AC-11 — Equivalence Partitioning — Only selected-location Private rooms can be selected.
+**Description:** AC-11 — Equivalence Partitioning / Gap Detection — The PRD says only selected-location Private rooms can be selected; current repository query must be verified against this requirement.
 
 **Preconditions:**
 - Logged in as HQ or CM Staff; Optimize Classroom Assignment = ON.
@@ -141,9 +141,9 @@
 
 | # | Action | Expected Result | Test Data |
 |---:|---|---|---|
-| 1 | Run Classroom Adjustment for Riso Shinjuku. | The candidate lesson is assigned Room A; Room B and Room C are not selected. | A = Shinjuku Private; B = Ikebukuro Private; C = Shinjuku Group |
+| 1 | Run Classroom Adjustment for Riso Shinjuku. | The candidate lesson is assigned Room A; Room B and Room C are not selected. If Room C is selected, log an implementation gap against AC-11 because current code may not filter classroom type. | A = Shinjuku Private; B = Ikebukuro Private; C = Shinjuku Group |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
@@ -161,7 +161,7 @@
 |---:|---|---|---|
 | 1 | Run Classroom Adjustment. | The target lesson receives Room B and never Room A. | target = 10:00–11:00; Room A = occupied; Room B = available |
 
-**Severity:** major  
+**Severity:** major
 **Priority:** high
 
 ---
@@ -179,5 +179,62 @@
 |---:|---|---|---|
 | 1 | Run Classroom Adjustment. | The 11:00 lesson gets Room B through Rule 2; the 13:00 and 16:00 lessons get Room B through Rule 1. | lessons = 09:00, 11:00, 13:00, 16:00; Room B sequence = 2 |
 
-**Severity:** major  
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Classroom Adjustment – Rule 2 ordering – Null sequence rooms are considered last
+
+**Description:** AC-10 — Boundary Value Analysis — Repository ordering places null Classroom Sequence after numeric sequences.
+
+**Preconditions:**
+- Logged in as HQ or CM Staff; Optimize Classroom Assignment = ON.
+- Location = Riso Shinjuku; lesson_date = 2026-07-23.
+- The candidate lesson needs Rule 2; Room A Sequence is blank, Room B Sequence is 2, and Room C Sequence is 3.
+
+| # | Action | Expected Result | Test Data |
+|---:|---|---|---|
+| 1 | Run Classroom Adjustment. | The lesson receives Room B, not the null-sequence Room A. | Room A sequence = null; Room B = 2; Room C = 3 |
+| 2 | Inspect available-room ordering. | Numeric sequence rooms are evaluated before null-sequence rooms; if multiple nulls remain, existing Name/CreatedDate tie-break applies. | order = Sequence ASC NULLS LAST, Name ASC, CreatedDate ASC |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Classroom Adjustment – Rule 2 ordering – Same or null sequence – Name and CreatedDate tie-break are deterministic
+
+**Description:** AC-10 — Pairwise / Sort — When sequence values tie, the same classroom is chosen deterministically based on repository ordering.
+
+**Preconditions:**
+- Logged in as HQ or CM Staff; Optimize Classroom Assignment = ON.
+- Location = Riso Shinjuku; lesson_date = 2026-07-23.
+- Candidate lesson needs Rule 2; Room Alpha and Room Beta have the same Sequence, with Room Alpha alphabetically first.
+
+| # | Action | Expected Result | Test Data |
+|---:|---|---|---|
+| 1 | Run Classroom Adjustment. | Room Alpha is selected before Room Beta. | Room Alpha sequence = 5; Room Beta sequence = 5 |
+| 2 | Repeat with two rooms having the same blank Sequence and same Name fixture if supported. | Earlier CreatedDate room is selected first, giving a stable repeatable result. | sequence = null; name tie; created date tie-break |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Classroom Adjustment – Roomless eligible lesson – Available room creates classroom assignment
+
+**Description:** AC-10, AC-15 — CRUD — A lesson with no existing `Lesson_Classroom__c` receives a new classroom junction when Rule 2 finds an available room.
+
+**Preconditions:**
+- Logged in as HQ or CM Staff; Optimize Classroom Assignment = ON.
+- Location = Riso Shinjuku; lesson_date = 2026-07-23.
+- Student A has a valid Individual lesson at 11:00 with no classroom junction; Room A Sequence 1 is available.
+
+| # | Action | Expected Result | Test Data |
+|---:|---|---|---|
+| 1 | Run Classroom Adjustment. | The roomless lesson is assigned Room A and a `Lesson_Classroom__c` record exists for the lesson. | current classroom = none; Room A sequence = 1 |
+| 2 | Read the completion summary. | Sequence assigned increments by `1`; Skipped does not increment for this lesson. | expected Sequence assigned = +1 |
+
+**Severity:** major
 **Priority:** high
