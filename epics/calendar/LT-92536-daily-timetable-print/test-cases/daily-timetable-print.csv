@@ -1,0 +1,368 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,2717,2628,Calendar lesson,1,,
+26940,[Core] Daily Timetable Print - Daily view shows Print Out action,AC 01.1 - Print Out action is available from SF Lesson Calendar Daily view.,"- Logged in as HQ or CM Staff to Salesforce org.
+- User has access to SF Lesson Calendar.
+- Calendar location filter is Tokyo Center.",,LT-92536;Core;SF Calendar;Print Out,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar.
+2. Switch to Daily view.
+3. Open the toolbar more-actions menu.","1. Calendar loads successfully.
+2. Daily arrangement table is displayed.
+3. Print Out action is visible and enabled.","1. location = Tokyo Center
+2. date = 2026-09-14
+3. view = Daily",,,2717,2628,Calendar lesson,no,,
+26941,[Core] Daily Timetable Print - Weekly and Monthly views do not allow Print Out,AC 01.1 - Print Out is disabled or unavailable outside Daily view.,"- Logged in as HQ or CM Staff.
+- SF Lesson Calendar is accessible.",,LT-92536;Core;SF Calendar;Print Out,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar in Weekly view.
+2. Open the toolbar more-actions menu.
+3. Switch to Monthly view and open the more-actions menu.","1. Weekly calendar loads.
+2. Print Out action is not available or is disabled.
+3. Print Out action remains unavailable or disabled.","1. view = Weekly
+2. 
+3. view = Monthly",,,2717,2628,Calendar lesson,no,,
+26942,[Core] Daily Timetable Print - Teacher and Classroom daily views allow Print Out,AC 01.1 - Print Out is enabled in both Daily Teacher view and Daily Classroom view.,"- Logged in as HQ or CM Staff.
+- SF Lesson Calendar Daily view is open.",,LT-92536;Core;SF Calendar;Print Out,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Select Daily Teacher view.
+2. Open the more-actions menu.
+3. Switch to Daily Classroom view and open the more-actions menu.","1. Teacher daily arrangement table loads.
+2. Print Out is enabled.
+3. Print Out is also enabled.","1. date = 2026-09-14
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26943,[Core] Daily Timetable Print - Dialog opens with Individual selected by default,AC 01.2 - Print Out dialog keeps Individual as default teaching method.,"- SF Lesson Calendar Daily view is open.
+- Print Out action is enabled.",,LT-92536;Core;Dialog;Print Out,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Click Print Out from the more-actions menu.
+2. Inspect radio options.
+3. Inspect selected radio option.","1. Print Out dialog opens.
+2. Individual and Group options are shown.
+3. Individual is selected by default.","1. 
+2. 
+3. default = Individual",,,2717,2628,Calendar lesson,no,,
+26944,[Core] Daily Timetable Print - Cancel dialog keeps calendar state unchanged,AC 01.2 - Cancel returns to the same calendar context without opening a PDF.,"- SF Lesson Calendar Daily view is open for Tokyo Center.
+- Print Out dialog is open.",,LT-92536;Core;Dialog;Regression,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Confirm the current date, view, and location filters.
+2. Click Cancel in the Print Out dialog.
+3. Observe browser tabs and calendar filters.","1. Calendar context is known before cancel.
+2. Dialog closes.
+3. No new PDF tab opens; date, view, and location filters remain unchanged.","1. date = 2026-09-14; location = Tokyo Center
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26945,[Core] Daily Timetable Print - Individual flag enabled opens new timetable PDF tab,AC 01.3 - Individual print uses the new Individual timetable PDF when the feature flag is enabled.,"- MANAERP__Enable_Individual_Daily_Timetable_Print__c = true.
+- SF Lesson Calendar Daily view is open for Tokyo Center.
+- Print Out dialog is open with Individual selected.",,LT-92536;Core;Individual PDF;Feature Flag,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Click Print in the dialog.
+2. Inspect the new tab URL.
+3. Wait for the PDF to render.","1. A new browser tab opens.
+2. URL points to IndividualTimetablePrintPdf with locationId and lessonDate parameters.
+3. PDF renders without error message.","1. teachingMethod = Individual
+2. date = 2026-09-14
+3. ",,,2717,2628,Calendar lesson,no,,
+26946,[Core] Daily Timetable Print - Individual flag disabled falls back to legacy PDF,AC 01.16 - Existing print flow remains when the new Individual timetable flag is disabled.,"- MANAERP__Enable_Individual_Daily_Timetable_Print__c = false.
+- SF Lesson Calendar Daily view is open.
+- Print Out dialog is open with Individual selected.",,LT-92536;Core;Feature Flag;Regression,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Click Print.
+2. Inspect the PDF URL or network request.
+3. Confirm Group/Individual legacy behavior still works.","1. A PDF tab opens through the existing CalendarPrintOut flow.
+2. Request does not use IndividualTimetablePrintPdf.
+3. Existing print behavior is unchanged.","1. teachingMethod = Individual
+2. expected = legacy CalendarPrintOutPdf
+3. ",,,2717,2628,Calendar lesson,no,,
+26947,[Core] Daily Timetable Print - Group selection remains legacy print flow,AC 01.16 - Group print is not migrated to the new Individual timetable PDF.,"- MANAERP__Enable_Individual_Daily_Timetable_Print__c = true.
+- Print Out dialog is open.",,LT-92536;Core;Group;Regression,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Select Group in the Print Out dialog.
+2. Click Print.
+3. Inspect new tab URL/network request.","1. Group radio is selected.
+2. PDF opens through existing CalendarPrintOut flow.
+3. IndividualTimetablePrintPdf is not used.","1. teachingMethod = Group
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26948,[Core] Daily Timetable Print - PDF filename uses selected lesson date,AC 01.4 - Individual PDF filename is Schedule [yyyymmdd] - Individual.pdf.,"- Individual timetable flag is enabled.
+- Individual PDF tab is opened for selected date.",,LT-92536;Core;Individual PDF;Filename,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Print Out dialog from Daily view.
+2. Click Print with Individual selected.
+3. Download or inspect PDF response filename.","1. Dialog opens.
+2. New PDF tab opens.
+3. File name is Schedule 20260914 - Individual.pdf.","1. date = 2026-09-14
+2. 
+3. expected filename",,,2717,2628,Calendar lesson,no,,
+26949,"[Core] Daily Timetable Print - PDF header shows location, lesson date, printing date, page number",AC 01.5 - PDF header contains required Japanese date and page metadata.,- Individual timetable PDF is opened for Tokyo Center and 2026-09-14.,,LT-92536;Core;Individual PDF;Visual,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Inspect top banner of the PDF.
+2. Inspect lesson date and printing date.
+3. Inspect page number text.","1. Location name is displayed in the header banner.
+2. Lesson date uses yyyy年MM月dd日（weekday）; printing date uses yyyy年MM月dd日.
+3. Page number is displayed and increments on later pages.","1. location = Tokyo Center
+2. lesson date = 2026年09月14日（月）
+3. Page_Number label",,,2717,2628,Calendar lesson,no,,
+26950,[Core] Daily Timetable Print - PDF uses A3 landscape and stamp rectangle,AC 01.5 - PDF layout uses A3 landscape and has the stamping area.,- Individual timetable PDF is open.,,LT-92536;Core;Individual PDF;Visual,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open browser print preview or inspect PDF page size.
+2. Inspect bottom-right area of each page.
+3. Compare page margins and table placement.","1. Page size is A3 landscape.
+2. A rectangle for stamping is displayed.
+3. Content is not clipped by the page edge or stamp rectangle.","1. expected = A3 landscape
+2. stamp position = bottom right
+3. ",,,2717,2628,Calendar lesson,no,,
+26951,[Core] Daily Timetable Print - Published Individual lessons are included,AC 01.6 - Published Individual lessons for the selected date/location are shown.,"- Published Individual Lesson A exists at Tokyo Center on 2026-09-14.
+- Lesson A has classroom Booth A, student Student A, teacher Teacher A, course Course A, subject Math.",,LT-92536;Core;Data Filter;Published,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF for Tokyo Center on 2026-09-14.
+2. Locate the matching timeslot/time block and Booth A row.
+3. Verify columns.","1. PDF renders.
+2. Lesson data is displayed in Booth A row.
+3. Grade, Course, Subject, Student, and Teacher values match Lesson A data.","1. 
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26952,[Core] Daily Timetable Print - Completed Individual lessons are excluded,AC 01.6 - New Individual timetable PDF includes Published lessons only.,"- Completed Individual Lesson B exists at Tokyo Center on 2026-09-14.
+- Published Individual Lesson A exists in the same location/date.",,LT-92536;Core;Data Filter;Published Only,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF for Tokyo Center on 2026-09-14.
+2. Search for Published Lesson A data.
+3. Search for Completed Lesson B data.","1. PDF renders.
+2. Published Lesson A is displayed.
+3. Completed Lesson B is not displayed.","1. 
+2. 
+3. status = Completed",,,2717,2628,Calendar lesson,no,,
+26953,[Core] Daily Timetable Print - Draft and Cancelled Individual lessons are excluded,AC 01.6 - Non-published Individual lesson statuses are excluded.,- Draft Individual Lesson C and Cancelled Individual Lesson D exist at Tokyo Center on 2026-09-14.,,LT-92536;Core;Data Filter;Published Only,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF for Tokyo Center on 2026-09-14.
+2. Search for Draft Lesson C student/teacher data.
+3. Search for Cancelled Lesson D student/teacher data.","1. PDF renders.
+2. Draft lesson data is absent.
+3. Cancelled lesson data is absent.","1. 
+2. status = Draft
+3. status = Cancelled",,,2717,2628,Calendar lesson,no,,
+26954,[Core] Daily Timetable Print - Group lessons are excluded from Individual PDF,AC 01.6 - Individual PDF includes only Individual teaching method.,"- Published Group Lesson G exists at Tokyo Center on 2026-09-14.
+- Published Individual Lesson A exists in the same date/location.",,LT-92536;Core;Data Filter;Teaching Method,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Search for Individual Lesson A data.
+3. Search for Group Lesson G class/course data.","1. PDF renders.
+2. Individual Lesson A is displayed.
+3. Group Lesson G is not displayed.","1. teachingMethod selected = Individual
+2. 
+3. teachingMethod = Group",,,2717,2628,Calendar lesson,no,,
+26955,[Core] Daily Timetable Print - Other date and other location lessons are excluded,AC 01.6 - PDF is scoped to selected calendar date and location.,"- Published Individual Lesson A exists at Tokyo Center on 2026-09-14.
+- Published Individual Lesson E exists at Tokyo Center on 2026-09-15.
+- Published Individual Lesson F exists at Osaka Center on 2026-09-14.",,LT-92536;Core;Data Filter;Location;Date,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF for Tokyo Center on 2026-09-14.
+2. Search for Lesson A data.
+3. Search for Lesson E and Lesson F data.","1. PDF renders.
+2. Lesson A is displayed.
+3. Other-date and other-location lessons are not displayed.","1. 
+2. selected date/location
+3. ",,,2717,2628,Calendar lesson,no,,
+26956,[Core] Daily Timetable Print - Timeslot mode header uses active timeslot name and time,AC 01.7 - Timeslot mode block header uses Timeslot Master values.,"- MANAERP__Show_Timeslot_In_Lesson__c = true.
+- Active Timeslot 1 exists with Name = 1, Sequence = 1, Start Time = 09:00, End Time = 10:20.
+- Published Individual Lesson A uses Timeslot 1.",,LT-92536;Core;Timeslot;Individual PDF,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect first block header.
+3. Verify Lesson A is under the Timeslot 1 block.","1. PDF renders in timeslot mode.
+2. Header shows 1限 09:00 - 10:20.
+3. Lesson A data is displayed in the correct block.","1. 
+2. Timeslot name + 限
+3. ",,,2717,2628,Calendar lesson,no,,
+26957,[Core] Daily Timetable Print - Timeslot blocks are ordered by sequence,"AC 01.7 - Timeslot blocks display in Timeslot Master sequence order, not created date or name.","- Active Timeslots exist with sequences 1, 2, 3, 4.
+- Each timeslot has at least one Published Individual lesson on selected date/location.",,LT-92536;Core;Timeslot;Sorting,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Read block headers left to right.
+3. Confirm lesson placement per timeslot.","1. PDF renders.
+2. Blocks are ordered by sequence 1, 2, 3, 4.
+3. Each lesson appears under its assigned timeslot block.","1. Timeslot mode = on
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26958,[Core] Daily Timetable Print - AM timeslot pages render before PM pages,AC 01.9 - Timeslot pages are split by AM before PM.,"- AM active timeslots have start times before 12:00.
+- PM active timeslots have start times at or after 12:00.
+- Published Individual lessons exist in both AM and PM timeslots.",,LT-92536;Core;Timeslot;Pagination,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect page 1 block headers.
+3. Inspect later page block headers.","1. PDF has multiple pages.
+2. AM timeslots are shown first.
+3. PM timeslots appear after all AM pages.","1. 
+2. start time < 12:00
+3. start time >= 12:00",,,2717,2628,Calendar lesson,no,,
+26959,[Core] Daily Timetable Print - More than four AM timeslots creates next AM page,"AC 01.9 - Each page contains at most four blocks, and extra AM blocks continue before PM.","- Five AM active timeslots have Published Individual lessons.
+- At least one PM timeslot has a Published Individual lesson.",,LT-92536;Core;Timeslot;Pagination,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect page 1.
+3. Inspect page 2 and page 3.","1. PDF renders at least three pages.
+2. First four AM blocks are shown.
+3. Fifth AM block is on page 2; PM block starts after AM pages.","1. 5 AM + 1 PM block
+2. blocks 1-4
+3. ",,,2717,2628,Calendar lesson,no,,
+26960,[Core] Daily Timetable Print - Less than four blocks pads blank headers,AC 01.9 - A page still keeps four block areas when fewer than four blocks exist.,"- Two AM timeslots have Published Individual lessons.
+- No other AM timeslot has matching lessons.",,LT-92536;Core;Timeslot;Layout,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect visible block headers.
+3. Inspect remaining block areas.","1. AM page renders.
+2. First two blocks show timeslot headers.
+3. Remaining block areas are present with blank headers and classroom rows.","1. 
+2. 
+3. padded blocks",,,2717,2628,Calendar lesson,no,,
+26961,[Core] Daily Timetable Print - Unused active timeslots still appear as empty blocks,AC 01.4 - PRD expected behavior: timeslot template remains even when no lessons exist for a timeslot.,"- Active Timeslots 1, 2, 3, 4 exist.
+- Only Timeslot 1 has a Published Individual lesson.",,LT-92536;Core;Timeslot;PRD Gap,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect AM page headers.
+3. Inspect empty timeslot classroom rows.","1. PDF renders.
+2. All active AM timeslot blocks are displayed, including empty timeslots.
+3. Classroom rows are present; lesson data cells are blank.","1. Timeslot mode = on
+2. expected by PRD
+3. ",,,2717,2628,Calendar lesson,no,,
+26962,[Core] Daily Timetable Print - Lesson without timeslot in timeslot mode is handled safely,AC 01.7 - Timeslot mode should not break when a Published Individual lesson has blank Timeslot.,"- MANAERP__Show_Timeslot_In_Lesson__c = true.
+- Published Individual Lesson NoSlot exists with no Timeslot.
+- At least one active Timeslot lesson also exists.",,LT-92536;Core;Timeslot;Edge,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect timeslot blocks.
+3. Search for Lesson NoSlot data.","1. PDF renders without error.
+2. Timeslot-assigned lessons appear correctly.
+3. Behavior matches confirmed product rule: either excluded from timeslot PDF or shown in a defined no-timeslot/blank area; no broken PDF.","1. 
+2. 
+3. clarification needed",,,2717,2628,Calendar lesson,no,,
+26963,[Core] Daily Timetable Print - Manual mode groups by start and end time,AC 01.8 - Manual mode groups lessons by distinct start/end pair.,"- MANAERP__Show_Timeslot_In_Lesson__c = false.
+- Published Individual lessons exist with time ranges 09:00-10:00 and 09:00-10:30.",,LT-92536;Core;Manual Time;Grouping,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect block headers.
+3. Verify lessons are under matching time range blocks.","1. PDF renders in manual mode.
+2. Blocks show 09:00 - 10:00 and 09:00 - 10:30.
+3. Each lesson appears in its corresponding start/end block.","1. 
+2. no timeslot name/limit suffix
+3. ",,,2717,2628,Calendar lesson,no,,
+26964,[Core] Daily Timetable Print - Manual mode sorts start time then end time,AC 01.8 - Manual time blocks are sorted by start time ASC then end time ASC.,"- Manual time mode is enabled.
+- Lessons exist with 09:00-10:30, 09:00-10:00, 09:30-11:00, and 09:30-11:30.",,LT-92536;Core;Manual Time;Sorting,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Read block headers left to right.
+3. Verify no duplicate block is created for same start/end pair.","1. PDF renders.
+2. Order is 09:00-10:00, 09:00-10:30, 09:30-11:00, 09:30-11:30.
+3. Lessons sharing same time range are grouped in one block.","1. 
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26965,[Core] Daily Timetable Print - Manual mode splits AM and PM pages,AC 01.9 - Manual time grouping still renders AM pages before PM pages.,"- Manual time mode is enabled.
+- Published Individual lessons exist at 10:00-11:00 and 13:00-14:00.",,LT-92536;Core;Manual Time;Pagination,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect first page.
+3. Inspect later page/section.","1. PDF renders with AM and PM sections.
+2. AM time block appears before PM block.
+3. PM time block appears after AM.","1. 
+2. 10:00-11:00
+3. 13:00-14:00",,,2717,2628,Calendar lesson,no,,
+26966,[Core] Daily Timetable Print - Manual mode more than four time ranges paginates,AC 01.9 - Manual mode also limits one page to four blocks.,"- Manual time mode is enabled.
+- Five distinct AM time ranges have Published Individual lessons.",,LT-92536;Core;Manual Time;Pagination,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect page 1.
+3. Inspect page 2.","1. PDF renders multiple AM pages.
+2. First four time ranges are shown.
+3. Fifth time range continues on next AM page, with same header layout.","1. 5 distinct AM ranges
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26967,[Core] Daily Timetable Print - All classrooms appear even without lessons,AC 01.10 - Every block lists all classrooms under the selected location.,"- Tokyo Center has Booth A, Booth B, Booth C.
+- Only Booth A has a Published Individual lesson in Timeslot 1.",,LT-92536;Core;Classroom;Layout,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect Timeslot 1 block rows.
+3. Inspect Booth B and Booth C cells.","1. PDF renders.
+2. Booth A, Booth B, and Booth C are all displayed.
+3. Lesson data cells are blank, not removed.","1. 
+2. all classroom rows
+3. ",,,2717,2628,Calendar lesson,no,,
+26968,[Core] Daily Timetable Print - Classroom rows sort by sequence then name,AC 01.10 - Classroom row sorting follows Classroom Master sequence then name.,"- Classrooms exist: Booth B sequence 2, Booth A sequence 1, Booth C sequence blank.",,LT-92536;Core;Classroom;Sorting,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect classroom row order in any block.
+3. Inspect classrooms with blank sequence.","1. PDF renders.
+2. Booth A appears before Booth B.
+3. Blank sequence classrooms appear after sequenced classrooms, sorted by name.","1. 
+2. sequence 1 before 2
+3. nulls last",,,2717,2628,Calendar lesson,no,,
+26969,[Core] Daily Timetable Print - Multiple classrooms on one lesson appear in each classroom row,AC 01.10 - A lesson assigned to multiple classrooms is displayed under each associated classroom.,"- Published Individual Lesson MultiBooth is assigned to Booth A and Booth B.
+- Same lesson has one student and one teacher.",,LT-92536;Core;Classroom;Data,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect Booth A row for the lesson block.
+3. Inspect Booth B row for the same block.","1. PDF renders.
+2. Lesson data is shown.
+3. Same lesson data is also shown.","1. 
+2. 
+3. multiple classrooms",,,2717,2628,Calendar lesson,no,,
+26970,"[Core] Daily Timetable Print - Student, grade, course, subject, teacher columns are populated",AC 01.11/01.12 - PDF columns display all required lesson data.,"- Published Individual Lesson A has Student A, Grade 5, Course Math Basic, Subject Algebra, Teacher A.",,LT-92536;Core;PDF Content,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Locate Lesson A row.
+3. Verify displayed columns.","1. PDF renders.
+2. Row is in correct classroom and timeslot/time block.
+3. Grade, Course, Subject, Student, Teacher are populated with correct values.","1. 
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26971,[Core] Daily Timetable Print - Multiple students and teachers are comma-separated,AC 01.12 - Multiple related values render together without overwriting each other.,"- Published Individual Lesson A has Student A, Student B, Teacher A, and Teacher B.",,LT-92536;Core;PDF Content,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect Student column for Lesson A.
+3. Inspect Teacher column for Lesson A.","1. PDF renders.
+2. Student A and Student B are both displayed.
+3. Teacher A and Teacher B are both displayed.","1. 
+2. separator = comma
+3. separator = comma",,,2717,2628,Calendar lesson,no,,
+26972,[Core] Daily Timetable Print - Seasonal student course displays star marker,AC 01.13 - Seasonal enrollment is marked with star on course display.,"- Seasonal Student S has active Seasonal enrollment at Tokyo Center.
+- Student S attends Published Individual Lesson A.",,LT-92536;Core;Seasonal;PDF Content,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF for Tokyo Center.
+2. Locate Student S row.
+3. Inspect Course column.","1. PDF renders.
+2. Student S is displayed in the correct block.
+3. Course name has star marker ★.","1. 
+2. 
+3. seasonal marker",,,2717,2628,Calendar lesson,no,,
+26973,[Core] Daily Timetable Print - Remarks show other timeslots for same student,AC 01.14 - Remarks list other timeslot labels for students with multiple lessons in the day.,- Student A has Published Individual lessons in Timeslot 1 and Timeslot 3 on the selected date/location.,,LT-92536;Core;Remarks;Timeslot,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Locate Student A in Timeslot 1 block.
+3. Inspect Remarks column.","1. PDF renders.
+2. Student A is displayed.
+3. Remarks show the other timeslot label, such as 3限, and do not repeat current timeslot.","1. 
+2. current timeslot = 1
+3. other timeslot = 3",,,2717,2628,Calendar lesson,no,,
+26974,[Core] Daily Timetable Print - Empty date still generates classroom-only timetable,AC 01.15 - No matching lessons should not produce a broken PDF.,"- Tokyo Center has Classroom Master data.
+- No Published Individual lessons exist at Tokyo Center on 2026-09-20.",,LT-92536;Core;Empty State,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF for 2026-09-20.
+2. Inspect PDF body.
+3. Inspect lesson data cells.","1. PDF opens successfully.
+2. Classroom rows are displayed.
+3. Lesson cells are blank or follow confirmed empty-template behavior; no server error or blank browser page occurs.","1. no lesson date
+2. all classrooms
+3. ",,,2717,2628,Calendar lesson,no,,
+26975,[Core] Daily Timetable Print - No classroom master data does not crash PDF,AC 01.15 - Missing Classroom Master rows should be handled gracefully.,"- Selected location has no Classroom Master records.
+- Published Individual lesson exists at the location/date.",,LT-92536;Core;Empty State;Classroom,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect PDF body.
+3. Verify header and stamp area.","1. PDF opens without unhandled error.
+2. PDF follows confirmed no-classroom behavior and does not show a broken table.
+3. Header metadata and stamp rectangle still render.","1. no classrooms
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26976,[Core] Daily Timetable Print - Missing locationId or lessonDate returns error message,AC 01.17 - Direct PDF request with missing params shows controlled error.,- User is logged in and has access to the Visualforce PDF page.,,LT-92536;Core;Error Handling,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open IndividualTimetablePrintPdf without locationId.
+2. Open IndividualTimetablePrintPdf without lessonDate.
+3. Check logs/user output.","1. Page renders controlled error.
+2. Page renders controlled error.
+3. No unhandled exception page is shown to user.","1. missing locationId
+2. missing lessonDate
+3. ",,,2717,2628,Calendar lesson,no,,
+26977,[Core] Daily Timetable Print - Long JP and Latin text wraps inside fixed columns,AC 01.11 - Fixed-width columns wrap long values without overlap.,"- Published Individual lesson has long course, subject, student, and teacher names with JP and Latin characters.",,LT-92536;Core;Visual;Wrapping,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect Course, Subject, Student, Teacher, and Remarks cells.
+3. Inspect adjacent cells and page boundaries.","1. PDF renders.
+2. Text wraps within each cell.
+3. Text does not overlap neighboring columns or get clipped.","1. long text fixture
+2. no overflow
+3. ",,,2717,2628,Calendar lesson,no,,
+26978,[Core] Daily Timetable Print - Table borders and header bar match production PDF style,LT-103358 regression - PDF visual style remains stable across environments.,"- Individual timetable PDF is generated in preprod/staging.
+- A production-style reference PDF or screenshot is available.",,LT-92536;Core;Visual Regression;PDF,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Compare header bar rendering.
+2. Compare table border color and thickness.
+3. Compare fonts, colors, and cell sizing.","1. Header bar is full-width and location title is visible.
+2. Borders are light gray and not thick black.
+3. Layout is consistent with expected production style.","1. 
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26979,[Core] Daily Timetable Print - Multi-page row chunking repeats headers,"AC 01.9/01.11 - When classroom rows exceed page height, each physical page repeats the block headers.","- Selected location has enough classrooms or long values to force row chunking across pages.
+- Individual timetable PDF has at least two physical pages for the same four blocks.",,LT-92536;Core;Pagination;Visual,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect page 1 and page 2.
+3. Inspect row continuation.","1. PDF renders multiple physical pages.
+2. Block headers and column headers repeat on each physical page.
+3. Classroom rows continue without overlap, duplication, or missing rows.","1. dense classroom fixture
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26980,[Core] Daily Timetable Print - Dialog note does not contradict Published-only rule,UI copy regression - Dialog message should align with new Individual PDF filtering rule.,"- Print Out dialog is open.
+- Individual timetable feature flag is enabled.",,LT-92536;Core;Dialog;Copy,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Read helper text in the Print Out dialog.
+2. Generate Individual PDF with a Completed lesson fixture.
+3. Compare UI copy with PDF behavior.","1. Text does not claim Completed lessons will be printed for the new Individual timetable, or product confirms this copy is intentionally legacy.
+2. Completed lesson is excluded.
+3. No user-facing contradiction remains; otherwise raise UI copy bug.","1. expected = Published only
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26981,[Core] Daily Timetable Print - Permissioned CM can open Individual PDF,Access regression - Center-level edit user has access to controller/page.,"- Logged in as CM Staff with center-level edit permission.
+- Individual timetable flag is enabled.",,LT-92536;Core;Permission;CM,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Daily view.
+2. Print Individual timetable.
+3. Inspect PDF content.","1. Calendar loads for the CM user's accessible location.
+2. New PDF tab opens.
+3. PDF contains only data from the user's accessible location and no permission error.","1. user = CM
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26982,[Core] Daily Timetable Print - Unauthorized or inaccessible location is blocked,Access regression - User mode queries must not leak data for inaccessible locations.,"- Logged in as a user without access to Osaka Center.
+- Osaka Center has Published Individual lessons.",,LT-92536;Core;Permission;Security,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Attempt to open Individual timetable URL for Osaka Center directly.
+2. Inspect PDF/error output.
+3. Return to accessible location and print again.","1. Access is blocked or PDF shows no inaccessible data.
+2. No Osaka lesson/student/teacher data is visible.
+3. Accessible location still prints normally.","1. locationId = inaccessible
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26983,[Core] Daily Timetable Print - Calendar date selection is passed to PDF,Integration - The selected Daily view date is passed as lessonDate.,"- Individual timetable flag is enabled.
+- Calendar has Published Individual lessons on 2026-09-14 and 2026-09-15.",,LT-92536;Core;Integration;Date,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate Daily view to 2026-09-15.
+2. Print Individual timetable.
+3. Inspect PDF data.","1. Calendar displays 2026-09-15.
+2. New URL includes lessonDate=2026-09-15.
+3. 2026-09-15 lessons appear; 2026-09-14 lessons do not.","1. 
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26984,[Core] Daily Timetable Print - Calendar location selection is passed to PDF,Integration - The selected calendar location is passed as locationId.,"- Individual timetable flag is enabled.
+- Tokyo Center and Osaka Center both have Published Individual lessons on the same date.",,LT-92536;Core;Integration;Location,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Select Osaka Center in the calendar location filter.
+2. Print Individual timetable.
+3. Inspect PDF.","1. Calendar reloads for Osaka Center.
+2. New URL includes Osaka Center locationId.
+3. Osaka lessons/classrooms appear; Tokyo lessons/classrooms do not.","1. 
+2. 
+3. ",,,2717,2628,Calendar lesson,no,,
+26985,[Core] Daily Timetable Print - Direct Apex URL respects feature flag,AC 01.16/01.17 - Direct URL generation is blocked when feature flag is off.,"- MANAERP__Enable_Individual_Daily_Timetable_Print__c = false.
+- User has access to calendar.",,LT-92536;Core;Feature Flag;API,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Trigger getIndividualTimetableUrl from the Individual print flow or API console.
+2. Inspect error message.
+3. Re-enable flag and retry.","1. Method rejects the request.
+2. Error indicates feature is not enabled.
+3. URL is returned normally.","1. flag = false
+2. Feature_Not_Enabled
+3. flag = true",,,2717,2628,Calendar lesson,no,,
