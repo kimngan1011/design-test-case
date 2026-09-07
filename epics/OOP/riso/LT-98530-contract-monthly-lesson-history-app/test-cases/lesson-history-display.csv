@@ -1,21 +1,21 @@
 v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
 ,,,,,,,,,,,,,,,,,,,,3253,,[Riso] Lesson History — Display & Navigation,1,,
-,[Riso] Lesson History – Page Menu – Label Displayed,"AC02.1 - Component: The page menu entry shows the label ""Lesson History"".",Logged in as Student to the Riso Learner App,,,low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the app main menu""
-","1. ""Menu entry ""Lesson History"" is shown per the latest Figma icon""
-","1. """"
-",,,3253,,[Riso] Lesson History — Display & Navigation,,,
 ,[Riso] Lesson History – Month Navigator – Default Value – Current Month on Page Load,"AC02.1 - BVA: The Month Navigator defaults to ""THIS month"" when the page is first opened.",Logged in as Student to the Riso Learner App,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Lesson History page for the first time in the session""
 ","1. ""Month Navigator shows ""July 2026""""
 ","1. ""today = 2026-07-27; expected default = 2026-07""
 ",,,3253,,[Riso] Lesson History — Display & Navigation,,,
-,[Riso] Lesson History – Month Navigator – Format Displayed – EN and JP Formats Rendered,"AC02.1 - Component: Month Navigator renders the exact EN ""month year"" and JP ""YYYY年MM月"" formats.",Logged in as Student to the Riso Learner App,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Lesson History page in English locale, month = December 2025""
-2. ""Switch to Japanese locale""
-","1. ""Month Navigator shows ""December 2025""""
-2. ""Month Navigator shows ""2025年12月""""
-","1. ""locale = EN; month = 2025-12""
-2. ""locale = JP; month = 2025-12""
+,[Riso] Translation – Lesson History – Menu – Labels and Date Formats,"AC02.1 - Translation: Lesson History menu, table labels, Month Navigator and Lesson Date formats follow the PRD Localization table.","Logged in as Student to the Riso Learner App
+Student has a Completed lesson on 2025-10-01 (Wednesday)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the app main menu in English""
+2. ""Open Lesson History in English for October 2025""
+3. ""Switch to Japanese locale""
+","1. ""Menu entry shows ""Lesson History""""
+2. ""Month Navigator shows ""October 2025""; labels show ""Date"", ""Lesson Time"", ""Subject"", ""Teacher"", and ""Attendance""; lesson date uses the ""Oct 1""-style format followed by its day of week""
+3. ""Menu entry shows ""授業履歴""; Month Navigator shows ""2025年10月""; labels show ""日付"", ""授業時間"", ""科目"", ""講師"", and ""出欠""; lesson date uses the ""10/1""-style format followed by its day of week""
+","1. ""locale = EN""
+2. ""locale = EN; month = 2025-10""
+3. ""locale = JP; month = 2025-10""
 ",,,3253,,[Riso] Lesson History — Display & Navigation,,,
-,[Riso] Lesson History – Month Navigator – Navigate to Previous and Next Month (Pending Confirmation on Boundary),"AC02.1 - Boundary / Negative: User can move back and forward one month at a time; exact navigation boundary is undefined (spec Clarification Question #8).","Logged in as Student to the Riso Learner App
+,[Riso] Lesson History – Month Navigator – Navigate to Previous and Next Month,"AC02.1 - Boundary / Negative: User can move back and forward one month at a time without a specified navigation boundary. Each selected month displays qualifying Completed lessons or ""No data"".","Logged in as Student to the Riso Learner App
 Lesson History page open at July 2026",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Tap ""Previous""""
 2. ""Tap ""Next"" twice""
 ","1. ""Month Navigator shows ""June 2026"" and the list updates to June's completed lessons""
@@ -23,14 +23,14 @@ Lesson History page open at July 2026",,,medium,minor,functional,undefined,is-no
 ","1. ""current=2026-07; expected after back=2026-06""
 2. ""expected after 2x next from 2026-06 = 2026-08""
 ",,,3253,,[Riso] Lesson History — Display & Navigation,,,
-,[Riso] Lesson History – Empty State – No Completed Lessons in Selected Month (Pending Confirmation),"AC02.1 - Negative: When the selected month has zero completed lessons, a ""No data"" placeholder is shown. Exact copy pending confirmation.","Logged in as Student to the Riso Learner App
+,[Riso] Lesson History – Empty State – No Completed Lessons in Selected Month,"AC02.1 - Negative: When the selected month has zero Completed lessons, ""No data"" is shown.","Logged in as Student to the Riso Learner App
 Student has zero completed lessons in November 2025",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate the Month Navigator to November 2025""
-","1. """"No data"" placeholder is shown (no crash, no blank list); exact copy pending confirmation""
+","1. """"No data"" is shown""
 ","1. ""completed_lesson_count(2025-11) = 0""
 ",,,3253,,[Riso] Lesson History — Display & Navigation,,,
 ,[Riso] Lesson History – Row Fields – All Required Fields Displayed Together for a Complete Lesson,AC02.1 - Component: A single lesson row simultaneously shows Lesson Date, Lesson Time + Timeslot Name, Subject, Teacher, and Attendance.,"Logged in as Student to the Riso Learner App
 Student has a Completed lesson on 2025-09-10 (Wednesday), 09:00-10:20, Timeslot ""1限"", Subject ""Math"", Teacher ""John Smith"", Attendance = Present",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson History for September 2025 and view the row""
-","1. ""Row shows: Date ""Sep 10 (Wed)"", Time ""09:00 - 10:20"" + ""1限"", Subject ""Math"", Teacher ""John Smith"", Attendance ""Present"" - all together""
+","1. ""Row shows the lesson date, time with Timeslot Name, Subject, Teacher, and Attendance together""
 ","1. ""date=2025-09-10 (Wed); time=09:00-10:20; timeslot=1限; subject=Math; teacher=John Smith; attendance=Present""
 ",,,3253,,[Riso] Lesson History — Display & Navigation,,,
 ,[Riso] Lesson History – Row Fields – Lesson With No Timeslot – Timeslot Portion Shown Blank,AC02.1 - Negative (conditional field): When a lesson has no Timeslot associated, only the start-end time is shown; the Timeslot Name portion is blank.,"Logged in as Student to the Riso Learner App

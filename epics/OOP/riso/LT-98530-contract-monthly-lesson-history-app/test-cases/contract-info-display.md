@@ -37,18 +37,19 @@
 
 ---
 
-### [Riso] Contract Info – Static Text – Section Label and Info Banner Displayed
+### [Riso] Translation – Contract Info – Static Labels – Caption and Info Banner
 
-**Description:** AC01.1 — Component — Section header label and the data-timing info banner display the exact PRD-specified EN/JP text.
+**Description:** AC01.1 — Translation — Contract Info static text displays the exact EN/JP strings defined by the PRD Localization table.
 
 **Preconditions:**
 - Logged in as Student to the Riso Learner App, English locale
+- Student has at least one qualifying LA card
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
-| 1 | Open the Contract Info page | Section header shows "Contract Info" | locale = EN |
-| 2 | View the info banner below the month selector | Banner shows "Due to the timing of data updates, new contract details may not be reflected immediately." | locale = EN |
-| 3 | Switch app locale to Japanese and reopen the page | Section header shows "契約情報" and banner shows "データ更新のタイミングにより、新規ご契約内容が即座に反映されない場合がございます。" | locale = JP |
+| 1 | Open the Contract Info page in English | Header label shows "Full Name"; section header shows "Contract Info"; caption shows "total at the time" | locale = EN |
+| 2 | View a qualifying LA card and the info banner | Card labels show "Academic Year", "Location", "Total Slot", and "Lesson Allocated"; banner shows "Due to the timing of data updates, new contract details may not be reflected immediately." | locale = EN |
+| 3 | Switch app locale to Japanese and reopen the page | Header label shows "名前"; section header shows "ご契約内容"; caption shows "時点の累計"; card labels show "年度", "拠点", "契約数", and "授業設定数"; banner shows "データ更新のタイミングにより、新規ご契約内容が即座に反映されない場合がございます。" | locale = JP |
 
 **Severity:** trivial
 **Priority:** low
@@ -72,7 +73,7 @@
 
 ---
 
-### [Riso] Contract Info – Month Selector – Format Displayed – EN and JP Formats Rendered
+### [Riso] Translation – Contract Info – Month Selector Format – EN and JP Rendered
 
 **Description:** AC01.1 — Component — Month selector renders the exact EN "MM YYYY" and JP "YYYY年MM月" formats.
 
@@ -141,17 +142,17 @@
 
 ---
 
-### [Riso] Contract Info – LA List – Empty State – No Qualifying LA (Pending Confirmation)
+### [Riso] Contract Info – LA List – No Qualifying Data – No LA Cards Shown
 
-**Description:** AC01.1 — Negative — When no LA matches the filter (require_allocation=TRUE AND Current AY), the page shows a graceful empty state. Exact copy is pending PM confirmation (spec Clarification Question #6); this TC asserts a placeholder is shown, not the literal text.
+**Description:** AC01.1 — Negative — The selector may move outside the current AY. When the selected month has no qualifying data, the page shows no LA data/cards; no specific empty-state copy is required.
 
 **Preconditions:**
 - Logged in as Student to the Riso Learner App
-- Student has zero LAs with require_allocation=TRUE for the Current AY
+- Student has no qualifying LA data for March 2024 (outside the current AY)
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
-| 1 | Open the Contract Info page | An empty-state placeholder is shown (no crash, no blank white screen); exact copy pending confirmation | qualifying_LA_count = 0 |
+| 1 | Select March 2024 in the Contract Info month selector | No LA data/cards are shown | selected_month=2024-03; qualifying_data_count=0 |
 
 **Severity:** minor
 **Priority:** medium

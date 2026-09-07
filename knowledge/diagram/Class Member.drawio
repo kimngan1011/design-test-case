@@ -1,179 +1,250 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.7">
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36">
   <diagram name="Page-1" id="CUQJuPRypMmHd5vvUobu">
-    <mxGraphModel dx="6426" dy="767" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="5000" pageHeight="10000" math="0" shadow="0">
+    <mxGraphModel dx="1118" dy="763" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="5000" pageHeight="10000" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="m0R5NjztwQXK719jcxzD-3" edge="1" parent="1" source="m0R5NjztwQXK719jcxzD-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-2" value="">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="title" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" vertex="1">
+          <mxGeometry height="34" width="1000" x="40" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-11" edge="1" parent="1" source="m0R5NjztwQXK719jcxzD-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-10">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="title-v" parent="1" style="text;html=1;fontSize=20;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" value="Class Member — End-to-End Flow" vertex="1">
+          <mxGeometry height="34" width="600" x="40" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Run Master Queue&amp;nbsp;" vertex="1">
-          <mxGeometry height="60" width="120" x="350" y="200" as="geometry" />
+        <mxCell id="s1-label" parent="1" style="text;html=1;fontSize=15;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" value="1. Data Model" vertex="1">
+          <mxGeometry height="26" width="300" x="40" y="50" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-13" edge="1" parent="1" source="m0R5NjztwQXK719jcxzD-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="m0R5NjztwQXK719jcxzD-12" value="">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="g1-label" parent="1" style="text;html=1;fontSize=12;fontStyle=0;fontColor=#666666;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" value="Lesson Types" vertex="1">
+          <mxGeometry height="20" width="200" x="40" y="88" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-2" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Get all class_members" vertex="1">
-          <mxGeometry height="60" width="120" x="590" y="160" as="geometry" />
+        <mxCell id="L-IND" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;" value="Individual Lesson&lt;br&gt;&lt;span style=&quot;font-size:11px;color:#666&quot;&gt;(no class field)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="60" width="170" x="40" y="112" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-8" edge="1" parent="1" source="m0R5NjztwQXK719jcxzD-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="L-GC" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E4EFEE;strokeColor=#1B6E72;" value="Group Lesson — WITH class" vertex="1">
+          <mxGeometry height="60" width="190" x="230" y="112" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Create/Import new lesson" vertex="1">
-          <mxGeometry height="60" width="120" x="120" y="80" as="geometry" />
+        <mxCell id="L-GNC" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F6E3DC;strokeColor=#A5402A;" value="Group Lesson — NO class" vertex="1">
+          <mxGeometry height="60" width="190" x="440" y="112" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-7" edge="1" parent="1" source="m0R5NjztwQXK719jcxzD-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="m0R5NjztwQXK719jcxzD-1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="g2-label" parent="1" style="text;html=1;fontSize=12;fontStyle=0;fontColor=#666666;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" value="LA Types" vertex="1">
+          <mxGeometry height="20" width="200" x="700" y="88" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Assign a class" vertex="1">
-          <mxGeometry height="60" width="120" x="120" y="200" as="geometry" />
+        <mxCell id="LA-C" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;" value="LA + Class Member" vertex="1">
+          <mxGeometry height="60" width="190" x="700" y="112" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-9" edge="1" parent="1" source="m0R5NjztwQXK719jcxzD-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="LA-NC" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;" value="LA — no Class Member" vertex="1">
+          <mxGeometry height="60" width="190" x="910" y="112" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Update LA duration" vertex="1">
-          <mxGeometry height="60" width="120" x="120" y="320" as="geometry" />
+        <mxCell id="g3-label" parent="1" style="text;html=1;fontSize=12;fontStyle=0;fontColor=#666666;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" value="Assignment Method" vertex="1">
+          <mxGeometry height="20" width="200" x="1170" y="88" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-14" edge="1" parent="1" source="m0R5NjztwQXK719jcxzD-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-12">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="AM-AUTO" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E4EFEE;strokeColor=#1B6E72;fontStyle=1;" value="AUTO — via class engine" vertex="1">
+          <mxGeometry height="55" width="200" x="1170" y="112" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-10" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Get all lessons" vertex="1">
-          <mxGeometry height="60" width="120" x="590" y="240" as="geometry" />
+        <mxCell id="AM-MANUAL" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;fontStyle=1;" value="MANUAL — staff action" vertex="1">
+          <mxGeometry height="55" width="200" x="1170" y="182" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-19" edge="1" parent="1" source="m0R5NjztwQXK719jcxzD-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-17">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="s2-label" parent="1" style="text;html=1;fontSize=15;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" value="2. Which combination is Auto vs Manual-only" vertex="1">
+          <mxGeometry height="26" width="500" x="40" y="300" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-23" edge="1" parent="1" source="m0R5NjztwQXK719jcxzD-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-18">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="CH1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=center;" value="Individual Lesson" vertex="1">
+          <mxGeometry height="50" width="220" x="280" y="340" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-27" edge="1" parent="1" source="m0R5NjztwQXK719jcxzD-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-26">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="CH2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=center;" value="Group + class (matching)" vertex="1">
+          <mxGeometry height="50" width="220" x="520" y="340" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-12" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Mapping" vertex="1">
-          <mxGeometry height="60" width="120" x="800" y="190" as="geometry" />
+        <mxCell id="CH3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=center;" value="Group, no class" vertex="1">
+          <mxGeometry height="50" width="220" x="760" y="340" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-17" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Assign student to lesson follow class member duration" vertex="1">
-          <mxGeometry height="60" width="120" x="1000" y="190" as="geometry" />
+        <mxCell id="RH1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=center;" value="LA + Class Member" vertex="1">
+          <mxGeometry height="130" width="220" x="40" y="400" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-18" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Remove student from a lesson follow class member duration" vertex="1">
-          <mxGeometry height="60" width="120" x="1000" y="300" as="geometry" />
+        <mxCell id="RH2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=center;" value="LA — no Class Member" vertex="1">
+          <mxGeometry height="130" width="220" x="40" y="540" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-25" edge="1" parent="1" source="m0R5NjztwQXK719jcxzD-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="M11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=center;" value="MANUAL only&lt;br&gt;&lt;span style=&quot;font-size:11px;color:#555&quot;&gt;Individual is always skipped by the auto engine&lt;/span&gt;" vertex="1">
+          <mxGeometry height="130" width="220" x="280" y="400" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-24" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Update lesson schedule class" vertex="1">
-          <mxGeometry height="60" width="120" x="120" y="430" as="geometry" />
+        <mxCell id="M12" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E4EFEE;strokeColor=#1B6E72;fontStyle=1;align=center;" value="AUTO&lt;br&gt;&lt;span style=&quot;font-size:11px&quot;&gt;class matches + lesson is inside the class member&#39;s duration&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:11px;color:#555&quot;&gt;(manual override still possible)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="130" width="220" x="520" y="400" as="geometry" />
         </mxCell>
-        <mxCell id="m0R5NjztwQXK719jcxzD-26" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Remain student in completed lesson" vertex="1">
-          <mxGeometry height="60" width="120" x="1000" y="80" as="geometry" />
+        <mxCell id="M13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F6E3DC;strokeColor=#A5402A;align=center;" value="MANUAL only&lt;br&gt;&lt;span style=&quot;font-size:11px;color:#8a3320&quot;&gt;nothing to auto-match — see Section 4, Flow B&lt;/span&gt;" vertex="1">
+          <mxGeometry height="130" width="220" x="760" y="400" as="geometry" />
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-7" edge="1" parent="1" source="0YMXib5mB_Ygcbc5DOSd-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-5">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="M21" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=center;" value="MANUAL only" vertex="1">
+          <mxGeometry height="130" width="220" x="280" y="540" as="geometry" />
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Student -&amp;gt; Course -&amp;gt; Bulk Assign Class" vertex="1">
-          <mxGeometry height="60" width="120" x="-160" y="200" as="geometry" />
+        <mxCell id="M22" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=center;" value="MANUAL only&lt;br&gt;&lt;span style=&quot;font-size:11px;color:#555&quot;&gt;no Class Member — see Section 4, Flow A&lt;/span&gt;" vertex="1">
+          <mxGeometry height="130" width="220" x="520" y="540" as="geometry" />
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-8" edge="1" parent="1" source="0YMXib5mB_Ygcbc5DOSd-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;">
+        <mxCell id="M23" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=center;" value="MANUAL only" vertex="1">
+          <mxGeometry height="130" width="220" x="760" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="callout" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#1B6E72;dashed=1;fontSize=11;align=left;spacingLeft=8;" value="The ONLY cell the class engine ever auto-assigns.&lt;br&gt;Every other cell is staff-initiated — this is&lt;br&gt;why session origin (Auto/Manual) must&lt;br&gt;always be tracked. Section 3: trigger effect&lt;br&gt;by origin. Section 4: e2e trace of M13 / M22." vertex="1">
+          <mxGeometry height="125" width="280" x="760" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="e-callout" edge="1" parent="1" source="callout" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#1B6E72;dashed=1;endArrow=none;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" target="M12">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="50" y="310" />
-              <mxPoint x="50" y="230" />
-            </Array>
-            <mxPoint x="120" y="230" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="LA detail -&amp;gt; Assign Class" vertex="1">
-          <mxGeometry height="60" width="120" x="-160" y="280" as="geometry" />
-        </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-9" edge="1" parent="1" source="0YMXib5mB_Ygcbc5DOSd-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-5">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="50" y="390" />
-              <mxPoint x="50" y="230" />
+              <mxPoint x="749.96" y="267.5" />
+              <mxPoint x="749.96" y="465" />
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="LA detail -&amp;gt; Change location course&amp;amp;class" vertex="1">
-          <mxGeometry height="60" width="120" x="-160" y="360" as="geometry" />
+        <mxCell id="s3-label" parent="1" style="text;html=1;fontSize=15;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" value="3. What happens to the LA&#39;s session on each trigger — Auto vs Manual, and does it run Master Queue?" vertex="1">
+          <mxGeometry height="26" width="900" x="40" y="700" as="geometry" />
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-10" edge="1" parent="1" source="0YMXib5mB_Ygcbc5DOSd-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-5">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="50" y="470" />
-              <mxPoint x="50" y="230" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="s3-sub" parent="1" style="text;html=1;fontSize=11;fontColor=#666666;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" value="Combines Section 2&#39;s assignment method with each trigger&#39;s actual effect. Each Auto/Manual cell states MQ: Yes/No and which executor." vertex="1">
+          <mxGeometry height="20" width="900" x="40" y="726" as="geometry" />
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Location Course&amp;nbsp;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="60" width="120" x="-160" y="440" as="geometry" />
+        <mxCell id="TH0" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=center;valign=middle;" value="Trigger" vertex="1">
+          <mxGeometry height="40" width="280" x="40" y="760" as="geometry" />
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-11" edge="1" parent="1" source="0YMXib5mB_Ygcbc5DOSd-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="m0R5NjztwQXK719jcxzD-5">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="50" y="550" />
-              <mxPoint x="50" y="230" />
-            </Array>
-          </mxGeometry>
+        <mxCell id="TH1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=center;valign=middle;" value="Auto session (Assignment_Source__c = Auto)" vertex="1">
+          <mxGeometry height="40" width="430" x="320" y="760" as="geometry" />
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;Import Class Member&lt;/div&gt;" vertex="1">
-          <mxGeometry height="60" width="120" x="-160" y="520" as="geometry" />
+        <mxCell id="TH2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=center;valign=middle;" value="Manual session (Assignment_Source__c ≠ Auto, incl. legacy NULL)" vertex="1">
+          <mxGeometry height="40" width="430" x="750" y="760" as="geometry" />
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-14" edge="1" parent="1" source="0YMXib5mB_Ygcbc5DOSd-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="m0R5NjztwQXK719jcxzD-24">
+        <mxCell id="R1T" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=left;valign=middle;spacingLeft=8;" value="Create / Import Lesson&lt;br&gt;&lt;span style=&quot;font-size:10.5px;font-weight:normal;color:#666&quot;&gt;bulk, CSV&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="280" x="40" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="R1A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E4EFEE;strokeColor=#1B6E72;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: Yes&lt;/b&gt; — ClassMemberMasterQueueExecutor (async batch, chunked in CreateLessonBatchable).&lt;br&gt;New Auto session created if class + duration match." vertex="1">
+          <mxGeometry height="80" width="430" x="320" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="R1M" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: N/A&lt;/b&gt; — this trigger only creates new assignments, never touches existing sessions." vertex="1">
+          <mxGeometry height="80" width="430" x="750" y="800" as="geometry" />
+        </mxCell>
+        <mxCell id="R2T" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=left;valign=middle;spacingLeft=8;" value="Assign Class to Student&lt;br&gt;&lt;span style=&quot;font-size:10.5px;font-weight:normal;color:#666&quot;&gt;Individual · Bulk · Academic Level · CSV Import&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="280" x="40" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="R2A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E4EFEE;strokeColor=#1B6E72;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: Yes&lt;/b&gt; — ClassMemberMasterQueueExecutor, via createAssignClassMemberJobs (ClassMemberTrigger AFTER_INSERT).&lt;br&gt;New Auto session created for matching lessons." vertex="1">
+          <mxGeometry height="80" width="430" x="320" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="R2M" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: N/A&lt;/b&gt; — same as above." vertex="1">
+          <mxGeometry height="80" width="430" x="750" y="880" as="geometry" />
+        </mxCell>
+        <mxCell id="R3T" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=left;valign=middle;spacingLeft=8;" value="Add Class to Lesson Schedule&lt;br&gt;&lt;span style=&quot;font-size:10.5px;font-weight:normal;color:#666&quot;&gt;LSC insert&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="280" x="40" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="R3A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E4EFEE;strokeColor=#1B6E72;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: Yes&lt;/b&gt; — ClassMemberMasterQueueExecutor, via createAssignClassMemberJobByClassIds.&lt;br&gt;New Auto session created for the added class&#39;s lessons." vertex="1">
+          <mxGeometry height="80" width="430" x="320" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="R3M" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: N/A&lt;/b&gt; — same as above." vertex="1">
+          <mxGeometry height="80" width="430" x="750" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="R4T" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=left;valign=middle;spacingLeft=8;" value="Update LA Duration&lt;br&gt;&lt;span style=&quot;font-size:10.5px;font-weight:normal;color:#666&quot;&gt;— lengthened&lt;/span&gt;" vertex="1">
+          <mxGeometry height="90" width="280" x="40" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="R4A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E4EFEE;strokeColor=#1B6E72;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: Yes&lt;/b&gt; — ClassMemberMasterQueueExecutor, via createAssignClassMemberJobs.&lt;br&gt;Class_Member window extended; re-scan may assign newly in-range lessons." vertex="1">
+          <mxGeometry height="90" width="430" x="320" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="R4M" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: No&lt;/b&gt; — nothing enqueued.&lt;br&gt;Untouched — no mechanism ever re-evaluates Manual sessions when duration lengthens." vertex="1">
+          <mxGeometry height="90" width="430" x="750" y="1040" as="geometry" />
+        </mxCell>
+        <mxCell id="R5T" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#A6721A;strokeWidth=2;fontStyle=1;align=left;valign=middle;spacingLeft=8;" value="Update LA Duration&lt;br&gt;&lt;span style=&quot;font-size:10.5px;font-weight:normal;color:#666&quot;&gt;— shortened&lt;/span&gt;&lt;br&gt;&lt;span style=&quot;font-size:10.5px;color:#A6721A&quot;&gt;⚑ NEW: PR #22454, merged 2026-08-22&lt;/span&gt;" vertex="1">
+          <mxGeometry height="220" width="280" x="40" y="1130" as="geometry" />
+        </mxCell>
+        <mxCell id="footer" parent="1" style="text;html=1;fontSize=11;fontColor=#888888;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" value="Source: erp-salesforce — ClassMemberMasterQueueExecutor.cls, LessonClassMemberHandler.cls, LessonScheduleHandler.cls, LessonScheduleClassHandler.cls, LessonAllocationLocationCourseHandler.cls, LessonAllocationHandler.cls, ManualSessionCleanupMasterQueueExecutor.cls, StudentSessionsHandler.cls, LessonFeatureToggles.cls. Full detail: knowledge/domain-knowledge/scheduling/lesson-management/class-assignment.md" vertex="1">
+          <mxGeometry height="36" width="1200" x="40" y="2420" as="geometry" />
+        </mxCell>
+        <mxCell id="R5A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E4EFEE;strokeColor=#1B6E72;strokeWidth=2;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: Yes&lt;/b&gt; — same ClassMemberMasterQueueExecutor job as always (unchanged by this PR).&lt;br&gt;Removed unconditionally if Lesson.Start_Date_Time__c &gt; new End_Date_Time__c — the FIRST check inside removeSessionsByClass, before any class-match/duration check." vertex="1">
+          <mxGeometry height="220" width="430" x="320" y="1130" as="geometry" />
+        </mxCell>
+        <mxCell id="R5M" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5EAD6;strokeColor=#A6721A;strokeWidth=2;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;Toggle OFF (default): MQ: No&lt;/b&gt;, nothing enqueued — known gap.&lt;br&gt;&lt;b&gt;Toggle ON: MQ: Yes&lt;/b&gt; — but a SEPARATE job, ManualSessionCleanupMasterQueueExecutor (independent, not chained to the class-member job). Removes if Lesson.Start &gt; new End_Date, lesson not Completed.&lt;br&gt;⚠️ Applies to ANY LA — Student_Product_ID__c check was removed mid-PR; not SPO-scoped despite the field&#39;s name." vertex="1">
+          <mxGeometry height="220" width="430" x="750" y="1130" as="geometry" />
+        </mxCell>
+        <mxCell id="R6T" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=left;valign=middle;spacingLeft=8;" value="Remove Class from Lesson Schedule&lt;br&gt;&lt;span style=&quot;font-size:10.5px;font-weight:normal;color:#666&quot;&gt;LSC delete&lt;/span&gt;" vertex="1">
+          <mxGeometry height="100" width="280" x="40" y="1370" as="geometry" />
+        </mxCell>
+        <mxCell id="R6A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E4EFEE;strokeColor=#1B6E72;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: No&lt;/b&gt; — synchronous, runs inline in the LWC transaction (removeAutoAssignedSessionsByRemovedLessonScheduleClasses), NOT via Master Queue.&lt;br&gt;Removed if not covered by a remaining class on the same schedule." vertex="1">
+          <mxGeometry height="100" width="430" x="320" y="1370" as="geometry" />
+        </mxCell>
+        <mxCell id="R6M" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F0E3;strokeColor=#4C7A3D;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: N/A&lt;/b&gt; — never touched. Query filters Assignment_Source__c = Auto (verified in query). Manual is out of scope by design, not a gap." vertex="1">
+          <mxGeometry height="100" width="430" x="750" y="1370" as="geometry" />
+        </mxCell>
+        <mxCell id="R7T" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=left;valign=middle;spacingLeft=8;" value="Change Location Course&lt;br&gt;&lt;span style=&quot;font-size:10.5px;font-weight:normal;color:#666&quot;&gt;+ new class picked&lt;/span&gt;" vertex="1">
+          <mxGeometry height="90" width="280" x="40" y="1470" as="geometry" />
+        </mxCell>
+        <mxCell id="R7A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E4EFEE;strokeColor=#1B6E72;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: Yes&lt;/b&gt; — ClassMemberMasterQueueExecutor, triggered via new Class_Member insert → AFTER_INSERT re-scan.&lt;br&gt;New Auto session created under the new class." vertex="1">
+          <mxGeometry height="90" width="430" x="320" y="1470" as="geometry" />
+        </mxCell>
+        <mxCell id="R7M" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: N/A&lt;/b&gt; for new assignment. Old Manual sessions under the previous class are also left untouched." vertex="1">
+          <mxGeometry height="90" width="430" x="750" y="1470" as="geometry" />
+        </mxCell>
+        <mxCell id="R8T" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=left;valign=middle;spacingLeft=8;" value="Change Location Course&lt;br&gt;&lt;span style=&quot;font-size:10.5px;font-weight:normal;color:#666&quot;&gt;NO new class picked&lt;/span&gt;" vertex="1">
+          <mxGeometry height="90" width="280" x="40" y="1560" as="geometry" />
+        </mxCell>
+        <mxCell id="R8A" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F0E3;strokeColor=#4C7A3D;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: No&lt;/b&gt; — nothing enqueued at all. LA&#39;s Location_Course updates only; engine never checks Location_Course__c. Correct by design (toggle OFF, the coded default)." vertex="1">
+          <mxGeometry height="90" width="430" x="320" y="1560" as="geometry" />
+        </mxCell>
+        <mxCell id="R8M" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F0E3;strokeColor=#4C7A3D;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="&lt;b&gt;MQ: No&lt;/b&gt; — same, untouched, correct by design. (Toggle-ON case is opt-in, not confirmed live on any org.)" vertex="1">
+          <mxGeometry height="90" width="430" x="750" y="1560" as="geometry" />
+        </mxCell>
+        <mxCell id="s4-label" parent="1" style="text;html=1;fontSize=15;fontStyle=1;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" value="4. Mismatch scenarios — e2e trace, code-verified" vertex="1">
+          <mxGeometry height="26" width="700" x="40" y="1680" as="geometry" />
+        </mxCell>
+        <mxCell id="s4-sub" parent="1" style="text;html=1;fontSize=11;fontColor=#666666;align=left;verticalAlign=middle;strokeColor=none;fillColor=none;" value="What actually happens, step by step, when a class-member trigger fires on these two mismatched states." vertex="1">
+          <mxGeometry height="20" width="900" x="40" y="1706" as="geometry" />
+        </mxCell>
+        <mxCell id="colA-h" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=center;valign=middle;fontSize=12;" value="Flow A — LA has NO Class_Member, session sits in a lesson WITH a class&lt;br&gt;&lt;span style=&quot;font-weight:normal;font-size:10.5px;color:#666&quot;&gt;→ Section 2 cell M22 (LA–no-ClassMember × Group+class)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="46" width="560" x="40" y="1736" as="geometry" />
+        </mxCell>
+        <mxCell id="colB-h" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FAFAF7;strokeColor=#888888;fontStyle=1;align=center;valign=middle;fontSize=12;" value="Flow B — LA HAS a Class_Member, session sits in a lesson WITHOUT a class&lt;br&gt;&lt;span style=&quot;font-weight:normal;font-size:10.5px;color:#666&quot;&gt;→ Section 2 cell M13 (LA+ClassMember × Group-no-class)&lt;/span&gt;" vertex="1">
+          <mxGeometry height="46" width="560" x="650" y="1736" as="geometry" />
+        </mxCell>
+        <mxCell id="A1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="1. State: LA has zero active Class_Member. Staff manually assigns the student into a Group lesson that DOES have a class attached." vertex="1">
+          <mxGeometry height="80" width="560" x="40" y="1800" as="geometry" />
+        </mxCell>
+        <mxCell id="A2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="2. Student_Sessions__c created directly, Assignment_Source__c = Manual. No Class_Member record involved at all." vertex="1">
+          <mxGeometry height="80" width="560" x="40" y="1900" as="geometry" />
+        </mxCell>
+        <mxCell id="A3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5EAD6;strokeColor=#A6721A;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="3. A class-member trigger fires later (e.g. Update LA Duration). updateClassMemberAfterChangeLessonAllocationDuration fetches this LA&#39;s Class_Members via getNonDeletedClsMembersByLessonAllocationIds → returns EMPTY." vertex="1">
+          <mxGeometry height="90" width="560" x="40" y="2000" as="geometry" />
+        </mxCell>
+        <mxCell id="A4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5EAD6;strokeColor=#A6721A;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="4. modifiedLessonAllocationIds stays empty for this LA → createAssignClassMemberJobs is NEVER called for it. No Master Queue job of any kind is enqueued." vertex="1">
+          <mxGeometry height="90" width="560" x="40" y="2110" as="geometry" />
+        </mxCell>
+        <mxCell id="A5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5EAD6;strokeColor=#A6721A;strokeWidth=2;align=left;valign=middle;spacingLeft=8;fontSize=11;fontStyle=1;" value="Outcome: this session is invisible to the entire class-member trigger apparatus — no automation ever assigns, removes, or re-evaluates it by class/duration match. Only the Manual Session Cleanup engine (LA-end-date based, toggle-gated) can ever touch it." vertex="1">
+          <mxGeometry height="120" width="560" x="40" y="2220" as="geometry" />
+        </mxCell>
+        <mxCell id="B1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="1. State: LA has an active Class_Member linking to Class X. Staff manually assigns the student into a DIFFERENT lesson that has ZERO Lesson_Schedule_Class__c records (classless lesson)." vertex="1">
+          <mxGeometry height="80" width="560" x="650" y="1800" as="geometry" />
+        </mxCell>
+        <mxCell id="B2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F0;strokeColor=#888888;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="2. This can ONLY happen via Manual assignment — Auto-assign structurally cannot place a session here: registerLessonStudents requires classIdMapLessons.containsKey(Class X), which is never true for a classless lesson (it has no LSC linking it to any class)." vertex="1">
+          <mxGeometry height="80" width="560" x="650" y="1900" as="geometry" />
+        </mxCell>
+        <mxCell id="B3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F0E3;strokeColor=#4C7A3D;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="3. A trigger fires that re-scans this LA (e.g. Update LA Duration, or another Class_Member change for the same LA). removeSessionsByClass&#39;s Student_Sessions query filters Assignment_Source__c = Auto FIRST — this Manual session is excluded from the query, never fetched." vertex="1">
+          <mxGeometry height="90" width="560" x="650" y="2000" as="geometry" />
+        </mxCell>
+        <mxCell id="B4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F0E3;strokeColor=#4C7A3D;align=left;valign=middle;spacingLeft=8;fontSize=11;" value="4. Even hypothetically for an Auto session here (not possible per step 2): isLessonGroupWithoutClass would skip it anyway — the LT-108992 fix, evaluated right after the LA-end-date check." vertex="1">
+          <mxGeometry height="90" width="560" x="650" y="2110" as="geometry" />
+        </mxCell>
+        <mxCell id="B5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F0E3;strokeColor=#4C7A3D;strokeWidth=2;align=left;valign=middle;spacingLeft=8;fontSize=11;fontStyle=1;" value="Outcome: doubly protected from the class-matching engine (excluded by origin, and by the classless-lesson guard). Still vulnerable to LA-end-date-shortened removal (Section 3, Row 5) the same as any other session — classless status is irrelevant to that check." vertex="1">
+          <mxGeometry height="120" width="560" x="650" y="2220" as="geometry" />
+        </mxCell>
+        <mxCell id="e-a1a2" edge="1" parent="1" source="A1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#888888;endArrow=block;" target="A2">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-12" parent="1" style="whiteSpace=wrap;html=1;rounded=0;" value="Lesson Schedule Detail" vertex="1">
-          <mxGeometry height="60" width="120" x="120" y="570" as="geometry" />
+        <mxCell id="e-a2a3" edge="1" parent="1" source="A2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#888888;endArrow=block;" target="A3">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-16" edge="1" parent="1" source="0YMXib5mB_Ygcbc5DOSd-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;">
-          <mxGeometry relative="1" as="geometry">
-            <Array as="points">
-              <mxPoint x="50" y="150" />
-              <mxPoint x="50" y="230" />
-            </Array>
-            <mxPoint x="120" y="230" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="e-a3a4" edge="1" parent="1" source="A3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#A6721A;endArrow=block;" target="A4">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="0YMXib5mB_Ygcbc5DOSd-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Student -&amp;gt; Course -&amp;gt; Assign Class" vertex="1">
-          <mxGeometry height="60" width="120" x="-160" y="120" as="geometry" />
+        <mxCell id="e-a4a5" edge="1" parent="1" source="A4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#A6721A;endArrow=block;" target="A5">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6jXZFZ1F7-v3K0I8hua9-1" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;" value="">
-          <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="400" y="830" as="sourcePoint" />
-            <mxPoint x="600" y="830" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="e-b1b2" edge="1" parent="1" source="B1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#888888;endArrow=block;" target="B2">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6jXZFZ1F7-v3K0I8hua9-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Class Member" vertex="1">
-          <mxGeometry height="30" width="80" x="450" y="810" as="geometry" />
+        <mxCell id="e-b2b3" edge="1" parent="1" source="B2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#888888;endArrow=block;" target="B3">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6jXZFZ1F7-v3K0I8hua9-3" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;" value="">
-          <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="440" y="880" as="sourcePoint" />
-            <mxPoint x="560" y="880" as="targetPoint" />
-          </mxGeometry>
+        <mxCell id="e-b3b4" edge="1" parent="1" source="B3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4C7A3D;endArrow=block;" target="B4">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="6jXZFZ1F7-v3K0I8hua9-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Lesson Date" vertex="1">
-          <mxGeometry height="30" width="80" x="460" y="860" as="geometry" />
-        </mxCell>
-        <mxCell id="6jXZFZ1F7-v3K0I8hua9-5" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;" value="">
-          <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="360" y="920" as="sourcePoint" />
-            <mxPoint x="480" y="920" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="6jXZFZ1F7-v3K0I8hua9-8" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Lesson Date" vertex="1">
-          <mxGeometry height="30" width="80" x="380" y="900" as="geometry" />
-        </mxCell>
-        <mxCell id="6jXZFZ1F7-v3K0I8hua9-9" edge="1" parent="1" style="endArrow=none;html=1;rounded=0;" value="">
-          <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="520" y="920" as="sourcePoint" />
-            <mxPoint x="640" y="920" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="6jXZFZ1F7-v3K0I8hua9-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Lesson Date" vertex="1">
-          <mxGeometry height="30" width="80" x="540" y="900" as="geometry" />
+        <mxCell id="e-b4b5" edge="1" parent="1" source="B4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#4C7A3D;endArrow=block;" target="B5">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

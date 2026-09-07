@@ -276,6 +276,7 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 | 1   | [SF]     | Staff creates a **new Order Group (OG)** for a student with a course             |
 | 2   | [System] | **SPO** created → **LA** auto-created (Require Allocation = True)                |
 | 3   | [SF]     | Staff verifies LA on the **LA tab** (duration, status, allocated count)          |
+| 3a  | [SF]     | For One-Time or Slot-Based products with a selected class, staff verifies the Class Member starts on the OGC start date; for a past product start, the Core OGC date is the current date |
 | 4   | [SF]     | Staff assigns student to a lesson → verify LA updated                            |
 | 5   | [SF]     | Staff creates a **new OG to change course** (effective date = start date)        |
 | 6   | [System] | Old SPO soft-deleted → Old LA deleted → New SPO created → New LA with new course |
@@ -305,6 +306,7 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 | 2   | [SF]     | Staff processes **Resume LOA** → LA created                                                                        |
 | 3   | [SF]     | Staff **cancels resume LOA** → LA deleted                                                                          |
 | 4   | [SF]     | Staff creates OG to **add more course** → additional LA created                                                    |
+| 4a  | [SF]     | For each added course with a selected class, staff verifies the matching Class Member duration; no class selection leaves no Class Member |
 | 5   | [SF]     | Staff **voids add course** → additional LA deleted                                                                 |
 | 6   | [SF]     | Staff creates a **lesson** for the course and **assigns the student** → verifies LA Lesson Allocated count updates |
 | 7   | [SF]     | Staff **assigns a teacher** to the lesson                                                                          |

@@ -10,8 +10,8 @@ When the user provides a plan URL without specifying run titles, use this config
 
 | Run Title | Cases | Steps 4–5 Applied | Status Update |
 |---|---|---|---|
-| `PSG AverCM - Hoang - Aver lesson report` | From reference run | ✓ Yes | Untested → Skipped → Retest |
-| `PSG PT teacher - Long - Aver lesson report` | From reference run | ✓ Yes | Untested → Skipped → Retest |
+| `PSG AverCM - Long - Aver lesson report` | From reference run | ✓ Yes | Untested → Skipped → Retest |
+| `PSG PT teacher - Hoang - Aver lesson report` | From reference run | ✓ Yes | Untested → Skipped → Retest |
 | `Quoc Bao` | From reference run | ✓ Yes | Untested → Skipped → Retest |
 | `Van Loi` | From reference run | ✓ Yes | Untested → Skipped → Retest |
 | `PSv1 Regression test OOP and some core features for Aver, Aso and Nozomi` | From reference run | ✗ Skip | (no bulk status update) |

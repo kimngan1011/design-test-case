@@ -1,8 +1,8 @@
 # Test Cases: LT-98530 — [Riso] OOP | Contract and Monthly Lesson history (App)
 
-> ⚠️ **Pending Confirmation:** The status-filter test cases below validate the PRD's stated "Status = Completed" rule, which the PRD's own inline comment marks as unresolved ("TBC → Cancelled"). See spec Clarification Question #3.
+> **Confirmed 2026-08-13:** Lesson History includes only Completed lessons.
 
-## Suite: [Riso] Lesson History — Filter & Sort (Pending Confirmation)
+## Suite: [Riso] Lesson History — Filter & Sort
 
 ### [Riso] Lesson History – Status Filter – Completed Lesson Included
 
@@ -38,9 +38,9 @@
 
 ---
 
-### [Riso] Lesson History – Status Filter – Cancelled Lesson – Excluded (Pending Confirmation)
+### [Riso] Lesson History – Status Filter – Cancelled Lesson – Excluded
 
-**Description:** AC02.1 — Decision Table / Negative — A Cancelled-status lesson is excluded from Lesson History, per the PRD's background RFP intent ("only completed lesson should be listed"). The PRD's own inline comment marks this as unresolved ("TBC → Cancelled") — spec Clarification Question #3.
+**Description:** AC02.1 — Decision Table / Negative — A Cancelled-status lesson is excluded because Lesson History includes only Completed lessons.
 
 **Preconditions:**
 - Logged in as Student to the Riso Learner App
@@ -48,7 +48,7 @@
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
-| 1 | Open Lesson History for September 2025 | The lesson on 2025-09-08 is NOT shown in the list (pending confirmation this remains correct) | lesson_status=Cancelled; expected=excluded (pending confirmation) |
+| 1 | Open Lesson History for September 2025 | The lesson on 2025-09-08 is NOT shown in the list | lesson_status=Cancelled; expected=excluded |
 
 **Severity:** critical
 **Priority:** high

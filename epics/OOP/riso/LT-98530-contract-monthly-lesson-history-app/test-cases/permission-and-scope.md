@@ -36,9 +36,9 @@
 
 ---
 
-### [Riso] Contract Info and Lesson History – Parent With Multiple Linked Children – Data Scoped to Selected Child (Pending Confirmation)
+### [Riso] Contract Info and Lesson History – Parent With Multiple Linked Children – Data Scoped to Selected Child
 
-**Description:** Cross-cutting — Permission Matrix — For a parent account linked to multiple children, both pages must scope strictly to whichever child is currently selected via the existing header selector (spec Clarification Question #9).
+**Description:** Cross-cutting — Permission Matrix — A parent must select a child before viewing either page; both pages scope strictly to that selected child.
 
 **Preconditions:**
 - Logged in as Parent to the Riso Learner App, linked to Child A and Child B
@@ -82,7 +82,7 @@
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
 | 1 | Submit a new Active Monthly-type Riso Contract via the API for this LA (start=2025-04, monthly slot=4, current selected month=Sep 2025) | Contract is created and linked to the LA | contract_slot=4; contract_start=2025-04 |
-| 2 | Reopen the Contract Info page | Total Slot now shows the newly submitted contract's contribution | selected_month=2025-09; expected=Total Slot reflects new contract (pending confirmation of exact formula, see Clarification Q1) |
+| 2 | Reopen the Contract Info page | Total Slot shows the newly submitted contract's contribution using the confirmed App formula | selected_month=2025-09; expected=Total Slot reflects new contract |
 
 **Severity:** minor
 **Priority:** medium
@@ -106,19 +106,18 @@
 
 ---
 
-### [Riso] Total Slot and Lesson Allocated – Cross-Surface Regression – Contract Update Reflected Consistently Across App, SF Report, and API
+### [Riso] Total Slot – Contract Update Reflected on the App
 
-**Description:** Cross-cutting — Regression — End-to-end check that a single Contract update via the API is reflected consistently (or its known divergence is documented) across all three consuming surfaces: this App, the SF Monthly Lesson Assignment report (LT-98531), and the raw API aggregation (LT-98533).
+**Description:** Cross-cutting — Regression — A Contract update via the API is reflected on the App using the confirmed App-specific Total Slot formula.
 
 **Preconditions:**
-- Logged in as Student to the Riso Learner App and as HQ or CM Staff to the Salesforce org (same student's LA)
+- Logged in as Student to the Riso Learner App
 - LA has one Active Monthly-type Riso Contract: start=2025-04, monthly slot=4
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
 | 1 | Update the Contract's monthly slot from 4 to 6 via the API | LA aggregation recalculates | new_monthly_slot=6 |
-| 2 | View Total Slot on the App for September 2025 | App shows updated value per PRD's prorated formula (6×6=36) | app_total_slot expected=36 (pending confirmation vs API aggregation) |
-| 3 | View LA.Total_Session_Count on Salesforce | SF shows the flat aggregated value per LT-98533, compare against step 2 and log any discrepancy as pending confirmation (Clarification Q1) | sf_total_session_count = SUM(contract.total); compare vs app value |
+| 2 | View Total Slot on the App for September 2025 | App shows 36 (Monthly Slot 6 × 6 elapsed months) | app_total_slot=36 |
 
 **Severity:** major
 **Priority:** high

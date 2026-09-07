@@ -59,3 +59,73 @@ After copying lessons in Aso Prod, students were found assigned twice to the sam
 - When a fix removes records across partners, ensure the migration scope covers **all partners**, not just the one that reported the issue.
 
 ---
+
+## [2026-08-18] Renseikai — Published Lesson Missing Student Sessions Due to Salesforce 10,000-Record Bulk Write Limit
+
+**Slack thread:** https://manabie.slack.com/archives/C02B6RYSD7A/p1787034274581849
+
+### Issue
+
+A bulk lesson-generation import (~1,300 lesson schedules across ~1,200 classes) created the lessons successfully, but the follow-up step that queues students for auto-assignment silently failed for one batch, leaving Published Lessons with zero Student Sessions despite having active Class Members. This blocked attendance tracking.
+
+**Root cause:**
+1. Lesson generation ran in batches; one batch processed 1,000 schedules and, at its last step, looked up every student enrolled across the corresponding ~1,200 classes (~9,000 students) to queue auto-assign rows.
+2. That single operation attempted to write ~9,000 auto-assign queue rows plus 1,000 schedule rows = 10,001 records in one call, exceeding Salesforce's hard limit of 10,000 records per single write operation.
+3. The write was rejected, but lesson creation (an earlier, already-committed step) was unaffected — so lessons existed with no student sessions, and the failure was not surfaced as an error to the importer.
+
+**Data:**
+
+- ~1,300 lesson schedules / ~1,200 classes in the source import
+- 1,000 schedules processed in the failing batch
+- ~9,000 students queued for auto-assign in that batch
+- 10,001 total records attempted vs. Salesforce's 10,000-record-per-operation limit
+
+### Resolution
+
+- Reproduced the failure on preprod to confirm root cause.
+- Re-ran auto-assign for all class members that were missed — a data fix only, no re-import needed.
+- Follow-up work planned to improve the performance/batching of the auto-assign queueing step.
+
+### Lessons Learned / Design Notes
+
+- Any batch operation that writes to Salesforce must chunk its payload to stay under the 10,000-record-per-operation limit — size the chunk dynamically off the number of students to queue, not just the number of schedules/lessons, since the queue step scales with class enrollment.
+- A step that depends on an earlier step's success (auto-assign depending on lesson creation) should fail loudly and be retryable/idempotent rather than leaving lessons in a partially-processed state with no student sessions and no visible error.
+- Add monitoring/alerting for "lesson exists but has zero Student Sessions despite active Class Members" as a detectable data-integrity signal, so partial failures like this surface before a partner reports missing attendance tracking.
+
+---
+
+## [2026-08-19] Renseikai — Manually-Assigned Student Sessions Auto-Removed by Class-Assignment Re-Scan Logic
+
+**Slack thread:** https://manabie.slack.com/archives/C02B6RYSD7A/p1787111883369399
+
+### Issue
+
+83 Student Sessions across 12 school-specific lessons were unexpectedly deleted between 18–19 Aug 2026, blocking attendance management. The lessons themselves remained active; only the student assignments were removed.
+
+**Root cause:**
+1. When a Lesson Allocation (LA) class member's duration is updated — or a class is added/removed on an overlapping lesson — the system triggers a re-auto-assign that re-scans not just which lessons to *assign*, but also which existing student sessions should be *removed*, treating them as "invalid" if they no longer match current class-assignment rules.
+2. The re-scan does not distinguish sessions that were manually assigned by staff from ones the system auto-assigned, so manual assignments get swept up in the same cleanup.
+3. Two distinct deletion patterns occurred from the same re-scan run:
+   - Manually-assigned sessions in a lesson group **without a class** that falls within the class member's duration → incorrectly treated as invalid and removed (this is the actual bug).
+   - Manually-assigned sessions in a lesson group **with a class**, where the lesson's class doesn't match the class member's duration → removed as well, but this is **correct** per the existing auto-assign design (confirmed with the partner, not reverted).
+
+**Data:**
+
+- 83 Student Sessions deleted across 12 lessons total (35 on 19 Aug, 48 on 23 Aug) as originally reported
+- 916 records deleted from lesson groups without a class (Type 1 — the bug)
+- 3,333 records deleted from lesson groups with a mismatched class (Type 2 — correct/intended behavior)
+
+### Resolution
+
+- Reverted the 916 Type-1 records (manually assigned sessions in class-less lesson groups).
+- Did not revert the 3,333 Type-2 records — confirmed by the requester as expected auto-assign behavior.
+- Filed bug ticket [LT-109020](https://manabie.atlassian.net/browse/LT-109020) — "[SF] Auto-remove assigned student from the group lesson without class when triggering class assignment flow" — for the Type-1 bug.
+- An existing improvement ticket, [LT-107584](https://manabie.atlassian.net/browse/LT-107584), already planned for the Sep release, will exclude intentional manual assignments from the system's re-scan/removal logic more broadly.
+
+### Lessons Learned / Design Notes
+
+- The auto-assign re-scan/cleanup logic must distinguish manually-assigned student sessions from auto-assigned ones before removing "invalid" lessons — a manual assignment reflects explicit staff intent and shouldn't be silently deleted by a background re-scan.
+- Any update to a class member's duration, or adding/removing a class on an overlapping lesson, can silently trigger this re-scan and delete existing student sessions — this side effect is not obvious from the triggering action and should be called out (and ideally require confirmation) wherever such updates are made.
+- Even where auto-removal is by-design (class-mismatch case), deletions are user-visible and partner-impacting — communicate the behavior to partners proactively rather than only after an incident is raised.
+
+---

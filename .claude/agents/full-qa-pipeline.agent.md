@@ -45,7 +45,9 @@ PHASE 4 — Import to Qase          (skill: import-to-qase)
 1. Phases run **strictly sequentially**. Never start phase N+1 before phase N is approved.
 2. Run the Internal Reviewer after each phase BEFORE presenting to the user. Auto-fix when possible; only surface review-ready output.
 3. User must give **explicit approval** (`approve`, `looks good`, `continue`, `LGTM`, `go ahead`, `Y`). Anything else = stop and act on feedback.
-4. On change requests, re-run the phase's skill with the feedback, re-review, re-present. Don't skip the review on re-runs.
+4. On change requests, re-run the phase's skill with the feedback, re-review, and show a concise diff preview before applying the change to Qase. Don't skip the review on re-runs.
+5. Before any Qase mutation, inspect the Qase MCP tools actually exposed in the current runtime. If the required operation is unavailable, report the mismatch before making a partial change; do not use Browser automation as an implicit fallback.
+6. After any Qase mutation, re-fetch every changed case and compare title, preconditions, step count, actions, and expected results against the approved local source. Do not report completion while any mismatch remains.
 
 ---
 

@@ -1,0 +1,88 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+26119,[Withus Juku] Class Member – LA Student Session Assignment – LA Start Date – Past effective date accepted,AC-01 — BVA — LA Student Session Assign Class accepts the exact LA start date when the Withus setting is enabled.,"- HQ or CM Staff in Withus; setting enabled; Student A has Course A LA = 2026-08-01 to 2026-12-31; Class A belongs to Course A; no Class A assignment exists; today = 2026-08-12; target date = 2026-08-01",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Course A LA > Student Session for Student A and select Assign Class. 2. Select Class A and enter 2026-08-01. 3. Save and open Class Member history. 4. Open Back Office Course A class information.","1. Assignment form opens. 2. Date is accepted without lower-bound error. 3. Class A starts 2026-08-01 and is linked to Course A LA. 4. Synced Class A membership is visible in Back Office with start date 2026-08-01.","1. today = 2026-08-12; setting = enabled. 2. target date = LA start = 2026-08-01. 3. expected Class Member start = 2026-08-01. 4. expected BO Class A start = 2026-08-01.",,,3304,3303,Direct Class Assignment,,,
+,[Withus Juku] Class Member – Contact Course Assignment – LA Start Date – Past effective date accepted,AC-01 — Boundary Value Analysis — Exact LA start date is accepted when the Withus setting is enabled.,"- Logged in as HQ or CM Staff to the Withus Juku Salesforce org
+- Allow Class Member Start In The Past = enabled
+- Student A has Course A LA from 2026-08-01 through 2026-12-31; Class A belongs to Course A
+- today = 2026-08-12; target_date = 2026-08-01; current time = 2026-08-12 00:30 JST (= 2026-08-11 15:30 UTC)",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Student A's Contact > Course record and select Assign Class for Course A.""
+2. ""Select Class A and enter 2026-08-01 as the effective date.""
+3. ""Save the assignment and open the created Class Member.""
+4. ""Open Back Office and view Student A's Course A class information.""","1. ""The assignment form opens with an effective-date input.""
+2. ""The form accepts 2026-08-01 without the lower-bound error.""
+3. ""One Class A member is created with start date 2026-08-01 and linkage to Course A LA.""
+4. ""The synced Class A membership is visible in Back Office with effective start date 2026-08-01.""","1. ""today = 2026-08-12; LA start = 2026-08-01; setting = enabled""
+2. ""target_date = LA start = 2026-08-01""
+3. ""JST timestamp = 2026-08-12 00:30; UTC timestamp = 2026-08-11 15:30""
+4. ""expected BO class = Class A; expected BO effective start = 2026-08-01""","","",3304,3303,Direct Class Assignment,"","",""
+,[Withus Juku] Class Member – Contact Course Assignment – Date Before LA Start – Exact validation message shown,AC-01 — BVA and Component — A date one day before LA start is blocked with the required error.,"- Logged in as HQ or CM Staff to the Withus Juku Salesforce org
+- Allow Class Member Start In The Past = enabled
+- Student A has Course A LA from 2026-08-01 through 2026-12-31; Class A belongs to Course A
+- today = 2026-08-12; LA_start_date = 2026-08-01; target_date = 2026-07-31",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Student A's Contact > Course record and select Assign Class for Course A.""
+2. ""Select Class A and enter 2026-07-31 as the effective date.""
+3. ""Attempt to save and reopen Class Member history.""","1. ""The form shows Class and effective-date inputs.""
+2. ""The input shows Effective date must be from LA start date onwards.""
+3. ""Saving is blocked and Class Member history is unchanged.""","1. ""today = 2026-08-12; LA start = 2026-08-01""
+2. ""target_date = 2026-07-31 = LA start minus 1 day""
+3. ""expected Class Member additions = 0""","","",3304,3303,Direct Class Assignment,"","",""
+,[Withus Juku] Class Member – Bulk Assign Class – Multiple LAs for one student – Each LA assigned,AC-01 — Decision Table — Bulk assignment accepts the LA start date for each selected LA belonging to one student.,"- Logged in as HQ or CM Staff to the Withus Juku Salesforce org
+- Allow Class Member Start In The Past = enabled
+- Student A has two Course A LAs: LA 1 from 2026-08-01 through 2026-09-30 and LA 2 from 2026-08-01 through 2026-12-31; Class A belongs to Course A
+- today = 2026-08-12; target_date = 2026-08-01",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Student A's Contact > Course record and select the two Course A LAs for Bulk Assign Class.""
+2. ""Select Class A and enter 2026-08-01 as the effective date.""
+3. ""Save the bulk assignment and open Student A's Class Member history.""
+4. ""Open Back Office and view Student A's Course A class information.""","1. ""The bulk-assignment form opens for the two selected LAs of Student A.""
+2. ""The form accepts the shared date without the lower-bound error.""
+3. ""Student A has one Class A member for LA 1 and one for LA 2; both start 2026-08-01 and retain their respective LA linkage and end date.""
+4. ""Both synced Class A memberships are visible in Back Office with their respective LA end dates.""","1. ""student = A; selected LAs = LA 1, LA 2; today = 2026-08-12""
+2. ""target_date = LA start = 2026-08-01""
+3. ""expected members = 2; LA 1 = 2026-08-01 to 2026-09-30; LA 2 = 2026-08-01 to 2026-12-31""
+4. ""expected BO memberships = 2; LA 1 end = 2026-09-30; LA 2 end = 2026-12-31""","","",3304,3303,Direct Class Assignment,"","",""
+"",[Withus Juku] Class Member – Bulk Assign Class – Multiple LAs for one student below boundary – Exact validation message shown,AC-01 — Negative and Component — Bulk assignment blocks a date below the shared LA start boundary for selected LAs.,"- Logged in as HQ or CM Staff to the Withus Juku Salesforce org
+- Allow Class Member Start In The Past = enabled
+- Student A has two Course A LAs: LA 1 from 2026-08-01 through 2026-09-30 and LA 2 from 2026-08-01 through 2026-12-31; Class A belongs to Course A
+- today = 2026-08-12; LA_start_date = 2026-08-01; target_date = 2026-07-31","","",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Student A's Contact > Course record and select the two Course A LAs for Bulk Assign Class.""
+2. ""Select Class A and enter 2026-07-31 as the effective date.""
+3. ""Attempt to save and open Student A's Class Member history.""","1. ""The bulk-assignment form opens for the two selected LAs of Student A.""
+2. ""The effective-date input shows Effective date must be from LA start date onwards.""
+3. ""Saving is blocked; neither selected LA receives a new Class Member and Student A's history is unchanged.""","1. ""student = A; selected LAs = LA 1, LA 2; today = 2026-08-12""
+2. ""target_date = 2026-07-31 = LA start minus 1 day""
+3. ""expected Class Member additions = 0 for LA 1 and LA 2""","","",3304,3303,Direct Class Assignment,"","",""
+,[Withus Juku] Class Member – Location Course Student Assignment – Later past date – Class Member created,AC-01 — Equivalence Partitioning — Location Course accepts a past date after LA start.,"- Logged in as HQ or CM Staff to the Withus Juku Salesforce org
+- Allow Class Member Start In The Past = enabled
+- Student A has Course A LA from 2026-08-01 through 2026-12-31 at Location 1; Class A belongs to Course A
+- today = 2026-08-12; LA_start_date = 2026-08-01; target_date = 2026-08-05",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Location 1 > Course A > Student A and select Assign Class.""
+2. ""Select Class A and enter 2026-08-05 as the effective date.""
+3. ""Save and open Class Member history.""
+4. ""Open Back Office and view Student A's Course A class information.""","1. ""The assignment form opens with an effective-date input.""
+2. ""The form accepts the later past date without the lower-bound error.""
+3. ""One Class A member starts 2026-08-05 and is linked to Course A LA.""
+4. ""The synced Class A membership is visible in Back Office with effective start date 2026-08-05.""","1. ""today = 2026-08-12; setting = enabled""
+2. ""target_date = 2026-08-05; target_date > LA start""
+3. ""expected start = 2026-08-05""
+4. ""expected BO class = Class A; expected BO effective start = 2026-08-05""","","",3304,3303,Direct Class Assignment,"","",""
+"",[Withus Juku] Class Member – Location Course Student Assignment – Date Before LA Start – Exact validation message shown,AC-01 — Negative and Component — Location Course assignment blocks a date below LA start and shows the exact required error.,"- Logged in as HQ or CM Staff to the Withus Juku Salesforce org
+- Allow Class Member Start In The Past = enabled
+- Student A has Course A LA from 2026-08-01 through 2026-12-31 at Location 1; Class A belongs to Course A
+- today = 2026-08-12; LA_start_date = 2026-08-01; target_date = 2026-07-31","","",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Location 1 > Course A > Student A and select Assign Class.""
+2. ""Select Class A and enter 2026-07-31 as the effective date.""
+3. ""Attempt to save and open Student A's Class Member history.""","1. ""The Location Course assignment form opens with an effective-date input.""
+2. ""The effective-date input shows Effective date must be from LA start date onwards.""
+3. ""Saving is blocked and Class Member history is unchanged.""","1. ""today = 2026-08-12; setting = enabled""
+2. ""target_date = 2026-07-31 = LA start minus 1 day""
+3. ""expected Class Member additions = 0""","","",3304,3303,Direct Class Assignment,"","",""
+,[Withus Juku] Class Member – LA Student Session Assignment – Date Before LA Start – Exact validation message shown,AC-01 — Negative and Component — The LA Student Session flow blocks a date below LA start.,"- Logged in as HQ or CM Staff to the Withus Juku Salesforce org
+- Allow Class Member Start In The Past = enabled
+- Student A has Course A LA from 2026-08-01 through 2026-12-31; Class A belongs to Course A
+- today = 2026-08-12; LA_start_date = 2026-08-01; target_date = 2026-07-31",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Course A LA > Student Session for Student A and select Assign Class.""
+2. ""Select Class A and enter 2026-07-31 as the effective date.""
+3. ""Attempt to save and open Class Member history.""","1. ""The form shows Class and effective-date inputs.""
+2. ""The effective-date input shows Effective date must be from LA start date onwards.""
+3. ""Saving is blocked and no Class Member history is changed.""","1. ""today = 2026-08-12; setting = enabled""
+2. ""target_date = 2026-07-31 = LA start minus 1 day""
+3. ""expected Class Member additions = 0""","","",3304,3303,Direct Class Assignment,"","",""
+,[Withus Juku] Class Member – Assign Class Permission – BO Teacher – Existing access restriction retained,AC-01 — Permission Matrix — The setting does not grant a BO Teacher assignment access.,"- Logged in as a BO Teacher in the Withus Juku Salesforce org
+- Allow Class Member Start In The Past = enabled
+- Student A has Course A LA from 2026-08-01 through 2026-12-31
+- today = 2026-08-12; target_date = 2026-08-01",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Student A's Contact > Course record.""
+2. ""Inspect available actions for Course A.""","1. ""The Course A record is visible according to existing teacher access.""
+2. ""Assign Class is unavailable to the BO Teacher.""","1. ""today = 2026-08-12; role = BO Teacher""
+2. ""setting = enabled; target_date = 2026-08-01""","","",3304,3303,Direct Class Assignment,"","",""

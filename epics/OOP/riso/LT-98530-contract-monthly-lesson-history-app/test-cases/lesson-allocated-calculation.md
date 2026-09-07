@@ -1,8 +1,8 @@
 # Test Cases: LT-98530 — [Riso] OOP | Contract and Monthly Lesson history (App)
 
-> ⚠️ **Pending Confirmation:** The Cancelled-status exclusion rule (AC01.2) conflicts with the sibling SF report's confirmed behavior (LT-98531 AC-10 — no status check at all). See spec Clarification Question #2. Both interpretations are tested below.
+> **Confirmed 2026-08-13:** This Riso App follows AC01.2: Cancelled lessons are excluded. The sibling SF report's status-agnostic calculation is an intentional divergence and is not an alternate expected result here.
 
-## Suite: [Riso] Lesson Allocated Calculation (Pending Confirmation)
+## Suite: [Riso] Lesson Allocated Calculation
 
 ### [Riso] Lesson Allocated – Session Date Within Academic Year – Included in Count
 
@@ -55,26 +55,9 @@
 
 ---
 
-### [Riso] Lesson Allocated – Cancelled Lesson Status – Excluded Per PRD (Pending Confirmation)
+### [Riso] Lesson Allocated – Cancelled Lesson Status – Excluded
 
-**Description:** AC01.2 — Decision Table — Per the PRD's literal text, a session on a Cancelled-status lesson is excluded from Lesson Allocated. This conflicts with the sibling SF report's confirmed behavior (spec Clarification Question #2); tested here as the PRD's primary stated rule.
-
-**Preconditions:**
-- Logged in as Student to the Riso Learner App
-- LA has one student session on a Cancelled-status lesson, date=2025-09-15, within range, Attendance = Present
-
-| # | Action | Expected Result | Test Data |
-|---|--------|-----------------|-----------|
-| 1 | Set the month selector to September 2025 and view the LA card | Lesson Allocated count does NOT include this session | lesson_status=Cancelled; session_date=2025-09-15; expected=excluded (per PRD, pending confirmation) |
-
-**Severity:** critical
-**Priority:** high
-
----
-
-### [Riso] Lesson Allocated – Cancelled Lesson Status – Alternate Behavior Matching Confirmed SF Report (Pending Confirmation)
-
-**Description:** AC01.2 — Decision Table — Documents the alternate expected behavior confirmed for the sibling SF report (LT-98531 AC-10: lesson status is NOT checked at all). To be adopted here only if Clarification Question #2 resolves in favor of matching the SF report.
+**Description:** AC01.2 — Decision Table — A session on a Cancelled-status lesson is excluded from Lesson Allocated for the Riso App.
 
 **Preconditions:**
 - Logged in as Student to the Riso Learner App
@@ -82,7 +65,7 @@
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
-| 1 | Set the month selector to September 2025 and view the LA card | (Alternate expectation, pending) Lesson Allocated count INCLUDES this session, matching LT-98531's confirmed no-status-check behavior | lesson_status=Cancelled; session_date=2025-09-15; expected=included (alternate, pending confirmation) |
+| 1 | Set the month selector to September 2025 and view the LA card | Lesson Allocated count does NOT include this session | lesson_status=Cancelled; session_date=2025-09-15; expected=excluded |
 
 **Severity:** critical
 **Priority:** high
@@ -152,24 +135,6 @@
 |---|--------|-----------------|-----------|
 | 1 | Set the month selector to October 2025 and view the LA card | Lesson Allocated count includes this session (attributed to October, the JST date) | session_utc=2025-09-30 15:15 UTC; session_jst=2025-10-01 00:15 JST; selected_month=2025-10; expected=included in October (JST) |
 | 2 | Set the month selector to September 2025 and view the LA card | Lesson Allocated count does NOT include this session for September | selected_month=2025-09; expected=excluded from September |
-
-**Severity:** major
-**Priority:** high
-
----
-
-### [Riso] Lesson Allocated – Cross-Surface Consistency – App Count vs SF Monthly Lesson Assignment Report
-
-**Description:** AC01.2 — Regression — Compares the App's Lesson Allocated count against the confirmed SF Monthly Lesson Assignment report (LT-98531) count for the same student/month, given both claim to share "the same calculation as PBT-1510."
-
-**Preconditions:**
-- Logged in as Student to the Riso Learner App and as HQ or CM Staff to the Salesforce org (same student, same month)
-- Student has 1 Cancelled-status session and 1 Absent-without-notice session in the selected month, plus 3 Present sessions
-
-| # | Action | Expected Result | Test Data |
-|---|--------|-----------------|-----------|
-| 1 | View Lesson Allocated on the App Contract Info page | App shows 3 (Cancelled excluded per PRD; Absent-without-notice excluded) | app_lesson_allocated = 3 (Present sessions only, per PRD's Cancelled exclusion) |
-| 2 | View the Lesson Allocated column on the SF Monthly Lesson Assignment report for the same student/month | SF report shows 4 (Cancelled included per LT-98531 AC-10 confirmed behavior; only Absent-without-notice excluded) — a mismatch vs the App, flagged as pending confirmation | sf_lesson_allocated = 4 (Cancelled included, per confirmed AC-10); discrepancy = 1, pending Clarification Question #2 |
 
 **Severity:** major
 **Priority:** high

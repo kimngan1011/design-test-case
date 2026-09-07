@@ -1,0 +1,63 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,Lesson Allocation – Create Order – No Class Selected – LA Created Without Class Member,AC-04 — Equivalence Partitioning — A supported no-class order creates the required LA without creating class-based records.,"- Logged in as HQ or CM Staff to the Salesforce org
+- Student A has active enrollment at Location 1 and a payment method
+- Course A has Require Allocation = True
+- One-Time product for Course A has Availability Set In Order = True
+- today = 2026-08-10; product_start_date = 2026-08-10; product_end_date = 2026-12-31",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Student A and create a New Order Group for Location 1""
+2. ""Add the One-Time product for Course A without selecting a class""
+3. ""Submit the order""
+4. ""Open the Course A Lesson Allocation""
+5. ""Open Class Member history and Course A group lessons""","1. ""A new Order Group is available""
+2. ""The product row is valid and no class is selected""
+3. ""The order is submitted without an error""
+4. ""One Course A LA is created from 2026-08-10 to 2026-12-31""
+5. ""No Class Member and no class-based Student Session are created""","1. ""today = 2026-08-10; location = Location 1""
+2. ""product_type = One-Time; class = blank; start = 2026-08-10; end = 2026-12-31""
+3. ""class = blank""
+4. ""expected LA duration = 2026-08-10 to 2026-12-31""
+5. ""expected Class Member count = 0; expected auto-assigned Student Session count = 0""",,,2570,,Create LA – New Order Group,,,
+,Lesson Allocation – Create Order – Same Course with Different Classes and Durations – Each LA Uses Its Matching Class,AC-05 — Pairwise — Duplicate course rows with different durations resolve Class A and Class B independently.,"- Logged in as HQ or CM Staff to the Salesforce org
+- Student A has active enrollment at Location 1 and a payment method
+- Course A has Require Allocation = True; Class A and Class B both belong to Course A
+- Slot-Based product for Course A has Availability Set In Order = True
+- today = 2026-08-10; duration_a = 2026-08-10 to 2026-09-30; duration_b = 2026-10-01 to 2026-12-31",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Create a New Order Group for Location 1""
+2. ""Add Slot-Based Course A with Class A and duration A""
+3. ""Add Slot-Based Course A with Class B and duration B""
+4. ""Submit the order""
+5. ""Open the Course A LAs and Class Member records""","1. ""A new Order Group is available""
+2. ""The first row shows Course A, Class A, and duration A""
+3. ""The second row shows Course A, Class B, and duration B without replacing the first row""
+4. ""The order is submitted without an error""
+5. ""Two distinct LAs exist: duration A links to Class A and duration B links to Class B""","1. ""today = 2026-08-10""
+2. ""row 1: Course A; Class A; 2026-08-10 to 2026-09-30""
+3. ""row 2: Course A; Class B; 2026-10-01 to 2026-12-31""
+4. ""two Course A product rows""
+5. ""LA A = 2026-08-10 to 2026-09-30; LA B = 2026-10-01 to 2026-12-31""",,,2570,,Create LA – New Order Group,,,
+,Lesson Allocation – Create Order – Same Course and Class with Different Durations – Separate LAs Retain Both Durations,AC-05 — Pairwise — Duplicate course rows may select the same class while retaining independent LA and Class Member durations.,"- Logged in as HQ or CM Staff to the Salesforce org
+- Student A has active enrollment at Location 1 and a payment method
+- Course A has Require Allocation = True; Class A belongs to Course A
+- Slot-Based product for Course A has Availability Set In Order = True
+- today = 2026-08-10; duration_a = 2026-08-10 to 2026-09-30; duration_b = 2026-10-01 to 2026-12-31",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Create a New Order Group for Location 1""
+2. ""Add Slot-Based Course A with Class A and duration A""
+3. ""Add a second Slot-Based Course A row with Class A and duration B""
+4. ""Submit the order""
+5. ""Open the Course A LAs and Class A member history""","1. ""A new Order Group is available""
+2. ""The first row shows Course A, Class A, and duration A""
+3. ""The second row is retained with its own duration""
+4. ""The order is submitted without an error""
+5. ""Two distinct LAs and Class Member records retain the two matching durations""","1. ""today = 2026-08-10""
+2. ""row 1: Course A; Class A; 2026-08-10 to 2026-09-30""
+3. ""row 2: Course A; Class A; 2026-10-01 to 2026-12-31""
+4. ""two Course A product rows""
+5. ""expected durations: 2026-08-10 to 2026-09-30 and 2026-10-01 to 2026-12-31""",,,2570,,Create LA – New Order Group,,,
+,Lesson Allocation – Create Order – JST and UTC Date Boundary – Class Member Uses the JST Business Date,AC-01 AC-02 — Boundary Value Analysis — A class-selected new order preserves the JST business date when UTC is on the previous calendar day.,"- Logged in as HQ or CM Staff to the Salesforce org using Asia/Tokyo timezone
+- Student A has active enrollment at Location 1 and a payment method
+- Course A has Require Allocation = True; Class A belongs to Course A
+- One-Time product for Course A has Availability Set In Order = True
+- current_time = 2026-08-10 00:30 JST (= 2026-08-09 15:30 UTC); product_start_date = 2026-08-10; product_end_date = 2026-12-31",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Create a New Order Group while the business date is 2026-08-10 JST""
+2. ""Add the One-Time product for Course A with Class A and submit""
+3. ""Open the Class Member record for Class A""","1. ""The new Order Group uses business date 2026-08-10""
+2. ""The order is submitted without an error""
+3. ""The Class Member starts 2026-08-10, not 2026-08-09, and ends 2026-12-31""","1. ""current_time = 2026-08-10 00:30 JST (= 2026-08-09 15:30 UTC)""
+2. ""class = Class A; start = 2026-08-10; end = 2026-12-31""
+3. ""expected start = 2026-08-10 JST; UTC representation = 2026-08-09 15:30""",,,2570,,Create LA – New Order Group,,,

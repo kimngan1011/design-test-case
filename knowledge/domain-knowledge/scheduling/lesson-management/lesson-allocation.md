@@ -39,6 +39,19 @@ Order Group (SF) ──→ Student Product Offering (SPO) ──→ Lesson Alloc
 | **Add New Associated Course** (update order) | New LA created with start = effective date. Other existing LAs unchanged. Effective date must be ≥ product start date. Past effective dates allowed (PBT-1859). |
 | **Import Order via CSV** | LA created with same rules as manual order. |
 
+### Order-group class assignment
+
+When an Order Group includes a course-to-class selection, the order creates a Class Member for the LA after submission. The class is resolved from the selected course and the LA duration; this keeps allocations distinct when the same course appears more than once in the same order with different durations.
+
+| Flow and product type | Class member start date | Notes |
+|---|---|---|
+| **Create Order — all product types** | Product start date, or **today** when the product start is in the past | Class Member end date follows the product end date. No effective-date field is used in this flow. |
+| **Add New Course — Schedule / Frequency** | Selected effective date | Staff enters the effective date as part of the add-course flow. |
+| **Add New Course — One-Time / Slot-Based** | Order Group Class (OGC) start date | The flow does not ask staff for an effective date; OGC defaults it to the submission date. |
+
+- If no class is selected, the LA is still created but no Class Member and no class-based Student Session are created.
+- If the same course has multiple product rows in one Order Group, match each LA to the OGC row using both **course** and **duration**. Two rows with the same class remain separate Class Member records because their durations are different.
+
 ### Update triggers
 
 | Trigger | LA Effect |
@@ -68,6 +81,7 @@ Order Group (SF) ──→ Student Product Offering (SPO) ──→ Lesson Alloc
 - **Multiple product offerings for same student** → separate LAs per product, counted independently.
 - **Multiple courses per product** → separate LA per course (all with `Require Allocation = True`).
 - **Multiple LAs with same course and duration** → allowed; counted independently.
+- **Same course with different durations in one Order Group** → separate LAs and Class Members; the selected class is matched by course + duration, not course alone.
 - **Missing Lesson Allocation Week (LAW)** → LA created, but total session count depends on LAW availability.
 - **LA duration outside any week order** → LA created; session count = 0.
 

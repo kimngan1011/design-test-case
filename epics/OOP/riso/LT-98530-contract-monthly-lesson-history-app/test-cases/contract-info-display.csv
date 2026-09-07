@@ -13,12 +13,13 @@ Student ""Yuki Tanaka"" is the currently selected profile",,,low,trivial,functio
 ","1. """"
 2. ""student = Yuki Tanaka""
 ",,,3250,,[Riso] Contract Info — Display & List,,,
-,[Riso] Contract Info – Static Text – Section Label and Info Banner Displayed,AC01.1 - Component: Section header label and the data-timing info banner display the exact PRD-specified EN/JP text.,"Logged in as Student to the Riso Learner App, English locale",,,low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page""
-2. ""View the info banner below the month selector""
+,[Riso] Translation – Contract Info – Static Labels – Caption and Info Banner,"AC01.1 - Translation: Contract Info static text displays the exact EN/JP strings defined by the PRD Localization table.","Logged in as Student to the Riso Learner App, English locale
+Student has at least one qualifying LA card",,,low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page in English""
+2. ""View a qualifying LA card and the info banner""
 3. ""Switch app locale to Japanese and reopen the page""
-","1. ""Section header shows ""Contract Info""""
-2. ""Banner shows ""Due to the timing of data updates, new contract details may not be reflected immediately.""""
-3. ""Section header shows ""契約情報"" and banner shows ""データ更新のタイミングにより、新規ご契約内容が即座に反映されない場合がございます。""""
+","1. ""Header label shows ""Full Name""; section header shows ""Contract Info""; caption shows ""total at the time""""
+2. ""Card labels show ""Academic Year"", ""Location"", ""Total Slot"", and ""Lesson Allocated""; banner shows ""Due to the timing of data updates, new contract details may not be reflected immediately.""""
+3. ""Header label shows ""名前""; section header shows ""ご契約内容""; caption shows ""時点の累計""; card labels show ""年度"", ""拠点"", ""契約数"", and ""授業設定数""; banner shows ""データ更新のタイミングにより、新規ご契約内容が即座に反映されない場合がございます。""""
 ","1. ""locale = EN""
 2. ""locale = EN""
 3. ""locale = JP""
@@ -28,7 +29,7 @@ Current Academic Year runs 2025-04-01 to 2026-03-31",,,medium,minor,functional,u
 ","1. ""Month selector defaults to ""Mar 2026""""
 ","1. ""today = 2026-07-27; AY = 2025-04-01 to 2026-03-31; expected default = 2026-03 (last month of AY)""
 ",,,3250,,[Riso] Contract Info — Display & List,,,
-,[Riso] Contract Info – Month Selector – Format Displayed – EN and JP Formats Rendered,AC01.1 - Component: Month selector renders the exact EN ""MM YYYY"" and JP ""YYYY年MM月"" formats.,Logged in as Student to the Riso Learner App,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page in English locale, month = September 2025""
+,[Riso] Translation – Contract Info – Month Selector Format – EN and JP Rendered,AC01.1 - Component: Month selector renders the exact EN ""MM YYYY"" and JP ""YYYY年MM月"" formats.,Logged in as Student to the Riso Learner App,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page in English locale, month = September 2025""
 2. ""Switch to Japanese locale""
 ","1. ""Month selector shows ""Sep 2025""""
 2. ""Month selector shows ""2025年9月""""
@@ -53,8 +54,8 @@ Student has 3 qualifying LAs: LA-A (start=2025-04-01, end=2026-03-31, created=20
 ","1. ""Cards appear in order: LA-B, LA-A, LA-C""
 ","1. ""LA-A: start=2025-04-01,end=2026-03-31; LA-B: start=2025-04-01,end=2025-09-30; LA-C: start=2025-06-01,end=2026-03-31; expected order = B (same start, earlier end), A, C (later start)""
 ",,,3250,,[Riso] Contract Info — Display & List,,,
-,[Riso] Contract Info – LA List – Empty State – No Qualifying LA (Pending Confirmation),"AC01.1 - Negative: When no LA matches the filter (require_allocation=TRUE AND Current AY), the page shows a graceful empty state. Exact copy pending PM confirmation (spec Clarification Question #6).","Logged in as Student to the Riso Learner App
-Student has zero LAs with require_allocation=TRUE for the Current AY",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Contract Info page""
-","1. ""An empty-state placeholder is shown (no crash, no blank white screen); exact copy pending confirmation""
-","1. ""qualifying_LA_count = 0""
+,[Riso] Contract Info – LA List – No Qualifying Data – No LA Cards Shown,"AC01.1 - Negative: The selector may move outside the current AY. When the selected month has no qualifying data, no LA data/cards are shown.","Logged in as Student to the Riso Learner App
+Student has no qualifying LA data for March 2024 (outside the current AY)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select March 2024 in the Contract Info month selector""
+","1. ""No LA data/cards are shown""
+","1. ""selected_month=2024-03; qualifying_data_count=0""
 ",,,3250,,[Riso] Contract Info — Display & List,,,

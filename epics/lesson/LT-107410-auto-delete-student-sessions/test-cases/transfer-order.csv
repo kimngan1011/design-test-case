@@ -1,0 +1,39 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"Lesson Allocation – Transfer Order – Individual student removal and downstream consistency","AC-3, AC-6 — End-to-end — Transfer removes an Individual Student from the previous-location outside lesson and keeps all downstream views consistent.","- Individual Student A has an individual Lesson Allocation at Location A from 2026-01-01 to 2026-12-31
+- Location A has sessions on 2026-06-20 and 2026-06-21, with a Lesson Report Detail on 2026-06-21
+- Location A Lesson Allocated is 3 before the Transfer
+- Transfer ends Location A on 2026-06-20 and starts Location B on 2026-06-21",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff submits Transfer Order""
+2. ""HQ or CM Staff opens the Location A lesson""
+3. ""HQ or CM Staff opens the Location A Lesson Allocation""
+4. ""HQ or CM Staff opens the Location A lesson report""
+5. ""BO Staff opens the Location A lesson detail""
+6. ""Individual Student A opens the Learner App schedule""","1. ""The Location A Lesson Allocation ends on 2026-06-20 and the Location B Lesson Allocation starts on 2026-06-21""
+2. ""Individual Student A is removed from the Location A lesson""
+3. ""Lesson Allocated is 2 and status reflects the remaining sessions""
+4. ""Individual Student A has no Lesson Report Detail""
+5. ""Individual Student A is absent from the student list""
+6. ""The Location A lesson and report are absent""","1. ""old_end = 2026-06-20; new_start = 2026-06-21""
+2. ""lesson_date = 2026-06-21""
+3. ""expected_allocated = 2""
+4. ""lesson_date = 2026-06-21; individual_student = A""
+5. ""lesson_date = 2026-06-21""
+6. ""lesson_date = 2026-06-21""",,,2967,280,Create LA – Transfer Order,,,
+,"Lesson Allocation – Cancel Transfer – Individual student remains removed and downstream data remains absent","AC-3, AC-6 — State transition — Cancel Transfer restores the prior LA duration without re-adding the previously removed Individual Student Session or downstream data.","- Individual Student A has a submitted Transfer from Location A to Location B
+- The Transfer ended the Location A Lesson Allocation on 2026-06-20 and removed Individual Student A from the Location A lesson on 2026-06-21
+- Individual Student A has no Location A Lesson Report Detail on 2026-06-21
+- Location A Lesson Allocated is 2 after the session removal",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff cancels Transfer Order""
+2. ""HQ or CM Staff opens the previous Location A lesson""
+3. ""HQ or CM Staff opens the Location A Lesson Allocation""
+4. ""HQ or CM Staff opens the Location A lesson report""
+5. ""BO Staff opens the Location A lesson detail""
+6. ""Individual Student A opens the Learner App schedule""","1. ""The Location A Lesson Allocation end date is restored and the Location B Lesson Allocation is deleted""
+2. ""Individual Student A is not re-added to the lesson""
+3. ""Lesson Allocated remains 2 and no duplicate Individual Student Session is created""
+4. ""Individual Student A has no Lesson Report Detail""
+5. ""Individual Student A remains absent from the student list""
+6. ""The previous-location lesson and report remain absent""","1. ""transfer = submitted; original_end = 2026-06-20""
+2. ""lesson_date = 2026-06-21""
+3. ""expected_allocated = 2""
+4. ""lesson_date = 2026-06-21; individual_student = A""
+5. ""lesson_date = 2026-06-21""
+6. ""lesson_date = 2026-06-21""",,,2967,280,Create LA – Transfer Order,,,

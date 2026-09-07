@@ -53,35 +53,46 @@ Wait for the link before proceeding.
 - Rows with `title` filled → TC rows.
 - Map columns per Qase schema (see qase-import-rules.md).
 
-### Step 3 — Fetch existing suites
+### Step 3 — Confirm runtime Qase MCP capabilities
+Before reading or changing Qase, inspect the Qase MCP tools actually available in the current runtime. Do not assume the operations named in this skill are exposed.
+
+- Record the available read/create/update/delete operations needed for this import.
+- If a requested operation (especially delete) is unavailable, stop before partial restructuring and report the exact capability gap to the user.
+- Do not substitute Browser automation merely because an MCP operation is unavailable unless the user explicitly asks for that fallback.
+
+### Step 4 — Fetch existing suites
 `mcp_qase_list_suites` for the project. Paginate (`offset`) until exhausted. Build `suite title → suite ID` map.
 
-### Step 4 — Resolve suite hierarchy
+### Step 5 — Resolve suite hierarchy
 For each suite name in the file:
-1. Look up in the map from Step 3.
+1. Look up in the map from Step 4.
 2. **Exists** → record its `suite_id`.
 3. **Does not exist** → `mcp_qase_create_suite` with `code`, `title`, and `parent_id` (real ID of parent; omit if root-of-batch — root sits under the user-provided target parent).
 4. **Order:** create parent suites before children. Preserve file hierarchy in Qase.
 
 Build final map: `local suite name → real Qase suite_id`.
 
-### Step 5 — Prepare TC payloads
+### Step 6 — Prepare TC payloads
 Construct payloads per TC using the field mapping in `.claude/references/qase-import-rules.md`. **Apply the multi-line content rule** (real newlines or `<br>`, no literal `\n` strings).
 
-### Step 6 — Check for duplicates
+Before sending any payload, validate it against `.claude/references/test-case-rules.md`: one setup condition per capitalized precondition bullet; no actor-only bullet; and every step action uses `Actor + present-tense verb + action`.
+
+### Step 7 — Check for duplicates
 For each suite batch, `mcp_qase_list_cases` with `code`, `suite_id`, `search=<title>`. If a case with identical title exists in the same suite:
 - **Skip** and log: `SKIP: "<title>" already exists in suite "<suite name>" (ID: <existing_id>)`.
 
-### Step 7 — Import
+### Step 8 — Import
 Group cases by suite. For each suite batch:
-1. `mcp_qase_bulk_create_cases` with `code` and `cases` (filtered after Step 6).
+1. `mcp_qase_bulk_create_cases` with `code` and `cases` (filtered after Step 7).
 2. Record returned case IDs.
 3. On batch failure, retry individual cases; log failures with title + error.
 
-### Step 8 — Update CSV with real suite IDs
-Find the companion `.csv` (same path as `.md`, or use the input `.csv`). Replace placeholder suite IDs with real Qase IDs from Step 4. Save.
+### Step 9 — Update CSV with real suite IDs
+Find the companion `.csv` (same path as `.md`, or use the input `.csv`). Replace placeholder suite IDs with real Qase IDs from Step 5. Save.
 
-### Step 9 — Report summary
+### Step 10 — Verify and report summary
+For every case created or changed in this run, re-fetch it from Qase and compare the title, preconditions, step count, and every action/expected-result pair with the approved local source. Stop and correct any mismatch before reporting completion.
+
 Print the summary using the template in `.claude/references/qase-import-rules.md`.
 
 ---
@@ -94,6 +105,7 @@ Print the summary using the template in `.claude/references/qase-import-rules.md
 - Steps are `{ action, expected_result, data }` arrays, not flat strings.
 - No literal `\n`/`/n`/`\\n` text remains; multi-line uses real newlines or `<br>`.
 - At least one imported case spot-checked in Qase UI for line breaks.
+- Every changed case re-fetched and matches the approved local source, including its step count.
 - Local `.csv` updated with real suite IDs.
 - Summary printed with counts and failures.
 

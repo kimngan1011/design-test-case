@@ -60,12 +60,22 @@ The title must describe the observable outcome, not the action.
 - ✅ `Logged in as HQ Staff to the Back Office`
 - ❌ `Logged in as Admin to the Renseikai Salesforce org` (unless Admin role is explicit)
 
+### Actor placement and action grammar (CRITICAL)
+- Never list an actor name by itself as a precondition (for example, `HQ or CM Staff` or `Student A`). A precondition describes a testable state, such as `HQ or CM Staff is logged in to Salesforce`.
+- Every step action MUST combine its actor, present-tense verb, and action: ✅ `HQ or CM Staff submits Partial Withdrawal`; ✅ `BO Staff opens the lesson detail`; ❌ `Submit Partial Withdrawal`.
+- Start every precondition bullet, step action, and expected result with a capital letter.
+
+### Precondition list format (CRITICAL)
+- Use one bullet per independent setup condition. Do not pack independent conditions into one bullet with commas or semicolons.
+- A bullet may include a compact list only when all values belong to the same data condition (for example, `Sessions exist on 2026-02-07, 2026-02-08, and 2026-02-09`).
+- Preconditions contain setup state and exact test data only; actions belong in the Steps section.
+
 ## 9. Required fields per test case
 Every TC MUST have all of:
 - **Title** (per §6)
 - **Description** — AC ID (e.g. `AC 01.2`) + technique used (e.g. `BVA`, `Decision Table`) + one-sentence summary.
-- **Preconditions** — bulleted state requirements with explicit test data values and actor role.
-- **Step actions** — numbered, atomic, present tense ("Open…", "Click…", "Enter…"). Include exact value entered.
+- **Preconditions** — bulleted state requirements with explicit test data values; include a login/session state only when it is required.
+- **Step actions** — numbered, atomic, present tense, and formatted `Actor + verb + action`. Include exact value entered.
 - **Step results** — deterministic ("Date field shows 2026-03-17", not "Date field is correct"). One per step.
 - **Steps data** — one entry per step (can be `""` if N/A). For BVA: exact boundary value. For Decision Table: combination tested.
 - **Severity** — see mapping below.

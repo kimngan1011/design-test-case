@@ -2,22 +2,6 @@
 
 ## Suite: [Riso] Lesson History — Display & Navigation
 
-### [Riso] Lesson History – Page Menu – Label Displayed
-
-**Description:** AC02.1 — Component — The page menu entry shows the label "Lesson History".
-
-**Preconditions:**
-- Logged in as Student to the Riso Learner App
-
-| # | Action | Expected Result | Test Data |
-|---|--------|-----------------|-----------|
-| 1 | Open the app main menu | Menu entry "Lesson History" is shown per the latest Figma icon | "" |
-
-**Severity:** trivial
-**Priority:** low
-
----
-
 ### [Riso] Lesson History – Month Navigator – Default Value – Current Month on Page Load
 
 **Description:** AC02.1 — BVA — The Month Navigator defaults to "THIS month" (the current calendar month) when the page is first opened.
@@ -34,26 +18,28 @@
 
 ---
 
-### [Riso] Lesson History – Month Navigator – Format Displayed – EN and JP Formats Rendered
+### [Riso] Translation – Lesson History – Menu – Labels and Date Formats
 
-**Description:** AC02.1 — Component — Month Navigator renders the exact EN "month year" and JP "YYYY年MM月" formats.
+**Description:** AC02.1 — Translation — Lesson History menu, table labels, Month Navigator and Lesson Date formats follow the PRD Localization table.
 
 **Preconditions:**
 - Logged in as Student to the Riso Learner App
+- Student has a Completed lesson on 2025-10-01 (Wednesday)
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
-| 1 | Open the Lesson History page in English locale, month = December 2025 | Month Navigator shows "December 2025" | locale = EN; month = 2025-12 |
-| 2 | Switch to Japanese locale | Month Navigator shows "2025年12月" | locale = JP; month = 2025-12 |
+| 1 | Open the app main menu in English | Menu entry shows "Lesson History" | locale = EN |
+| 2 | Open Lesson History in English for October 2025 | Month Navigator shows "October 2025"; labels show "Date", "Lesson Time", "Subject", "Teacher", and "Attendance"; the lesson date uses the "Oct 1"-style format followed by its day of week | locale = EN; month = 2025-10 |
+| 3 | Switch to Japanese locale | Menu entry shows "授業履歴"; Month Navigator shows "2025年10月"; labels show "日付", "授業時間", "科目", "講師", and "出欠"; the lesson date uses the "10/1"-style format followed by its day of week | locale = JP; month = 2025-10 |
 
 **Severity:** minor
 **Priority:** medium
 
 ---
 
-### [Riso] Lesson History – Month Navigator – Navigate to Previous and Next Month (Pending Confirmation on Boundary)
+### [Riso] Lesson History – Month Navigator – Navigate to Previous and Next Month
 
-**Description:** AC02.1 — Boundary / Negative — User can move back and forward one month at a time; exact navigation boundary is undefined (spec Clarification Question #8), so this TC only asserts adjacent-month navigation works, not the far boundary.
+**Description:** AC02.1 — Boundary / Negative — User can move back and forward one month at a time without a specified navigation boundary. Each selected month displays qualifying Completed lessons or "No data".
 
 **Preconditions:**
 - Logged in as Student to the Riso Learner App
@@ -69,9 +55,9 @@
 
 ---
 
-### [Riso] Lesson History – Empty State – No Completed Lessons in Selected Month (Pending Confirmation)
+### [Riso] Lesson History – Empty State – No Completed Lessons in Selected Month
 
-**Description:** AC02.1 — Negative — When the selected month has zero completed lessons, a "No data" placeholder is shown instead of an empty list. Exact copy is pending confirmation (spec gap).
+**Description:** AC02.1 — Negative — When the selected month has zero Completed lessons, "No data" is shown.
 
 **Preconditions:**
 - Logged in as Student to the Riso Learner App
@@ -79,7 +65,7 @@
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
-| 1 | Navigate the Month Navigator to November 2025 | "No data" placeholder is shown (no crash, no blank list); exact copy pending confirmation | completed_lesson_count(2025-11) = 0 |
+| 1 | Navigate the Month Navigator to November 2025 | "No data" is shown | completed_lesson_count(2025-11) = 0 |
 
 **Severity:** minor
 **Priority:** medium
@@ -96,7 +82,7 @@
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
-| 1 | Open Lesson History for September 2025 and view the row | Row shows: Date "Sep 10 (Wed)", Time "09:00 - 10:20" + "1限", Subject "Math", Teacher "John Smith", Attendance "Present" — all together | date=2025-09-10 (Wed); time=09:00-10:20; timeslot=1限; subject=Math; teacher=John Smith; attendance=Present |
+| 1 | Open Lesson History for September 2025 and view the row | Row shows the lesson date, time with Timeslot Name, Subject, Teacher, and Attendance together | date=2025-09-10 (Wed); time=09:00-10:20; timeslot=1限; subject=Math; teacher=John Smith; attendance=Present |
 
 **Severity:** major
 **Priority:** high

@@ -12,7 +12,7 @@ Student B (a different student, no relationship to Student A) has active LAs and
 ","1. ""Only Student A's own LA cards are shown; Student B's data is never displayed or reachable""
 ","1. ""logged_in_as=Student A; expected=only own data visible""
 ",,,3255,,[Riso] Permission, Scope & Cross-Surface Consistency,,,
-,[Riso] Contract Info and Lesson History – Parent With Multiple Linked Children – Data Scoped to Selected Child (Pending Confirmation),For a parent account linked to multiple children, both pages must scope strictly to whichever child is currently selected (spec Clarification Question #9).,"Logged in as Parent to the Riso Learner App, linked to Child A and Child B",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select Child A in the profile header and open Contract Info""
+,[Riso] Contract Info and Lesson History – Parent With Multiple Linked Children – Data Scoped to Selected Child,A parent must select a child before viewing either page; both pages scope strictly to that selected child.,"Logged in as Parent to the Riso Learner App, linked to Child A and Child B",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select Child A in the profile header and open Contract Info""
 2. ""Switch the profile header selector to Child B and reopen Contract Info""
 ","1. ""Only Child A's LA cards are shown""
 2. ""Only Child B's LA cards are shown; Child A's data is no longer visible""
@@ -33,21 +33,18 @@ Student's LA currently has Total Slot = 0 (no contracts yet)",,,medium,minor,fun
 ","1. ""Contract is created and linked to the LA""
 2. ""Total Slot now shows the newly submitted contract's contribution""
 ","1. ""contract_slot=4; contract_start=2025-04""
-2. ""selected_month=2025-09; expected=Total Slot reflects new contract (pending confirmation of exact formula, see Clarification Q1)""
+2. ""selected_month=2025-09; expected=Total Slot reflects new contract using the confirmed App formula""
 ",,,3255,,[Riso] Permission, Scope & Cross-Surface Consistency,,,
 ,[Riso] Lesson History – Draft Lesson – Never Displayed Regardless of Other Filters,A Draft-status lesson must never appear in Lesson History since Draft lessons are never synced to Mobile at the platform level.,"Logged in as Student to the Riso Learner App
 Student has a Draft-status lesson on 2025-09-20 that would otherwise match the selected month",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Lesson History for September 2025""
 ","1. ""The Draft lesson on 2025-09-20 is NOT shown (never reaches Mobile)""
 ","1. ""lesson_status=Draft; expected=excluded (platform-level guarantee)""
 ",,,3255,,[Riso] Permission, Scope & Cross-Surface Consistency,,,
-,[Riso] Total Slot and Lesson Allocated – Cross-Surface Regression – Contract Update Reflected Consistently Across App, SF Report, and API,End-to-end check that a single Contract update via the API is reflected consistently (or its known divergence documented) across the App, the SF Monthly Lesson Assignment report (LT-98531), and the raw API aggregation (LT-98533).,"Logged in as Student to the Riso Learner App and as HQ or CM Staff to the Salesforce org (same student's LA)
+,[Riso] Total Slot – Contract Update Reflected on the App,A Contract update via the API is reflected on the App using the confirmed App-specific Total Slot formula.,"Logged in as Student to the Riso Learner App
 LA has one Active Monthly-type Riso Contract: start=2025-04, monthly slot=4",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Update the Contract's monthly slot from 4 to 6 via the API""
 2. ""View Total Slot on the App for September 2025""
-3. ""View LA.Total_Session_Count on Salesforce""
 ","1. ""LA aggregation recalculates""
-2. ""App shows updated value per PRD's prorated formula (6x6=36)""
-3. ""SF shows the flat aggregated value per LT-98533, compare against step 2 and log any discrepancy as pending confirmation (Clarification Q1)""
+2. ""App shows 36 (Monthly Slot 6 x 6 elapsed months)""
 ","1. ""new_monthly_slot=6""
-2. ""app_total_slot expected=36 (pending confirmation vs API aggregation)""
-3. ""sf_total_session_count = SUM(contract.total); compare vs app value""
+2. ""app_total_slot=36""
 ",,,3255,,[Riso] Permission, Scope & Cross-Surface Consistency,,,

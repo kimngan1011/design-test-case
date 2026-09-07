@@ -61,16 +61,17 @@ The `analyze-requirement` sub-agent already runs its own 13-point validation. Th
 | 4 | No title contains forbidden words: Verify, Check, Test, Properly, Correctly, Successfully | Auto-fix titles |
 | 5 | Title format `[Feature] – [Sub-feature] – Condition – Expected Behavior` | Auto-fix where possible |
 | 6 | OOP/tenant-specific cases prefixed with `[TenantName]` | Auto-fix |
-| 7 | Every TC has explicit preconditions with concrete test data | Re-run case-by-case |
-| 8 | Every step has deterministic expected result (no "correct"/"as expected") | Re-run case-by-case |
-| 9 | Severity ∈ {critical, major, minor, trivial} — never `normal` | Auto-fix (`normal` → `minor`) |
-| 10 | Priority ∈ {high, medium, low} mapped from Risk Level | Auto-fix |
-| 11 | CSV columns match the Qase schema in `.claude/references/qase-format.csv` | Auto-fix headers |
-| 12 | Each TC = one logical validation (no combined assertions) | Open issue |
-| 13 | For every CREATE/UPDATE/DELETE AC, at least one TC verifies a downstream effect (counter, child record creation/deletion, flag flip, surface change) — not only the primary entity | Re-run for that AC |
-| 14 | For every **Display completeness** row, the TC asserts every required field with a concrete expected value (not vague "field is shown") | Re-run case-by-case |
-| 15 | For every **Ordering / Sort** row, the TC sets up 2+ items differing on sort keys and asserts the relative order explicitly | Re-run case-by-case |
-| 16 | For every **tooltip / exact UI text**, the TC step expected result contains the verbatim string from the spec | Re-run case-by-case |
+| 7 | Every TC has explicit preconditions with concrete test data; every independent condition is one capitalized bullet, with no actor-only bullet or comma/semicolon-packed conditions | Re-run case-by-case |
+| 8 | Every step action follows `Actor + present-tense verb + action`; every action and expected result starts with a capital letter | Re-run case-by-case |
+| 9 | Every step has deterministic expected result (no "correct"/"as expected") | Re-run case-by-case |
+| 10 | Severity ∈ {critical, major, minor, trivial} — never `normal` | Auto-fix (`normal` → `minor`) |
+| 11 | Priority ∈ {high, medium, low} mapped from Risk Level | Auto-fix |
+| 12 | CSV columns match the Qase schema in `.claude/references/qase-format.csv` | Auto-fix headers |
+| 13 | Each TC = one logical validation (no combined assertions) | Open issue |
+| 14 | For every CREATE/UPDATE/DELETE AC, at least one TC verifies a downstream effect (counter, child record creation/deletion, flag flip, surface change) — not only the primary entity | Re-run for that AC |
+| 15 | For every **Display completeness** row, the TC asserts every required field with a concrete expected value (not vague "field is shown") | Re-run case-by-case |
+| 16 | For every **Ordering / Sort** row, the TC sets up 2+ items differing on sort keys and asserts the relative order explicitly | Re-run case-by-case |
+| 17 | For every **tooltip / exact UI text**, the TC step expected result contains the verbatim string from the spec | Re-run case-by-case |
 
 ---
 
@@ -83,3 +84,5 @@ The `analyze-requirement` sub-agent already runs its own 13-point validation. Th
 | 3 | Spot-check ≥1 case via `mcp_qase_get_case` — multi-line fields render with real line breaks (no literal `\n` or `/n`) | Update affected case |
 | 4 | Local `.csv` updated with real Qase suite IDs | Auto-fix |
 | 5 | Import summary printed with totals (suites created/existed, cases created/skipped/failed) | Auto-fix |
+| 6 | Before any Qase create/update/delete, the operations are confirmed against the MCP tools actually available in the current runtime | Stop and report the capability mismatch |
+| 7 | For every Qase case changed after import, re-fetch it and compare title, preconditions, step count, and each action/result against the approved local source | Restore the canonical source and update the affected case |

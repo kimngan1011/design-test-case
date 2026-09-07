@@ -1,0 +1,67 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,Lesson Assignment – Create Class Lesson – Existing Manual Session – Manual Session Retained,AC-07 AC-08 — State Transition — Creating a class lesson assigns the eligible student automatically without deleting a session staff assigned manually.,"- Logged in as HQ or CM Staff to the Salesforce org
+- Student A has an active LA for Course A from 2026-08-01 to 2026-12-31
+- Student A is a Class A member and is auto-assigned to existing Lesson A
+- Staff manually assigned Student A to Lesson B for Class B on 2026-08-15
+- today = 2026-08-10; new_lesson_date = 2026-08-20",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Create a new Course A group lesson with Class A""
+2. ""Run or wait for class-based lesson assignment to finish""
+3. ""Open Lesson B student list""","1. ""The new Class A lesson is created""
+2. ""Student A is automatically assigned to the new Class A lesson""
+3. ""The manually created Student A session remains in Lesson B""","1. ""new_lesson_date = 2026-08-20; class = Class A""
+2. ""class member duration covers 2026-08-20""
+3. ""manual session = Lesson B on 2026-08-15""",,,3294,1289,Lesson Assignment Update,,,
+,Lesson Assignment – Change Class on LA – Automatic Old-Class Session – Manual Session Retained,AC-07 AC-08 — State Transition — Changing an LA class removes obsolete automatic sessions and retains manual sessions.,"- Logged in as HQ or CM Staff to the Salesforce org
+- Student A has an active LA for Course A and is a Class A member
+- Student A is auto-assigned to Lesson A for Class A and manually assigned to Lesson B for Class B
+- Class C belongs to Course A and has Lesson C on 2026-08-20
+- today = 2026-08-10; class_change_date = 2026-08-10",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Change Student A's LA class from Class A to Class C""
+2. ""Run or wait for class-based lesson assignment to finish""
+3. ""Open Lesson B student list""","1. ""Class A ends and Class C starts on 2026-08-10""
+2. ""The automatic session is removed from Lesson A and Student A is assigned to Lesson C""
+3. ""The manually created Student A session remains in Lesson B""","1. ""old_class = Class A; new_class = Class C; effective_date = 2026-08-10""
+2. ""Lesson A = Class A; Lesson C = Class C""
+3. ""manual session = Lesson B, Class B""",,,3294,1289,Lesson Assignment Update,,,
+,Lesson Assignment – Add Class on LA – Existing Manual Session – Manual Session Retained,AC-07 AC-08 — State Transition — Adding a class creates eligible automatic sessions without changing a manual session in another class.,"- Logged in as HQ or CM Staff to the Salesforce org
+- Student A has an active LA for Course A and is a Class A member
+- Staff manually assigned Student A to Lesson B for Class B on 2026-08-15
+- Class C belongs to Course A and has Lesson C on 2026-08-20
+- today = 2026-08-10; added_class_start = 2026-08-10",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Add Class C to Student A's LA""
+2. ""Run or wait for class-based lesson assignment to finish""
+3. ""Open Lesson B student list""","1. ""A Class C member record is created from 2026-08-10 through 2026-12-31""
+2. ""Student A is automatically assigned to Lesson C and existing Class A automatic sessions remain eligible""
+3. ""The manually created Student A session remains in Lesson B""","1. ""class = Class C; effective_date = 2026-08-10""
+2. ""Lesson C date = 2026-08-20""
+3. ""manual session = Lesson B, Class B""",,,3294,1289,Lesson Assignment Update,,,
+,Lesson Assignment – Cancel Scheduled Class – Automatic Future-Class Session – Manual Session Retained,AC-07 AC-08 — State Transition — Cancelling a scheduled class update removes only automatic sessions made ineligible by that scheduled class.,"- Logged in as HQ or CM Staff to the Salesforce org
+- Student A has an active LA through 2026-12-31 and Class A active from 2026-08-01
+- A scheduled Class C update begins 2026-09-01 and auto-assigns Student A to Lesson C on 2026-09-10
+- Staff manually assigned Student A to Lesson B for Class B on 2026-09-10
+- today = 2026-08-10",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Cancel Scheduled Class Update for Class C and confirm""
+2. ""Run or wait for class-based lesson assignment to finish""
+3. ""Open Lesson B student list""","1. ""The scheduled Class C member update is cancelled""
+2. ""The automatic Student A session is removed from Lesson C""
+3. ""The manually created Student A session remains in Lesson B""","1. ""scheduled class = Class C; effective_date = 2026-09-01""
+2. ""automatic session = Lesson C on 2026-09-10""
+3. ""manual session = Lesson B on 2026-09-10""",,,3294,1289,Lesson Assignment Update,,,
+,Lesson Assignment – Lesson Schedule Class Change – Automatic Session – Manual Session Retained,AC-07 AC-08 — State Transition — Changing a lesson class removes only an automatic session that becomes ineligible and retains a manual session elsewhere.,"- Logged in as HQ or CM Staff to the Salesforce org
+- Student A has an active LA and is a Class A member from 2026-08-01 to 2026-12-31
+- Student A is auto-assigned to Lesson A for Class A on 2026-08-20
+- Staff manually assigned Student A to Lesson B for Class B on 2026-08-20
+- Class C belongs to Course A; today = 2026-08-10",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Replace Class A with Class C in Lesson A's Lesson Schedule Detail""
+2. ""Run or wait for class-based lesson assignment to finish""
+3. ""Open Lesson B student list""","1. ""Lesson A is associated with Class C""
+2. ""Student A is removed from Lesson A because its existing session was automatic""
+3. ""The manually created Student A session remains in Lesson B""","1. ""Lesson A date = 2026-08-20; old_class = Class A; new_class = Class C""
+2. ""Student Session origin = auto-assignment""
+3. ""Student Session origin = manual assignment""",,,3294,1289,Lesson Assignment Update,,,
+,Lesson Assignment – Import Class Member – Existing Manual Session – Manual Session Retained,AC-07 AC-08 — State Transition — Importing a Class Member auto-assigns eligible lessons and retains an existing manual session.,"- Logged in as HQ or CM Staff to the Salesforce org
+- Student A has an active LA for Course A from 2026-08-01 to 2026-12-31
+- Class C belongs to Course A and has Lesson C on 2026-08-20
+- Staff manually assigned Student A to Lesson B for Class B on 2026-08-15
+- today = 2026-08-10; imported_class_start = 2026-08-10; imported_class_end = 2026-12-31",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Import a valid Class Member row for Student A and Class C""
+2. ""Run or wait for class-based lesson assignment to finish""
+3. ""Open Lesson B student list""","1. ""The import completes and creates the Class C member record with the imported duration""
+2. ""Student A is automatically assigned to eligible Lesson C""
+3. ""The manually created Student A session remains in Lesson B""","1. ""student = Student A; class = Class C; start = 2026-08-10; end = 2026-12-31""
+2. ""Lesson C date = 2026-08-20""
+3. ""manual session = Lesson B on 2026-08-15""",,,3294,1289,Lesson Assignment Update,,,
