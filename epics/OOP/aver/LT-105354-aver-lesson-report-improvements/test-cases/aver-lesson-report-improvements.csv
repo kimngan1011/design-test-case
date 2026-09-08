@@ -1,0 +1,263 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+27366,[Aver] Lesson Report PDF - Long textbook name - Japanese text wraps without duplicated characters,AC 01.1 - Visual Regression - Long Japanese textbook names are rendered exactly once in the lesson report PDF.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson LSN-105354-01 exists in Lesson Schedule LS-105354-A on 2026-06-10.
+- Student A is assigned to LSN-105354-01.
+- Lesson report for LSN-105354-01 is Draft.
+- Next Week Homework has textbook `大学入試数学落とせない必須101題スタンダードレベル`.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the lesson report for LSN-105354-01.""
+2. ""HQ or CM Staff generates the lesson report PDF.""
+3. ""HQ or CM Staff opens the generated PDF and inspects the textbook name.""","1. ""Lesson report detail opens with the Next Week Homework section.""
+2. ""PDF file is generated without error.""
+3. ""The textbook name displays as `大学入試数学落とせない必須101題スタンダードレベル` with no duplicated `1題` text.""","1. ""lesson = LSN-105354-01; textbook = 大学入試数学落とせない必須101題スタンダードレベル""
+2. ""output = lesson_report_pdf""
+3. ""forbidden_text = 大学入試数学落とせない必須101題1題スタンダードレベル""",,,3439,251,[Aver] Lesson Report Improvements - PDF Rendering and Layout,,,
+27367,[Aver] Lesson Report PDF - Multiple long textbook rows - All rows remain readable,AC 01.2 / AC 01.3 - Equivalence Partitioning - Multiple long textbook rows keep full text without truncation or repeated fragments.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson LSN-105354-02 exists in Lesson Schedule LS-105354-A on 2026-06-17.
+- Lesson report for LSN-105354-02 is Draft.
+- Next Week Homework contains three rows with long Japanese textbook names.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the lesson report for LSN-105354-02.""
+2. ""HQ or CM Staff generates the lesson report PDF.""
+3. ""HQ or CM Staff searches the PDF for each textbook name.""","1. ""All three homework rows are visible before PDF generation.""
+2. ""PDF file is generated without error.""
+3. ""Each textbook appears once per homework row, and no row contains repeated partial text such as `とれるとれる` or `数学 い理系`.""","1. ""textbooks = three long Japanese values""
+2. ""output = lesson_report_pdf""
+3. ""textbook_1 = 改訂版最短10時間で9割とれる共通テスト古文のスゴ技; textbook_2 = 【改訂第3版】世界一わかりやすい九大の数学 理系数学＋文系数学の前期日程15か年""",,,3439,251,[Aver] Lesson Report Improvements - PDF Rendering and Layout,,,
+27368,[Aver] Lesson Report PDF - Next Week Homework - Remark displayed under textbook name,AC 03.1 - Component - The Remark value is moved under the textbook name in the PDF next week homework section.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson LSN-105354-03 exists with Next Week Homework.
+- Next Week Homework row has textbook `数学テキストA` and Remark `Bring calculator and finish pages 10-12`.",,"LT-105354,Aver,Lesson Report",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff generates the lesson report PDF for LSN-105354-03.""
+2. ""HQ or CM Staff opens the PDF and locates the Next Week Homework row.""
+3. ""HQ or CM Staff checks the placement of Remark.""","1. ""PDF file is generated.""
+2. ""Textbook `数学テキストA` is displayed in the homework item.""
+3. ""Remark `Bring calculator and finish pages 10-12` is displayed under the textbook name, not as a separate right-side column value.""","1. ""lesson = LSN-105354-03""
+2. ""textbook = 数学テキストA""
+3. ""remark = Bring calculator and finish pages 10-12""",,,3439,251,[Aver] Lesson Report Improvements - PDF Rendering and Layout,,,
+27369,[Aver] Lesson Report PDF - Long textbook and long remark - Same homework item remains aligned,AC 03.2 - Visual Regression - Long textbook and long remark values stay readable in the same homework item.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson LSN-105354-04 exists with Next Week Homework.
+- Next Week Homework has a long textbook name and a long Remark value.",,"LT-105354,Aver,Lesson Report",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff generates the lesson report PDF for LSN-105354-04.""
+2. ""HQ or CM Staff opens the PDF and inspects the homework item.""
+3. ""HQ or CM Staff checks the Remark under that textbook.""","1. ""PDF file is generated.""
+2. ""The long textbook wraps within the homework item without overlapping the next item.""
+3. ""The long Remark wraps under the same textbook and remains fully readable.""","1. ""lesson = LSN-105354-04""
+2. ""textbook = 【改訂第3版】世界一わかりやすい九大の数学 理系数学＋文系数学の前期日程15か年""
+3. ""remark = Review mistakes from mock exam, solve examples 1-8, and prepare questions for next lesson""",,,3439,251,[Aver] Lesson Report Improvements - PDF Rendering and Layout,,,
+27370,[Aver] Breakthrough Test - Next Time - Next lesson Today's Result prefilled,AC 02.1 - State Transition - Breakthrough Test `Next Time` from the previous lesson is copied to the next lesson `Today's Result`.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Lesson Schedule LS-105354-A has LSN-105354-05 on 2026-06-10 and LSN-105354-06 on 2026-06-17.
+- Student A is assigned to both lessons.
+- Lesson report for LSN-105354-05 is editable.
+- Lesson report for LSN-105354-06 has empty Breakthrough Test `Today's Result`.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-05.""
+2. ""HQ or CM Staff enters `BT next: Retry unit 3 speed drill` into Breakthrough Test `Next Time` and saves.""
+3. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-06.""","1. ""Edit Lesson Report form opens.""
+2. ""Lesson report for LSN-105354-05 is saved.""
+3. ""Breakthrough Test `Today's Result` is prefilled with `BT next: Retry unit 3 speed drill`.""","1. ""source_lesson = LSN-105354-05; target_lesson = LSN-105354-06""
+2. ""next_time = BT next: Retry unit 3 speed drill""
+3. ""today's_result_expected = BT next: Retry unit 3 speed drill""",,,3440,251,[Aver] Lesson Report Improvements - BO Copy Forward,,,
+27371,[Aver] Breakthrough Test - Same student different schedule - Today's Result ignores unrelated lesson,AC 02.2 / AC 10.2 - Decision Table - Copy-forward uses same Lesson Schedule only and ignores another schedule for the same student.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Student A is assigned to Lesson Schedule LS-105354-A and Lesson Schedule LS-105354-B.
+- LS-105354-B has LSN-105354-07 on 2026-06-12 with Breakthrough Test `Next Time` value `Wrong schedule value`.
+- LS-105354-A has LSN-105354-08 on 2026-06-17 with empty Breakthrough Test `Today's Result`.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-08.""
+2. ""HQ or CM Staff reviews Breakthrough Test `Today's Result`.""
+3. ""HQ or CM Staff saves the report without changing Breakthrough Test fields.""","1. ""Edit Lesson Report form opens for LS-105354-A.""
+2. ""`Today's Result` is not prefilled with `Wrong schedule value`.""
+3. ""The report saves without pulling data from LS-105354-B.""","1. ""target_lesson = LSN-105354-08; target_schedule = LS-105354-A""
+2. ""ignored_schedule = LS-105354-B""
+3. ""forbidden_value = Wrong schedule value""",,,3440,251,[Aver] Lesson Report Improvements - BO Copy Forward,,,
+27372,[Aver] Breakthrough Test - Existing Today's Result - Value is not overwritten silently,AC 02.3 - Negative - A teacher-entered `Today's Result` on the next lesson is preserved.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Lesson Schedule LS-105354-A has LSN-105354-09 followed by LSN-105354-10.
+- LSN-105354-09 Breakthrough Test `Next Time` is `New copied value`.
+- LSN-105354-10 Breakthrough Test `Today's Result` already contains `Teacher entered value`.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-10.""
+2. ""HQ or CM Staff reviews Breakthrough Test `Today's Result`.""
+3. ""HQ or CM Staff saves the report.""","1. ""Edit Lesson Report form opens.""
+2. ""`Today's Result` still shows `Teacher entered value`.""
+3. ""Saved report keeps `Teacher entered value` and does not silently replace it with `New copied value`.""","1. ""target_lesson = LSN-105354-10""
+2. ""existing_value = Teacher entered value""
+3. ""copied_candidate = New copied value""",,,3440,251,[Aver] Lesson Report Improvements - BO Copy Forward,,,
+27373,[Aver] Next Week Homework - Same textbook added to next lesson - Remarks copied,AC 04.1 - Decision Table - Same textbook homework added in the next lesson receives the previous lesson Remarks value.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Lesson Schedule LS-105354-A has LSN-105354-11 followed by LSN-105354-12.
+- LSN-105354-11 Next Week Homework has textbook `数学テキストA` and Remarks `Show full calculation steps`.
+- LSN-105354-12 has no homework row for `数学テキストA`.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-12.""
+2. ""HQ or CM Staff adds a Next Week Homework row with textbook `数学テキストA`.""
+3. ""HQ or CM Staff reviews the Remarks field on the new row.""","1. ""Edit Lesson Report form opens.""
+2. ""New homework row is added.""
+3. ""Remarks is prefilled with `Show full calculation steps`.""","1. ""target_lesson = LSN-105354-12""
+2. ""textbook = 数学テキストA""
+3. ""expected_remarks = Show full calculation steps""",,,3440,251,[Aver] Lesson Report Improvements - BO Copy Forward,,,
+27374,[Aver] Next Week Homework - Edited remark - Following lesson receives latest value,AC 04.2 / AC 04.3 - State Transition - The latest edited remark becomes the source for the following lesson.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Lesson Schedule LS-105354-A has LSN-105354-13, LSN-105354-14, and LSN-105354-15 in date order.
+- LSN-105354-13 homework `数学テキストA` has Remarks `Original remark`.
+- LSN-105354-14 homework `数学テキストA` exists and is editable.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-14.""
+2. ""HQ or CM Staff changes Remarks for textbook `数学テキストA` to `Updated remark for lesson 14` and saves.""
+3. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-15 and adds textbook `数学テキストA`.""","1. ""Edit Lesson Report form opens.""
+2. ""LSN-105354-14 homework remark is saved with the updated value.""
+3. ""The new homework row Remarks is prefilled with `Updated remark for lesson 14`.""","1. ""source_lesson = LSN-105354-14""
+2. ""updated_remarks = Updated remark for lesson 14""
+3. ""target_lesson = LSN-105354-15""",,,3440,251,[Aver] Lesson Report Improvements - BO Copy Forward,,,
+27375,[Aver] Next Week Homework - Different textbook - Remarks not copied,AC 04.4 - Negative - Remarks are not copied when the new homework textbook differs from the previous lesson textbook.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Lesson Schedule LS-105354-A has LSN-105354-16 followed by LSN-105354-17.
+- LSN-105354-16 homework has textbook `数学テキストA` and Remarks `Do not copy to another book`.
+- LSN-105354-17 has no homework row.",,"LT-105354,Aver,Lesson Report",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-17.""
+2. ""HQ or CM Staff adds a homework row with textbook `英語テキストB`.""
+3. ""HQ or CM Staff reviews the Remarks field.""","1. ""Edit Lesson Report form opens.""
+2. ""New homework row is added.""
+3. ""Remarks remains blank and does not show `Do not copy to another book`.""","1. ""target_lesson = LSN-105354-17""
+2. ""new_textbook = 英語テキストB""
+3. ""previous_textbook = 数学テキストA""",,,3440,251,[Aver] Lesson Report Improvements - BO Copy Forward,,,
+27376,[Aver] Instructor's Comment 3 - Previous lesson value - Next lesson prefilled and editable,AC 07.1 / AC 07.2 - State Transition - Instructor's Comment 3 is copied from the previous lesson and can be edited.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Lesson Schedule LS-105354-A has LSN-105354-18 followed by LSN-105354-19.
+- LSN-105354-18 Instructor's Comment 3 is `Keep same pacing next time`.
+- LSN-105354-19 Instructor's Comment 3 is empty.",,"LT-105354,Aver,Lesson Report",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-19.""
+2. ""HQ or CM Staff reviews Instructor's Comment 3.""
+3. ""HQ or CM Staff changes Instructor's Comment 3 to `Increase homework volume` and saves.""","1. ""Edit Lesson Report form opens.""
+2. ""Instructor's Comment 3 is prefilled with `Keep same pacing next time`.""
+3. ""The edited comment is saved on LSN-105354-19.""","1. ""target_lesson = LSN-105354-19""
+2. ""expected_comment = Keep same pacing next time""
+3. ""edited_comment = Increase homework volume""",,,3440,251,[Aver] Lesson Report Improvements - BO Copy Forward,,,
+27377,[Aver] Instructor's Comment 3 - Edited value - Following lesson uses latest same-schedule comment,AC 07.3 / AC 10.3 - State Transition - The most recent edited Instructor's Comment 3 becomes the source for the following lesson.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Lesson Schedule LS-105354-A has LSN-105354-20, LSN-105354-21, and LSN-105354-22.
+- LSN-105354-20 Instructor's Comment 3 is `Original comment`.
+- LSN-105354-21 Instructor's Comment 3 is `Edited comment`.",,"LT-105354,Aver,Lesson Report",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-22.""
+2. ""HQ or CM Staff reviews Instructor's Comment 3.""
+3. ""HQ or CM Staff saves the report.""","1. ""Edit Lesson Report form opens.""
+2. ""Instructor's Comment 3 is prefilled with `Edited comment`, not `Original comment`.""
+3. ""LSN-105354-22 keeps `Edited comment`.""","1. ""target_lesson = LSN-105354-22""
+2. ""latest_previous_lesson = LSN-105354-21""
+3. ""expected_comment = Edited comment""",,,3440,251,[Aver] Lesson Report Improvements - BO Copy Forward,,,
+27378,[Aver] Edit Lesson Report - Previous Week Homework - Add and edit controls hidden,AC 06.1 - Negative - Previous Week Homework cannot be edited from BO Edit Lesson Report mode.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Lesson LSN-105354-23 has Previous Week Homework rows displayed.
+- Lesson report for LSN-105354-23 is editable.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-23.""
+2. ""HQ or CM Staff scrolls to Previous Week Homework.""
+3. ""HQ or CM Staff checks available actions in the section.""","1. ""Edit Lesson Report form opens.""
+2. ""Previous Week Homework rows are displayed.""
+3. ""Add, edit, delete, and inline editable controls are not shown for Previous Week Homework.""","1. ""lesson = LSN-105354-23""
+2. ""section = Previous Week Homework""
+3. ""expected_controls = hidden""",,,3441,251,[Aver] Lesson Report Improvements - Edit Restrictions and Date Format,,,
+27379,[Aver] Edit Lesson Report - Previous Week Homework field - Direct edit is blocked,AC 06.2 - Negative - Previous Week Homework field values remain read-only in Edit Lesson Report mode.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Lesson LSN-105354-24 has Previous Week Homework textbook `数学テキストA`.
+- Lesson report for LSN-105354-24 is editable.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Edit Lesson Report for LSN-105354-24.""
+2. ""HQ or CM Staff attempts to focus or type into Previous Week Homework fields.""
+3. ""HQ or CM Staff saves the report and reopens it.""","1. ""Edit Lesson Report form opens.""
+2. ""Previous Week Homework fields do not accept input.""
+3. ""Previous Week Homework values remain unchanged.""","1. ""lesson = LSN-105354-24""
+2. ""attempted_value = illegal edit""
+3. ""expected_textbook = 数学テキストA""",,,3441,251,[Aver] Lesson Report Improvements - Edit Restrictions and Date Format,,,
+27380,[Aver] Add Homework Dialog - Normal date range - Year hidden in Japanese format,AC 08.1 / AC 08.2 - Localization - Homework date range displays month and day only.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Lesson LSN-105354-25 has add homework dialog available.
+- The user's language is Japanese.",,"LT-105354,Aver,Lesson Report",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Add Homework for Next Week Homework.""
+2. ""HQ or CM Staff selects homework daily range from 2026-06-10 to 2026-06-17.""
+3. ""HQ or CM Staff checks the displayed range text.""","1. ""Add Homework dialog opens.""
+2. ""Date range displays as `06月10日 - 06月17日`.""
+3. ""Year `2026` is not shown in the homework date range.""","1. ""lesson = LSN-105354-25; locale = ja""
+2. ""start_date = 2026-06-10; end_date = 2026-06-17""
+3. ""forbidden_text = 2026""",,,3441,251,[Aver] Lesson Report Improvements - Edit Restrictions and Date Format,,,
+27381,[Aver] Add Homework Dialog - Cross-year date range - Year still hidden,AC 08.3 - Boundary Value Analysis - Cross-year homework range still omits year.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Lesson LSN-105354-26 has add homework dialog available.
+- The user's language is Japanese.",,"LT-105354,Aver,Lesson Report",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Add Homework for Previous Week Homework.""
+2. ""HQ or CM Staff selects homework daily range from 2026-12-28 to 2027-01-04.""
+3. ""HQ or CM Staff checks the displayed range text.""","1. ""Add Homework dialog opens.""
+2. ""Date range displays as `12月28日 - 01月04日`.""
+3. ""Years `2026` and `2027` are not shown in the homework date range.""","1. ""lesson = LSN-105354-26; locale = ja""
+2. ""start_date = 2026-12-28; end_date = 2027-01-04""
+3. ""forbidden_text = 2026, 2027""",,,3441,251,[Aver] Lesson Report Improvements - Edit Restrictions and Date Format,,,
+27382,[Aver] Student App PDF - Second lesson in month - Title shows monthly count,AC 05.1 / AC 05.2 - Boundary Value Analysis - Student App PDF title shows the lesson's monthly sequence.,"- Student A can log in to Learner App for the Aver tenant.
+- Student A has published lesson reports on 2026-06-03, 2026-06-10, and 2026-06-24.
+- The 2026-06-10 report is the second lesson report by lesson date in June.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student A opens Learner App and opens the lesson report for 2026-06-10.""
+2. ""Student A downloads or opens the student PDF report.""
+3. ""Student A checks the PDF title.""","1. ""Published lesson report opens.""
+2. ""Student PDF report opens.""
+3. ""PDF title displays `指導簿 【生徒用・6月2回目】`.""","1. ""student = Student A; lesson_date = 2026-06-10""
+2. ""output = student_pdf""
+3. ""June lessons = 2026-06-03, 2026-06-10, 2026-06-24""",,,3442,251,[Aver] Lesson Report Improvements - Student App PDF Monthly Count,,,
+27383,[Aver] Student App PDF - First lesson of next month - Monthly count resets,AC 05.3 - Boundary Value Analysis - Monthly count resets when the lesson month changes.,"- Student A can log in to Learner App for the Aver tenant.
+- Student A has published lesson reports on 2026-06-24 and 2026-07-01.
+- The 2026-07-01 report is the first lesson report by lesson date in July.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student A opens Learner App and opens the lesson report for 2026-07-01.""
+2. ""Student A opens the student PDF report.""
+3. ""Student A checks the PDF title.""","1. ""Published lesson report opens.""
+2. ""Student PDF report opens.""
+3. ""PDF title displays `指導簿 【生徒用・7月1回目】`.""","1. ""student = Student A; lesson_date = 2026-07-01""
+2. ""output = student_pdf""
+3. ""July lessons = 2026-07-01""",,,3442,251,[Aver] Lesson Report Improvements - Student App PDF Monthly Count,,,
+27384,[Aver] Student App PDF - Same date multiple students - Monthly count calculated per student,AC 05.2 - Data Integrity - Monthly count is calculated separately for each student.,"- Student A and Student B can log in to Learner App for the Aver tenant.
+- Student A has lessons on 2026-06-03 and 2026-06-10.
+- Student B has only one lesson on 2026-06-10.
+- Both 2026-06-10 lesson reports are published.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student A opens the student PDF report for 2026-06-10.""
+2. ""Student A checks the PDF title.""
+3. ""Student B opens the student PDF report for 2026-06-10.""
+4. ""Student B checks the PDF title.""","1. ""Student A PDF opens.""
+2. ""Title displays `指導簿 【生徒用・6月2回目】`.""
+3. ""Student B PDF opens.""
+4. ""Title displays `指導簿 【生徒用・6月1回目】`.""","1. ""student = Student A""
+2. ""Student A June count = 2""
+3. ""student = Student B""
+4. ""Student B June count = 1""",,,3442,251,[Aver] Lesson Report Improvements - Student App PDF Monthly Count,,,
+27385,[Aver] Lesson List - Next Lesson column - Column visible and populated,AC 09.1 / AC 09.3 - Component - Lesson List displays the same-schedule next lesson date.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson Schedule LS-105354-A has LSN-105354-27 on 2026-06-10 and LSN-105354-28 on 2026-06-17.
+- Lesson List view includes lessons from LS-105354-A.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Lesson List.""
+2. ""HQ or CM Staff locates row LSN-105354-27.""
+3. ""HQ or CM Staff checks the `Next Lesson` column.""","1. ""Lesson List is displayed.""
+2. ""Row LSN-105354-27 is visible.""
+3. ""`Next Lesson` shows `2026-06-17` as a hyperlink.""","1. ""list = Lesson List""
+2. ""lesson = LSN-105354-27""
+3. ""expected_next_lesson = 2026-06-17; target = LSN-105354-28""",,,3443,251,[Aver] Lesson Report Improvements - Lesson List Next Lesson,,,
+27386,[Aver] Customizable Columns - Next Lesson - Column can be selected,AC 09.2 - Component - Customizable Columns includes `Next Lesson`.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson List page is open.
+- Customizable Columns is available.",,"LT-105354,Aver,Lesson Report",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Customizable Columns from Lesson List.""
+2. ""HQ or CM Staff searches for `Next Lesson`.""
+3. ""HQ or CM Staff enables `Next Lesson` and applies the column setting.""","1. ""Customizable Columns panel opens.""
+2. ""`Next Lesson` is available in the selectable column list.""
+3. ""Lesson List displays the `Next Lesson` column.""","1. ""page = Lesson List""
+2. ""column = Next Lesson""
+3. ""action = enable_column""",,,3443,251,[Aver] Lesson Report Improvements - Lesson List Next Lesson,,,
+27387,[Aver] Lesson List - Next Lesson hyperlink - Clicking opens next lesson,AC 09.3 - Navigation - The hyperlinked Next Lesson date opens the target lesson.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson Schedule LS-105354-A has LSN-105354-29 on 2026-06-10 and LSN-105354-30 on 2026-06-17.
+- Lesson List displays `Next Lesson` for LSN-105354-29 as `2026-06-17`.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Lesson List and locates LSN-105354-29.""
+2. ""HQ or CM Staff clicks the `2026-06-17` value in the `Next Lesson` column.""
+3. ""HQ or CM Staff checks the opened lesson date.""","1. ""Row LSN-105354-29 is visible.""
+2. ""Lesson detail for LSN-105354-30 opens.""
+3. ""Lesson date is 2026-06-17.""","1. ""source_lesson = LSN-105354-29""
+2. ""expected_target_lesson = LSN-105354-30""
+3. ""expected_date = 2026-06-17""",,,3443,251,[Aver] Lesson Report Improvements - Lesson List Next Lesson,,,
+27388,[Aver] Lesson List - Last lesson in schedule - Next Lesson has no clickable value,AC 09.4 - Boundary Value Analysis - The last lesson in a Lesson Schedule does not show a clickable next lesson.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson Schedule LS-105354-A has LSN-105354-31 as its last lesson on 2026-06-24.
+- Lesson List displays row LSN-105354-31.",,"LT-105354,Aver,Lesson Report",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Lesson List and locates LSN-105354-31.""
+2. ""HQ or CM Staff checks the `Next Lesson` column.""
+3. ""HQ or CM Staff attempts to navigate from the empty Next Lesson value.""","1. ""Row LSN-105354-31 is visible.""
+2. ""`Next Lesson` is blank or has no clickable link.""
+3. ""No next lesson detail is opened.""","1. ""lesson = LSN-105354-31""
+2. ""position = last_lesson""
+3. ""expected_target = none""",,,3443,251,[Aver] Lesson Report Improvements - Lesson List Next Lesson,,,
+27389,[Aver] Lesson List - Same student different schedule - Next Lesson uses same Lesson Schedule,AC 10.1 / AC 10.2 - Decision Table - Next Lesson column ignores a nearer lesson in another Lesson Schedule.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Student A has LSN-105354-32 in LS-105354-A on 2026-06-10.
+- Student A has LSN-105354-33 in LS-105354-B on 2026-06-12.
+- LS-105354-A has LSN-105354-34 on 2026-06-17.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Lesson List and locates LSN-105354-32.""
+2. ""HQ or CM Staff checks the `Next Lesson` column.""
+3. ""HQ or CM Staff clicks the Next Lesson hyperlink.""","1. ""Row LSN-105354-32 is visible.""
+2. ""`Next Lesson` shows `2026-06-17`, not `2026-06-12`.""
+3. ""Lesson detail for LSN-105354-34 opens.""","1. ""source_lesson = LSN-105354-32""
+2. ""same_schedule_next = LSN-105354-34; other_schedule_lesson = LSN-105354-33""
+3. ""expected_target = LSN-105354-34""",,,3443,251,[Aver] Lesson Report Improvements - Lesson List Next Lesson,,,
+27390,[Aver] Previous and Next logic - Homework source - Same Lesson Schedule selected,AC 10.1 / AC 10.3 - Regression - Homework previous/next logic uses same Lesson Schedule for copy-forward.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Student A has lessons in LS-105354-A and LS-105354-B during the same week.
+- LS-105354-A previous lesson homework Remarks is `Same schedule source`.
+- LS-105354-B lesson homework Remarks is `Different schedule source`.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the next lesson in LS-105354-A.""
+2. ""HQ or CM Staff adds homework using the same textbook from the previous LS-105354-A lesson.""
+3. ""HQ or CM Staff reviews copied Remarks.""","1. ""Edit Lesson Report form opens for LS-105354-A.""
+2. ""Homework row is added.""
+3. ""Remarks is `Same schedule source` and not `Different schedule source`.""","1. ""schedule = LS-105354-A""
+2. ""textbook = 数学テキストA""
+3. ""expected_remarks = Same schedule source""",,,3444,251,[Aver] Lesson Report Improvements - Same Schedule Regression,,,
+27391,[Aver] Previous and Next logic - Lesson Report navigation - Same Lesson Schedule selected,AC 10.1 / AC 10.2 - Regression - Previous/next lesson report references ignore other schedules for the same student.,"- HQ or CM Staff is logged in to Back Office for the Aver tenant.
+- Student A has Lesson Report LR-A1 in LS-105354-A on 2026-06-10.
+- Student A has Lesson Report LR-B1 in LS-105354-B on 2026-06-12.
+- Student A has Lesson Report LR-A2 in LS-105354-A on 2026-06-17.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Lesson Report LR-A1.""
+2. ""HQ or CM Staff opens the next report from the lesson report surface.""
+3. ""HQ or CM Staff checks the opened report.""","1. ""LR-A1 opens.""
+2. ""The next report target resolves within LS-105354-A.""
+3. ""LR-A2 opens, and LR-B1 is not selected.""","1. ""source_report = LR-A1""
+2. ""same_schedule = LS-105354-A""
+3. ""expected_report = LR-A2; ignored_report = LR-B1""",,,3444,251,[Aver] Lesson Report Improvements - Same Schedule Regression,,,
+27392,[Aver] Published Lesson Report - Copy-forward source exists - Published edit validation unchanged,Regression - Published lesson report edit validation remains unchanged while copy-forward improvements are added.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson report LR-105354-35 is Published.
+- LR-105354-35 has Next Lesson Homework and Remarks values.",,"LT-105354,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens LR-105354-35.""
+2. ""HQ or CM Staff attempts to edit report fields without reverting to Draft.""
+3. ""HQ or CM Staff confirms the report values after the blocked save.""","1. ""Published lesson report opens.""
+2. ""Salesforce blocks the edit with the published report validation message.""
+3. ""Original report values remain unchanged.""","1. ""report = LR-105354-35; status = Published""
+2. ""changed_field = Next Lesson Homework""
+3. ""expected_status = Published""",,,3444,251,[Aver] Lesson Report Improvements - Same Schedule Regression,,,
