@@ -1,0 +1,58 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+27313,[LT-109754] Timeslot classroom-axis DnD keeps only target classroom in Edit Lesson popup,"Regression for LT-109754. In Riso extUAT Timeslot view > Daily view > Classroom axis, dragging a lesson from one classroom to another must prefill only the target classroom in the Edit Lesson popup and must not create duplicate classroom assignment after saving.","- Environment: Riso extUAT.
+- Enable Calendar Drag And Drop = ON.
+- Timeslot view is enabled.
+- Lesson L1 exists in Timeslot view Daily > Classroom axis.
+- L1 is assigned to exactly one original classroom Classroom A.
+- Target classroom Classroom B exists in the same date/timeslot and is selectable.",,LT-109754;Riso;Preprod Regression;Calendar;Drag Drop;Timeslot;Classroom Axis,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Lesson Calendar > Timeslot view > Daily view > Classroom axis.
+2. Drag L1 from Classroom A to Classroom B.
+3. Inspect the Classrooms field before clicking Save.
+4. Click Save without manually changing the Classrooms field.
+5. Refresh Calendar and reopen L1 detail.","1. Calendar loads and L1 is displayed under Classroom A.
+2. Edit Lesson popup opens.
+3. Classrooms field contains only Classroom B; Classroom A is not pre-populated.
+4. Save succeeds.
+5. L1 is assigned only to Classroom B; no duplicate classroom assignment remains on the lesson.","1. date = L1 date; view = Timeslot Daily; axis = Classroom
+2. source classroom = Classroom A; target classroom = Classroom B
+3. expected chips = [Classroom B]
+4. 
+5. expected final classrooms = [Classroom B]",,,2262,452,Drag and Drop to Edit Lesson Time,no,,
+27314,[LT-109576] Learner App shows Lesson Note Available tag and Lesson Note detail,"Regression for LT-109576. When a Lesson has Lesson Note from the School populated, the Learner App must show the note-available tag on the Lesson Card and the note content on Lesson Detail.","- Environment: UAT sandbox riso-kyoiku--extuat.
+- Student 26000002 can log in to Learner App.
+- Lesson L1 is assigned to Student 26000002.
+- L1 has Lesson Note from the School / Lesson_Note__c populated.
+- L1 is visible on the student's App Calendar.",,LT-109576;Riso;Preprod Regression;Learner App;Lesson Note;Calendar Card;Lesson Detail,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Lesson record in SF and confirm Lesson Note from the School is populated.
+2. Log in to Learner App as Student 26000002.
+3. Navigate to Calendar and locate L1 Lesson Card.
+4. Inspect the bottom area of the Lesson Card.
+5. Open L1 Lesson Detail.
+6. Inspect the top Lesson Note section.","1. Lesson Note value exists on the Lesson record.
+2. Student logs in successfully.
+3. L1 card is visible.
+4. Lesson Note Available tag is displayed; in JP locale, 教室からのお知らせあり is displayed.
+5. Lesson Detail opens.
+6. Lesson Note / 教室からのお知らせ section is displayed with the exact note content from the Lesson record.","1. field = Lesson_Note__c
+2. student = 26000002
+3. lesson = L1
+4. expected tag
+5. 
+6. expected note content",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+27315,[LT-109520] BO Calendar Lesson popup follows new UI layout,"Regression for LT-109520. BO Calendar Lesson popup must match the new Lesson UI layout from LT-101769, including Cancellation Reason and Recurring Settings sections.","- Logged in to BO as HQ/CM user with Lesson Calendar access.
+- New Lesson UI layout feature from LT-101769 is enabled.
+- BO Calendar is accessible.
+- At least one editable lesson exists for edit-popup validation.",,LT-109520;Core;BO;Preprod Regression;Calendar;Lesson Popup;New Lesson UI,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open BO Calendar.
+2. Click Add Lesson or open an editable Lesson from Calendar.
+3. Compare the popup structure with LT-101769 Figma layout.
+4. Inspect the Cancellation Reason section where applicable.
+5. Inspect Recurring Settings for a recurring lesson/create recurring flow.
+6. Save/cancel the popup.","1. Calendar loads successfully.
+2. Lesson popup opens using the new UI layout.
+3. Fields are arranged according to the new layout; spacing/section grouping does not fall back to the old layout.
+4. Cancellation Reason section is present/placed according to the new layout when the lesson status/action requires it.
+5. Recurring Settings section is present/placed according to the new layout.
+6. Existing add/edit flow still works and no layout-only change blocks the action.","1. surface = BO Calendar
+2. action = add/edit
+3. Figma node = 12148-60157
+4. section = Cancellation Reason
+5. section = Recurring Settings
+6. regression = existing flow",,,2717,2628,Calendar lesson,no,,
