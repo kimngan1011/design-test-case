@@ -40,6 +40,16 @@ Calendar provides a visual view of lessons and events across time. SF Calendar i
 
 SF Calendar visually marks closed dates (18 cases). Closed-date logic for lesson generation: see `../lesson-management/lesson.md` § Closed Date Skipping.
 
+## Bulk Publish timezone boundary (core SF - LT-110579, added 2026-09-09)
+
+Bulk Publish Lesson date filtering must evaluate the selected Start Date and End Date in the Salesforce timezone, not by raw UTC day boundaries.
+
+- For Salesforce timezone GMT+9, selecting Start Date = End Date = `2030-09-19` maps to `2030-09-18 15:00:00 UTC <= lesson start datetime < 2030-09-19 15:00:00 UTC`.
+- Lessons starting on `2030-09-19 00:00` through `2030-09-19 23:59` in Salesforce local time are in scope.
+- Lessons starting on `2030-09-18 23:59` or `2030-09-20 00:00` in Salesforce local time are out of scope.
+- Existing Bulk Publish rules still apply after timezone conversion: location scope, selected-student scope when enabled, and Draft-only status transition.
+- Regression cases live in `epics/calendar/LT-110579-bulk-publish-timezone/`.
+
 ---
 
 ## Bulk Publish (Riso — LT-98532, confirmed 2026-05-12)
