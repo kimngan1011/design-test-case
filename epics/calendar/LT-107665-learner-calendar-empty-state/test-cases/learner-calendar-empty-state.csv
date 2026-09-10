@@ -1,0 +1,54 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+27916,[Core] Learner App Calendar - All tab empty state uses items copy,AC-01 / BR-01 / BR-02 / BR-06. A date with no visible Lesson or Event shows the All-tab message in English and Japanese.,"- Learner A can sign in to Learner App.
+- On 2030-10-14, Learner A has no visible Lesson and no visible Activity Event.
+- Learner App supports English and Japanese.",,LT-107665;Core;Learner App;Calendar;Empty State;i18n,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Sign in as Learner A and set application language to English.
+2. Open Calendar, select 2030-10-14, and select the All tab.
+3. Read the empty-state text.
+4. Change application language to Japanese without changing the selected date or tab.
+5. Read the empty-state text.","1. Learner App opens in English.
+2. No Lesson or Event card is displayed for the selected date.
+3. Text is exactly There are no items scheduled for this date.
+4. Calendar remains on 2030-10-14 and All.
+5. Text is exactly この日の予定はありません。","1. learner = A; locale = en
+2. date = 2030-10-14; tab = All
+3. locale = en
+4. locale = ja
+5. locale = ja",,,3510,2717,Learner App Calendar - Empty State Messages,no,,
+27917,[Core] Learner App Calendar - Lesson tab empty state uses lessons copy when Event exists,AC-02 / BR-01 / BR-03 / BR-06. The Lesson tab must not use generic or Event copy when only an Event exists on the selected date.,"- Learner A can sign in to Learner App.
+- Published Activity Event Event Only A is visible to Learner A on 2030-10-15.
+- Learner A has no visible Lesson on 2030-10-15.
+- Learner App supports English and Japanese.",,LT-107665;Core;Learner App;Calendar;Empty State;i18n;Negative,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Sign in as Learner A, set language to English, open Calendar, and select 2030-10-15.
+2. Select the All tab.
+3. Select the Lesson tab.
+4. Read the empty-state text.
+5. Change language to Japanese without changing date or tab.
+6. Read the empty-state text.","1. Calendar opens for the selected date.
+2. Event Only A is displayed, proving the selected date is not globally empty.
+3. No Lesson card is displayed.
+4. Text is exactly There are no lessons scheduled for this date. It is not the All or Event message.
+5. Lesson remains selected and no Lesson card appears.
+6. Text is exactly この日の授業はありません。","1. learner = A; locale = en; date = 2030-10-15
+2. tab = All; event = Event Only A
+3. tab = Lesson
+4. locale = en
+5. locale = ja
+6. locale = ja",,,3510,2717,Learner App Calendar - Empty State Messages,no,,
+27918,[Core] Learner App Calendar - Event tab empty state uses events copy when Lesson exists,AC-03 / BR-01 / BR-04 / BR-06. The Event tab must not use generic or Lesson copy when only a Lesson exists on the selected date.,"- Learner A can sign in to Learner App.
+- Published Lesson Lesson Only A is visible to Learner A on 2030-10-16.
+- Learner A has no visible Activity Event on 2030-10-16.
+- Learner App supports English and Japanese.",,LT-107665;Core;Learner App;Calendar;Empty State;i18n;Negative,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Sign in as Learner A, set language to English, open Calendar, and select 2030-10-16.
+2. Select the All tab.
+3. Select the Event tab.
+4. Read the empty-state text.
+5. Change language to Japanese without changing date or tab.
+6. Read the empty-state text.","1. Calendar opens for the selected date.
+2. Lesson Only A is displayed, proving the selected date is not globally empty.
+3. No Event card is displayed.
+4. Text is exactly There are no events scheduled for this date. It is not the All or Lesson message.
+5. Event remains selected and no Event card appears.
+6. Text is exactly この日のイベントはありません。","1. learner = A; locale = en; date = 2030-10-16
+2. tab = All; lesson = Lesson Only A
+3. tab = Event
+4. locale = en
+5. locale = ja
+6. locale = ja",,,3510,2717,Learner App Calendar - Empty State Messages,no,,
