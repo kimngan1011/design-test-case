@@ -36,7 +36,7 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. lesson = L1
 4. expected tag
 5. 
-6. expected note content",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+6. expected note content",,,3515,2717,Learner App Calendar - Lesson Note,no,,
 27315,[LT-109520] BO Calendar Lesson popup follows new UI layout,"Regression for LT-109520. BO Calendar Lesson popup must match the new Lesson UI layout from LT-101769, including Cancellation Reason and Recurring Settings sections.","- Logged in to BO as HQ/CM user with Lesson Calendar access.
 - New Lesson UI layout feature from LT-101769 is enabled.
 - BO Calendar is accessible.
