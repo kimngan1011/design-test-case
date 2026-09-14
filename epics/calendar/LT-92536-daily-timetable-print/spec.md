@@ -19,6 +19,7 @@ Improve SF Lesson Calendar daily timetable printing for Individual lessons. A CM
 ## Source Evidence
 
 - Jira `LT-92536`: Core daily timetable print functionality, status Ready for QA, release `v2026.09.07`.
+- Jira `LT-109593`: fix Course Code display, timeslot header suffix, and Remarks timeslot list for Daily Timetable Print.
 - Jira `LT-109758`: timeslot block pagination/display must follow active Timeslot Master ascending sequence order instead of AM/PM grouping.
 - Linked PBT `PBT-1500`: daily timetable print for audit trail and classroom management; blocked by Timeslot Master `PBT-2130`.
 - PRD: `Riso | Core | SF | Daily Timetable Printing for Infdividual lessons`, Confluence page `2130673665`.
@@ -42,14 +43,14 @@ Improve SF Lesson Calendar daily timetable printing for Individual lessons. A CM
 | AC 01.4 | PDF file name is `Schedule [yyyymmdd] - Individual.pdf`. |
 | AC 01.5 | PDF page setup is A3 landscape with location header, lesson date `yyyy年MM月dd日（weekday）`, printing date `yyyy年MM月dd日`, page number, and stamping rectangle at bottom right. |
 | AC 01.6 | PDF includes only Published Individual lessons for the selected location and selected lesson date. Draft, Completed, Cancelled, Group lessons, other dates, and other locations are excluded. |
-| AC 01.7 | Timeslot mode groups by active Timeslot Master used by matching lessons. Block header is `Timeslot name + 限 Start time - End time`; blocks are ordered by Timeslot sequence. |
+| AC 01.7 | Timeslot mode groups by active Timeslot Master used by matching lessons. Block header is `Timeslot name + 限 Start time - End time` and must not use `階`; blocks are ordered by Timeslot sequence. |
 | AC 01.8 | Manual time mode groups by distinct lesson Start Date Time and End Date Time, sorted by start time ASC then end time ASC. |
 | AC 01.9 | Timeslot blocks render left to right by active Timeslot Master ascending sequence order, without AM/PM grouping. Each physical page has up to 4 blocks; sequence 1-4 render on page 1, sequence 5-8 on page 2, and so on. |
 | AC 01.10 | Every block lists all classrooms under the selected location, sorted by classroom sequence ASC, then name ASC. |
 | AC 01.11 | Each classroom row shows Attendance, Booth, Grade, Course, Subject, Student, Teacher, and Remarks columns with fixed widths and text wrapping. |
-| AC 01.12 | Student, grade, course, subject, and teacher data are populated from published lessons, student sessions, allocations, course offerings, subjects, and lesson teachers. |
-| AC 01.13 | Seasonal students show a star marker on course display. |
-| AC 01.14 | Remarks show other timeslot numbers/labels for students who have multiple published lessons on the same day/location. |
+| AC 01.12 | Student, grade, course code, subject, and teacher data are populated from published lessons, student sessions, allocations, course offerings, subjects, and lesson teachers. Course column displays `MANAERP__Course_Code__c`, not Course Name. |
+| AC 01.13 | Seasonal students show a star marker appended to the Course Code display. |
+| AC 01.14 | Remarks show timeslot number values for all published lessons the student is allocated to on the same day/location, including the current block and other blocks, separated consistently and without the `限` suffix. |
 | AC 01.15 | Empty data scenarios still generate a usable timetable with classroom rows and blank lesson cells, without rendering broken or blank PDFs. |
 | AC 01.16 | If the new Individual timetable flag is disabled or the selected teaching method is Group, the existing legacy print flow remains unchanged. |
 | AC 01.17 | Missing or invalid PDF request parameters show an error instead of server crash. |
@@ -72,12 +73,15 @@ Improve SF Lesson Calendar daily timetable printing for Individual lessons. A CM
 | BR-12 | Text wrapping is intentional for long CJK/Latin strings so values do not overflow fixed columns. |
 | BR-13 | Group print remains legacy `CalendarPrintOutPdf` behavior. |
 | BR-14 | Feature flag disabled for Individual print falls back to legacy print behavior from the existing print dialog. |
+| BR-15 | Daily timetable Course column uses Course Code. Seasonal marker `★` is appended to the Course Code. |
+| BR-16 | Timeslot header suffix is `限`; Remarks uses raw timeslot number values only and does not append `限`. |
 
 ## Implementation Risks / Clarifications
 
 | Risk | Evidence | QA Action |
 |---|---|---|
 | LT-109758 supersedes the old AM/PM grouping expectation for timeslot pages. | Jira `LT-109758`; `IndividualTimetablePrintController.buildTimeslotBlockSpecs`, `buildPages` | Validate mixed AM/PM timeslots are rendered strictly by sequence order and paginated 4 blocks per page. |
+| LT-109593 fixed display regressions that are easy to miss visually because old values are still valid-looking strings. | Jira `LT-109593`; PDF column/header rendering | Assert exact Course Code versus Course Name, exact `限` suffix in timeslot headers, and exact Remarks list without suffix. |
 | Old dialog copy says "Only Published or Completed lesson will be printed out", while new backend filters Published only. | `DialogPrintOut.tsx`, `LessonRepo.getPublishedIndividualLessons` | Test both backend data exclusion and UI copy mismatch. |
 | Timeslot mode drops Published Individual lessons with blank `Timeslot__c`; PRD focuses timeslot master operation but manual override/no-timeslot behavior may need confirmation. | `mapLessonsByTimeslotKey` | Include regression case for no-timeslot lessons under Timeslot mode. |
 

@@ -129,15 +129,18 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. Other-date and other-location lessons are not displayed.","1. 
 2. selected date/location
 3. ",,,2717,2628,Calendar lesson,no,,
-26956,[Core] Daily Timetable Print - Timeslot mode header uses active timeslot name and time,AC 01.7 - Timeslot mode block header uses Timeslot Master values.,"- MANAERP__Show_Timeslot_In_Lesson__c = true.
+26956,[Core] Daily Timetable Print - Timeslot mode header uses active timeslot name and time,AC 01.7 / LT-109593 - Timeslot mode block header uses Timeslot Master values with the correct 限 suffix.,"- MANAERP__Show_Timeslot_In_Lesson__c = true.
 - Active Timeslot 1 exists with Name = 1, Sequence = 1, Start Time = 09:00, End Time = 10:20.
-- Published Individual Lesson A uses Timeslot 1.",,LT-92536;Core;Timeslot;Individual PDF,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+- Published Individual Lesson A uses Timeslot 1.",,LT-92536;LT-109593;Core;Timeslot;Individual PDF,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
 2. Inspect first block header.
-3. Verify Lesson A is under the Timeslot 1 block.","1. PDF renders in timeslot mode.
+3. Confirm the header suffix.
+4. Verify Lesson A is under the Timeslot 1 block.","1. PDF renders in timeslot mode.
 2. Header shows 1限 09:00 - 10:20.
-3. Lesson A data is displayed in the correct block.","1. 
+3. Header does not show 1階 or any other suffix.
+4. Lesson A data is displayed in the correct block.","1. 
 2. Timeslot name + 限
-3. ",,,2717,2628,Calendar lesson,no,,
+3. expected suffix = 限
+4. ",,,2717,2628,Calendar lesson,no,,
 26957,[Core] Daily Timetable Print - Timeslot blocks are ordered by sequence,"AC 01.7 - Timeslot blocks display in Timeslot Master sequence order, not created date or name.","- Active Timeslots exist with sequences 1, 2, 3, 4.
 - Each timeslot has at least one Published Individual lesson on selected date/location.",,LT-92536;Core;Timeslot;Sorting,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
 2. Read block headers left to right.
@@ -246,13 +249,16 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. Same lesson data is also shown.","1. 
 2. 
 3. multiple classrooms",,,2717,2628,Calendar lesson,no,,
-26970,"[Core] Daily Timetable Print - Student, grade, course, subject, teacher columns are populated",AC 01.11/01.12 - PDF columns display all required lesson data.,"- Published Individual Lesson A has Student A, Grade 5, Course Math Basic, Subject Algebra, Teacher A.",,LT-92536;Core;PDF Content,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+26970,"[Core] Daily Timetable Print - Student, grade, course code, subject, teacher columns are populated",AC 01.11/01.12 / LT-109593 - PDF columns display all required lesson data and Course column uses Course Code.,"- Published Individual Lesson A has Student A, Grade 5, Course Name = Math Basic, Course Code = MATH-BASIC, Subject Algebra, Teacher A.",,LT-92536;LT-109593;Core;PDF Content;Course Code,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
 2. Locate Lesson A row.
-3. Verify displayed columns.","1. PDF renders.
+3. Verify displayed columns.
+4. Inspect Course column specifically.","1. PDF renders.
 2. Row is in correct classroom and timeslot/time block.
-3. Grade, Course, Subject, Student, Teacher are populated with correct values.","1. 
+3. Grade, Course Code, Subject, Student, Teacher are populated with correct values.
+4. Course column shows MATH-BASIC and does not show Course Name Math Basic.","1. 
 2. 
-3. ",,,2717,2628,Calendar lesson,no,,
+3. 
+4. LT-109593",,,2717,2628,Calendar lesson,no,,
 26971,[Core] Daily Timetable Print - Multiple students and teachers are comma-separated,AC 01.12 - Multiple related values render together without overwriting each other.,"- Published Individual Lesson A has Student A, Student B, Teacher A, and Teacher B.",,LT-92536;Core;PDF Content,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
 2. Inspect Student column for Lesson A.
 3. Inspect Teacher column for Lesson A.","1. PDF renders.
@@ -260,21 +266,27 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. Teacher A and Teacher B are both displayed.","1. 
 2. separator = comma
 3. separator = comma",,,2717,2628,Calendar lesson,no,,
-26972,[Core] Daily Timetable Print - Seasonal student course displays star marker,AC 01.13 - Seasonal enrollment is marked with star on course display.,"- Seasonal Student S has active Seasonal enrollment at Tokyo Center.
-- Student S attends Published Individual Lesson A.",,LT-92536;Core;Seasonal;PDF Content,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF for Tokyo Center.
+26972,[Core] Daily Timetable Print - Seasonal student course displays star marker,AC 01.13 / LT-109593 - Seasonal enrollment is marked with star appended to Course Code.,"- Seasonal Student S has active Seasonal enrollment at Tokyo Center.
+- Student S attends Published Individual Lesson A with Course Name = Seasonal Math and Course Code = SEASON-MATH.",,LT-92536;LT-109593;Core;Seasonal;PDF Content;Course Code,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF for Tokyo Center.
 2. Locate Student S row.
-3. Inspect Course column.","1. PDF renders.
+3. Inspect Course column.
+4. Confirm Course Name is not used.","1. PDF renders.
 2. Student S is displayed in the correct block.
-3. Course name has star marker ★.","1. 
+3. Course Code is displayed with star marker appended, such as SEASON-MATH★.
+4. Course column does not show Seasonal Math even for seasonal students.","1. 
 2. 
-3. seasonal marker",,,2717,2628,Calendar lesson,no,,
-26973,[Core] Daily Timetable Print - Remarks show other timeslots for same student,AC 01.14 - Remarks list other timeslot labels for students with multiple lessons in the day.,- Student A has Published Individual lessons in Timeslot 1 and Timeslot 3 on the selected date/location.,,LT-92536;Core;Remarks;Timeslot,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+3. seasonal marker
+4. LT-109593",,,2717,2628,Calendar lesson,no,,
+26973,[Core] Daily Timetable Print - Remarks show other timeslots for same student,"AC 01.14 / LT-109593 - Remarks list all allocated timeslot number values for the student on that date, without the 限 suffix.",- Student A has Published Individual lessons in Timeslot 1 and Timeslot 3 on the selected date/location.,,LT-92536;LT-109593;Core;Remarks;Timeslot,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
 2. Locate Student A in Timeslot 1 block.
-3. Inspect Remarks column.","1. PDF renders.
+3. Inspect Remarks column.
+4. Confirm suffix is not appended in Remarks.","1. PDF renders.
 2. Student A is displayed.
-3. Remarks show the other timeslot label, such as 3限, and do not repeat current timeslot.","1. 
+3. Remarks show all timeslot number values for Student A's lessons on the date, including current and other timeslots, such as 1; 3.
+4. Remarks do not show 1限, 3限, or 階.","1. 
 2. current timeslot = 1
-3. other timeslot = 3",,,2717,2628,Calendar lesson,no,,
+3. current + other timeslots
+4. LT-109593",,,2717,2628,Calendar lesson,no,,
 26974,[Core] Daily Timetable Print - Empty date still generates classroom-only timetable,AC 01.15 - No matching lessons should not produce a broken PDF.,"- Tokyo Center has Classroom Master data.
 - No Published Individual lessons exist at Tokyo Center on 2026-09-20.",,LT-92536;Core;Empty State,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF for 2026-09-20.
 2. Inspect PDF body.

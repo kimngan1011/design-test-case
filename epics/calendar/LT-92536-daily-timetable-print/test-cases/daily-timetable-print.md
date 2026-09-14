@@ -293,7 +293,7 @@
 
 ### [Core] Daily Timetable Print - Timeslot mode header uses active timeslot name and time
 
-**Description:** AC 01.7 - Timeslot mode block header uses Timeslot Master values.
+**Description:** AC 01.7 / LT-109593 - Timeslot mode block header uses Timeslot Master values with the correct `限` suffix.
 
 **Preconditions:**
 - `MANAERP__Show_Timeslot_In_Lesson__c = true`.
@@ -304,11 +304,12 @@
 |---|---|---|---|
 | 1 | Open Individual timetable PDF. | PDF renders in timeslot mode. |  |
 | 2 | Inspect first block header. | Header shows `1限 09:00 - 10:20`. | Timeslot name + 限 |
-| 3 | Verify Lesson A is under the Timeslot 1 block. | Lesson A data is displayed in the correct block. |  |
+| 3 | Confirm the header suffix. | Header does not show `1階` or any other suffix. | expected suffix = 限 |
+| 4 | Verify Lesson A is under the Timeslot 1 block. | Lesson A data is displayed in the correct block. |  |
 
 **Priority:** high
 **Severity:** critical
-**Tags:** LT-92536;Core;Timeslot;Individual PDF
+**Tags:** LT-92536;LT-109593;Core;Timeslot;Individual PDF
 
 ### [Core] Daily Timetable Print - Timeslot blocks are ordered by sequence
 
@@ -548,22 +549,23 @@
 **Severity:** major
 **Tags:** LT-92536;Core;Classroom;Data
 
-### [Core] Daily Timetable Print - Student, grade, course, subject, teacher columns are populated
+### [Core] Daily Timetable Print - Student, grade, course code, subject, teacher columns are populated
 
-**Description:** AC 01.11/01.12 - PDF columns display all required lesson data.
+**Description:** AC 01.11/01.12 / LT-109593 - PDF columns display all required lesson data and Course column uses Course Code.
 
 **Preconditions:**
-- Published Individual Lesson A has Student A, Grade 5, Course Math Basic, Subject Algebra, Teacher A.
+- Published Individual Lesson A has Student A, Grade 5, Course Name = Math Basic, Course Code = MATH-BASIC, Subject Algebra, Teacher A.
 
 | # | Action | Expected Result | Test Data |
 |---|---|---|---|
 | 1 | Open Individual timetable PDF. | PDF renders. |  |
 | 2 | Locate Lesson A row. | Row is in correct classroom and timeslot/time block. |  |
-| 3 | Verify displayed columns. | Grade, Course, Subject, Student, Teacher are populated with correct values. |  |
+| 3 | Verify displayed columns. | Grade, Course Code, Subject, Student, Teacher are populated with correct values. |  |
+| 4 | Inspect Course column specifically. | Course column shows `MATH-BASIC` and does not show Course Name `Math Basic`. | LT-109593 |
 
 **Priority:** high
 **Severity:** critical
-**Tags:** LT-92536;Core;PDF Content
+**Tags:** LT-92536;LT-109593;Core;PDF Content;Course Code
 
 ### [Core] Daily Timetable Print - Multiple students and teachers are comma-separated
 
@@ -584,25 +586,26 @@
 
 ### [Core] Daily Timetable Print - Seasonal student course displays star marker
 
-**Description:** AC 01.13 - Seasonal enrollment is marked with star on course display.
+**Description:** AC 01.13 / LT-109593 - Seasonal enrollment is marked with star appended to Course Code.
 
 **Preconditions:**
 - Seasonal Student S has active Seasonal enrollment at Tokyo Center.
-- Student S attends Published Individual Lesson A.
+- Student S attends Published Individual Lesson A with Course Name = Seasonal Math and Course Code = SEASON-MATH.
 
 | # | Action | Expected Result | Test Data |
 |---|---|---|---|
 | 1 | Open Individual timetable PDF for Tokyo Center. | PDF renders. |  |
 | 2 | Locate Student S row. | Student S is displayed in the correct block. |  |
-| 3 | Inspect Course column. | Course name has star marker `★`. | seasonal marker |
+| 3 | Inspect Course column. | Course Code is displayed with star marker appended, such as `SEASON-MATH★`. | seasonal marker |
+| 4 | Confirm Course Name is not used. | Course column does not show `Seasonal Math` even for seasonal students. | LT-109593 |
 
 **Priority:** medium
 **Severity:** major
-**Tags:** LT-92536;Core;Seasonal;PDF Content
+**Tags:** LT-92536;LT-109593;Core;Seasonal;PDF Content;Course Code
 
 ### [Core] Daily Timetable Print - Remarks show other timeslots for same student
 
-**Description:** AC 01.14 - Remarks list other timeslot labels for students with multiple lessons in the day.
+**Description:** AC 01.14 / LT-109593 - Remarks list all allocated timeslot number values for the student on that date, without the `限` suffix.
 
 **Preconditions:**
 - Student A has Published Individual lessons in Timeslot 1 and Timeslot 3 on the selected date/location.
@@ -611,11 +614,12 @@
 |---|---|---|---|
 | 1 | Open Individual timetable PDF. | PDF renders. |  |
 | 2 | Locate Student A in Timeslot 1 block. | Student A is displayed. | current timeslot = 1 |
-| 3 | Inspect Remarks column. | Remarks show the other timeslot label, such as `3限`, and do not repeat current timeslot. | other timeslot = 3 |
+| 3 | Inspect Remarks column. | Remarks show all timeslot number values for Student A's lessons on the date, including current and other timeslots, such as `1; 3`. | current + other timeslots |
+| 4 | Confirm suffix is not appended in Remarks. | Remarks do not show `1限`, `3限`, or `階`. | LT-109593 |
 
 **Priority:** high
 **Severity:** major
-**Tags:** LT-92536;Core;Remarks;Timeslot
+**Tags:** LT-92536;LT-109593;Core;Remarks;Timeslot
 
 ### [Core] Daily Timetable Print - Empty date still generates classroom-only timetable
 

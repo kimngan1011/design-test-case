@@ -9,7 +9,7 @@
 | Published-only data filter | BR-03, BR-04, BR-05 | Query filter | Decision Table | Critical | Deep | 5 |
 | Timeslot-mode grouping | BR-02, BR-07, BR-09, BR-10 | Grouping/sorting/pagination | BVA, Pairwise | Critical | Deep | 7 |
 | Manual-time grouping | BR-08, BR-09, BR-10 | Grouping/sorting | BVA | High | Deep | 4 |
-| PDF layout/content fields | BR-06, BR-11, BR-12 | Display completeness | Component, Visual regression | Critical | Deep | 13 |
+| PDF layout/content fields | BR-06, BR-11, BR-12, BR-15, BR-16 | Display completeness | Component, Visual regression | Critical | Deep | 13 |
 | Empty/error states | BR-10, BR-11 | Negative path | Boundary, Error guessing | High | Standard | 3 |
 | Regression guards | BR-13, BR-14 | Compatibility | Regression | High | Standard | 3 |
 
@@ -21,7 +21,8 @@ Estimated total: 46 cases.
 - Timeslot mode must follow LT-109758: active Timeslot Masters display left to right by ascending sequence, with 4 blocks per page. AM/PM labels or noon boundary must not change the block order.
 - PDF validation needs visual checks: A3 landscape, four blocks per page, bottom-right stamp rectangle, stable borders, headers, wrapping, and no overlap.
 - Classroom sorting and all-classroom row generation are important for classroom management. A lesson in only one classroom must not remove other classroom rows.
-- Remarks are derived from the same student's other timeslot lessons on the same day/location, so multi-lesson fixtures must be prepared carefully.
+- LT-109593 tightened exact visual strings: Course column must use Course Code, seasonal `★` appends to Course Code, timeslot headers use `限`, and Remarks list all allocated timeslot number values without `限`.
+- Remarks are derived from the same student's timeslot lessons on the same day/location, so multi-lesson fixtures must be prepared carefully and must include the current block plus other blocks.
 
 ## Suggested Suite Structure
 
@@ -52,6 +53,6 @@ Qase PX > Manabie Scheduling > CORE FEATURES > Event Master > update testcase > 
 | Active Timeslots 1-6 with mixed AM/PM start times and sequence order | Verify timeslot block order ignores AM/PM grouping and page overflow follows sequence 1-4, then 5-8. |
 | Published Individual lessons across multiple classrooms and timeslots | Verify included data and grouping. |
 | Draft, Completed, Cancelled, Group, other-date, other-location lessons | Verify exclusion filters. |
-| Student with two published lessons in different timeslots | Verify Remarks column. |
-| Seasonal student enrollment at selected location | Verify course star marker. |
+| Student with two published lessons in different timeslots | Verify Remarks column lists all timeslot number values without `限`. |
+| Seasonal student enrollment at selected location | Verify `★` marker is appended to Course Code, not Course Name. |
 | Long CJK/Latin student/course/teacher values | Verify fixed-width wrapping without overlap. |
