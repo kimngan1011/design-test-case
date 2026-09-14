@@ -146,38 +146,41 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. Each lesson appears under its assigned timeslot block.","1. Timeslot mode = on
 2. 
 3. ",,,2717,2628,Calendar lesson,no,,
-26958,[Core] Daily Timetable Print - AM timeslot pages render before PM pages,AC 01.9 - Timeslot pages are split by AM before PM.,"- AM active timeslots have start times before 12:00.
-- PM active timeslots have start times at or after 12:00.
-- Published Individual lessons exist in both AM and PM timeslots.",,LT-92536;Core;Timeslot;Pagination,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
-2. Inspect page 1 block headers.
-3. Inspect later page block headers.","1. PDF has multiple pages.
-2. AM timeslots are shown first.
-3. PM timeslots appear after all AM pages.","1. 
-2. start time < 12:00
-3. start time >= 12:00",,,2717,2628,Calendar lesson,no,,
-26959,[Core] Daily Timetable Print - More than four AM timeslots creates next AM page,"AC 01.9 - Each page contains at most four blocks, and extra AM blocks continue before PM.","- Five AM active timeslots have Published Individual lessons.
-- At least one PM timeslot has a Published Individual lesson.",,LT-92536;Core;Timeslot;Pagination,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+26958,[Core] Daily Timetable Print - Mixed AM/PM timeslots render by sequence order,"AC 01.9 / LT-109758 - Timeslot blocks display by ascending Timeslot Master sequence, not AM/PM grouping.","- MANAERP__Show_Timeslot_In_Lesson__c = true.
+- Active Timeslots exist with mixed start times: sequence 1 at 13:00, sequence 2 at 09:00, sequence 3 at 15:00, sequence 4 at 10:00.
+- Published Individual lessons exist in each timeslot on the selected date/location.",,LT-92536;LT-109758;Core;Timeslot;Pagination;Sequence,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect page 1 block headers from left to right.
+3. Confirm no AM/PM split changes the order.","1. PDF renders in timeslot mode.
+2. Blocks are ordered by sequence 1, 2, 3, 4 even when PM timeslots appear before AM timeslots by clock time.
+3. Timeslot start time before/after 12:00 does not move a block to another page or section.","1. 
+2. sequences 1-4
+3. LT-109758",,,2717,2628,Calendar lesson,no,,
+26959,[Core] Daily Timetable Print - More than four active timeslots paginates by sequence,AC 01.9 / LT-109758 - Each page contains at most four timeslot blocks; overflow continues by ascending sequence.,"- MANAERP__Show_Timeslot_In_Lesson__c = true.
+- Active Timeslots exist with sequences 1, 2, 3, 4, 5, 6.
+- Start times are intentionally mixed across AM and PM, for example sequence 5 is AM and sequence 6 is PM.
+- Each timeslot has at least one Published Individual lesson on selected date/location.",,LT-92536;LT-109758;Core;Timeslot;Pagination;Sequence,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
 2. Inspect page 1.
-3. Inspect page 2 and page 3.","1. PDF renders at least three pages.
-2. First four AM blocks are shown.
-3. Fifth AM block is on page 2; PM block starts after AM pages.","1. 5 AM + 1 PM block
+3. Inspect page 2.","1. PDF renders at least two pages.
+2. Page 1 shows sequence 1, 2, 3, 4 from left to right.
+3. Page 2 starts with sequence 5, then sequence 6; no block is delayed or promoted because of AM/PM.","1. 6 active timeslot blocks
 2. blocks 1-4
-3. ",,,2717,2628,Calendar lesson,no,,
-26960,[Core] Daily Timetable Print - Less than four blocks pads blank headers,AC 01.9 - A page still keeps four block areas when fewer than four blocks exist.,"- Two AM timeslots have Published Individual lessons.
-- No other AM timeslot has matching lessons.",,LT-92536;Core;Timeslot;Layout,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+3. blocks 5-6",,,2717,2628,Calendar lesson,no,,
+26960,[Core] Daily Timetable Print - Less than four blocks pads blank headers,AC 01.9 - A page still keeps four block areas when fewer than four blocks exist.,"- MANAERP__Show_Timeslot_In_Lesson__c = true.
+- Two active timeslots have Published Individual lessons.
+- The two timeslots can be any AM/PM combination; their sequence numbers determine their left-to-right order.",,LT-92536;LT-109758;Core;Timeslot;Layout;Sequence,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
 2. Inspect visible block headers.
-3. Inspect remaining block areas.","1. AM page renders.
+3. Inspect remaining block areas.","1. A single sequence-ordered page renders.
 2. First two blocks show timeslot headers.
 3. Remaining block areas are present with blank headers and classroom rows.","1. 
 2. 
 3. padded blocks",,,2717,2628,Calendar lesson,no,,
-26961,[Core] Daily Timetable Print - Unused active timeslots still appear as empty blocks,AC 01.4 - PRD expected behavior: timeslot template remains even when no lessons exist for a timeslot.,"- Active Timeslots 1, 2, 3, 4 exist.
-- Only Timeslot 1 has a Published Individual lesson.",,LT-92536;Core;Timeslot;PRD Gap,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
-2. Inspect AM page headers.
+26961,[Core] Daily Timetable Print - Unused active timeslots still appear as empty blocks,AC 01.4 / LT-109758 - Active timeslot template remains in sequence order even when no lessons exist for a timeslot.,"- Active Timeslots 1, 2, 3, 4 exist.
+- Only Timeslot 1 has a Published Individual lesson.",,LT-92536;LT-109758;Core;Timeslot;PRD Gap;Sequence,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
+2. Inspect page headers left to right.
 3. Inspect empty timeslot classroom rows.","1. PDF renders.
-2. All active AM timeslot blocks are displayed, including empty timeslots.
+2. All active timeslot blocks are displayed by sequence 1, 2, 3, 4, including empty timeslots.
 3. Classroom rows are present; lesson data cells are blank.","1. Timeslot mode = on
-2. expected by PRD
+2. expected by LT-109758
 3. ",,,2717,2628,Calendar lesson,no,,
 26962,[Core] Daily Timetable Print - Lesson without timeslot in timeslot mode is handled safely,AC 01.7 - Timeslot mode should not break when a Published Individual lesson has blank Timeslot.,"- MANAERP__Show_Timeslot_In_Lesson__c = true.
 - Published Individual Lesson NoSlot exists with no Timeslot.

@@ -7,7 +7,7 @@
 | Entry point and dialog | BR-01, BR-13, BR-14 | Conditional UI | Decision Table | High | Standard | 8 |
 | New PDF URL and filename | BR-01 | Integration | Scenario | High | Standard | 3 |
 | Published-only data filter | BR-03, BR-04, BR-05 | Query filter | Decision Table | Critical | Deep | 5 |
-| Timeslot-mode grouping | BR-02, BR-07, BR-09, BR-10 | Grouping/sorting | BVA, Pairwise | Critical | Deep | 7 |
+| Timeslot-mode grouping | BR-02, BR-07, BR-09, BR-10 | Grouping/sorting/pagination | BVA, Pairwise | Critical | Deep | 7 |
 | Manual-time grouping | BR-08, BR-09, BR-10 | Grouping/sorting | BVA | High | Deep | 4 |
 | PDF layout/content fields | BR-06, BR-11, BR-12 | Display completeness | Component, Visual regression | Critical | Deep | 13 |
 | Empty/error states | BR-10, BR-11 | Negative path | Boundary, Error guessing | High | Standard | 3 |
@@ -18,7 +18,7 @@ Estimated total: 46 cases.
 ## High-Risk Notes
 
 - `Status__c = Published` is stricter than the old print dialog copy. Completed lessons must be excluded in the new Individual timetable PDF even if the UI still mentions Completed.
-- Timeslot mode uses active Timeslot Masters but current implementation only renders timeslots used by lessons. PRD says empty AM/PM timeslot templates should remain; testcase should detect this mismatch.
+- Timeslot mode must follow LT-109758: active Timeslot Masters display left to right by ascending sequence, with 4 blocks per page. AM/PM labels or noon boundary must not change the block order.
 - PDF validation needs visual checks: A3 landscape, four blocks per page, bottom-right stamp rectangle, stable borders, headers, wrapping, and no overlap.
 - Classroom sorting and all-classroom row generation are important for classroom management. A lesson in only one classroom must not remove other classroom rows.
 - Remarks are derived from the same student's other timeslot lessons on the same day/location, so multi-lesson fixtures must be prepared carefully.
@@ -49,7 +49,7 @@ Qase PX > Manabie Scheduling > CORE FEATURES > Event Master > update testcase > 
 | Fixture | Purpose |
 |---|---|
 | Location `Tokyo Center` with classrooms Booth A, Booth B, Booth C sorted by Sequence | Verify all classroom rows and sorting. |
-| Active Timeslots 1-5 with AM/PM split and sequence order | Verify timeslot block order, AM/PM split, and page overflow. |
+| Active Timeslots 1-6 with mixed AM/PM start times and sequence order | Verify timeslot block order ignores AM/PM grouping and page overflow follows sequence 1-4, then 5-8. |
 | Published Individual lessons across multiple classrooms and timeslots | Verify included data and grouping. |
 | Draft, Completed, Cancelled, Group, other-date, other-location lessons | Verify exclusion filters. |
 | Student with two published lessons in different timeslots | Verify Remarks column. |

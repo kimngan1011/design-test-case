@@ -328,64 +328,67 @@
 **Severity:** major
 **Tags:** LT-92536;Core;Timeslot;Sorting
 
-### [Core] Daily Timetable Print - AM timeslot pages render before PM pages
+### [Core] Daily Timetable Print - Mixed AM/PM timeslots render by sequence order
 
-**Description:** AC 01.9 - Timeslot pages are split by AM before PM.
+**Description:** AC 01.9 / LT-109758 - Timeslot blocks display by ascending Timeslot Master sequence, not AM/PM grouping.
 
 **Preconditions:**
-- AM active timeslots have start times before 12:00.
-- PM active timeslots have start times at or after 12:00.
-- Published Individual lessons exist in both AM and PM timeslots.
+- `MANAERP__Show_Timeslot_In_Lesson__c = true`.
+- Active Timeslots exist with mixed start times: sequence 1 at 13:00, sequence 2 at 09:00, sequence 3 at 15:00, sequence 4 at 10:00.
+- Published Individual lessons exist in each timeslot on the selected date/location.
 
 | # | Action | Expected Result | Test Data |
 |---|---|---|---|
-| 1 | Open Individual timetable PDF. | PDF has multiple pages. |  |
-| 2 | Inspect page 1 block headers. | AM timeslots are shown first. | start time < 12:00 |
-| 3 | Inspect later page block headers. | PM timeslots appear after all AM pages. | start time >= 12:00 |
+| 1 | Open Individual timetable PDF. | PDF renders in timeslot mode. |  |
+| 2 | Inspect page 1 block headers from left to right. | Blocks are ordered by sequence 1, 2, 3, 4 even when PM timeslots appear before AM timeslots by clock time. | sequences 1-4 |
+| 3 | Confirm no AM/PM split changes the order. | Timeslot start time before/after 12:00 does not move a block to another page or section. | LT-109758 |
 
 **Priority:** high
 **Severity:** critical
-**Tags:** LT-92536;Core;Timeslot;Pagination
+**Tags:** LT-92536;LT-109758;Core;Timeslot;Pagination;Sequence
 
-### [Core] Daily Timetable Print - More than four AM timeslots creates next AM page
+### [Core] Daily Timetable Print - More than four active timeslots paginates by sequence
 
-**Description:** AC 01.9 - Each page contains at most four blocks, and extra AM blocks continue before PM.
+**Description:** AC 01.9 / LT-109758 - Each page contains at most four timeslot blocks; overflow continues by ascending sequence.
 
 **Preconditions:**
-- Five AM active timeslots have Published Individual lessons.
-- At least one PM timeslot has a Published Individual lesson.
+- `MANAERP__Show_Timeslot_In_Lesson__c = true`.
+- Active Timeslots exist with sequences 1, 2, 3, 4, 5, 6.
+- Start times are intentionally mixed across AM and PM, for example sequence 5 is AM and sequence 6 is PM.
+- Each timeslot has at least one Published Individual lesson on selected date/location.
 
 | # | Action | Expected Result | Test Data |
 |---|---|---|---|
-| 1 | Open Individual timetable PDF. | PDF renders at least three pages. | 5 AM + 1 PM block |
-| 2 | Inspect page 1. | First four AM blocks are shown. | blocks 1-4 |
-| 3 | Inspect page 2 and page 3. | Fifth AM block is on page 2; PM block starts after AM pages. |  |
+| 1 | Open Individual timetable PDF. | PDF renders at least two pages. | 6 active timeslot blocks |
+| 2 | Inspect page 1. | Page 1 shows sequence 1, 2, 3, 4 from left to right. | blocks 1-4 |
+| 3 | Inspect page 2. | Page 2 starts with sequence 5, then sequence 6; no block is delayed or promoted because of AM/PM. | blocks 5-6 |
 
 **Priority:** high
 **Severity:** critical
-**Tags:** LT-92536;Core;Timeslot;Pagination
+**Tags:** LT-92536;LT-109758;Core;Timeslot;Pagination;Sequence
 
 ### [Core] Daily Timetable Print - Less than four blocks pads blank headers
 
 **Description:** AC 01.9 - A page still keeps four block areas when fewer than four blocks exist.
 
 **Preconditions:**
-- Two AM timeslots have Published Individual lessons.
-- No other AM timeslot has matching lessons.
+- `MANAERP__Show_Timeslot_In_Lesson__c = true`.
+- Two active timeslots have Published Individual lessons.
+- The two timeslots can be any AM/PM combination; their sequence numbers determine their left-to-right order.
 
 | # | Action | Expected Result | Test Data |
 |---|---|---|---|
-| 1 | Open Individual timetable PDF. | AM page renders. |  |
+| 1 | Open Individual timetable PDF. | A single sequence-ordered page renders. |  |
 | 2 | Inspect visible block headers. | First two blocks show timeslot headers. |  |
 | 3 | Inspect remaining block areas. | Remaining block areas are present with blank headers and classroom rows. | padded blocks |
 
 **Priority:** medium
 **Severity:** major
-**Tags:** LT-92536;Core;Timeslot;Layout
+**Tags:** LT-92536;LT-109758;Core;Timeslot;Layout;Sequence
 
 ### [Core] Daily Timetable Print - Unused active timeslots still appear as empty blocks
 
-**Description:** AC 01.4 - PRD expected behavior: timeslot template remains even when no lessons exist for a timeslot.
+**Description:** AC 01.4 / LT-109758 - Active timeslot template remains in sequence order even when no lessons exist for a timeslot.
 
 **Preconditions:**
 - Active Timeslots 1, 2, 3, 4 exist.
@@ -394,12 +397,12 @@
 | # | Action | Expected Result | Test Data |
 |---|---|---|---|
 | 1 | Open Individual timetable PDF. | PDF renders. | Timeslot mode = on |
-| 2 | Inspect AM page headers. | All active AM timeslot blocks are displayed, including empty timeslots. | expected by PRD |
+| 2 | Inspect page headers left to right. | All active timeslot blocks are displayed by sequence 1, 2, 3, 4, including empty timeslots. | expected by LT-109758 |
 | 3 | Inspect empty timeslot classroom rows. | Classroom rows are present; lesson data cells are blank. |  |
 
 **Priority:** high
 **Severity:** critical
-**Tags:** LT-92536;Core;Timeslot;PRD Gap
+**Tags:** LT-92536;LT-109758;Core;Timeslot;PRD Gap;Sequence
 
 ### [Core] Daily Timetable Print - Lesson without timeslot in timeslot mode is handled safely
 
