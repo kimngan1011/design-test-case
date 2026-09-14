@@ -365,6 +365,8 @@ This is a known problematic scenario:
   - Users can drag and drop lesson cards in:
     - Weekly view.
     - Daily view.
+  - Hovering a draggable lesson card shows the guidance tooltip:
+    - `Drag to move - Click to view lesson detail`.
   - Adjust:
     - Date and time.
     - Teacher.
@@ -374,6 +376,9 @@ This is a known problematic scenario:
 - When **OFF**:
   - Calendar behaves as before:
     - No drag-and-drop adjustment of lessons.
+    - Do not show the `Drag to move - Click to view lesson detail` hover tooltip on lesson cards.
+  - Regression source:
+    - `LT-109890`: the tooltip must follow the Drag-and-Drop feature configuration.
 
 ---
 
