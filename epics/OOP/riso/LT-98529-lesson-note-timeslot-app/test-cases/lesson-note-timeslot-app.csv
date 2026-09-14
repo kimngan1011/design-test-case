@@ -1,0 +1,226 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[Riso] Lesson Note & Timeslot App - SF Lesson Form - Lesson Note visible when setting ON","US01.1 - Config/component - SF Lesson create/edit screen shows Lesson Note as optional long text when Show_Lesson_Note__c is enabled.","- Logged in as SF user with Lesson create/edit permission.
+- Lesson_Custom_Settings__c.Show_Lesson_Note__c = true.",,"LT-98529;Riso;Core;SF;Lesson Note;Config",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson create or edit form.
+2. Inspect the general/basic information section.
+3. Leave the field blank and inspect required validation.","1. Lesson form opens.
+2. Field Lesson Note is visible as a multi-line text area.
+3. No required-marker validation is shown for Lesson Note.","1. surface = SF
+2. field = Lesson_Note__c
+3. optional = true",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - SF Lesson Form - Lesson Note hidden when setting OFF","US01.1 - Negative/config - SF must not expose Lesson Note when Show_Lesson_Note__c is disabled.","- Logged in as SF user with Lesson create/edit permission.
+- Lesson_Custom_Settings__c.Show_Lesson_Note__c = false.",,"LT-98529;Riso;Core;SF;Lesson Note;Config",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson create or edit form.
+2. Inspect the form for Lesson Note.
+3. Save a lesson without Lesson Note.","1. Lesson form opens.
+2. Lesson Note field is not displayed.
+3. Lesson saves through the existing flow; no Lesson Note validation blocks save.","1. surface = SF
+2. config = OFF
+3. note = blank",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - SF Save - 32768 character note is accepted","US01.1 / US01.3 - Boundary value - Lesson_Note__c accepts the max Long Text Area length.","- Show_Lesson_Note__c = true.
+- SF user can edit Lesson A.
+- Test data generator can create a 32768-character plain text note.",,"LT-98529;Riso;Core;SF;Lesson Note;BVA",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Lesson A edit form in SF.
+2. Enter a 32768-character note into Lesson Note.
+3. Save the lesson.
+4. Reopen the lesson detail.","1. Edit form opens.
+2. Field accepts the value.
+3. Save succeeds and record stores the full note.
+4. Lesson Note value is still present and not truncated below 32768 characters.","1. lesson = Lesson A
+2. length = 32768
+3. field = Lesson_Note__c
+4. expected length = 32768",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - SF Save - 32769 character note is rejected or constrained","US01.1 - Negative boundary - Values above the field max cannot be saved silently.","- Show_Lesson_Note__c = true.
+- SF user can edit Lesson A.
+- Test data generator can create a 32769-character plain text note.",,"LT-98529;Riso;Core;SF;Lesson Note;BVA;Negative",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Lesson A edit form in SF.
+2. Enter a 32769-character note.
+3. Save the lesson.","1. Edit form opens.
+2. UI prevents entry beyond max length or allows edit until save validation.
+3. Save is blocked with validation, or value is explicitly constrained to 32768 characters; no silent corrupted value is stored.","1. lesson = Lesson A
+2. length = 32769
+3. max = 32768",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - BO Lesson Form - Lesson Note visible when feature setting ON","US01.1 - BO component/config - BO Lesson form shows Lesson Note when lesson.lesson_note.is_enabled is enabled.","- Logged in to BO as HQ/CM user with Lesson create/edit permission.
+- lesson.lesson_note.is_enabled = true.",,"LT-98529;Riso;Core;BO;Lesson Note;Config",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open BO Lesson create or edit form.
+2. Inspect Lesson form fields.
+3. Leave Lesson Note blank and save a valid lesson.","1. Lesson form opens.
+2. Lesson Note field is visible as multiline text area.
+3. Save succeeds; field is optional.","1. surface = BO
+2. i18n EN = Lesson Note
+3. note = blank",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - BO Save - Created or edited note is stored on Lesson","US01.3 - Integration - BO sends lessonNote and stores it on the Lesson record.","- Logged in to BO as HQ/CM user with Lesson edit permission.
+- lesson.lesson_note.is_enabled = true.
+- Lesson A exists and is assigned to Student A.",,"LT-98529;Riso;Core;BO;Lesson Note;Save",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Lesson A in BO edit mode.
+2. Enter Bring workbook A in Lesson Note.
+3. Save the lesson.
+4. Reopen Lesson A in BO/SF detail or query the record.","1. Edit form opens with Lesson Note field.
+2. Text is entered.
+3. Save succeeds.
+4. Lesson_Note__c equals Bring workbook A.","1. lesson = Lesson A
+2. note = Bring workbook A
+3. payload field = lessonNote
+4. expected record value",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - Permissions - Read-only lesson user cannot edit Lesson Note","US01.2 - Permission - Lesson Note follows existing Lesson object/field permissions.","- User has permission to view Lesson Detail but not update Lesson.
+- Lesson A has Lesson Note populated.",,"LT-98529;Riso;Core;Permissions;Lesson Note",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Log in as read-only/restricted lesson user.
+2. Open Lesson A detail.
+3. Try to edit Lesson Note.","1. User logs in successfully.
+2. Lesson detail is accessible according to existing Lesson permission.
+3. Edit action is unavailable or Lesson Note is read-only/disabled; user cannot save changes.","1. role = view-only
+2. lesson = Lesson A
+3. permission = no update",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - SF Calendar information shows Lesson Note","US01.4 - Calendar display - Lesson Calendar information includes Lesson Note when the lesson has a note.","- SF Calendar is accessible.
+- Show_Lesson_Note__c = true.
+- Lesson A exists on the selected date with Lesson Note Bring workbook A.",,"LT-98529;Riso;Core;SF Calendar;Lesson Note",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar for Lesson A date/location.
+2. Open Lesson A calendar information/detail panel.
+3. Inspect Lesson Note area.","1. Calendar loads and Lesson A is visible.
+2. Lesson information panel opens.
+3. Lesson Note is displayed with value Bring workbook A.","1. date/location = Lesson A
+2. card = Lesson A
+3. expected note",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - App Calendar Card shows note available tag","US02.1 - App component - Calendar lesson card shows note-available tag when Lesson Note is entered.","- Logged in to Learner App as Student A or Parent of Student A.
+- Lesson A is assigned to Student A and has Lesson Note.",,"LT-98529;Riso;Core;Learner App;Calendar Card;Lesson Note",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open App Calendar for Lesson A date.
+2. Locate Lesson A card.
+3. Inspect the bottom of the card.","1. Calendar opens.
+2. Lesson card is visible.
+3. Tag Lesson Note Available is shown in EN locale or 教室からのお知らせあり in JP locale.","1. student = Student A
+2. lesson = Lesson A
+3. note exists",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - App Calendar Card hides note tag for blank note","US02.1 - Negative - Calendar lesson card hides note tag when Lesson Note is blank.","- Logged in to Learner App as Student A or Parent of Student A.
+- Lesson B is assigned to Student A and has blank Lesson Note.",,"LT-98529;Riso;Core;Learner App;Calendar Card;Lesson Note;Negative",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open App Calendar for Lesson B date.
+2. Locate Lesson B card.
+3. Inspect the bottom of the card.","1. Calendar opens.
+2. Lesson card is visible.
+3. Lesson Note Available / 教室からのお知らせあり tag is not shown.","1. student = Student A
+2. lesson = Lesson B
+3. note = blank",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - App Lesson Detail shows note section at top","US02.2 - App detail - Lesson Detail shows dedicated note section above/basic info when note exists.","- Logged in to Learner App as Student A.
+- Lesson A has Lesson Note Bring workbook A.",,"LT-98529;Riso;Core;Learner App;Lesson Detail;Lesson Note",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open App Calendar and tap Lesson A.
+2. Inspect top of Lesson Detail.
+3. Inspect section header and content.
+4. Try to edit the note from App.","1. Lesson Detail opens.
+2. Dedicated Lesson Note section is displayed near the top before normal lesson information.
+3. Header shows note icon + Lesson Note / 教室からのお知らせ; content shows Bring workbook A.
+4. No edit control is available; note is read-only.","1. lesson = Lesson A
+2. placement = top
+3. expected note
+4. app = view only",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - App Lesson Detail hides note section for blank note","US02.2 - Negative - Blank Lesson Note does not leave an empty section on App Lesson Detail.","- Logged in to Learner App as Student A.
+- Lesson B is assigned to Student A and has blank Lesson Note.",,"LT-98529;Riso;Core;Learner App;Lesson Detail;Lesson Note;Negative",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Lesson B detail from App Calendar.
+2. Inspect the top area and Basic Info.
+3. Confirm existing Lesson Detail content.","1. Lesson Detail opens.
+2. No Lesson Note section/header/icon/empty block is shown.
+3. Existing lesson information remains aligned and unchanged.","1. lesson = Lesson B
+2. note = blank
+3. regression = layout",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - App preserves plain text line breaks and escapes symbols","US02.2 - Data format/security - App displays note as plain text with line breaks reflected.","- Lesson A note is Bring workbook A newline Use classroom entrance B <Room 301>.
+- Lesson A is assigned to Student A.",,"LT-98529;Riso;Core;Learner App;Lesson Note;Plain Text;Security",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Lesson A detail in App.
+2. Inspect Lesson Note content.
+3. Inspect <Room 301> rendering.","1. Lesson Detail opens.
+2. Two lines are displayed in the same order.
+3. Symbols are displayed as plain text; no HTML rendering or broken layout occurs.","1. lesson = Lesson A
+2. line1/line2
+3. plain text only",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - Editing note is reflected in App immediately","US01.3 / US02 - State transition - Saved note changes are visible in App without Lesson Report dependency.","- Lesson A is assigned to Student A.
+- Lesson A initial note is Old announcement.
+- No published Lesson Report is required for this lesson.",,"LT-98529;Riso;Core;Data Sync;Learner App;Lesson Note",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Lesson A in SF or BO edit mode.
+2. Change Lesson Note to New announcement.
+3. Save the lesson.
+4. Refresh App Calendar and Lesson Detail for Lesson A.","1. Edit form opens.
+2. Value is changed.
+3. Save succeeds.
+4. Card still shows note tag and detail shows New announcement, not the old note.","1. initial note = Old announcement
+2. new note
+3. source = SF/BO
+4. no Lesson Report required",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - Clearing note removes App tag and detail section","US01.3 / US02 - State transition - Clearing Lesson Note removes all App note UI.","- Lesson A has Lesson Note and is visible in App for Student A.",,"LT-98529;Riso;Core;Data Sync;Learner App;Lesson Note;Negative",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Lesson A in SF or BO edit mode.
+2. Clear Lesson Note and save.
+3. Refresh App Calendar for Lesson A date.
+4. Open Lesson A detail.","1. Edit form opens.
+2. Save succeeds and Lesson_Note__c is blank.
+3. Lesson A card no longer shows note-available tag.
+4. Lesson Note section is hidden.","1. note exists
+2. note = empty
+3. card tag hidden
+4. detail section hidden",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - App Calendar Card displays timeslot in PRD format","US03.1 - App component - Calendar card time includes Timeslot name after lesson time when enabled.","- Show_Timeslot_In_Lesson__c = true.
+- Lesson A is assigned to Student A.
+- Lesson A time = 09:00-10:00 and Timeslot = TimeSlot S.",,"LT-98529;Riso;Core;Learner App;Calendar Card;Timeslot",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open App Calendar for Lesson A date.
+2. Locate Lesson A card.
+3. Inspect the time line on the card.","1. Calendar opens.
+2. Lesson card is visible.
+3. Time displays 09:00 - 10:00 (TimeSlot S).","1. student = Student A
+2. lesson = Lesson A
+3. expected PRD format",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - App Lesson Detail displays Timeslot under Time","US03.2 - App detail - Lesson Detail Basic Info shows Timeslot label and value under Time.","- Show_Timeslot_In_Lesson__c = true.
+- Lesson A is assigned to Student A.
+- Lesson A has Timeslot TimeSlot S.",,"LT-98529;Riso;Core;Learner App;Lesson Detail;Timeslot",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Lesson A detail in App.
+2. Inspect Basic Info section under Time.
+3. Inspect Timeslot value.","1. Lesson Detail opens.
+2. Row/field Timeslot / 時限 is displayed.
+3. Value shows TimeSlot S without breaking the existing Time display.","1. lesson = Lesson A
+2. label
+3. expected timeslot",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - Lesson without timeslot hides timeslot UI safely","US03.1 / US03.2 - Negative - No-timeslot lesson does not show empty parentheses or empty row.","- Show_Timeslot_In_Lesson__c = true.
+- Lesson B is assigned to Student A.
+- Lesson B has no Timeslot.",,"LT-98529;Riso;Core;Learner App;Timeslot;Negative",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open App Calendar for Lesson B date.
+2. Inspect Lesson B card time.
+3. Open Lesson B detail.
+4. Inspect Basic Info.","1. Lesson card is visible.
+2. Time shows only start-end time; no empty () or null Timeslot text appears.
+3. Detail opens.
+4. Timeslot row is hidden or blank-safe per PRD; no empty label/value pair distorts layout.","1. lesson = Lesson B
+2. timeslot = blank
+3. 
+4. no timeslot",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - Timeslot hidden when partner config OFF","US03.1 / US03.2 - Config - Timeslot display respects partner config.","- Show_Timeslot_In_Lesson__c = false.
+- Lesson A is assigned to Student A and has Timeslot TimeSlot S.",,"LT-98529;Riso;Core;Learner App;Timeslot;Config",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open App Calendar for Lesson A date.
+2. Inspect Lesson A card time.
+3. Open Lesson A detail.
+4. Inspect Basic Info.","1. Lesson card is visible.
+2. Card does not display (TimeSlot S); existing start-end time remains visible.
+3. Detail opens.
+4. Timeslot row/value is not displayed.","1. config = OFF
+2. expected hidden
+3. 
+4. expected hidden",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - Localization for Note and Timeslot labels","US02.1 / US02.2 / US03.2 - i18n - App labels match EN/JP localization.","- Lesson A has note and Timeslot.
+- Student A can switch App locale between EN and JP.
+- Show_Timeslot_In_Lesson__c = true.",,"LT-98529;Riso;Core;Learner App;i18n;Lesson Note;Timeslot",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open App Calendar in English.
+2. Open Lesson A detail in English.
+3. Switch to Japanese and reopen Calendar/detail.","1. Note card tag shows Lesson Note Available.
+2. Note header shows Lesson Note; Basic Info label shows Timeslot.
+3. Tag shows 教室からのお知らせあり; note header shows 教室からのお知らせ; Timeslot label shows 時限.","1. locale = EN
+2. locale = EN
+3. locale = JP",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - Student and parent only see assigned child's lesson note","US02 / US03 - Access scope - Notes/timeslots respect existing App lesson visibility and selected child.","- Parent account has Student A and Student B.
+- Lesson A is assigned to Student A and has note/timeslot.
+- Lesson D is assigned to Student B and has different note/timeslot.",,"LT-98529;Riso;Core;Learner App;Access Scope;Parent;Student",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Log in as parent and select Student A.
+2. Open App Calendar for shared date.
+3. Switch to Student B.
+4. Inspect the same date.","1. Student A context is active.
+2. Lesson A is visible with its note tag/timeslot; Lesson D is not shown in Student A context.
+3. Calendar refreshes to Student B context.
+4. Lesson D is visible with its own note/timeslot; Lesson A is not shown in Student B context.","1. selected child = Student A
+2. access scope
+3. selected child = Student B
+4. no cross-child leak",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - Existing Lesson History timeslot display is not regressed","Regression - LT-98530 Lesson History still shows time + Timeslot name after LT-98529 App Calendar/detail changes.","- LT-98530 Lesson History is enabled.
+- Student A has a completed lesson with Timeslot 1限.",,"LT-98529;Riso;Core;Learner App;Regression;Lesson History;Timeslot",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open App Lesson History for the completed lesson month.
+2. Inspect the completed lesson row.","1. Lesson History opens.
+2. Row still shows Lesson Time plus Timeslot name on the expected line; no duplicate note tag or Calendar-only UI appears.","1. source = LT-98530
+2. timeslot = 1限",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - BO Lesson Form - Lesson Note hidden when feature setting OFF","US01.1 - Negative/config - BO does not expose Lesson Note when lesson.lesson_note.is_enabled is disabled.","- Logged in to BO as HQ/CM user with Lesson create/edit permission.
+- lesson.lesson_note.is_enabled = false.",,"LT-98529;Riso;Core;BO;Lesson Note;Config;Negative",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open BO Lesson create or edit form.
+2. Inspect Lesson form fields.
+3. Save a valid lesson without note.","1. Lesson form opens.
+2. Lesson Note field is not displayed.
+3. Save succeeds through existing flow; no hidden Lesson Note validation blocks save.","1. surface = BO
+2. config = OFF
+3. note = blank",,,3253,,[Riso] Lesson History — Display & Navigation,no,,
+,"[Riso] Lesson Note & Timeslot App - Whitespace-only note is treated as blank in App","US02.1 / US02.2 - Negative blank handling - Whitespace-only note should not create an empty tag or note section.","- Lesson C is assigned to Student A.
+- Lesson C Lesson_Note__c contains only spaces/newlines.",,"LT-98529;Riso;Core;Learner App;Lesson Note;Blank;Negative",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open App Calendar for Lesson C date.
+2. Inspect the bottom of the card.
+3. Open Lesson C detail.
+4. Inspect the top note area.","1. Lesson C card is visible.
+2. Note-available tag is hidden.
+3. Lesson Detail opens.
+4. Lesson Note section is hidden; no empty announcement block appears.","1. note = whitespace-only
+2. expected blank behavior
+3. lesson = Lesson C
+4. expected hidden",,,3253,,[Riso] Lesson History — Display & Navigation,no,,

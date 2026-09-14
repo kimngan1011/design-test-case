@@ -1,0 +1,176 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+27175,[Core][Aver] Show my schedule settings - Calendar default ON when remove-default flag is OFF,AC 01.2 - Existing BO Calendar default behavior remains ON and applies current teacher.,"- Logged in to BO as an Aver user with Lesson Calendar access.
+- lesson.lessonmgmt_sf.is_enabled = true.
+- lesson.remove_default_teacher_filter.is_enabled = false.
+- lesson.limit_teacher_access_other_lessons.is_enabled = false.
+- Calendar FILTER_LESSON and ACTIVE_FILTER_LESSON storage are cleared.
+- Calendar has schedules assigned to the logged-in teacher and another teacher in accessible scope.",,LT-102364;Core;Aver;BO Calendar;Show My Schedule;Feature Flag,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open BO Lesson Calendar.
+2. Open the Calendar filter panel.
+3. Observe Show my schedule.
+4. Inspect the active teacher filter/request or visible lessons.","1. Calendar loads in BO-calling-SF mode.
+2. Filter panel opens successfully.
+3. Show my schedule is visible and checked by default.
+4. Current teacher id is included in active teacher ids; only schedules assigned to the logged-in teacher are shown.","1. lesson.lessonmgmt_sf.is_enabled = true
+2. remove_default_teacher_filter = false
+3. limit_teacher_access = false
+4. storage = cleared",,,2717,2628,Calendar lesson,no,,
+27176,[Core][Aver] Show my schedule settings - Calendar default OFF when remove-default flag is ON,AC 01.3 - New config removes the default current-teacher filter from BO Calendar.,"- Logged in to BO as an Aver staff/teacher user with Calendar access.
+- lesson.lessonmgmt_sf.is_enabled = true.
+- lesson.remove_default_teacher_filter.is_enabled = true.
+- lesson.limit_teacher_access_other_lessons.is_enabled = false.
+- Calendar FILTER_LESSON and ACTIVE_FILTER_LESSON storage are cleared.
+- Schedules exist for current teacher and another teacher in accessible scope.",,LT-102364;Core;Aver;BO Calendar;Show My Schedule;Feature Flag,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open BO Lesson Calendar.
+2. Open the Calendar filter panel.
+3. Observe Show my schedule.
+4. Inspect active teacher ids.
+5. Compare visible schedules.","1. Calendar loads in BO-calling-SF mode.
+2. Filter panel opens successfully.
+3. Show my schedule is visible and unchecked by default.
+4. Current teacher id is not auto-included.
+5. Accessible schedules are not restricted to only the logged-in teacher.","1. lesson.lessonmgmt_sf.is_enabled = true
+2. remove_default_teacher_filter = true
+3. limit_teacher_access = false
+4. storage = cleared",,,2717,2628,Calendar lesson,no,,
+27177,[Core][Aver] Show my schedule settings - Calendar limit teacher access keeps default ON,AC 01.4 - Limited teacher access overrides remove-default-teacher-filter on Calendar.,"- Logged in to BO as an Aver teacher or part-time teacher.
+- lesson.lessonmgmt_sf.is_enabled = true.
+- lesson.remove_default_teacher_filter.is_enabled = true.
+- lesson.limit_teacher_access_other_lessons.is_enabled = true.
+- Calendar filter storage is cleared.
+- Schedules exist for current teacher and another teacher.",,LT-102364;Core;Aver;BO Calendar;Show My Schedule;Limited Teacher Access,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open BO Lesson Calendar.
+2. Open the Calendar filter panel.
+3. Observe Show my schedule.
+4. Inspect active teacher ids.","1. Calendar loads successfully.
+2. Filter panel opens successfully.
+3. Show my schedule is checked by default.
+4. Current teacher id is included and non-assigned schedules are not exposed by default.","1. userRole = teacher or part-time teacher
+2. remove_default_teacher_filter = true
+3. limit_teacher_access = true",,,2717,2628,Calendar lesson,no,,
+27178,[Core][Aver] Show my schedule settings - Control hidden outside BO-calling-SF,AC 01.1 - Show my schedule is not rendered when the Calendar is not BO calling SF.,"- User can access Calendar in pure SF app mode or BO mode with lesson.lessonmgmt_sf.is_enabled = false.
+- Calendar filter panel is available.",,LT-102364;Core;Aver;BO Calendar;Visibility;Regression,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Calendar in the non BO-calling-SF context.
+2. Open the filter panel.
+3. Search for Show my schedule.
+4. Inspect teacher filter state/request.","1. Calendar opens successfully.
+2. Filter panel opens successfully.
+3. Show my schedule is not rendered.
+4. Hidden control does not auto-add current teacher id.",1. context = pure SF or lessonmgmt_sf disabled,,,2717,2628,Calendar lesson,no,,
+27179,[Core][Aver] Show my schedule settings - Manual toggle ON appends current teacher,AC 01.5 - User can manually narrow Calendar to their own schedule when default is OFF.,"- Same setup as default OFF Calendar case.
+- Show my schedule is currently unchecked.",,LT-102364;Core;Aver;BO Calendar;Show My Schedule;Manual Toggle,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Calendar filter panel.
+2. Check Show my schedule.
+3. Apply or close the panel if required.
+4. Inspect active teacher ids.
+5. Compare visible schedules.","1. Filter panel opens successfully.
+2. Checkbox becomes checked.
+3. Filter state updates without clearing date/location/type filters.
+4. Current teacher id is appended once.
+5. Calendar narrows to schedules assigned to the logged-in teacher.","1. initial checked = false
+2. currentUserId = logged-in teacher",,,2717,2628,Calendar lesson,no,,
+27180,[Core][Aver] Show my schedule settings - Manual toggle OFF removes auto teacher filter,AC 01.5 - User can remove auto current-teacher filtering while keeping other filters.,"- Same setup as default ON Calendar case.
+- Show my schedule is checked by default.
+- Date/location/course/class filters have selected values.",,LT-102364;Core;Aver;BO Calendar;Show My Schedule;Manual Toggle,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Calendar filter panel.
+2. Uncheck Show my schedule.
+3. Apply or close the panel if required.
+4. Inspect active teacher ids.
+5. Inspect other selected filters.","1. Filter panel opens successfully.
+2. Checkbox becomes unchecked.
+3. Current teacher id is removed from the auto teacher filter.
+4. Calendar is no longer restricted to only the logged-in teacher unless selected elsewhere.
+5. Date/location/course/class filters remain unchanged.","1. initial checked = true
+2. date/location/course/class filters selected",,,2717,2628,Calendar lesson,no,,
+27181,[Core][Aver] Show my schedule settings - Activity events not limited by current teacher when default OFF,AC 01.3 - Default OFF must not accidentally restrict Activity Events to the logged-in teacher.,"- Same setup as default OFF Calendar case.
+- Activity Event scope is enabled or available.
+- Activity Event A is assigned to another teacher in accessible scope.
+- Activity Event B is assigned to the logged-in teacher.",,LT-102364;Core;Aver;BO Calendar;Activity Event;Regression,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open BO Lesson Calendar.
+2. Confirm Show my schedule is unchecked by default.
+3. Enable Activity Event scope if needed.
+4. Observe visible activity events.","1. Calendar loads successfully.
+2. Show my schedule remains unchecked.
+3. Activity Event scope is active.
+4. Accessible activity events assigned to other teachers can be displayed.","1. remove_default_teacher_filter = true
+2. limit_teacher_access = false
+3. eventType = Activity Event",,,2717,2628,Calendar lesson,no,,
+27182,[Core][Aver] Show my schedule settings - Legacy Calendar honors remove-default flag,AC 01.3 - Regression guard for the legacy Calendar provider path.,"- Legacy BO Calendar path is reachable.
+- lesson.lessonmgmt_sf.is_enabled = true.
+- lesson.remove_default_teacher_filter.is_enabled = true.
+- lesson.limit_teacher_access_other_lessons.is_enabled = false.
+- Legacy Calendar filter storage is cleared.",,LT-102364;Core;Aver;BO Calendar;Legacy;Regression,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the legacy BO Calendar surface.
+2. Open the filter panel.
+3. Observe Show my schedule.
+4. Inspect active teacher ids.","1. Legacy Calendar opens successfully if still supported.
+2. Filter panel opens successfully.
+3. Show my schedule is unchecked by default.
+4. Current teacher id is not auto-added.",1. known risk = CalendarFilterProvider currently defaults true without reading remove_default_teacher_filter,,,2717,2628,Calendar lesson,no,,
+27183,[Core][Aver] Show my schedule settings - Lesson List default keeps current teacher when flag OFF,AC 02.1 - Existing Lesson List default teacher filter remains without the new config.,"- Logged in to BO Lesson List as an Aver user.
+- lesson.remove_default_teacher_filter.is_enabled = false.
+- lesson.limit_teacher_access_other_lessons.is_enabled = false.
+- LESSON_SF_LESSON_FILTER is absent or isFilterDirty = false.
+- Lessons exist for current teacher and another teacher.",,LT-102364;Core;Aver;Lesson List;Teacher Filter;Feature Flag,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open BO Lesson List.
+2. Open advanced filters.
+3. Inspect the Teachers field/chip.
+4. Apply default filters.
+5. Inspect list results/request.","1. Lesson List loads successfully.
+2. Advanced filters open.
+3. Teachers field contains the logged-in teacher by default.
+4. Default filters apply successfully.
+5. Lesson List is filtered by the logged-in teacher.","1. remove_default_teacher_filter = false
+2. isFilterDirty = false",,,2717,2628,Calendar lesson,no,,
+27184,[Core][Aver] Show my schedule settings - Lesson List default removes current teacher when flag ON,AC 02.2 - New config removes current teacher from default Lesson List filters.,"- Logged in to BO Lesson List as an Aver staff/teacher user without limited teacher access.
+- lesson.remove_default_teacher_filter.is_enabled = true.
+- lesson.limit_teacher_access_other_lessons.is_enabled = false.
+- LESSON_SF_LESSON_FILTER is absent or isFilterDirty = false.
+- Lessons exist for current teacher and another teacher in accessible scope.",,LT-102364;Core;Aver;Lesson List;Teacher Filter;Feature Flag,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open BO Lesson List.
+2. Open advanced filters.
+3. Inspect the Teachers field/chip.
+4. Apply default filters.
+5. Inspect list results/request.","1. Lesson List loads successfully.
+2. Advanced filters open.
+3. Teachers field is empty by default.
+4. Default filters apply successfully.
+5. Request does not auto-send current teacher id; accessible lessons for other teachers are not removed by default teacher filtering.","1. remove_default_teacher_filter = true
+2. limit_teacher_access = false
+3. isFilterDirty = false",,,2717,2628,Calendar lesson,no,,
+27185,[Core][Aver] Show my schedule settings - Lesson List limited teacher access forces current teacher,AC 02.3 - Limited teacher access restores current teacher on reset and chip delete.,"- Logged in to BO Lesson List as an Aver teacher or part-time teacher.
+- lesson.remove_default_teacher_filter.is_enabled = true.
+- lesson.limit_teacher_access_other_lessons.is_enabled = true.
+- Advanced filters are open.",,LT-102364;Core;Aver;Lesson List;Limited Teacher Access;Teacher Filter,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Observe the Teachers field default.
+2. Click Reset filters.
+3. Try deleting the logged-in teacher filter chip.
+4. Apply filters.","1. Teachers field contains the logged-in teacher.
+2. Reset keeps or restores the logged-in teacher.
+3. Deleting the chip restores the logged-in teacher.
+4. List remains restricted to the logged-in teacher.","1. userRole = teacher or part-time teacher
+2. remove_default_teacher_filter = true
+3. limit_teacher_access = true",,,2717,2628,Calendar lesson,no,,
+27186,[Core][Aver] Show my schedule settings - Lesson List dirty saved filters are respected,AC 02.4 - User-saved dirty filters are not overwritten by default teacher logic.,"- Logged in to BO Lesson List.
+- lesson.remove_default_teacher_filter.is_enabled = true.
+- lesson.limit_teacher_access_other_lessons.is_enabled = false.
+- User previously applied Teacher X so LESSON_SF_LESSON_FILTER.isFilterDirty = true.",,LT-102364;Core;Aver;Lesson List;Saved Filter;Regression,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Reload BO Lesson List.
+2. Open advanced filters.
+3. Inspect the Teachers field/chip.
+4. Apply filters without changing teacher.","1. Lesson List reloads successfully.
+2. Advanced filters open.
+3. Previously selected Teacher X remains selected.
+4. Request uses Teacher X as the user-saved filter.","1. savedTeacher = Teacher X
+2. isFilterDirty = true",,,2717,2628,Calendar lesson,no,,
+27187,[Core][Aver] Show my schedule settings - Tenant config switch changes defaults after clearing storage,AC 01.3 / AC 02.2 - Default state follows tenant config when local storage does not mask it.,"- Same BO user can test both config states.
+- Calendar and Lesson List filter storages can be cleared between config changes.",,LT-102364;Core;Aver;Config Switch;Calendar;Lesson List,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Set remove-default-teacher-filter OFF and open Calendar/Lesson List.
+2. Record default Show my schedule and Teachers field.
+3. Clear Calendar and Lesson List filter storage.
+4. Set remove-default-teacher-filter ON with limited teacher access inactive.
+5. Reopen Calendar/Lesson List and inspect defaults.","1. Old/default config opens with current teacher filtering active.
+2. Calendar checkbox is checked and Lesson List has current teacher selected.
+3. Storage is cleared successfully.
+4. New config is active.
+5. Calendar checkbox is unchecked and Lesson List Teachers field is empty.","1. storage keys = FILTER_LESSON, ACTIVE_FILTER_LESSON, LESSON_SF_LESSON_FILTER
+2. limit_teacher_access = false",,,2717,2628,Calendar lesson,no,,
+27188,[Core][Aver] Show my schedule settings - Other Calendar filters remain stable when toggling,AC 01.5 - Show my schedule changes teacher filtering only and preserves other selected filters.,"- BO Calendar is in BO-calling-SF mode.
+- lesson.remove_default_teacher_filter.is_enabled = true.
+- Date, location, course/class, lesson status, and type filters have selected values.",,LT-102364;Core;Aver;BO Calendar;Regression;Filter Stability,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Calendar filter panel.
+2. Toggle Show my schedule ON.
+3. Toggle Show my schedule OFF.
+4. Inspect other selected filters after each toggle.
+5. Inspect resulting Calendar data.","1. Filter panel opens successfully.
+2. Only Show my schedule and active teacher ids change.
+3. Only Show my schedule and active teacher ids change again.
+4. Date, location, course/class, lesson status, and type filters remain selected.
+5. Calendar data changes only by teacher filtering within the same date/location/type scope.","1. remove_default_teacher_filter = true
+2. selected filters = date/location/course/class/status/type",,,2717,2628,Calendar lesson,no,,

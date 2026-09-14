@@ -1,0 +1,284 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,2717,2628,Calendar lesson,1,,
+26123,[Core] SF Calendar - Draft Activity Event - Weekly view shows draft card when feature is enabled,AC 01 - Decision Table - Draft Activity Event is visible on SF Lesson Calendar only when Draft Activity Event feature is enabled.,"- Logged in as HQ or CM Staff to Salesforce org.
+- MANAERP__Enable_Draft_Status_On_Activity_Event__c = true.
+- Event Master Core Draft Calendar Event exists.
+- Activity Event Draft Workshop A exists with Event Status = Draft, Location = Tokyo Center, Event Medium = Offline, Capacity = 20, Start Date Time = 2026-09-14 10:00 JST, End Date Time = 2026-09-14 11:00 JST.
+- Calendar location filter is Tokyo Center.",,LT-103775;Core;SF Calendar;Draft Activity Event,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar in Weekly view.
+2. Confirm Event type filter is selected.
+3. Keep default Status filter values.
+4. Add Draft to the Status filter.","1. Calendar loads for Tokyo Center.
+2. Activity Events are included in calendar results.
+3. Draft card is not shown because default status filter excludes Draft.
+4. Draft Workshop A appears in the 2026-09-14 10:00 slot.","1. today = 2026-08-12; calendar_week = 2026-09-14 to 2026-09-20; flag = on
+2. type_filter = Lesson + Event
+3. default statuses = Published, Completed
+4. status_filter = Draft, Published, Completed",,,2717,2628,Calendar lesson,no,,
+26124,[Core] SF Calendar - Draft Activity Event - Feature disabled hides draft card,AC 08 - Decision Table - Draft Activity Event is filtered out when the feature flag is disabled.,"- Logged in as HQ or CM Staff to Salesforce org where MANAERP__Enable_Draft_Status_On_Activity_Event__c = false.
+- Draft Activity Event Draft Workshop A and Published Activity Event Published Workshop A exist on 2026-09-14 in Tokyo Center.",,LT-103775;Core;SF Calendar;Draft Activity Event,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar in Weekly view for Tokyo Center.
+2. Select Draft in the Status filter.
+3. Select Published in the Status filter.","1. Calendar loads.
+2. Draft Workshop A is not displayed.
+3. Published Workshop A is displayed.","1. today = 2026-08-12; flag = off
+2. status_filter = Draft
+3. status_filter = Published",,,2717,2628,Calendar lesson,no,,
+26125,[Core] SF Calendar - Draft Activity Event - Non-SF calendar hides draft card,AC 08 - Regression - Draft Activity Event remains hidden outside the SF Calendar runtime.,"- Logged in as HQ Staff to Back Office.
+- Draft Activity Event Draft Workshop A exists in Tokyo Center on 2026-09-14.",,LT-103775;Core;Back Office Calendar;Draft Activity Event,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Back Office Calendar for Tokyo Center.
+2. Navigate to 2026-09-14.
+3. Search visible calendar cards for Draft Workshop A.","1. Calendar loads.
+2. Published calendar items display as usual.
+3. Draft Activity Event is not displayed.","1. today = 2026-08-12; runtime = non-SF
+2. event_date = 2026-09-14
+3. expected_visibility = hidden",,,2717,2628,Calendar lesson,no,,
+26126,[Core] SF Calendar - Draft Activity Event - Card uses draft event green outline,AC 02 - Component - Single-day Draft Event card uses Draft styling copied from Draft Lesson but with event green color.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Activity Event Draft Workshop A is visible in SF Calendar Weekly view.
+- Published Activity Event Published Workshop A is visible in the same week.",,LT-103775;Core;SF Calendar;Draft Activity Event,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view and select Draft and Published statuses.
+2. Inspect Draft Workshop A card.
+3. Inspect Published Workshop A card.
+4. Compare card text.","1. Both draft and published event cards are visible.
+2. Card has white background, green border, normal text, and participant/capacity chip.
+3. Card uses filled green event styling.
+4. Both cards show time range, event name, and capacity without text overlap.","1. flag = on; statuses = Draft, Published
+2. draft_style = white + green border
+3. published_style = green filled
+4. draft_start = 10:00; capacity = 20",,,2717,2628,Calendar lesson,no,,
+26127,[Core] SF Calendar - Draft Activity Event - Daily view shows draft card in correct time slot,AC 01 - Regression - Draft Event is shown in Daily view at its scheduled time.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Activity Event Draft Workshop A exists from 2026-09-14 10:00 to 11:00 JST.
+- Feature flag is enabled.",,LT-103775;Core;SF Calendar;Draft Activity Event,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar in Daily view for 2026-09-14.
+2. Select Draft in Status filter and Event in type filter.
+3. Inspect the 10:00 to 11:00 area.","1. Daily view loads.
+2. Draft Event cards are eligible to display.
+3. Draft Workshop A appears in the correct time slot with draft event styling.","1. today = 2026-08-12; calendar_date = 2026-09-14
+2. status_filter = Draft; type_filter includes Event
+3. start = 10:00; end = 11:00",,,2717,2628,Calendar lesson,no,,
+26128,[Core] SF Calendar - Draft Activity Event - Multi-day draft event shows in weekly band,AC 01 - Regression - Multi-day Draft Event is shown as a weekly band when multi-day events are enabled.,"- Logged in as HQ or CM Staff to Salesforce org.
+- MANAERP__Enable_Draft_Status_On_Activity_Event__c = true.
+- MANAERP__Enable_Multiple_Event_Days__c = true.
+- Draft Activity Event Draft Camp 2D1N exists from 2026-09-16 10:00 to 2026-09-17 17:00 JST.",,LT-103775;Core;SF Calendar;Draft Activity Event;Multiple Days Event,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view for 2026-09-14 to 2026-09-20.
+2. Select Draft in the Status filter.
+3. Inspect the multi-day event band area.
+4. Inspect the bar styling.","1. Weekly view loads.
+2. Draft status is active.
+3. Draft Camp 2D1N appears as a spanning bar across 2026-09-16 and 2026-09-17.
+4. Bar has white background, green border, name, date range, time range, and capacity chip.","1. today = 2026-08-12; week = 2026-09-14
+2. status_filter = Draft
+3. start = 2026-09-16 10:00; end = 2026-09-17 17:00
+4. status = Draft",,,2717,2628,Calendar lesson,no,,
+26129,[Core] SF Calendar - Draft Activity Event - Click opens Activity Event detail drawer,AC 03 - Scenario - Clicking a Draft Event opens the Activity Event detail drawer on the right side.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Activity Event Draft Workshop A is visible in SF Calendar.",,LT-103775;Core;SF Calendar;Draft Activity Event,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view with Draft status selected.
+2. Click Draft Workshop A.
+3. Inspect drawer header and General Info tab.
+4. Click the same event card again.","1. Draft Workshop A is visible.
+2. Right-side drawer opens.
+3. Drawer shows Activity Event detail, not Lesson detail.
+4. Drawer closes and calendar width returns to full view.","1. event_id = AE-DRAFT-A
+2. objectType = ACTIVITY
+3. drawerLessonDetail = AE-DRAFT-A
+4. toggle_same_card = true",,,2717,2628,Calendar lesson,no,,
+26130,[Core] SF Calendar - Draft Activity Event - Detail drawer shows event fields,AC 03 - Display Completeness - Activity Event detail drawer contains required general information for a Draft Event.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Activity Event Draft Workshop A is visible and has Event Master, Location, Date/Time, Capacity, Event Medium, Classroom, Staff, and Participants.",,LT-103775;Core;SF Calendar;Draft Activity Event,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Click Draft Workshop A in SF Calendar.
+2. Open General Info tab.
+3. Click Event Master link.
+4. Return to the drawer.","1. Activity Event drawer opens.
+2. Event Master, Location, Event Date, Start Time, End Time, Event Capacity, Event Medium, Classroom, Staff, and Participants are shown.
+3. Salesforce opens the related Event Master record in a new tab/window.
+4. Drawer remains on Activity Event detail.","1. event = Draft Workshop A
+2. start = 2026-09-14 10:00; end = 11:00
+3. Event Master = Core Draft Calendar Event
+4. objectType = ACTIVITY",,,2717,2628,Calendar lesson,no,,
+26131,[Core] SF Calendar - Status filter - Draft shows draft lessons and draft events,AC 04 - Decision Table - The Draft status filter applies to both Lessons and Activity Events.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Lesson Draft Lesson A and Draft Activity Event Draft Workshop A exist on 2026-09-14 in Tokyo Center.
+- Published Lesson Published Lesson A and Published Activity Event Published Workshop A exist in the same week.",,LT-103775;Core;SF Calendar;Status Filter,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view.
+2. Set Status filter to Draft only.
+3. Inspect visible cards.","1. Calendar loads.
+2. Only Draft status is active.
+3. Draft Lesson A and Draft Workshop A are visible; Published Lesson A and Published Workshop A are hidden.","1. today = 2026-08-12; flag = on
+2. status_filter = Draft
+3. expected_visible = draft lesson + draft event",,,2717,2628,Calendar lesson,no,,
+26132,[Core] SF Calendar - Status filter - Published hides draft event,AC 04 - Decision Table - Published status filter excludes Draft Events.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft and Published Lessons and Activity Events exist in the same week.",,LT-103775;Core;SF Calendar;Status Filter,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view.
+2. Set Status filter to Published only.
+3. Inspect visible cards.","1. Calendar loads.
+2. Published status is active.
+3. Published Lesson and Published Event are visible; Draft Lesson and Draft Event are hidden.","1. today = 2026-08-12
+2. status_filter = Published
+3. expected_hidden = Draft Workshop A",,,2717,2628,Calendar lesson,no,,
+26133,[Core] SF Calendar - Status filter - Draft plus Published shows both statuses,AC 04 - Pairwise - Multiple selected statuses include both matching Lessons and matching Activity Events.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft and Published Lessons and Activity Events exist in Tokyo Center.",,LT-103775;Core;SF Calendar;Status Filter,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view.
+2. Select Draft and Published in Status filter.
+3. Inspect visible cards.","1. Calendar loads.
+2. Two statuses are active.
+3. Draft Lesson, Draft Event, Published Lesson, and Published Event are visible; Completed and Cancelled items are hidden.","1. today = 2026-08-12
+2. status_filter = Draft, Published
+3. expected_visible_statuses = Draft, Published",,,2717,2628,Calendar lesson,no,,
+26134,[Core] SF Calendar - Default Status filter - Draft event hidden until Draft selected,AC 04 - Regression - Default calendar status filter remains Published and Completed only.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Activity Event Draft Workshop A, Published Activity Event Published Workshop A, and Completed Lesson Completed Lesson A exist in the selected week.",,LT-103775;Core;SF Calendar;Status Filter,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar after clearing saved filters.
+2. Inspect visible cards.
+3. Add Draft to the Status filter.","1. Calendar opens with default filter state.
+2. Published Workshop A and Completed Lesson A are visible; Draft Workshop A is hidden.
+3. Draft Workshop A appears.","1. default statuses = Published, Completed
+2. status_filter = default
+3. status_filter = Draft, Published, Completed",,,2717,2628,Calendar lesson,no,,
+26135,[Core] SF Calendar - Event type filter - Events off hides draft event,AC 04 - Conditional - Event type filter still controls Draft Event visibility.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Lesson Draft Lesson A and Draft Activity Event Draft Workshop A exist on 2026-09-14.",,LT-103775;Core;SF Calendar;Filter,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view and select Draft status.
+2. Turn off Event type filter and keep Lesson selected.
+3. Inspect visible cards.","1. Draft Lesson and Draft Event are visible.
+2. Activity Events are excluded.
+3. Draft Lesson A remains visible; Draft Workshop A is hidden.","1. status_filter = Draft; type_filter = Lesson + Event
+2. type_filter = Lesson only
+3. expected_visible = lesson only",,,2717,2628,Calendar lesson,no,,
+26136,[Core] SF Calendar - Event type filter - Lessons off still shows draft event,AC 04 - Conditional - Draft Event remains visible when Event type is selected and Lesson type is not selected.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Lesson Draft Lesson A and Draft Activity Event Draft Workshop A exist on 2026-09-14.",,LT-103775;Core;SF Calendar;Filter,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view and select Draft status.
+2. Turn off Lesson type filter and keep Event selected.
+3. Inspect visible cards.","1. Draft Lesson and Draft Event are visible.
+2. Lessons are excluded.
+3. Draft Workshop A remains visible; Draft Lesson A is hidden.","1. status_filter = Draft
+2. type_filter = Event only
+3. expected_visible = event only",,,2717,2628,Calendar lesson,no,,
+26137,[Core] SF Calendar - Teacher filter - Assigned staff sees matching draft event,AC 04 - Pairwise - Teacher filter applies to Draft Activity Events through assigned Event Staff.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Activity Event Draft Workshop Staff A exists with Event Staff = Teacher A.
+- Draft Activity Event Draft Workshop Staff B exists with Event Staff = Teacher B.",,LT-103775;Core;SF Calendar;Filter,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view and select Draft status.
+2. Apply Teacher filter = Teacher A.
+3. Inspect visible event cards.","1. Both draft events are visible.
+2. Teacher filter is active.
+3. Draft Workshop Staff A is visible; Draft Workshop Staff B is hidden.","1. status_filter = Draft
+2. teacher = Teacher A
+3. event_staff = Teacher A",,,2717,2628,Calendar lesson,no,,
+26138,[Core] SF Calendar - Capacity filter - Draft event respects capacity status,AC 04 - Pairwise - Capacity filter applies to Draft Activity Events.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Activity Event Draft Under Capacity exists with Capacity = 5 and 2 participants.
+- Draft Activity Event Draft Meet Capacity exists with Capacity = 2 and 2 participants.",,LT-103775;Core;SF Calendar;Filter,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view and select Draft status.
+2. Apply Capacity filter = Under Capacity.
+3. Inspect visible event cards.","1. Both Draft Events are visible.
+2. Under Capacity filter is active.
+3. Draft Under Capacity is visible; Draft Meet Capacity is hidden.","1. status_filter = Draft
+2. under = 2/5
+3. meet = 2/2",,,2717,2628,Calendar lesson,no,,
+26139,[Core] SF Calendar - Range time filter - Single-day draft event outside range hidden,AC 04 - Boundary Value - Range time filter applies to single-day Draft Events.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Activity Event Draft Morning Event exists from 2026-09-14 10:00 to 11:00 JST.
+- Draft Activity Event Draft Evening Event exists from 2026-09-14 19:00 to 20:00 JST.",,LT-103775;Core;SF Calendar;Filter,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Daily view for 2026-09-14 and select Draft status.
+2. Set visible time range to 09:00 to 18:00.
+3. Inspect visible event cards.","1. Both Draft Events are eligible by status.
+2. Range filter is applied.
+3. Draft Morning Event is visible; Draft Evening Event is hidden.","1. today = 2026-08-12; date = 2026-09-14
+2. range_start = 09:00; range_end = 18:00
+3. morning_start = 10:00; evening_start = 19:00",,,2717,2628,Calendar lesson,no,,
+26140,[Core] SF Calendar - Drag Draft Event - Edit Event UI opens with dropped time,AC 05/06 - State Transition - Dragging a single-day Draft Event opens Edit Event UI with Date and Time from the drop tile.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Calendar DnD feature is enabled.
+- Draft Activity Event Draft Workshop A exists from 2026-09-14 10:00 to 11:00 JST in Tokyo Center.
+- Draft Activity Event feature flag is enabled.",,LT-103775;Core;SF Calendar;Drag Drop,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view and select Draft status.
+2. Drag Draft Workshop A to 2026-09-15 13:00 tile.
+3. Inspect the date/time fields before saving.","1. Draft Workshop A is visible and draggable.
+2. Edit Activity Event UI opens.
+3. Date = 2026-09-15, Start Time = 13:00, End Time = 14:00; Status remains Draft.","1. today = 2026-08-12; original = 2026-09-14 10:00-11:00
+2. drop_tile = 2026-09-15 13:00
+3. original_duration = 60 minutes",,,2717,2628,Calendar lesson,no,,
+26141,[Core] SF Calendar - Drag Draft Event - Save moves card to drop area,AC 07 - State Transition - Saving the Edit Event UI after drag/drop updates the Activity Event location on calendar.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Edit Activity Event UI is open after dragging Draft Workshop A to 2026-09-15 13:00.",,LT-103775;Core;SF Calendar;Drag Drop,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Confirm Edit Activity Event fields.
+2. Click Save.
+3. Inspect 2026-09-15 13:00 tile.
+4. Inspect original 2026-09-14 10:00 tile.","1. Date = 2026-09-15, Start Time = 13:00, End Time = 14:00, Status = Draft.
+2. Edit form closes and success toast is shown.
+3. Draft Workshop A appears in the drop area with Draft styling.
+4. Draft Workshop A no longer appears in original tile.","1. dropped_start = 2026-09-15 13:00
+2. action = save
+3. expected_new_tile = 2026-09-15 13:00
+4. expected_original_tile = empty",,,2717,2628,Calendar lesson,no,,
+26142,[Core] SF Calendar - Drag Draft Event - Cancel edit keeps original schedule,AC 06 - Negative - Closing Edit Event UI after drag/drop does not persist the dropped time.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Draft Activity Event Draft Workshop B exists from 2026-09-14 15:00 to 16:00 JST.",,LT-103775;Core;SF Calendar;Drag Drop,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Drag Draft Workshop B to 2026-09-15 09:00 tile.
+2. Click Cancel or close the Edit Event UI.
+3. Refresh calendar.","1. Edit Activity Event UI opens with dropped time.
+2. Edit UI closes without success toast.
+3. Draft Workshop B remains at 2026-09-14 15:00 and is not shown at 2026-09-15 09:00.","1. original = 2026-09-14 15:00; dropped = 2026-09-15 09:00
+2. action = cancel
+3. expected_persisted = original",,,2717,2628,Calendar lesson,no,,
+26143,[Core] SF Calendar - Drag Published Event - Edit Event UI opens with dropped time,AC 05/06 - Regression - Published single-day Activity Events remain draggable.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Published Activity Event Published Workshop A exists from 2026-09-14 11:00 to 12:00 JST.
+- Calendar DnD feature is enabled.",,LT-103775;Core;SF Calendar;Drag Drop,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view and select Published status.
+2. Drag Published Workshop A to 2026-09-15 14:00 tile.
+3. Inspect date/time fields.","1. Published Workshop A is visible and draggable.
+2. Edit Activity Event UI opens.
+3. Date = 2026-09-15, Start Time = 14:00, End Time = 15:00; Status remains Published.","1. status = Published
+2. drop_tile = 2026-09-15 14:00
+3. original_duration = 60 minutes",,,2717,2628,Calendar lesson,no,,
+26144,[Core] SF Calendar - Drag Completed Event - Dragging is not allowed,AC 05 - Negative - Completed Activity Events are not draggable.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Completed Activity Event Completed Workshop A exists from 2026-09-14 12:00 to 13:00 JST.
+- Calendar DnD feature is enabled.",,LT-103775;Core;SF Calendar;Drag Drop,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view and select Completed status.
+2. Try to drag Completed Workshop A to another tile.
+3. Inspect the original tile.","1. Completed Workshop A is visible.
+2. Card cannot be dragged and Edit Event UI does not open.
+3. Completed Workshop A remains in the original tile.","1. status = Completed
+2. allowed_statuses = Draft, Published
+3. original = 2026-09-14 12:00",,,2717,2628,Calendar lesson,no,,
+26145,[Core] SF Calendar - Drag Cancelled Event - Dragging is not allowed,AC 05 - Negative - Cancelled Activity Events are not draggable.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Cancelled Activity Event Cancelled Workshop A exists from 2026-09-14 13:00 to 14:00 JST.
+- Calendar DnD feature is enabled.",,LT-103775;Core;SF Calendar;Drag Drop,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view and select Cancelled status.
+2. Try to drag Cancelled Workshop A to another tile.
+3. Inspect original tile.","1. Cancelled Workshop A is visible.
+2. Card cannot be dragged and Edit Event UI does not open.
+3. Cancelled Workshop A remains in the original tile.","1. status = Cancelled
+2. allowed_statuses = Draft, Published
+3. original = 2026-09-14 13:00",,,2717,2628,Calendar lesson,no,,
+26146,[Core] SF Calendar - Drag Multi-day Draft Event - Dragging is not allowed,AC 05 - Negative - Multi-day Activity Events are not draggable even when status is Draft.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Multi-day Draft Activity Event Draft Camp 2D1N exists and is visible in weekly band.
+- Calendar DnD feature is enabled.",,LT-103775;Core;SF Calendar;Drag Drop,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly view and select Draft status.
+2. Try to drag Draft Camp 2D1N to another day.
+3. Inspect the original week.","1. Draft Camp 2D1N is visible as a multi-day band.
+2. Multi-day bar cannot be dragged and Edit Event UI does not open.
+3. Draft Camp 2D1N remains on 2026-09-16 to 2026-09-17.","1. isMultipleDay = true
+2. drag_allowed = false
+3. expected_range = unchanged",,,2717,2628,Calendar lesson,no,,
+26147,[Core] SF Calendar - Drag Draft Event in timeslot mode - Uses timeslot master start and end,AC 06 - Boundary Value - Timeslot drop uses the target timeslot master start/end values.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Timeslot mode is enabled.
+- Timeslot Slot PM exists with Start Time = 13:30 and End Time = 15:00.
+- Draft Activity Event Draft Workshop Timeslot exists from 2026-09-14 10:00 to 11:00 JST.",,LT-103775;Core;SF Calendar;Drag Drop,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Weekly Timeslot view and select Draft status.
+2. Drag the event to 2026-09-16 Slot PM.
+3. Inspect date/time fields.","1. Draft Workshop Timeslot is visible and draggable.
+2. Edit Activity Event UI opens.
+3. Date = 2026-09-16, Start Time = 13:30, End Time = 15:00.","1. timeslot_mode = on
+2. drop_slot = Slot PM
+3. slot_start = 13:30; slot_end = 15:00",,,2717,2628,Calendar lesson,no,,
+26148,[Core] SF Calendar - Drag Draft Event in classroom view - Classroom changes to target classroom,AC 06 - Data Integrity - Classroom value in Edit Event UI follows the target classroom tile.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Daily Classroom view is enabled.
+- Draft Activity Event Draft Classroom Event exists in Classroom A from 2026-09-14 10:00 to 11:00 JST.
+- Classroom B exists in Tokyo Center.",,LT-103775;Core;SF Calendar;Drag Drop,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Daily Classroom view for 2026-09-14 and select Draft status.
+2. Drag the event to Classroom B at 13:00.
+3. Inspect Edit Event UI.","1. Draft Classroom Event appears under Classroom A.
+2. Edit Activity Event UI opens.
+3. Date = 2026-09-14, Start Time = 13:00, End Time = 14:00, Classrooms contains Classroom B and no longer contains Classroom A.","1. original_classroom = Classroom A
+2. target_classroom = Classroom B; dropped_time = 13:00
+3. expected_classrooms = Classroom B",,,2717,2628,Calendar lesson,no,,
+26149,[Core] SF Calendar - Drag Draft Event to no-classroom row - Classroom is cleared,AC 06 - Data Integrity - Dropping to the no-classroom row clears Activity Event classrooms.,"- Logged in as HQ or CM Staff to Salesforce org.
+- Daily Classroom view is enabled.
+- Draft Activity Event Draft Classroom Event exists in Classroom A.",,LT-103775;Core;SF Calendar;Drag Drop,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open SF Lesson Calendar Daily Classroom view and select Draft status.
+2. Drag the event to the no-classroom row at 15:00.
+3. Inspect Edit Event UI.","1. Draft Classroom Event appears under Classroom A.
+2. Edit Activity Event UI opens.
+3. Classrooms field is empty; Date = selected date; Start Time = 15:00; End Time preserves original duration.","1. original_classroom = Classroom A
+2. target_classroom = none
+3. expected_classrooms = []",,,2717,2628,Calendar lesson,no,,
+26150,[Core] Learner App Calendar - Draft Activity Event remains hidden,AC 09 - Regression - SF Calendar visibility does not expose Draft Event to Learner app Calendar.,"- Logged in as a learner or parent user.
+- Draft Activity Event Draft Workshop A is assigned/targeted to the learner and exists on 2026-09-14.
+- Published Activity Event Published Workshop A is assigned/targeted to the learner on the same date.",,LT-103775;Core;Learner App;Draft Activity Event,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Learner app Calendar for 2026-09-14.
+2. Inspect event list or event dots for the date.
+3. Search or refresh the date.","1. Calendar date opens.
+2. Published event is visible; Draft event is not visible.
+3. Draft event remains hidden.","1. today = 2026-08-12; learner = Student A
+2. expected_hidden = Draft Workshop A
+3. status = Draft",,,2717,2628,Calendar lesson,no,,
+26151,[Core] Booking System - Draft Activity Event remains hidden,AC 09 - Regression - Booking system only exposes Published Activity Events.,"- Event Master Core Draft Calendar Event is open to Booking System.
+- Draft Activity Event Draft Workshop A and Published Activity Event Published Workshop A exist under the Event Master.
+- Logged in as a target learner or parent user.",,LT-103775;Core;Booking System;Draft Activity Event,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Booking System event list for the Event Master.
+2. Inspect available activity schedules.
+3. Try direct access to Draft Activity Event booking detail if a URL is known.","1. Booking event list loads.
+2. Published Workshop A is shown; Draft Workshop A is not shown.
+3. Access is blocked or no booking detail is shown for Draft event.","1. today = 2026-08-12; Event Master open to booking = true
+2. published_status = visible; draft_status = hidden
+3. activity_status = Draft",,,2717,2628,Calendar lesson,no,,
+26152,[Core] Get Event API - Draft Activity Event excluded from public event response,AC 09 - Regression - Public event response continues to return Published Activity Events only.,"- Public Get Event API access is configured.
+- Event Master Core Draft Calendar Event has one Draft and one Published Activity Event in the request date range.",,LT-103775;Core;Get Event API;Draft Activity Event,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Call Get Event API for 2026-09-01 to 2026-09-30.
+2. Inspect activity schedules in the response.
+3. Confirm response status fields.","1. API returns event master data for matching published schedules.
+2. Published Activity Event is returned; Draft Activity Event is not returned.
+3. No schedule with status draft appears in the response.","1. start_date = 2026-09-01; end_date = 2026-09-30
+2. statuses = Draft, Published
+3. forbidden_status = draft",,,2717,2628,Calendar lesson,no,,
