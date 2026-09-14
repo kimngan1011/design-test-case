@@ -584,20 +584,23 @@
 **Severity:** major
 **Tags:** LT-92536;Core;PDF Content
 
-### [Core] Daily Timetable Print - Seasonal student course displays star marker
+### [Core] Daily Timetable Print - Course column displays configured course code with optional star
 
-**Description:** AC 01.13 / LT-109593 - Seasonal enrollment is marked with star appended to Course Code.
+**Description:** AC 01.2 / LT-109593 - Course column displays Course Master courseCode exactly as configured; `★` is not auto-added for seasonal students.
 
 **Preconditions:**
-- Seasonal Student S has active Seasonal enrollment at Tokyo Center.
-- Student S attends Published Individual Lesson A with Course Name = Seasonal Math and Course Code = SEASON-MATH.
+- Course Master A has Course Name = Seasonal Math and Course Code = SEASON-MATH★.
+- Course Master B has Course Name = Regular Math and Course Code = REG-MATH.
+- Student S attends Published Individual Lesson A using Course Master A.
+- Student R attends Published Individual Lesson B using Course Master B.
 
 | # | Action | Expected Result | Test Data |
 |---|---|---|---|
 | 1 | Open Individual timetable PDF for Tokyo Center. | PDF renders. |  |
-| 2 | Locate Student S row. | Student S is displayed in the correct block. |  |
-| 3 | Inspect Course column. | Course Code is displayed with star marker appended, such as `SEASON-MATH★`. | seasonal marker |
-| 4 | Confirm Course Name is not used. | Course column does not show `Seasonal Math` even for seasonal students. | LT-109593 |
+| 2 | Locate Student S row. | Student S is displayed in the correct block. | courseCode has configured star |
+| 3 | Inspect Course column for Student S. | Course column shows `SEASON-MATH★` exactly because `★` is part of Course Code. | no system-generated star |
+| 4 | Locate Student R row and inspect Course column. | Course column shows `REG-MATH` exactly and does not append `★`. | courseCode has no star |
+| 5 | Confirm Course Name is not used. | Course column does not show `Seasonal Math` or `Regular Math`. | AC 01.2 |
 
 **Priority:** medium
 **Severity:** major

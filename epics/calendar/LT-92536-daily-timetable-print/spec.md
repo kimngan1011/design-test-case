@@ -49,7 +49,7 @@ Improve SF Lesson Calendar daily timetable printing for Individual lessons. A CM
 | AC 01.10 | Every block lists all classrooms under the selected location, sorted by classroom sequence ASC, then name ASC. |
 | AC 01.11 | Each classroom row shows Attendance, Booth, Grade, Course, Subject, Student, Teacher, and Remarks columns with fixed widths and text wrapping. |
 | AC 01.12 | Student, grade, course code, subject, and teacher data are populated from published lessons, student sessions, allocations, course offerings, subjects, and lesson teachers. Course column displays `MANAERP__Course_Code__c`, not Course Name. |
-| AC 01.13 | Seasonal students show a star marker appended to the Course Code display. |
+| AC 01.13 | Course column shows the Course Master course code exactly as configured. If the business wants a seasonal star marker, user configures `★` inside the course code; the PDF does not auto-append `★` based on seasonal student status. |
 | AC 01.14 | Remarks show timeslot number values for all published lessons the student is allocated to on the same day/location, including the current block and other blocks, separated consistently and without the `限` suffix. |
 | AC 01.15 | Empty data scenarios still generate a usable timetable with classroom rows and blank lesson cells, without rendering broken or blank PDFs. |
 | AC 01.16 | If the new Individual timetable flag is disabled or the selected teaching method is Group, the existing legacy print flow remains unchanged. |
@@ -73,7 +73,7 @@ Improve SF Lesson Calendar daily timetable printing for Individual lessons. A CM
 | BR-12 | Text wrapping is intentional for long CJK/Latin strings so values do not overflow fixed columns. |
 | BR-13 | Group print remains legacy `CalendarPrintOutPdf` behavior. |
 | BR-14 | Feature flag disabled for Individual print falls back to legacy print behavior from the existing print dialog. |
-| BR-15 | Daily timetable Course column uses Course Code. Seasonal marker `★` is appended to the Course Code. |
+| BR-15 | Daily timetable Course column uses Course Code exactly as configured. `★` is displayed only when it is already part of the Course Code value. |
 | BR-16 | Timeslot header suffix is `限`; Remarks uses raw timeslot number values only and does not append `限`. |
 
 ## Implementation Risks / Clarifications

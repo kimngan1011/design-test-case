@@ -266,17 +266,22 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. Teacher A and Teacher B are both displayed.","1. 
 2. separator = comma
 3. separator = comma",,,2717,2628,Calendar lesson,no,,
-26972,[Core] Daily Timetable Print - Seasonal student course displays star marker,AC 01.13 / LT-109593 - Seasonal enrollment is marked with star appended to Course Code.,"- Seasonal Student S has active Seasonal enrollment at Tokyo Center.
-- Student S attends Published Individual Lesson A with Course Name = Seasonal Math and Course Code = SEASON-MATH.",,LT-92536;LT-109593;Core;Seasonal;PDF Content;Course Code,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF for Tokyo Center.
+26972,[Core] Daily Timetable Print - Course column displays configured course code with optional star,AC 01.2 / LT-109593 - Course column displays Course Master courseCode exactly as configured; ★ is not auto-added for seasonal students.,"- Course Master A has Course Name = Seasonal Math and Course Code = SEASON-MATH★.
+- Course Master B has Course Name = Regular Math and Course Code = REG-MATH.
+- Student S attends Published Individual Lesson A using Course Master A.
+- Student R attends Published Individual Lesson B using Course Master B.",,LT-92536;LT-109593;Core;Seasonal;PDF Content;Course Code,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF for Tokyo Center.
 2. Locate Student S row.
-3. Inspect Course column.
-4. Confirm Course Name is not used.","1. PDF renders.
+3. Inspect Course column for Student S.
+4. Locate Student R row and inspect Course column.
+5. Confirm Course Name is not used.","1. PDF renders.
 2. Student S is displayed in the correct block.
-3. Course Code is displayed with star marker appended, such as SEASON-MATH★.
-4. Course column does not show Seasonal Math even for seasonal students.","1. 
-2. 
-3. seasonal marker
-4. LT-109593",,,2717,2628,Calendar lesson,no,,
+3. Course column shows SEASON-MATH★ exactly because ★ is part of Course Code.
+4. Course column shows REG-MATH exactly and does not append ★.
+5. Course column does not show Seasonal Math or Regular Math.","1. 
+2. courseCode has configured star
+3. no system-generated star
+4. courseCode has no star
+5. AC 01.2",,,2717,2628,Calendar lesson,no,,
 26973,[Core] Daily Timetable Print - Remarks show other timeslots for same student,"AC 01.14 / LT-109593 - Remarks list all allocated timeslot number values for the student on that date, without the 限 suffix.",- Student A has Published Individual lessons in Timeslot 1 and Timeslot 3 on the selected date/location.,,LT-92536;LT-109593;Core;Remarks;Timeslot,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Individual timetable PDF.
 2. Locate Student A in Timeslot 1 block.
 3. Inspect Remarks column.

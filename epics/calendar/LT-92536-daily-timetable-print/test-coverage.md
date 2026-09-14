@@ -21,7 +21,7 @@ Estimated total: 46 cases.
 - Timeslot mode must follow LT-109758: active Timeslot Masters display left to right by ascending sequence, with 4 blocks per page. AM/PM labels or noon boundary must not change the block order.
 - PDF validation needs visual checks: A3 landscape, four blocks per page, bottom-right stamp rectangle, stable borders, headers, wrapping, and no overlap.
 - Classroom sorting and all-classroom row generation are important for classroom management. A lesson in only one classroom must not remove other classroom rows.
-- LT-109593 tightened exact visual strings: Course column must use Course Code, seasonal `★` appends to Course Code, timeslot headers use `限`, and Remarks list all allocated timeslot number values without `限`.
+- LT-109593 tightened exact visual strings: Course column must use Course Code exactly as configured, `★` is displayed only when it is already part of the Course Code, timeslot headers use `限`, and Remarks list all allocated timeslot number values without `限`.
 - Remarks are derived from the same student's timeslot lessons on the same day/location, so multi-lesson fixtures must be prepared carefully and must include the current block plus other blocks.
 
 ## Suggested Suite Structure
@@ -54,5 +54,5 @@ Qase PX > Manabie Scheduling > CORE FEATURES > Event Master > update testcase > 
 | Published Individual lessons across multiple classrooms and timeslots | Verify included data and grouping. |
 | Draft, Completed, Cancelled, Group, other-date, other-location lessons | Verify exclusion filters. |
 | Student with two published lessons in different timeslots | Verify Remarks column lists all timeslot number values without `限`. |
-| Seasonal student enrollment at selected location | Verify `★` marker is appended to Course Code, not Course Name. |
+| Course Code value containing `★` | Verify PDF displays the configured Course Code exactly and does not auto-add `★` based on seasonal student status. |
 | Long CJK/Latin student/course/teacher values | Verify fixed-width wrapping without overlap. |
