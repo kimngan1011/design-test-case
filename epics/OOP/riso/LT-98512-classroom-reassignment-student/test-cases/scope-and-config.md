@@ -114,6 +114,31 @@
 
 ---
 
+### [LT-109420] [Riso] Classroom Adjustment – Processing scope – Cancelled lesson releases classroom for active lesson
+
+**Description:** LT-109420, AC-03, AC-08, AC-12 — Regression — Cancelled lessons are excluded from reassignment processing and do not occupy classroom availability for active lessons in the same slot.
+
+**Preconditions:**
+- Logged in as HQ or CM Staff to the Riso Salesforce org.
+- Optimize Classroom Assignment = ON; Location = Riso Shinjuku; lesson_date = 2026-07-23.
+- Seed three Individual lessons for the same student:
+  - Lesson 1: 08:00-10:00, Room A, Status = Draft.
+  - Lesson 2: 10:00-10:40, Room A, Status = Cancelled.
+  - Lesson 3: 10:00-10:40, Room B, Status = Draft.
+- Room A and Room B are eligible Private classrooms in the selected location.
+
+| # | Action | Expected Result | Test Data |
+|---:|---|---|---|
+| 1 | Run Classroom Adjustment for Riso Shinjuku on 2026-07-23. | Cancelled Lesson 2 is excluded from reassignment processing and is not counted as occupying Room A for 10:00-10:40. | L2 status = Cancelled; L2 room = Room A |
+| 2 | Check Lesson 3 after the run. | Active Lesson 3 is reassigned to Room A by Rule 1 because Room A is available after excluding the cancelled lesson from availability calculation. | L3 status = Draft; expected room = Room A |
+| 3 | Check Lesson 2 in DB or lesson detail. | Cancelled Lesson 2 keeps its original classroom assignment and status; no write is applied to the cancelled lesson. | expected L2 room = Room A; expected L2 status = Cancelled |
+| 4 | Check the completion summary/result log. | The result does not report the cancelled lesson as reassigned; active lesson reassignment is reported normally. | expected cancelled reassigned count = 0; L3 outcome = reassigned |
+
+**Severity:** critical  
+**Priority:** high
+
+---
+
 ### [Riso] Classroom Adjustment – Processing scope – No Individual lessons – No classroom writes occur
 
 **Description:** AC-03, AC-14 — Negative — A scope containing only excluded lessons does not create unintended updates.
