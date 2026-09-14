@@ -1,0 +1,176 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+28127,[LT-102367] Event detail - Collect Attendance action - Opens participant bulk attendance dialog,AC 01.1-01.2 - Scenario - Activity Event detail exposes Collect Attendance and opens the bulk dialog with loaded participants.,"- Logged in to BO Calendar as HQ or CM Staff with Activity Event detail access.
+- Activity Event EVT-102367-A is visible on Calendar and has at least 3 Event Participants.
+- Event Participant section is loaded in the Activity Event detail drawer.",,LT-102367;Event;Calendar;Collect Attendance;Event Participant,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Activity Event EVT-102367-A from Calendar.
+2. Locate the Event Participant section.
+3. Click Collect Attendance.
+4. Count participant rows in the dialog.","1. Activity Event detail drawer opens.
+2. Event Participant section displays participant count and action menu.
+3. DialogCollectAttendanceEventParticipant opens.
+4. Dialog shows all loaded Event Participants from the detail section.","1. event = EVT-102367-A
+2. participants >= 3
+3. action = Collect Attendance
+4. expected rows = loaded participants",,,3528,2717,Event Bulk Collect Attendance,no,,
+28128,[LT-102367] Event attendance - Single participant Attend - Save updates status and clears note,"AC 01.3, AC 01.5, AC 01.7, AC 03.1-03.2 - State Transition - Attend can be selected and saved, and Attend clears the participant attendance note.","- Activity Event EVT-102367-B has Participant A with Attendance Status blank and Attendance Note blank.
+- Activity Event EVT-102367-B has Participant B with existing Attendance Status = Absent and Attendance Note = Needs follow-up.",,LT-102367;Event;Calendar;Collect Attendance;Attend;API,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Collect Attendance for EVT-102367-B.
+2. Select Attend for Participant A.
+3. Select Attend for Participant B.
+4. Click Save.
+5. Refresh Activity Event detail and inspect Participants A and B.","1. Participant A and Participant B are listed.
+2. Participant A row shows Attend selected without opening the remark dialog.
+3. Participant B row changes to Attend and its note becomes empty in the dialog.
+4. Save succeeds, dialog closes, and success snackbar is shown.
+5. Both participants show Attend; Participant B attendance note is empty.","1. event = EVT-102367-B
+2. status = Attend
+3. previous note = Needs follow-up
+4. expected snackbar = Attendance marked successfully
+5. expected API fields = Attendance_Status__c Attend; Attendance_Note__c empty",,,3528,2717,Event Bulk Collect Attendance,no,,
+28129,[LT-102367] Event attendance - Single participant Absent with remark - Save updates status and note,"AC 01.3-01.4, AC 01.7, AC 03.1-03.2 - CRUD - Absent opens remark dialog and persists note through Event Participant REST upsert.",- Activity Event EVT-102367-C has Participant A with Attendance Status blank.,,LT-102367;Event;Calendar;Collect Attendance;Absent;Remark;API,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Collect Attendance for EVT-102367-C.
+2. Select Absent for Participant A.
+3. Enter remark and save the remark dialog.
+4. Click Save in the Collect Attendance dialog.
+5. Refresh Activity Event detail.","1. Participant A is listed with no attendance status selected.
+2. Remark dialog opens with title Absent.
+3. Participant A row shows Absent and displays the entered remark.
+4. FE submits participant Id, Attendance_Status__c, and Attendance_Note__c; API returns success.
+5. Participant A shows Absent with the saved remark.","1. event = EVT-102367-C
+2. status = Absent
+3. remark = Sick leave
+4. expected payload row = Id + Absent + Sick leave
+5. expected readback = Absent / Sick leave",,,3528,2717,Event Bulk Collect Attendance,no,,
+28130,[LT-102367] Event attendance - Cancel Absent remark dialog - Row remains unchanged,AC 01.4 - Negative - Cancelling the Absent remark dialog must not apply a partial attendance status or note.,- Activity Event EVT-102367-D has Participant A with Attendance Status blank and no note.,,LT-102367;Event;Calendar;Collect Attendance;Absent;Remark;Negative,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Collect Attendance for EVT-102367-D.
+2. Select Absent for Participant A.
+3. Enter a temporary remark and click Cancel.
+4. Inspect Participant A row.
+5. Click Save without selecting any other participant.","1. Participant A is listed with no status.
+2. Remark dialog opens.
+3. Remark dialog closes.
+4. Participant A still has no attendance status and no attendance note.
+5. Save is blocked by empty attendance validation.","1. event = EVT-102367-D
+2. status = Absent
+3. temporary remark = Do not save
+4. expected status = blank; expected note = blank
+5. expected error = collectAttendanceEmptyParticipant",,,3528,2717,Event Bulk Collect Attendance,no,,
+28131,[LT-102367] Event attendance - Edit remark icon - Disabled until status exists,AC 01.6 - Component - The edit remark action cannot be used before a participant has attendance status.,"- Activity Event EVT-102367-E has Participant A with blank attendance status.
+- Participant B has Attendance Status = Absent and Attendance Note = Original note.",,LT-102367;Event;Calendar;Collect Attendance;Remark;Disabled,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Collect Attendance for EVT-102367-E.
+2. Inspect Participant A edit icon.
+3. Inspect Participant B edit icon.
+4. Click Participant B edit icon.","1. Participant rows are visible.
+2. Edit icon is disabled.
+3. Edit icon is enabled.
+4. Remark dialog opens with existing note prefilled.","1. event = EVT-102367-E
+2. Participant A status = blank
+3. Participant B status = Absent
+4. expected note = Original note",,,3528,2717,Event Bulk Collect Attendance,no,,
+28132,[LT-102367] Event attendance - Edit existing Absent remark - Saved note replaces previous note,"AC 01.4, AC 01.7 - State Transition - Editing an existing Absent remark pre-fills and persists the replacement note.",- Activity Event EVT-102367-F has Participant A with Attendance Status = Absent and Attendance Note = Original note.,,LT-102367;Event;Calendar;Collect Attendance;Absent;Remark,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Collect Attendance for EVT-102367-F.
+2. Click Participant A edit icon.
+3. Replace the note and save the remark dialog.
+4. Click Save and refresh Activity Event detail.","1. Participant A row shows Absent and Original note.
+2. Remark dialog opens and pre-fills Original note.
+3. Participant A row shows Absent and the replacement note.
+4. Participant A readback shows Absent and Updated note.","1. event = EVT-102367-F
+2. previous note = Original note
+3. new note = Updated note
+4. expected final note = Updated note",,,3528,2717,Event Bulk Collect Attendance,no,,
+28133,[LT-102367] Event attendance - Mark all as Attend - Only empty rows are filled,"AC 02.1, AC 02.3 - Decision Table - Mark all as Attend does not overwrite existing participant statuses.","- Activity Event EVT-102367-G has Participant A blank, Participant B = Absent with note, Participant C = Attend.",,LT-102367;Event;Calendar;Collect Attendance;Mark All;Attend,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Collect Attendance for EVT-102367-G.
+2. Click Mark all as Attend.
+3. Inspect Participant B and C rows.
+4. Save and refresh Activity Event detail.","1. Three participants are shown with prepared statuses.
+2. Only Participant A changes to Attend.
+3. Participant B remains Absent with its note; Participant C remains Attend.
+4. Readback keeps A Attend, B Absent, C Attend.","1. A blank; B Absent; C Attend
+2. action = Mark all as Attend
+3. existing statuses must not overwrite
+4. expected final = A Attend / B Absent / C Attend",,,3528,2717,Event Bulk Collect Attendance,no,,
+28134,[LT-102367] Event attendance - Mark all as Absent - Only empty rows are filled without forcing remarks,AC 02.2-02.3 - Decision Table - Mark all as Absent applies only to empty rows and does not force remark entry.,"- Activity Event EVT-102367-H has Participant A blank, Participant B = Attend, Participant C = Absent with note.",,LT-102367;Event;Calendar;Collect Attendance;Mark All;Absent,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Collect Attendance for EVT-102367-H.
+2. Click Mark all as Absent.
+3. Inspect existing rows.
+4. Save and refresh Activity Event detail.","1. Prepared participant rows are displayed.
+2. Only Participant A changes to Absent; no remark dialog opens for mark-all.
+3. Participant B remains Attend; Participant C remains Absent with original note.
+4. Participant A is saved as Absent with empty note; existing rows are unchanged.","1. A blank; B Attend; C Absent
+2. action = Mark all as Absent
+3. no overwrite
+4. expected A note = empty",,,3528,2717,Event Bulk Collect Attendance,no,,
+28135,[LT-102367] Event attendance - Save with no selected participant status - Validation error shown,AC 02.4 - Negative - Save is blocked when every event participant attendance status is blank.,- Activity Event EVT-102367-I has at least one Event Participant and all attendance statuses are blank.,,LT-102367;Event;Calendar;Collect Attendance;Validation;Negative,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Collect Attendance for EVT-102367-I.
+2. Click Save without selecting any status.
+3. Observe snackbar.","1. All participant rows are blank.
+2. Dialog remains open and no API request is sent.
+3. Error message There is no participant to collect attendance is shown.","1. event = EVT-102367-I
+2. selected statuses = none
+3. i18n key = collectAttendanceEmptyParticipant",,,3528,2717,Event Bulk Collect Attendance,no,,
+28136,[LT-102367] Event attendance - API failure - Dialog remains open and generic error appears,AC 02.5 - Negative - API failure is visible to the user and does not close the dialog.,"- Activity Event EVT-102367-J has Participant A available.
+- Backend/API can be mocked or forced to return an error for collect attendance.",,LT-102367;Event;Calendar;Collect Attendance;API;Error,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Collect Attendance for EVT-102367-J.
+2. Select Attend for Participant A.
+3. Trigger Save while API returns error.
+4. Observe snackbar.
+5. Refresh Activity Event detail.","1. Dialog opens.
+2. Participant A row shows Attend.
+3. Dialog remains open and Save becomes available again after request completes.
+4. Generic error snackbar is shown.
+5. Participant A attendance is not changed by the failed request.","1. event = EVT-102367-J
+2. status = Attend
+3. API = error
+4. expected key = ra.manabie-error.unknown
+5. expected DB unchanged",,,3528,2717,Event Bulk Collect Attendance,no,,
+28137,[LT-102367] Event Participant API - Empty payload - Backend rejects request,AC 03.3 - API Negative - Backend prevents empty event participant upsert.,- User/API token has access to Salesforce Event Participant REST API.,,LT-102367;Event;Salesforce;REST API;Validation;Negative,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Send POST /services/apexrest/MANAERP/eventParticipants/v1/collectAttendance with an empty eventParticipants list.
+2. Send POST with null eventParticipants.
+3. Query Event_Participant__c records from the fixture.","1. Request is rejected by backend guard.
+2. Request is rejected by backend guard.
+3. No participant attendance value is changed.","1. body = { eventParticipants: [] }
+2. body = { eventParticipants: null }
+3. expected writes = 0",,,3528,2717,Event Bulk Collect Attendance,no,,
+28138,[LT-102367] BO Calendar - Mark Attendance bulk action - Feature flag and location gating,AC 04.1 - Feature Flag Matrix - Adjacent BO Calendar bulk attendance action remains gated correctly.,"- BO Calendar is running in Back Office context, not direct SF context.
+- Test accounts can toggle Calendar_IndividualCalendar_BulkUpdateAttendance.",,LT-102367;Calendar;BO;Mark Attendance;Feature Flag,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open BO Calendar with feature flag ON and selected location.
+2. Clear selected location.
+3. Turn feature flag OFF and reload BO Calendar.
+4. Open direct SF Calendar context.","1. Mark Attendance action is visible and enabled.
+2. Mark Attendance action remains visible but is disabled.
+3. Mark Attendance action is hidden.
+4. Mark Attendance BO bulk action is not shown.","1. flag = ON; locationId present
+2. locationId missing
+3. flag = OFF
+4. VITE_SF = true",,,3528,2717,Event Bulk Collect Attendance,no,,
+28139,[LT-102367] Lesson collect attendance - Attendance response pre-fills status,AC 04.2 - Regression - Student-session collect attendance derives empty status from attendance response text.,"- Published lesson LES-102367-A has Student A with Attendance_Status__c blank and Attendance_Response__c containing a known Attend/Absent/Late/Leave Early label.
+- Lesson detail Collect Attendance action is available.",,LT-102367;Calendar;Lesson;Collect Attendance;Attendance Response;Regression,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Lesson detail from BO Calendar.
+2. Click Collect Attendance.
+3. Inspect Student A attendance radio state.
+4. Save without changing Student A.","1. Lesson detail drawer opens.
+2. Collect Attendance dialog opens.
+3. Status is prefilled from Attendance_Response__c when Attendance_Status__c is blank.
+4. Save succeeds if all rows have derived or explicit status.","1. lesson = LES-102367-A
+2. action = Collect Attendance
+3. response contains status label
+4. expected no validation error",,,3528,2717,Event Bulk Collect Attendance,no,,
+28140,[LT-102367] Lesson collect attendance - Missing status in any row blocks save,AC 04.3 - Negative - Lesson attendance dialog requires every student session row to have attendance status.,- Published lesson LES-102367-B has Student A with Attend and Student B with blank Attendance_Status__c and no parseable Attendance_Response__c.,,LT-102367;Calendar;Lesson;Collect Attendance;Validation;Negative,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Lesson detail Collect Attendance dialog.
+2. Leave Student B status blank and click Save.
+3. Select a status for Student B.
+4. Click Save.","1. Student A and Student B are listed.
+2. Save is blocked; no bulk update request is submitted.
+3. Save button becomes available.
+4. Save succeeds.","1. lesson = LES-102367-B
+2. Student B status = blank
+3. selected status = any valid status
+4. expected all rows have status",,,3528,2717,Event Bulk Collect Attendance,no,,
+28141,[LT-102367] Lesson collect attendance payload - Status-dependent fields are sent correctly,"AC 04.4 - Contract - FE payload includes reason, notice, reallocate flag, and note according to status.","- Published lesson LES-102367-C has three student sessions.
+- Network request can be inspected or mocked.",,LT-102367;Calendar;Lesson;Collect Attendance;Payload;API,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Set Student A to Attend with a note.
+2. Set Student B to Late with reason and note.
+3. Set Student C to Absent with notice, reason, note, and reallocate ON.
+4. Save and inspect request body.","1. Payload row has status Attend, reallocateFlag false, note included, and no attendanceReason/attendanceNotice.
+2. Payload row has attendanceReason and note; attendanceNotice is omitted; reallocateFlag false.
+3. Payload row has attendanceNotice, attendanceReason, attendanceNote, and reallocateFlag true.
+4. Request body contains exactly one bulkUpdateStudentSessionAttendanceItems entry per student session with the expected fields.","1. Student A = Attend
+2. Student B = Late
+3. Student C = Absent
+4. endpoint = studentSessions/v1 PUT",,,3528,2717,Event Bulk Collect Attendance,no,,
+28142,[LT-102367] Student Session API - Bulk update marks and unflags reallocation,AC 04.5 - Backend Regression - Bulk update preserves reallocation side effects for multiple student sessions.,"- Published lesson LES-102367-D has Student Session A with Reallocate_Flag__c = false and Student Session B with Reallocate_Flag__c = true.
+- Reallocation records can be queried after save.",,LT-102367;Salesforce;Student Session;Reallocation;API;Regression,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Submit bulk update where Student Session A becomes Absent with reallocateFlag true.
+2. Submit Student Session B with reallocateFlag false.
+3. Query both Student_Sessions__c records.
+4. Query related reallocation data.","1. Backend marks Student Session A for reallocation.
+2. Backend unflags Student Session B reallocation.
+3. Attendance fields and Reallocate_Flag__c match submitted values.
+4. Reallocation side effects are created/removed consistently with the flag changes.","1. A old flag=false; new status=Absent; new flag=true
+2. B old flag=true; new flag=false
+3. expected A flag=true; B flag=false
+4. expected mark/unflag applied",,,3528,2717,Event Bulk Collect Attendance,no,,
