@@ -372,6 +372,11 @@ This is a known problematic scenario:
     - Teacher.
     - Classroom.
   - Daily view should **always display 10-min grid** as per additional requirement.
+  - Completed lessons remain immutable:
+    - Completed lesson cards must not be draggable.
+    - Dragging a Completed lesson must not open Edit Lesson modal or persist date/time changes.
+  - Regression source:
+    - `LT-109424`: Completed lesson date/time must not be editable via Drag-and-Drop.
 
 - When **OFF**:
   - Calendar behaves as before:
