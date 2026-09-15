@@ -1,0 +1,263 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+28145,[LT-101737] Event Master list view - Import mass actions open correct Data Importer objects,"AC 01 - Component and Navigation - Import Activity Event, Import Participant, and Import Event Staff are available as list-view mass actions and do not require selected rows.","- User has Salesforce access to Event Master list view.
+- User has permissions for Activity Event create, Add Master Participant, and Add Master Staff.",,LT-101737;Event Master;CSV Import;List View;Data Importer,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Event Master list view.
+2. Open list view actions without selecting any row.
+3. Click Import Activity Event.
+4. Return and click Import Participant.
+5. Return and click Import Event Staff.","1. List view loads with Event Master rows.
+2. Three actions are visible: Import Activity Event, Import Participant, Import Event Staff.
+3. Data Importer opens with Activity Event object selected.
+4. Data Importer opens with Event Participant object selected.
+5. Data Importer opens with Event Staff object selected.","1. object = Event_Master__c
+2. requireRowSelection = false
+3. objectSelection = MANAERP__Activity_Event__c
+4. objectSelection = MANAERP__Event_Participant__c
+5. objectSelection = MANAERP__Event_Staff__c",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28146,[LT-101737] Event Master record page - Permission-specific import buttons are visible,AC 01 - Permission Matrix - Record page import buttons follow custom permission visibility rules and route to the correct object.,"- Event Master EM-101737-A exists.
+- Three test users exist with different custom permissions: Create Activity Event only, Add Master Participant only, Add Master Staff only.",,LT-101737;Event Master;Permission;Import Buttons,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Login as user with Create Activity Event only and open EM-101737-A.
+2. Click Import Activity Event.
+3. Login as user with Add Master Participant only and open EM-101737-A.
+4. Click Import Participant.
+5. Login as user with Add Master Staff only and open EM-101737-A.
+6. Click Import Event Staff.","1. Only Import Activity Event is visible among the three import buttons.
+2. Data Importer opens for Activity Event.
+3. Only Import Participant is visible among the three import buttons.
+4. Data Importer opens for Event Participant.
+5. Only Import Event Staff is visible among the three import buttons.
+6. Data Importer opens for Event Staff.","1. permission = Create_Activity_Event
+2. objectSelection = MANAERP__Activity_Event__c
+3. permission = Add_Master_Participant
+4. objectSelection = MANAERP__Event_Participant__c
+5. permission = Add_Master_Staff
+6. objectSelection = MANAERP__Event_Staff__c",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28147,[LT-101737] Event Master import buttons - Japanese labels are displayed,AC 01 - Localization - Japanese users see the translated import button labels.,"- User locale is Japanese.
+- User can access Event Master list and record page import actions.",,LT-101737;Event Master;Japanese;Translation;Import Buttons,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Event Master list view in Japanese locale.
+2. Verify Activity Event import label.
+3. Verify Event Staff import label.
+4. Verify Event Participant import label.
+5. Open an Event Master record page.","1. Import buttons display Japanese labels.
+2. Label is アクティビティイベントのインポート.
+3. Label is イベントスタッフのインポート.
+4. Label is イベント参加者のインポート.
+5. Record-level import buttons are still understandable and route correctly.","1. locale = ja
+2. button = Import_Activity_Event_List_Button
+3. button = Import_Event_Staff_List_Button
+4. button = Import_Participant_List_Button
+5. record = EM-101737-A",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28148,[LT-101737] Activity Event CSV import - Valid rows create Activity Events under Event Master,AC 02 - CRUD - Data Importer creates multiple Activity Events with required fields and correct Event Master linkage.,"- Event Master EM-101737-B exists.
+- Location LOC-101737-A exists.
+- User opens Data Importer for Activity Event from Event Master import button.",,LT-101737;Activity Event;CSV Import;Create,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Upload Activity Event CSV with two valid rows.
+2. Map Event Master, Location, Start Date Time, End Date Time, Allow Response, Send To.
+3. Run import.
+4. Open EM-101737-B related Activity Events.
+5. Open each Activity Event detail.","1. CSV is accepted for mapping.
+2. All required columns are mapped.
+3. Import finishes successfully with 2 created rows.
+4. Both Activity Events are listed under EM-101737-B.
+5. Required fields match CSV values.","1. rows = Win AE, Loss AE
+2. object = Activity_Event__c
+3. expected created = 2
+4. master = EM-101737-B
+5. status = Published",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28149,[LT-101737] Activity Event CSV import - Salesforce ID updates existing Activity Event without duplicate,AC 02 - Upsert - Import by Salesforce ID overwrites an existing Activity Event instead of creating a duplicate.,"- Activity Event AE-101737-C exists under EM-101737-C.
+- Salesforce ID for AE-101737-C is known.",,LT-101737;Activity Event;CSV Import;Upsert;Salesforce ID,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Export or capture AE-101737-C Salesforce ID.
+2. Upload Activity Event CSV containing that Salesforce ID and updated date/description.
+3. Run import.
+4. Refresh AE-101737-C.
+5. Check EM-101737-C related Activity Events.","1. Salesforce ID is available for update CSV.
+2. CSV maps to update mode.
+3. Import finishes with 1 updated row and 0 created rows.
+4. New date/description values are shown.
+5. Only one record exists for that Activity Event.","1. id = AE-101737-C.Id
+2. changed fields = End Date Time, Description
+3. expected updated = 1
+4. no duplicate
+5. duplicate count = 0",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28150,[LT-101737] Activity Event CSV import - Invalid rows are rejected row-by-row,AC 02 - Validation - Invalid Activity Event rows do not create corrupt records and valid rows in the same file still import.,"- Event Master EM-101737-D and Location LOC-101737-D exist.
+- Data Importer is open for Activity Event.",,LT-101737;Activity Event;CSV Import;Validation;Partial Success,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Upload mixed CSV with one valid row and invalid rows.
+2. Run import.
+3. Review failed rows.
+4. Open EM-101737-D related Activity Events.
+5. Verify no Activity Event exists for invalid rows.","1. File is accepted for processing.
+2. Import result shows partial success.
+3. Each invalid row shows field-level failure reason.
+4. Only the valid row was created.
+5. Invalid rows did not create records.","1. invalid = missing Location, Start > End, capacity 0
+2. valid rows = 1
+3. required/date/capacity validation
+4. created = 1
+5. corrupt data = none",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28151,[LT-101737] Event Participant CSV import - Valid rows create assigned participants,AC 03 - CRUD - Event Participant import creates participant records linked to Student Event Master and Activity Event.,"- Event Master EM-101737-E and Activity Event AE-101737-E exist.
+- Students STU-101737-A and STU-101737-B exist.
+- Data Importer is open for Event Participant.",,LT-101737;Event Participant;CSV Import;Create,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Upload Event Participant CSV for two students.
+2. Run import.
+3. Open EM-101737-E Master Participant list.
+4. Open AE-101737-E Event Participant related list.
+5. Open each Event Participant detail.","1. CSV maps Student, Event Master, Activity Event, Reserved By, Response.
+2. Import finishes with 2 created participant rows.
+3. Both students appear under Event Master participants.
+4. Both students appear under Activity Event participants.
+5. Student, Event Master, Activity Event, Reserved By and Response match CSV.","1. students = A, B
+2. expected created = 2
+3. master = EM-101737-E
+4. activity = AE-101737-E
+5. object = Event_Participant__c",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28152,[LT-101737] Event Participant daily upsert - Existing participant overwritten by Salesforce ID,AC 03 - Upsert - Daily application import updates an existing Event Participant and does not create duplicates.,"- Event Participant EP-101737-F exists for Student A under EM-101737-F.
+- EP-101737-F Salesforce ID is known.
+- Activity Events AE-101737-F1 and AE-101737-F2 exist.",,LT-101737;Event Participant;CSV Import;Upsert;Salesforce ID,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Prepare update CSV with EP-101737-F Salesforce ID and Activity Event = AE-101737-F2.
+2. Run Event Participant import.
+3. Open EP-101737-F.
+4. Search Event Participants for Student A and EM-101737-F.
+5. Re-run the same CSV.","1. CSV represents a changed preference/assignment.
+2. Import finishes with 1 updated row.
+3. Activity Event and response fields reflect the latest CSV.
+4. Only one participant record exists.
+5. Record remains one row and values are unchanged.","1. original activity = AE-101737-F1
+2. expected updated = 1
+3. latest wins
+4. duplicate count = 0
+5. idempotent re-run",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28153,[LT-101737] Event Participant lottery move - CSV update moves participant from loss AE to win AE,AC 03 - State Transition - Staff can move lottery winners from a loss Activity Event to a win Activity Event by CSV update.,"- Event Master EM-101737-G has AE-LOSS and AE-WIN.
+- Event Participant EP-101737-G exists in AE-LOSS.
+- EP-101737-G Salesforce ID is known.",,LT-101737;Event Participant;CSV Import;Lottery;Upsert,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Upload Event Participant CSV with EP-101737-G Salesforce ID and Activity Event = AE-WIN.
+2. Run import.
+3. Open AE-WIN Event Participant list.
+4. Open AE-LOSS Event Participant list.
+5. Open EP-101737-G detail.","1. Update row is accepted.
+2. Import finishes with 1 updated row.
+3. Student appears in AE-WIN.
+4. Student no longer appears as assigned to AE-LOSS.
+5. Same Salesforce ID is retained with updated Activity Event.","1. old activity = AE-LOSS
+2. expected updated = 1
+3. new activity = AE-WIN
+4. old activity removed
+5. no new participant",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28154,[LT-101737] Event Participant CSV import - Invalid references are rejected and valid rows still import,AC 03 - Negative and Partial Success - Bad Student Event Master or Activity Event references fail row-by-row.,"- One valid Student, Event Master, and Activity Event exist.
+- Data Importer is open for Event Participant.",,LT-101737;Event Participant;CSV Import;Validation;Partial Success,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Upload mixed Event Participant CSV.
+2. Run import.
+3. Review failed rows.
+4. Open Event Master participant list.
+5. Search by invalid students/activities.","1. CSV contains one valid row and three invalid reference rows.
+2. Import result shows partial success.
+3. Each invalid reference row is rejected with an error.
+4. Only the valid participant is shown.
+5. No invalid participant records were created.","1. invalid = unknown student/master/activity
+2. valid rows = 1
+3. lookup errors
+4. created = 1
+5. corrupt data = none",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28155,[LT-101737] Event Staff CSV import - Valid rows create assigned staff,AC 04 - CRUD - Event Staff import creates staff records linked to Staff Event Master and Activity Event.,"- Event Master EM-101737-H and Activity Event AE-101737-H exist.
+- Staff contacts STF-101737-A and STF-101737-B exist.
+- Data Importer is open for Event Staff.",,LT-101737;Event Staff;CSV Import;Create,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Upload Event Staff CSV for two staff members.
+2. Run import.
+3. Open EM-101737-H Master Staff list.
+4. Open AE-101737-H staff related list or Assign Staff surface.
+5. Open each Event Staff detail.","1. CSV maps Staff, Event Master, Activity Event, Working Type, Status.
+2. Import finishes with 2 created Event Staff rows.
+3. Both staff are listed under the Event Master.
+4. Both staff are assigned to the Activity Event.
+5. Staff, Event Master, Activity Event, Working Type and Status match CSV.","1. staff = A, B
+2. expected created = 2
+3. master = EM-101737-H
+4. activity = AE-101737-H
+5. object = Event_Staff__c",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28156,[LT-101737] Event Staff CSV import - Existing staff assignment overwritten by Salesforce ID,AC 04 - Upsert - Existing Event Staff row can be updated to a different Activity Event without duplicate staff assignment.,"- Event Staff ES-101737-I exists for Staff A under EM-101737-I and AE-101737-I1.
+- AE-101737-I2 exists.
+- ES-101737-I Salesforce ID is known.",,LT-101737;Event Staff;CSV Import;Upsert;Salesforce ID,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Prepare Event Staff update CSV with ES-101737-I Salesforce ID and Activity Event = AE-101737-I2.
+2. Run import.
+3. Open ES-101737-I.
+4. Search Event Staff for Staff A and EM-101737-I.
+5. Open Assign Staff popup for AE-101737-I2.","1. CSV maps update by Salesforce ID.
+2. Import finishes with 1 updated row.
+3. Activity Event is AE-101737-I2 and updated staff metadata is saved.
+4. Only one Event Staff row exists.
+5. Staff A is treated as already assigned.","1. old activity = AE-101737-I1
+2. expected updated = 1
+3. new activity = AE-101737-I2
+4. duplicate count = 0
+5. no duplicate selectable",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28157,[LT-101737] Event Staff CSV import - Invalid references are rejected and valid rows still import,AC 04 - Negative and Partial Success - Bad Staff Event Master or Activity Event references fail row-by-row.,"- One valid Staff, Event Master, and Activity Event exist.
+- Data Importer is open for Event Staff.",,LT-101737;Event Staff;CSV Import;Validation;Partial Success,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Upload mixed Event Staff CSV.
+2. Run import.
+3. Review failed rows.
+4. Open Event Master Master Staff list.
+5. Search invalid staff/activity references.","1. CSV contains one valid row and invalid reference rows.
+2. Import result shows partial success.
+3. Invalid reference rows are rejected with lookup errors.
+4. Only the valid staff row is shown.
+5. No invalid Event Staff records were created.","1. invalid = unknown staff/master/activity
+2. valid rows = 1
+3. lookup errors
+4. created = 1
+5. corrupt data = none",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28158,[LT-101737] Download Participant CSV - Salesforce ID is exported for update flow,AC 05 - Regression - Existing Download Participant List exports the update key as Salesforce ID instead of Event Participant ID.,"- Activity Event AE-101737-J has at least two Event Participants.
+- User can use Download Participant List.",,LT-101737;Event Participant;Download Participant;Salesforce ID;Regression,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open AE-101737-J.
+2. Click Download Participant List.
+3. Open the CSV header.
+4. Compare Salesforce ID values to Event Participant records.
+5. Confirm participant fields are still present.","1. Activity Event detail page opens.
+2. CSV file is downloaded.
+3. Identifier column is named Salesforce ID.
+4. Each value matches the record Id.
+5. Attendance/response/student columns remain available for update flow.","1. activity = AE-101737-J
+2. action = Download Participant
+3. not Event Participant ID
+4. object = Event_Participant__c
+5. regression",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28159,[LT-101737] Import Attendance - Downloaded Salesforce ID updates existing participant attendance,AC 05 - Regression - Existing attendance update remains compatible after participant CSV identifier change.,"- CSV is downloaded from AE-101737-K participant list.
+- At least one participant has blank attendance.",,LT-101737;Event Participant;Import Attendance;Salesforce ID;Regression,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Edit downloaded CSV and set Attendance Status = Attend for Participant A.
+2. Use existing Import Attendance action.
+3. Run import.
+4. Refresh AE-101737-K participant list.
+5. Check participant count.","1. CSV keeps Salesforce ID unchanged.
+2. Import mapping accepts Salesforce ID as update identifier.
+3. Import succeeds with 1 updated participant.
+4. Participant A attendance is Attend.
+5. No duplicate participant is created.","1. status = Attend
+2. action = Import_Attendance
+3. updated = 1
+4. readback
+5. duplicate count = 0",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28160,[LT-101737] Manual Assign to Event - Imported participants and staff do not duplicate,AC 05 - Regression - Manual Assign to Event respects records created by CSV import.,"- EM-101737-L has Participant A and Staff A imported by CSV.
+- Activity Event AE-101737-L exists.",,LT-101737;Assign to Event;Event Participant;Event Staff;Regression,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Assign to Event for EM-101737-L and AE-101737-L.
+2. Assign Participant A manually.
+3. Assign Staff A manually.
+4. Open AE-101737-L participant/staff lists.
+5. Reopen Assign to Event popup.","1. Assign screen opens.
+2. If already assigned by CSV, Participant A is not duplicated.
+3. If already assigned by CSV, Staff A is not duplicated.
+4. Each person appears only once.
+5. Already assigned imported rows are excluded or shown as already assigned according to existing behavior.","1. master = EM-101737-L
+2. participant = A
+3. staff = A
+4. duplicate count = 0
+5. regression",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28161,[LT-101737] Imported participant data - Participant list and detail remain consistent,AC 05 - Display Consistency - Imported Event Participant data is visible and consistent across list and detail pages.,"- Event Participant EP-101737-M was created by CSV import.
+- User can access Event Participant list and detail.",,LT-101737;Event Participant;Detail;List;Regression,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Event Master participant list.
+2. Open EP-101737-M detail page.
+3. Compare list and detail fields.
+4. Use back navigation.
+5. Login as unauthorized user and try to open detail.","1. Imported participant is listed.
+2. Detail page opens successfully.
+3. Student, Event Master, Activity Event, Response and Attendance fields match.
+4. User returns to originating list context.
+5. Access is blocked according to existing permission rules.","1. record = EP-101737-M
+2. navigation
+3. consistency
+4. context retained
+5. permission regression",,,3530,2628,Event Participant and Staff CSV Import,no,,
+28162,[LT-101737] Activity Event bulk import - Multi-day date range remains supported,AC 02 and AC 05 - Regression - Existing Koyu2 Activity Event multi-day import remains valid through the new import entry points.,"- Koyu2 multi-day Activity Event feature is enabled.
+- Event Master EM-101737-N exists.
+- Data Importer is opened through Import Activity Event.",,LT-101737;Activity Event;CSV Import;Multi-day;Regression,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Upload Activity Event CSV with Start Date Time on Day 1 and End Date Time on Day 3.
+2. Run import.
+3. Open the created Activity Event.
+4. Search Calendar or Activity Event list for the date range.
+5. Upload invalid row with End Date Time before Start Date Time.","1. CSV maps both date fields.
+2. Import succeeds.
+3. Date range matches CSV.
+4. Multi-day event appears according to existing multi-day behavior.
+5. Row is rejected by validation.","1. multi-day = 3 days
+2. expected created = 1
+3. start/end
+4. regression
+5. invalid date order",,,3530,2628,Event Participant and Staff CSV Import,no,,
