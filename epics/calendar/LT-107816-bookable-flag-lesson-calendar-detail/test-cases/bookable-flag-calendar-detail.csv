@@ -1,0 +1,65 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+28567,[Support] Lesson Calendar Detail - Bookable Flag ON shows check icon,LT-107816 - Component Display - Calendar lesson detail shows a check icon when the lesson is bookable.,"- Logged in as HQ/CM Staff in Salesforce.
+- Lesson_Custom_Settings__c.Lesson_Booking__c = true.
+- Lesson Bookable Lesson A exists on Lesson Calendar with Bookable_Flag__c = true.
+- User has permission to view Lesson__c.Bookable_Flag__c.",,LT-107816;Support;Lesson Calendar;Bookable Flag;Lesson Detail,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Salesforce Lesson Calendar for the lesson date/location.
+2. Click the lesson card to open the Calendar lesson detail panel.
+3. Inspect the Detail tab rows.
+4. Inspect the Bookable Flag value.","1. Calendar loads and Bookable Lesson A is visible.
+2. The right-side Calendar detail panel opens for the selected lesson.
+3. Bookable Flag label is displayed.
+4. A check icon is displayed; the value is not --.","1. lesson = Bookable Lesson A
+2. entry_point = Lesson Calendar
+3. custom_setting = Lesson_Booking__c true
+4. Bookable_Flag__c = true",,,3550,2717,Bookable Flag on Lesson Calendar Detail (LT-107816),no,,
+28568,[Support] Lesson Calendar Detail - Bookable Flag OFF shows dash,LT-107816 - Decision Table - Calendar lesson detail shows -- when the lesson is not bookable.,"- Logged in as HQ/CM Staff in Salesforce.
+- Lesson_Custom_Settings__c.Lesson_Booking__c = true.
+- Lesson Non-bookable Lesson A exists on Lesson Calendar with Bookable_Flag__c = false.
+- User has permission to view Lesson__c.Bookable_Flag__c.",,LT-107816;Support;Lesson Calendar;Bookable Flag;Lesson Detail,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Salesforce Lesson Calendar for the lesson date/location.
+2. Click the lesson card to open the Calendar lesson detail panel.
+3. Inspect the Bookable Flag row.
+4. Confirm no check icon is shown in this row.","1. Calendar loads and Non-bookable Lesson A is visible.
+2. The right-side Calendar detail panel opens.
+3. Bookable Flag label is displayed and the value is --.
+4. No utility:check icon appears for the false value.","1. lesson = Non-bookable Lesson A
+2. entry_point = Lesson Calendar
+3. Bookable_Flag__c = false
+4. expected_icon = hidden",,,3550,2717,Bookable Flag on Lesson Calendar Detail (LT-107816),no,,
+28569,[Support] Lesson Calendar Detail - Lesson Booking setting disabled hides Bookable Flag row,LT-107816 - Feature Setting Guard - Calendar detail hides Bookable Flag when Lesson Booking is disabled.,"- Logged in as HQ/CM Staff in Salesforce.
+- Lesson_Custom_Settings__c.Lesson_Booking__c = false.
+- Lesson Bookable Hidden Setting Lesson A exists on Lesson Calendar with Bookable_Flag__c = true.",,LT-107816;Support;Lesson Calendar;Bookable Flag;Feature Setting,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Salesforce Lesson Calendar for the lesson date/location.
+2. Click the lesson card to open the Calendar lesson detail panel.
+3. Inspect all Detail tab rows.
+4. Confirm other lesson detail rows still render normally.","1. Calendar loads and the lesson is visible.
+2. The right-side Calendar detail panel opens.
+3. Bookable Flag row is not displayed.
+4. Existing fields such as Status, Date/Time, Capacity, Teachers, and Students remain visible.","1. lesson = Bookable Hidden Setting Lesson A
+2. custom_setting = Lesson_Booking__c false
+3. Bookable_Flag__c = true
+4. regression = existing fields unaffected",,,3550,2717,Bookable Flag on Lesson Calendar Detail (LT-107816),no,,
+28570,[Support] Lesson Calendar Detail - Bookable Flag refreshes after edit,LT-107816 - State Refresh - Calendar detail reflects the latest Bookable Flag after the lesson is edited.,"- Logged in as HQ/CM Staff in Salesforce with lesson edit permission.
+- Lesson_Custom_Settings__c.Lesson_Booking__c = true.
+- Lesson Bookable Refresh Lesson A exists on Lesson Calendar with Bookable_Flag__c = false.",,LT-107816;Support;Lesson Calendar;Bookable Flag;Refresh,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the lesson from Salesforce Lesson Calendar.
+2. Open the lesson edit flow from the Calendar detail panel.
+3. Turn Bookable Flag ON and save.
+4. Inspect the same Calendar detail panel after refresh.","1. Calendar detail panel opens and Bookable Flag value is --.
+2. Edit modal opens and the Bookable Flag checkbox reflects the current false value.
+3. Save succeeds and Calendar detail refreshes.
+4. Bookable Flag value changes from -- to a check icon without navigating away from Calendar.","1. initial Bookable_Flag__c = false
+2. entry_point = calendar detail edit
+3. new Bookable_Flag__c = true
+4. expected refresh = check icon",,,3550,2717,Bookable Flag on Lesson Calendar Detail (LT-107816),no,,
+28571,[Support] Lesson Calendar Collapsible Detail - Bookable Flag value uses same mapping,LT-107816 - Regression - Collapsible lesson detail uses Lesson__c.Bookable_Flag__c consistently with the main Calendar detail panel.,"- Logged in as HQ/CM Staff in Salesforce.
+- Lesson_Custom_Settings__c.Lesson_Booking__c = true.
+- Lesson Collapsible Bookable Lesson A has Bookable_Flag__c = true.
+- Lesson Collapsible Non-bookable Lesson A has Bookable_Flag__c = false.
+- Calendar surface supports the collapsible lesson detail component.",,LT-107816;Support;Lesson Calendar;Bookable Flag;Collapsible Detail,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Calendar detail/collapsible view for Collapsible Bookable Lesson A.
+2. Inspect the Bookable Flag row.
+3. Open Calendar detail/collapsible view for Collapsible Non-bookable Lesson A.
+4. Inspect the Bookable Flag row.","1. Detail component loads without data error.
+2. Bookable Flag displays a check icon.
+3. Detail component loads without data error.
+4. Bookable Flag displays --, matching the main Calendar detail behavior.","1. Bookable_Flag__c = true
+2. expected = check icon
+3. Bookable_Flag__c = false
+4. expected = --",,,3550,2717,Bookable Flag on Lesson Calendar Detail (LT-107816),no,,
