@@ -1,0 +1,152 @@
+{
+  "project": "PX",
+  "suite": {
+    "id": 2612,
+    "title": "Target Segment – Lookup Constraints & Eligibility Engine",
+    "parent_id": 2603,
+    "url": "https://app.qase.io/project/PX?suite=2612"
+  },
+  "csvPath": "epics/event/LT-102792-target-segment-duplicate-prevention/test-cases/target-segment-duplicate-prevention.csv",
+  "created": [
+    {
+      "id": 28644,
+      "suite_id": 2612,
+      "title": "[Core] Target Segment - Duplicate Target Location - Existing location disabled or hidden"
+    },
+    {
+      "id": 28645,
+      "suite_id": 2612,
+      "title": "[Core] Target Segment - Duplicate Target Location - Save validation rejects stale duplicate payload"
+    },
+    {
+      "id": 28646,
+      "suite_id": 2612,
+      "title": "[Core] Target Segment - Duplicate Target Grade - Option hidden or disabled and save blocked"
+    },
+    {
+      "id": 28647,
+      "suite_id": 2612,
+      "title": "[Core] Target Segment - Duplicate Target School - Option hidden or disabled and save blocked"
+    },
+    {
+      "id": 28648,
+      "suite_id": 2612,
+      "title": "[Core] Target Segment - Duplicate Target Course - Option hidden or disabled and save blocked"
+    },
+    {
+      "id": 28649,
+      "suite_id": 2612,
+      "title": "[Core] Target Segment - Mixed unique values - Valid setup and filtering remain unchanged"
+    }
+  ],
+  "skippedDuplicates": [],
+  "newCaseIds": [
+    28644,
+    28645,
+    28646,
+    28647,
+    28648,
+    28649
+  ],
+  "existingCaseIds": [
+    19038,
+    19039,
+    19042,
+    19043,
+    19067,
+    19068,
+    19069,
+    19070,
+    19071,
+    19072,
+    21530,
+    21555
+  ],
+  "existingCases": [
+    {
+      "id": 19038,
+      "title": "Target Segment – Target Location Lookup – Only center (lowest-level) locations selectable",
+      "url": "https://app.qase.io/case/PX-19038"
+    },
+    {
+      "id": 19039,
+      "title": "Target Segment – Eligibility Logic – Student matching any one dimension (OR) can see the event",
+      "url": "https://app.qase.io/case/PX-19039"
+    },
+    {
+      "id": 19042,
+      "title": "Target Segment – Enrollment Status – Only students with matching enrollment status can book",
+      "url": "https://app.qase.io/case/PX-19042"
+    },
+    {
+      "id": 19043,
+      "title": "Target Segment – Enrollment Status Null – All enrollment statuses at target location can book",
+      "url": "https://app.qase.io/case/PX-19043"
+    },
+    {
+      "id": 19067,
+      "title": "Target Segment – Add Target Location – Location saved and shown in Target Segments tab",
+      "url": "https://app.qase.io/case/PX-19067"
+    },
+    {
+      "id": 19068,
+      "title": "Target Segment – Add Target Location – Enrollment Status saved correctly",
+      "url": "https://app.qase.io/case/PX-19068"
+    },
+    {
+      "id": 19069,
+      "title": "Target Segment – Add Target School – School saved and shown in Target Segments tab",
+      "url": "https://app.qase.io/case/PX-19069"
+    },
+    {
+      "id": 19070,
+      "title": "Target Segment – Add Target Grade – Grade saved and shown in Target Segments tab",
+      "url": "https://app.qase.io/case/PX-19070"
+    },
+    {
+      "id": 19071,
+      "title": "Target Segment – Add Target Course – Course saved and shown in Target Segments tab",
+      "url": "https://app.qase.io/case/PX-19071"
+    },
+    {
+      "id": 19072,
+      "title": "Target Segment – Save & New – Multiple target records added in sequence",
+      "url": "https://app.qase.io/case/PX-19072"
+    },
+    {
+      "id": 21530,
+      "title": "[Renseikai] Event Target Location – Center already in Target Location is disabled in the tree (no duplicate created)",
+      "url": "https://app.qase.io/case/PX-21530"
+    },
+    {
+      "id": 21555,
+      "title": "[Renseikai] Event Target Location – Bulk-create API rejects ids that are already in Target Location (no duplicate row)",
+      "url": "https://app.qase.io/case/PX-21555"
+    }
+  ],
+  "combinedCaseIds": [
+    19038,
+    19039,
+    19042,
+    19043,
+    19067,
+    19068,
+    19069,
+    19070,
+    19071,
+    19072,
+    21530,
+    21555,
+    28644,
+    28645,
+    28646,
+    28647,
+    28648,
+    28649
+  ],
+  "run": {
+    "id": 3557,
+    "url": "https://app.qase.io/run/PX/dashboard/3557",
+    "caseCount": 18
+  }
+}

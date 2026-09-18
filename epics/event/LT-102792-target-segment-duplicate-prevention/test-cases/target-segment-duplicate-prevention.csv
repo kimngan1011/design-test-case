@@ -1,0 +1,74 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+28644,[Core] Target Segment - Duplicate Target Location - Existing location disabled or hidden,AC 01.1 - Negative - Existing Target Location value cannot be selected again for the same Event Master.,"- HQ or CM Staff is logged in to Salesforce.
+- Event Master EM-102792-01 exists.
+- EM-102792-01 already has Target Location Tokyo Center.",,LT-102792;Core;Event Master;Target Segment;Duplicate Prevention,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Event Master EM-102792-01.""
+2. ""Open Target Segments and click New Target Location.""
+3. ""Open/search the Target Location selector for Tokyo Center.""
+4. ""Select a different center location and save.""","1. ""Event Master detail page opens.""
+2. ""Target Location creation UI opens.""
+3. ""Tokyo Center is disabled or hidden from selectable results.""
+4. ""The different Target Location is saved successfully.""","1. ""event_master = EM-102792-01""
+2. ""segment = Target Location""
+3. ""existing_location = Tokyo Center""
+4. ""new_location = Osaka Center""",,,2612,2603,Target Segment – Lookup Constraints & Eligibility Engine,,,
+28645,[Core] Target Segment - Duplicate Target Location - Save validation rejects stale duplicate payload,AC 02.1 - API/CRUD Negative - Duplicate Target Location values are rejected even if a stale UI or API payload sends the duplicate.,"- HQ or CM Staff is logged in to Salesforce.
+- Event Master EM-102792-02 exists.
+- EM-102792-02 already has Target Location Tokyo Center with Enrollment Status Enrolled.",,LT-102792;Core;Event Master;Target Segment;Validation;API,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Attempt to save another Target Location row for Tokyo Center on EM-102792-02 from stale UI/API.""
+2. ""Query Target Location records under EM-102792-02.""
+3. ""Open Booking System eligibility setup for the event.""","1. ""Save is rejected with a validation/error state.""
+2. ""Only one active Target Location row exists for Tokyo Center.""
+3. ""Existing Target Location filtering remains usable; no broken target segment state appears.""","1. ""duplicate_location = Tokyo Center""
+2. ""expected_duplicate_count = 0""
+3. ""expected_state = valid_existing_segment""",,,2612,2603,Target Segment – Lookup Constraints & Eligibility Engine,,,
+28646,[Core] Target Segment - Duplicate Target Grade - Option hidden or disabled and save blocked,AC 01.2 / AC 02.2 - Negative - Existing Target Grade value cannot be selected or persisted again.,"- HQ or CM Staff is logged in to Salesforce.
+- Event Master EM-102792-03 exists.
+- EM-102792-03 already has Target Grade Grade 7.",,LT-102792;Core;Event Master;Target Segment;Duplicate Prevention,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Event Master EM-102792-03.""
+2. ""Click New Target Grade and open/search the grade selector.""
+3. ""Attempt to save duplicate Target Grade Grade 7 from stale UI/API.""
+4. ""Query Target Grade records under the Event Master.""","1. ""Event Master detail page opens.""
+2. ""Grade 7 is disabled or hidden from selectable results.""
+3. ""Save is rejected with a validation/error state.""
+4. ""Only one active Grade 7 Target Grade row exists.""","1. ""event_master = EM-102792-03""
+2. ""existing_grade = Grade 7""
+3. ""duplicate_grade = Grade 7""
+4. ""expected_count = 1""",,,2612,2603,Target Segment – Lookup Constraints & Eligibility Engine,,,
+28647,[Core] Target Segment - Duplicate Target School - Option hidden or disabled and save blocked,AC 01.3 / AC 02.3 - Negative - Existing Target School value cannot be selected or persisted again.,"- HQ or CM Staff is logged in to Salesforce.
+- Event Master EM-102792-04 exists.
+- EM-102792-04 already has Target School Sakura High School.",,LT-102792;Core;Event Master;Target Segment;Duplicate Prevention,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Event Master EM-102792-04.""
+2. ""Click New Target School and open/search the school selector.""
+3. ""Attempt to save duplicate Target School Sakura High School from stale UI/API.""
+4. ""Query Target School records under the Event Master.""","1. ""Event Master detail page opens.""
+2. ""Sakura High School is disabled or hidden from selectable results.""
+3. ""Save is rejected with a validation/error state.""
+4. ""Only one active Sakura High School Target School row exists.""","1. ""event_master = EM-102792-04""
+2. ""existing_school = Sakura High School""
+3. ""duplicate_school = Sakura High School""
+4. ""expected_count = 1""",,,2612,2603,Target Segment – Lookup Constraints & Eligibility Engine,,,
+28648,[Core] Target Segment - Duplicate Target Course - Option hidden or disabled and save blocked,AC 01.4 / AC 02.4 - Negative - Existing Target Course value cannot be selected or persisted again.,"- HQ or CM Staff is logged in to Salesforce.
+- Event Master EM-102792-05 exists.
+- EM-102792-05 already has Target Course Math Advanced.",,LT-102792;Core;Event Master;Target Segment;Duplicate Prevention,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Event Master EM-102792-05.""
+2. ""Click New Target Course and open/search the course selector.""
+3. ""Attempt to save duplicate Target Course Math Advanced from stale UI/API.""
+4. ""Query Target Course records under the Event Master.""","1. ""Event Master detail page opens.""
+2. ""Math Advanced is disabled or hidden from selectable results.""
+3. ""Save is rejected with a validation/error state.""
+4. ""Only one active Math Advanced Target Course row exists.""","1. ""event_master = EM-102792-05""
+2. ""existing_course = Math Advanced""
+3. ""duplicate_course = Math Advanced""
+4. ""expected_count = 1""",,,2612,2603,Target Segment – Lookup Constraints & Eligibility Engine,,,
+28649,[Core] Target Segment - Mixed unique values - Valid setup and filtering remain unchanged,AC 03.1 / AC 03.2 / AC 03.3 - Regression - Duplicate prevention does not block valid unique values and does not change Target Segment filtering behavior.,"- HQ or CM Staff is logged in to Salesforce.
+- Event Master EM-102792-06 is open to Booking System and has an Activity Event.
+- Student A matches Target Location Tokyo Center, Grade Grade 7, School Sakura High School, and Course Math Advanced.
+- Student B does not match the configured Target Segments and is not in Master Participant list.",,LT-102792;Core;Event Master;Target Segment;Regression;Booking System,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Add unique Target Location Tokyo Center with Enrollment Status Enrolled.""
+2. ""Add unique Target Grade Grade 7, Target School Sakura High School, and Target Course Math Advanced.""
+3. ""Open Booking System as Student A.""
+4. ""Open Booking System as Student B.""
+5. ""Reopen Target Segment add UI for each dimension.""","1. ""Target Location is saved.""
+2. ""All unique Target Segment records are saved.""
+3. ""Event Master is visible because Student A matches the configured Target Segments.""
+4. ""Event Master is hidden because Student B does not match and is not in Master Participant list.""
+5. ""Already-saved values are not selectable again; other valid values remain selectable.""","1. ""location = Tokyo Center; status = Enrolled""
+2. ""grade = Grade 7; school = Sakura High School; course = Math Advanced""
+3. ""student = Student A""
+4. ""student = Student B""
+5. ""expected = duplicate hidden/disabled""",,,2612,2603,Target Segment – Lookup Constraints & Eligibility Engine,,,
