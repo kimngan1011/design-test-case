@@ -1,0 +1,88 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+28636,[Aver] Lesson Report creation - Same staff two browser tabs - Reuse existing active report,AC 01.1 / AC 01.2 / AC 01.3 - Race-condition regression - Opening the same lesson in two tabs and submitting Add New Aver Lesson Report twice creates only one active report.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson LSN-111026-01 exists and has no active Aver Lesson Report.
+- Browser Tab 1 and Tab 2 both open the Lesson Report entry point for LSN-111026-01.
+- QA can verify Lesson_Report__c records for the lesson from Salesforce list/API/query.",,"LT-111026,Aver,Lesson Report,Race Condition",critical,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""In Tab 1, click `Add New Aver Lesson Report`.""
+2. ""Without refreshing Tab 2, click `Add New Aver Lesson Report` in Tab 2 within the same test window.""
+3. ""Save or complete both flows.""
+4. ""Query active Aver Lesson Reports for LSN-111026-01.""","1. ""The create flow starts for LSN-111026-01.""
+2. ""The second create request is accepted for processing or resolves to an existing report without an unhandled error.""
+3. ""Both tabs resolve to the same Aver Lesson Report ID.""
+4. ""Exactly one active Lesson_Report__c exists for the lesson.""","1. ""tab = 1""
+2. ""tab = 2""
+3. ""expected = same_report_id""
+4. ""active_report_count = 1""",,,3558,251,[Aver] Lesson Report Duplicate Prevention,,,
+28637,[Aver] Lesson Report creation - Two staff create same lesson report concurrently - Single active report,AC 01.1 / AC 01.2 / AC 01.3 - Concurrency - Two staff users creating the same Aver Lesson Report at nearly the same time must not create duplicates.,"- HQ Staff A and CM Staff B are logged in to Salesforce for the Aver tenant.
+- Lesson LSN-111026-02 exists and has no active Aver Lesson Report.
+- Both staff can access the lesson report creation entry point.",,"LT-111026,Aver,Lesson Report,Race Condition",critical,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Staff A opens LSN-111026-02 and clicks `Add New Aver Lesson Report`.""
+2. ""Staff B clicks `Add New Aver Lesson Report` for the same lesson at nearly the same time.""
+3. ""Complete both create/save flows.""
+4. ""Query active Aver Lesson Reports for LSN-111026-02.""","1. ""Staff A starts report creation.""
+2. ""Staff B's request does not create an independent active report.""
+3. ""Both users are linked to the same existing or newly-created report record.""
+4. ""Exactly one active report exists; no second Draft report is created.""","1. ""user = staff_a""
+2. ""user = staff_b""
+3. ""expected = one_shared_report""
+4. ""active_report_count = 1""",,,3558,251,[Aver] Lesson Report Duplicate Prevention,,,
+28638,[Aver] Lesson Report creation - Existing active Draft report - Add action opens existing report,"AC 02.1 - State transition - When an active Draft report already exists, Add New Aver Lesson Report reuses it instead of creating a duplicate.","- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson LSN-111026-03 has active Draft Aver Lesson Report ALR-111026-DRAFT.",,"LT-111026,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Lesson Report entry point for LSN-111026-03.""
+2. ""Click `Add New Aver Lesson Report`.""
+3. ""Query active Aver Lesson Reports for LSN-111026-03.""","1. ""The page/card recognizes the lesson report context.""
+2. ""The system opens or returns ALR-111026-DRAFT.""
+3. ""Only ALR-111026-DRAFT exists as active; no new report is inserted.""","1. ""lesson = LSN-111026-03""
+2. ""existing_report = ALR-111026-DRAFT""
+3. ""active_report_count = 1""",,,3558,251,[Aver] Lesson Report Duplicate Prevention,,,
+28639,[Aver] Lesson Report creation - Existing active Published report - No new Draft report,AC 02.2 / AC 03.1 - Regression - Existing Published report must be reused and must not be hidden by a new Draft duplicate.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson LSN-111026-04 has active Published Aver Lesson Report ALR-111026-PUBLISHED.
+- Lesson List currently displays Published for LSN-111026-04.",,"LT-111026,Aver,Lesson Report,Regression",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open LSN-111026-04 and click `Add New Aver Lesson Report`.""
+2. ""Refresh Lesson List and the Lesson Report detail page.""
+3. ""Query active Aver Lesson Reports for LSN-111026-04.""","1. ""The system opens or returns ALR-111026-PUBLISHED, or blocks new creation by reusing the active report.""
+2. ""Both surfaces still show the same Published report status.""
+3. ""Exactly one active report exists and no new Draft report is created.""","1. ""existing_status = Published""
+2. ""expected_status = Published""
+3. ""forbidden_status = duplicate Draft""",,,3558,251,[Aver] Lesson Report Duplicate Prevention,,,
+28640,[Aver] Lesson Report creation - No active report exists - Creates one active report,AC 02.3 - Boundary - The duplicate-prevention check must still allow one new Aver Lesson Report when no active report exists.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson LSN-111026-05 has no active Aver Lesson Report.
+- Any old report for this lesson is inactive/deleted according to the product data model.",,"LT-111026,Aver,Lesson Report",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open LSN-111026-05 and click `Add New Aver Lesson Report`.""
+2. ""Save the report.""
+3. ""Query active Aver Lesson Reports for LSN-111026-05.""","1. ""A new Aver Lesson Report creation flow starts.""
+2. ""The report is saved successfully.""
+3. ""Exactly one active report exists for the lesson.""","1. ""active_report_before = 0""
+2. ""action = save""
+3. ""active_report_after = 1""",,,3558,251,[Aver] Lesson Report Duplicate Prevention,,,
+28641,[Aver] Lesson Report status - Publish after duplicate-prevention flow - List/card/detail remain consistent,"AC 03.1 - End-to-end regression - After the duplicate-prevention path, publishing the single report keeps Lesson List, card, and detail status consistent.","- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson LSN-111026-06 has one active Draft Aver Lesson Report created through a duplicate-prevention scenario.
+- The report is publishable.",,"LT-111026,Aver,Lesson Report,Regression",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the active Draft report for LSN-111026-06.""
+2. ""Publish the report.""
+3. ""Refresh Lesson List, the Lesson Report card, and Lesson Report detail.""
+4. ""Query active Aver Lesson Reports for LSN-111026-06.""","1. ""The Draft report opens with a single report ID.""
+2. ""The report status changes to Published.""
+3. ""All three surfaces resolve to the same report ID and show Published.""
+4. ""Exactly one active report exists.""","1. ""initial_status = Draft""
+2. ""expected_status = Published""
+3. ""surfaces = list, card, detail""
+4. ""active_report_count = 1""",,,3558,251,[Aver] Lesson Report Duplicate Prevention,,,
+28642,[Aver] Lesson Report data integrity - Details and Student Session remain linked to single report,AC 03.2 / AC 03.3 - Data integrity - Duplicate-prevention must not split details or Student Session references across report records.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson LSN-111026-07 has students and report details available for Aver Lesson Report creation.
+- A concurrent create or rapid retry scenario has just been executed for this lesson.",,"LT-111026,Aver,Lesson Report,Data Integrity",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Query the active Aver Lesson Report for LSN-111026-07.""
+2. ""Query Lesson_Report_Detail__c records for the lesson/report.""
+3. ""Query Student_Sessions__c.Lesson_Report__c for students in the lesson.""
+4. ""Check for orphan duplicate reports/details.""","1. ""Exactly one active report ID is returned.""
+2. ""All active detail records reference the single active report ID.""
+3. ""Student Session references point to the same report ID where the product flow expects a lesson report link.""
+4. ""No extra active report and no orphan active detail record exists.""","1. ""active_report_count = 1""
+2. ""expected = one_parent_report""
+3. ""expected = no_split_reference""
+4. ""expected_orphan_count = 0""",,,3558,251,[Aver] Lesson Report Duplicate Prevention,,,
+28643,[Aver] Lesson Report creation - Rapid double-click/retry - Backend remains idempotent,AC 01.1 / AC 03.3 - Negative regression - Rapid repeated user action or duplicate network submission must not create multiple active reports.,"- HQ or CM Staff is logged in to Salesforce for the Aver tenant.
+- Lesson LSN-111026-08 has no active Aver Lesson Report.
+- The test can simulate rapid double-click, retry, or duplicate API calls for the same create action.",,"LT-111026,Aver,Lesson Report,Race Condition",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Trigger `Add New Aver Lesson Report` twice rapidly for LSN-111026-08.""
+2. ""Wait for both requests to settle.""
+3. ""Query active Aver Lesson Reports for LSN-111026-08.""
+4. ""Refresh the page and click `Add New Aver Lesson Report` again.""","1. ""The UI may disable the second click, or the backend may receive duplicate requests.""
+2. ""No unhandled error is shown; at most one report ID is returned as active.""
+3. ""Exactly one active report exists for the lesson.""
+4. ""The same existing report opens or is returned.""","1. ""trigger = rapid_retry""
+2. ""expected = idempotent_result""
+3. ""active_report_count = 1""
+4. ""expected = same_report_id""",,,3558,251,[Aver] Lesson Report Duplicate Prevention,,,

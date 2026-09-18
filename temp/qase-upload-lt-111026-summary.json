@@ -1,0 +1,115 @@
+{
+  "project": "PX",
+  "parentSuiteId": 251,
+  "parentSuiteUrl": "https://app.qase.io/project/PX?suite=251",
+  "csvPath": "epics/OOP/aver/LT-111026-aver-lesson-report-duplicate-race-condition/test-cases/aver-lesson-report-duplicate-prevention.csv",
+  "createdSuites": [
+    {
+      "id": 3558,
+      "title": "[Aver] Lesson Report Duplicate Prevention",
+      "parent_id": 251
+    }
+  ],
+  "reusedSuites": [],
+  "created": [
+    {
+      "id": 28636,
+      "suite_id": 3558,
+      "suite": "[Aver] Lesson Report Duplicate Prevention",
+      "title": "[Aver] Lesson Report creation - Same staff two browser tabs - Reuse existing active report"
+    },
+    {
+      "id": 28637,
+      "suite_id": 3558,
+      "suite": "[Aver] Lesson Report Duplicate Prevention",
+      "title": "[Aver] Lesson Report creation - Two staff create same lesson report concurrently - Single active report"
+    },
+    {
+      "id": 28638,
+      "suite_id": 3558,
+      "suite": "[Aver] Lesson Report Duplicate Prevention",
+      "title": "[Aver] Lesson Report creation - Existing active Draft report - Add action opens existing report"
+    },
+    {
+      "id": 28639,
+      "suite_id": 3558,
+      "suite": "[Aver] Lesson Report Duplicate Prevention",
+      "title": "[Aver] Lesson Report creation - Existing active Published report - No new Draft report"
+    },
+    {
+      "id": 28640,
+      "suite_id": 3558,
+      "suite": "[Aver] Lesson Report Duplicate Prevention",
+      "title": "[Aver] Lesson Report creation - No active report exists - Creates one active report"
+    },
+    {
+      "id": 28641,
+      "suite_id": 3558,
+      "suite": "[Aver] Lesson Report Duplicate Prevention",
+      "title": "[Aver] Lesson Report status - Publish after duplicate-prevention flow - List/card/detail remain consistent"
+    },
+    {
+      "id": 28642,
+      "suite_id": 3558,
+      "suite": "[Aver] Lesson Report Duplicate Prevention",
+      "title": "[Aver] Lesson Report data integrity - Details and Student Session remain linked to single report"
+    },
+    {
+      "id": 28643,
+      "suite_id": 3558,
+      "suite": "[Aver] Lesson Report Duplicate Prevention",
+      "title": "[Aver] Lesson Report creation - Rapid double-click/retry - Backend remains idempotent"
+    }
+  ],
+  "skippedDuplicates": [],
+  "failed": [],
+  "caseIds": [
+    28636,
+    28637,
+    28638,
+    28639,
+    28640,
+    28641,
+    28642,
+    28643
+  ],
+  "cases": [
+    {
+      "id": 28636,
+      "url": "https://app.qase.io/case/PX-28636"
+    },
+    {
+      "id": 28637,
+      "url": "https://app.qase.io/case/PX-28637"
+    },
+    {
+      "id": 28638,
+      "url": "https://app.qase.io/case/PX-28638"
+    },
+    {
+      "id": 28639,
+      "url": "https://app.qase.io/case/PX-28639"
+    },
+    {
+      "id": 28640,
+      "url": "https://app.qase.io/case/PX-28640"
+    },
+    {
+      "id": 28641,
+      "url": "https://app.qase.io/case/PX-28641"
+    },
+    {
+      "id": 28642,
+      "url": "https://app.qase.io/case/PX-28642"
+    },
+    {
+      "id": 28643,
+      "url": "https://app.qase.io/case/PX-28643"
+    }
+  ],
+  "run": {
+    "id": 3554,
+    "url": "https://app.qase.io/run/PX/dashboard/3554",
+    "caseCount": 8
+  }
+}
