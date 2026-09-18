@@ -1,0 +1,82 @@
+{
+  "project": "PX",
+  "suite": {
+    "id": 257,
+    "title": "Duplicate lesson",
+    "parent_id": 217,
+    "url": "https://app.qase.io/project/PX?suite=257"
+  },
+  "csvPath": "epics/lesson/LT-107960-duplicate-lesson-duration-validation/test-cases/duplicate-lesson-duration-validation.csv",
+  "created": [
+    {
+      "id": 28650,
+      "suite_id": 257,
+      "title": "[Core] Duplicate Lesson - Lesson Detail - Duration prefilled value does not show required validation"
+    },
+    {
+      "id": 28651,
+      "suite_id": 257,
+      "title": "[Core] Duplicate Lesson - Calendar popup - Duration prefilled value saves successfully"
+    },
+    {
+      "id": 28652,
+      "suite_id": 257,
+      "title": "[Core] Lesson Edit - Valid Duration value does not trigger required validation"
+    },
+    {
+      "id": 28653,
+      "suite_id": 257,
+      "title": "[Core] Lesson forms - Extend Recurrence and drag/drop derived Duration do not trigger required validation"
+    }
+  ],
+  "skippedDuplicates": [],
+  "newCaseIds": [
+    28650,
+    28651,
+    28652,
+    28653
+  ],
+  "existingCaseIds": [
+    1207,
+    11708,
+    20708,
+    20734
+  ],
+  "existingCases": [
+    {
+      "id": 1207,
+      "title": "Duplicate Lesson – One-time Individual – Form pre-filled from source; duplicated as Weekly Group succeeds",
+      "url": "https://app.qase.io/case/PX-1207"
+    },
+    {
+      "id": 11708,
+      "title": "Multiple Classes – SF Calendar Duplicate Lesson – Group Lesson with Two Classes Duplicated from Calendar Popup – New Card Retains Both Classes and Combined Student Count",
+      "url": "https://app.qase.io/case/PX-11708"
+    },
+    {
+      "id": 20708,
+      "title": "Lesson – Duration Field – Enable Duration Field Custom Setting ON – Field visible on lesson form",
+      "url": "https://app.qase.io/case/PX-20708"
+    },
+    {
+      "id": 20734,
+      "title": "Calendar – Duration Field – Enable Duration Field Custom Setting ON – Field visible on lesson form",
+      "url": "https://app.qase.io/case/PX-20734"
+    }
+  ],
+  "combinedCaseIds": [
+    1207,
+    11708,
+    20708,
+    20734,
+    28650,
+    28651,
+    28652,
+    28653
+  ],
+  "run": {
+    "id": 3558,
+    "url": "https://app.qase.io/run/PX/dashboard/3558",
+    "caseCount": 8
+  }
+}

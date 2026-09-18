@@ -1,0 +1,56 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+28650,[Core] Duplicate Lesson - Lesson Detail - Duration prefilled value does not show required validation,Exact LT-107960 regression - Duplicate individual lesson from Lesson Detail should save when Duration is already populated.,"- HQ or CM Staff is logged in to Salesforce.
+- Enable Duration Field on Lesson Form is enabled.
+- Individual lesson LES-107960-01 exists with Start Time 06:40, End Time 07:40, and Duration 60.",,LT-107960;Core;Lesson;Duplicate Lesson;Duration;Validation,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open lesson detail for LES-107960-01.""
+2. ""Click Duplicate / Duplicate individual lesson.""
+3. ""Observe Duration (minutes).""
+4. ""Fill any remaining required fields without clearing Duration and click Save.""
+5. ""Confirm the duplicated lesson.""","1. ""Lesson detail opens.""
+2. ""Duplicate Lesson form opens.""
+3. ""Duration is populated with 60.""
+4. ""No Complete this field. message appears under Duration.""
+5. ""Duplicate lesson is saved successfully with Duration 60.""","1. ""source_lesson = LES-107960-01""
+2. ""entry_point = Lesson Detail""
+3. ""start = 06:40; end = 07:40; duration = 60""
+4. ""forbidden_error = Complete this field.""
+5. ""expected_duration = 60""",,,257,217,Duplicate lesson,,,
+28651,[Core] Duplicate Lesson - Calendar popup - Duration prefilled value saves successfully,Calendar entry-point regression - Duplicate from Calendar should not show false required validation for a populated Duration value.,"- HQ or CM Staff is logged in to Salesforce Calendar.
+- Enable Duration Field on Lesson Form is enabled.
+- Individual lesson LES-107960-02 appears on Calendar with Start Time 06:40, End Time 07:40, and Duration 60.",,LT-107960;Core;Calendar;Duplicate Lesson;Duration;Validation,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open Calendar and click lesson LES-107960-02.""
+2. ""Click Duplicate from the Calendar lesson popup/detail drawer.""
+3. ""Observe Duration (minutes).""
+4. ""Save the duplicate without editing Duration.""
+5. ""Refresh Calendar.""","1. ""Lesson popup/detail drawer opens.""
+2. ""Duplicate Lesson form opens from Calendar.""
+3. ""Duration is populated with 60.""
+4. ""No required validation appears under Duration; save succeeds.""
+5. ""The duplicated lesson appears at the selected date/time.""","1. ""source_lesson = LES-107960-02""
+2. ""entry_point = Calendar""
+3. ""expected_duration = 60""
+4. ""forbidden_error = Complete this field.""
+5. ""expected = duplicate_card_visible""",,,257,217,Duplicate lesson,,,
+28652,[Core] Lesson Edit - Valid Duration value does not trigger required validation,Adjacent regression from Jira note - Edit mode must not show Complete this field. when Duration already has a valid value.,"- HQ or CM Staff is logged in to Salesforce.
+- Enable Duration Field on Lesson Form is enabled.
+- Lesson LES-107960-03 exists with Start Time 09:00, End Time 10:00, and Duration 60.",,LT-107960;Core;Lesson;Edit;Duration;Validation,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open lesson LES-107960-03 in Edit mode.""
+2. ""Observe Duration (minutes).""
+3. ""Change a non-time required-safe field such as Lesson Name suffix.""
+4. ""Click Save.""","1. ""Edit Lesson form opens.""
+2. ""Duration is populated with 60.""
+3. ""Form remains valid.""
+4. ""No Complete this field. message appears under Duration; lesson saves successfully.""","1. ""lesson = LES-107960-03""
+2. ""duration = 60""
+3. ""change = name suffix""
+4. ""forbidden_error = Complete this field.""",,,257,217,Duplicate lesson,,,
+28653,[Core] Lesson forms - Extend Recurrence and drag/drop derived Duration do not trigger required validation,Adjacent regression from Jira note - Extend Recurrence and drag/drop flows use derived/prefilled Duration and must not show false required validation.,"- HQ or CM Staff is logged in to Salesforce.
+- Enable Duration Field on Lesson Form is enabled.
+- Recurring lesson schedule LS-107960-04 exists with Start Time 09:00, End Time 10:00, Duration 60.
+- A draggable lesson LES-107960-04 exists on Calendar.",,LT-107960;Core;Lesson;Extend Recurrence;Drag Drop;Duration;Validation,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open LS-107960-04 and click Extend Recurrence.""
+2. ""Observe Duration and save a valid extension.""
+3. ""Drag LES-107960-04 to a valid new time slot on Calendar.""
+4. ""Save the drag/drop edit without clearing Duration.""","1. ""Extend Recurrence form opens.""
+2. ""Duration is populated; no Complete this field. appears; extension saves.""
+3. ""Edit form opens with derived Start/End/Duration values.""
+4. ""No Complete this field. appears under Duration; moved lesson saves.""","1. ""schedule = LS-107960-04""
+2. ""duration = 60""
+3. ""entry_point = drag_drop""
+4. ""forbidden_error = Complete this field.""",,,257,217,Duplicate lesson,,,
