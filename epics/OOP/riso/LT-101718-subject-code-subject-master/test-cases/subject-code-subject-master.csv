@@ -1,0 +1,144 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+28689,[Riso] Subject Master - Create subject with Subject Code,AC 01.1 / AC 01.2 - Verify Subject Code can be entered when creating a Subject Master record.,"- Logged in as HQ or CM Staff with Subject Master create/edit permission.
+- Salesforce Master app is accessible.",,LT-101718;PBT-3075;Subject Master;Subject Code;Create,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Subject Master tab and click New.
+2. Fill required fields and Subject Code.
+3. Save the record.
+4. Open the created record detail page.","1. New Subject Master form opens.
+2. Subject Code field is visible and editable.
+3. Record is saved successfully.
+4. Subject Code displays JP01.","1. object = Subject_Master__c
+2. Name = 国語; Subject Code = JP01
+3. 
+4. expected = JP01",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28690,[Riso] Subject Master - Subject Code is optional,AC 01.1 / AC 01.5 - Verify Subject Master can be created and used when Subject Code is blank.,- Logged in as HQ or CM Staff with Subject Master create/edit permission.,,LT-101718;PBT-3075;Subject Master;Optional;No Migration,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Subject Master tab and click New.
+2. Fill all required fields and leave Subject Code blank.
+3. Save the record.
+4. Open detail/edit page for the record.","1. New form opens.
+2. No client-side required marker or validation blocks blank Subject Code.
+3. Record is saved successfully.
+4. Subject Code remains blank and record can still be edited.","1. 
+2. Subject Code = blank
+3. 
+4. ",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28691,[Riso] Subject Master - Subject Code accepts maximum 30 characters,AC 01.1 / BR-02 - Verify Text(30) boundary behavior for Subject Code.,- Logged in as HQ or CM Staff with Subject Master create/edit permission.,,LT-101718;PBT-3075;Subject Master;Boundary,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open a Subject Master create or edit form.
+2. Enter a 30-character Subject Code.
+3. Save the record.
+4. Edit the record and attempt to enter 31 characters.","1. Form is editable.
+2. Value is accepted in the field.
+3. Save succeeds and the 30-character value persists.
+4. Salesforce prevents or rejects the value according to Text(30) behavior; saved value never exceeds 30 characters.","1. 
+2. Subject Code = SUBCODE123456789012345678901
+3. length = 30
+4. length = 31",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28692,[Riso] Subject Master - Edit and clear Subject Code,AC 01.2 / AC 01.5 - Verify users can update and clear Subject Code after creation.,"- Subject Master record exists with Subject Code JP01.
+- User has edit permission.",,LT-101718;PBT-3075;Subject Master;Edit,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the Subject Master detail page.
+2. Click Edit and change Subject Code.
+3. Save and refresh the record.
+4. Edit again, clear Subject Code, and save.","1. Existing Subject Code is displayed.
+2. Field accepts the new value.
+3. Detail page displays JPN.
+4. Save succeeds; Subject Code becomes blank.","1. current = JP01
+2. new value = JPN
+3. expected = JPN
+4. new value = blank",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28693,[Riso] Subject Master - New/detail layouts show Subject Code,AC 01.3 - Verify Subject Code appears in the expected Subject Master form and record page layout.,"- Logged in as HQ or CM Staff.
+- Subject Master record exists.",,LT-101718;PBT-3075;Subject Master;Layout;i18n,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Subject Master New form.
+2. Open an existing Subject Master detail page.
+3. Switch user language to Japanese if supported and reload.","1. Subject Code field is visible near Subject Name according to layout.
+2. Subject Code field is visible on record detail page.
+3. Field label shows Japanese translation 科目コード.","1. label = Subject Code / 科目コード
+2. 
+3. language = Japanese",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28694,[Riso] Subject Master - List views include Subject Code,AC 01.4 - Verify Subject Code is visible in relevant Subject Master list views.,"- At least two Subject Master records exist, one active with Subject Code and one blank.
+- User can access Subject Master list views.",,LT-101718;PBT-3075;Subject Master;List View,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open All Subjects list view.
+2. Confirm record with Subject Code.
+3. Open Active Subjects list view.
+4. Confirm blank Subject Code record behavior.","1. Subject Code column is displayed.
+2. The configured Subject Code value is visible in the row.
+3. Subject Code column is displayed for active records.
+4. Blank values render as empty cells without layout issue.","1. list = All Subjects
+2. expected = JP01
+3. list = Active Subjects
+4. expected = blank cell",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28695,[Riso] Subject Master - Permission set allows Subject Code access,AC 01.2 - Verify users with configured Subject Master permissions can read/edit Subject Code and read-only users cannot edit it.,"- One editable user and one read-only/view user are available.
+- Subject Master record exists with Subject Code.",,LT-101718;PBT-3075;Subject Master;Permission,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Log in as editable user and open Subject Master record.
+2. Update Subject Code and save.
+3. Log in as view-only user and open the same record.
+4. Try to edit Subject Code.","1. Subject Code is readable and editable.
+2. Update succeeds.
+3. Subject Code is readable.
+4. Edit is unavailable or blocked by permission.","1. permission = edit
+2. new value = EDIT01
+3. permission = view
+4. expected = no edit",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28696,[Riso] ATC - Selected student lesson with assigned teacher shows Subject Code and family name,AC 02.1 / AC 02.2 - Verify Teacher Available Calendar selected student lesson chip uses Subject Code and teacher family name.,"- Available Teacher Calendar is accessible for a Riso location.
+- Student 田中花子 has a published lesson in the selected month and location.
+- Lesson subject has Subject Code 中国.
+- Lesson has assigned teacher with LastName 佐藤.",,LT-101718;PBT-3075;Available Teacher Calendar;Subject Code;Student Lesson,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Available Teacher Calendar for the target location/month.
+2. Search and select student 田中花子.
+3. Locate the student's lesson timeslot on the calendar.
+4. Inspect the lesson chip text.","1. Calendar loads with timeslots.
+2. Student is selected and lesson overlay is displayed.
+3. Lesson chip is highlighted as teacher assigned.
+4. Chip shows Subject Code and teacher family name as 中国 (佐藤); it does not show full Subject Name in place of Subject Code.","1. location = Riso Test
+2. student = 田中花子
+3. status = assigned
+4. expected = 中国 (佐藤)",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28697,[Riso] ATC - Selected student lesson without assigned teacher shows Subject Code only,AC 02.1 / AC 02.3 - Verify unassigned lesson chip omits teacher name and still displays Subject Code.,"- Student has a published lesson in the selected month/location.
+- Lesson subject has Subject Code MATH.
+- Lesson has no Lesson Teacher assigned.",,LT-101718;PBT-3075;Available Teacher Calendar;Subject Code;Unassigned,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Available Teacher Calendar.
+2. Search and select the student.
+3. Locate the unassigned lesson chip.
+4. Inspect the lesson chip text.","1. Calendar loads.
+2. Student lesson overlay is displayed.
+3. Chip is highlighted as teacher unassigned.
+4. Chip shows MATH only; no blank parentheses or teacher placeholder is displayed.","1. 
+2. 
+3. status = unassigned
+4. expected = MATH",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28698,[Riso] ATC - Blank Subject Code does not break selected student lesson display,AC 01.5 / AC 02.4 - Verify old/no-migration subject data with blank Subject Code does not break ATC.,"- Student has a published lesson whose Subject Master has blank Subject Code.
+- Lesson is in the selected month/location.",,LT-101718;PBT-3075;Available Teacher Calendar;Blank Handling;No Migration,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Available Teacher Calendar and select the student.
+2. Locate the lesson chip for the blank-code subject.
+3. Open the selected date/right panel if applicable.","1. Student lessons are loaded without error.
+2. Calendar remains stable; no undefined, null, or broken placeholder is displayed.
+3. Student lesson and available teacher sections still render normally.","1. Subject Code = blank
+2. 
+3. ",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28699,[Riso] ATC - Subject Code display does not affect available teacher counts,AC 02.4 / BR-07 - Verify Subject Code only changes student lesson display and does not change availability calculation.,"- Available Teacher Calendar has known available teacher counts for a date/timeslot.
+- Student has lessons with Subject Code values in the same month.",,LT-101718;PBT-3075;Available Teacher Calendar;Regression,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Available Teacher Calendar without selected student and record teacher count for a date/timeslot.
+2. Select a student whose lesson subject has Subject Code.
+3. Re-check the same date/timeslot teacher count.
+4. Apply/clear teacher filters.","1. Baseline count is visible.
+2. Student lesson overlay appears.
+3. Available teacher count remains based on teacher availability/filter conditions, not Subject Code display.
+4. Filtering behavior remains unchanged.","1. count = N
+2. 
+3. expected = N unless normal filters changed
+4. filters = subject/gender/name/tag",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28700,[Riso] ATC - Lesson creation from ATC remains unchanged with Subject Code,AC 02.4 - Verify lesson creation prefill/override behavior still works when student lesson overlay includes Subject Code.,"- Available Teacher Calendar has at least one available teacher.
+- Student with Subject Code lesson overlay is selected.",,LT-101718;PBT-3075;Available Teacher Calendar;Create Lesson;Regression,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Select an available date/timeslot and teacher.
+2. Click Create Lesson.
+3. Inspect prefilled fields.
+4. Save or cancel according to test environment policy.","1. Create Lesson action is enabled.
+2. Lesson creation modal opens.
+3. Teacher, lesson date/time, location, and selected student/course behavior follow existing ATC spec.
+4. Existing ATC lesson creation flow is not broken by Subject Code display.","1. 
+2. 
+3. 
+4. ",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28701,[Riso] Regression - Course Master Course Code behavior is unchanged,AC 03.1 - Verify adding Subject Code does not alter existing Course Code behavior.,"- Course Master record exists with Course Code.
+- Subject Master records exist with Subject Code.",,LT-101718;PBT-3075;Course Master;Course Code;Regression,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open Course Master create/edit form.
+2. Create or edit Course Code.
+3. Open related lesson/calendar flow that uses Course Code.","1. Course Code field remains available with existing behavior.
+2. Course Code saves according to existing validation.
+3. Course Code display remains unchanged and is not replaced by Subject Code.","1. 
+2. 
+3. ",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,
+28702,[Riso] Repo regression - Apex student lesson payload includes Subject Code,Repo test recommendation - Verify AvailableTeacherHandler.getStudentLessonsForMonth returns subjectCode from Lesson__r.Subject__r.Subject_Code__c.,"- Apex test data creates Subject Master with Subject Code.
+- Lesson references that Subject Master and has a Student Session in the requested month/location.",,LT-101718;PBT-3075;Repo Test;Apex;Subject Code,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Execute AvailableTeacherHandler.getStudentLessonsForMonth with student, month, and location request.
+2. Inspect first StudentLesson.subjectCode.
+3. Repeat with a blank Subject Code subject.","1. Response contains the student's lesson.
+2. subjectCode equals the configured Subject Master Subject Code.
+3. subjectCode is null or blank according to implementation and no exception is thrown.","1. method = getStudentLessonsForMonth
+2. expected = configured code
+3. expected = blank-safe",,,3562,2717,Add Subject Code in Subject Master (LT-101718 / PBT-3075),no,,

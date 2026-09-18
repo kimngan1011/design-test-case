@@ -1,0 +1,132 @@
+{
+  "project": "PX",
+  "parentSuiteId": 2717,
+  "suite": {
+    "id": 3562,
+    "url": "https://app.qase.io/project/PX?suite=3562",
+    "created": true
+  },
+  "csvPath": "epics/OOP/riso/LT-101718-subject-code-subject-master/test-cases/subject-code-subject-master.csv",
+  "totalNewCasesInCsv": 14,
+  "created": [
+    {
+      "id": 28689,
+      "title": "[Riso] Subject Master - Create subject with Subject Code",
+      "suite_id": 3562
+    },
+    {
+      "id": 28690,
+      "title": "[Riso] Subject Master - Subject Code is optional",
+      "suite_id": 3562
+    },
+    {
+      "id": 28691,
+      "title": "[Riso] Subject Master - Subject Code accepts maximum 30 characters",
+      "suite_id": 3562
+    },
+    {
+      "id": 28692,
+      "title": "[Riso] Subject Master - Edit and clear Subject Code",
+      "suite_id": 3562
+    },
+    {
+      "id": 28693,
+      "title": "[Riso] Subject Master - New/detail layouts show Subject Code",
+      "suite_id": 3562
+    },
+    {
+      "id": 28694,
+      "title": "[Riso] Subject Master - List views include Subject Code",
+      "suite_id": 3562
+    },
+    {
+      "id": 28695,
+      "title": "[Riso] Subject Master - Permission set allows Subject Code access",
+      "suite_id": 3562
+    },
+    {
+      "id": 28696,
+      "title": "[Riso] ATC - Selected student lesson with assigned teacher shows Subject Code and family name",
+      "suite_id": 3562
+    },
+    {
+      "id": 28697,
+      "title": "[Riso] ATC - Selected student lesson without assigned teacher shows Subject Code only",
+      "suite_id": 3562
+    },
+    {
+      "id": 28698,
+      "title": "[Riso] ATC - Blank Subject Code does not break selected student lesson display",
+      "suite_id": 3562
+    },
+    {
+      "id": 28699,
+      "title": "[Riso] ATC - Subject Code display does not affect available teacher counts",
+      "suite_id": 3562
+    },
+    {
+      "id": 28700,
+      "title": "[Riso] ATC - Lesson creation from ATC remains unchanged with Subject Code",
+      "suite_id": 3562
+    },
+    {
+      "id": 28701,
+      "title": "[Riso] Regression - Course Master Course Code behavior is unchanged",
+      "suite_id": 3562
+    },
+    {
+      "id": 28702,
+      "title": "[Riso] Repo regression - Apex student lesson payload includes Subject Code",
+      "suite_id": 3562
+    }
+  ],
+  "skippedDuplicates": [],
+  "newCaseIds": [
+    28689,
+    28690,
+    28691,
+    28692,
+    28693,
+    28694,
+    28695,
+    28696,
+    28697,
+    28698,
+    28699,
+    28700,
+    28701,
+    28702
+  ],
+  "impactedCaseIds": [
+    23042,
+    23045,
+    23046,
+    23048
+  ],
+  "run": {
+    "id": 3562,
+    "title": "LT-101718 / PBT-3075 - Subject Code in Subject Master",
+    "url": "https://app.qase.io/run/PX/dashboard/3562",
+    "caseIds": [
+      23042,
+      23045,
+      23046,
+      23048,
+      28689,
+      28690,
+      28691,
+      28692,
+      28693,
+      28694,
+      28695,
+      28696,
+      28697,
+      28698,
+      28699,
+      28700,
+      28701,
+      28702
+    ],
+    "caseCount": 18
+  }
+}
