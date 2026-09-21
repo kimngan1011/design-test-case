@@ -1,0 +1,156 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+28764,[Incident Prevention] Live Lesson - Provider token refresh before starting from Calendar or BO,Prevent expired Salesforce/custom/provider token from blocking Teacher Web or Live Lesson entry.,"- Staff user can open SF Calendar and BO Lesson Detail.
+- Online lesson exists with valid teacher, students, teaching medium, and live lesson provider config.
+- Test setup can simulate or prepare an expired/near-expired session token.",,Incident Prevention;Live Lesson;Calendar;BO;Token,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the online lesson from SF Calendar and click Start Lesson.
+2. Repeat the start action from BO Lesson Detail.
+3. Keep session idle until token is near expiry, then start the lesson again.
+4. Check logs/monitoring for the start action.","1. User is redirected to the live lesson room without INVALID_SESSION_ID, blank page, or infinite loading.
+2. BO path also refreshes token and enters the same lesson room successfully.
+3. Token is refreshed before use; no manual app restart is required.
+4. Token refresh and room join are logged; failures are visible as alerts or searchable logs.","1. lesson = online
+2. entry = BO
+3. session = near_expiry
+4. monitor = token_refresh",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28765,[Incident Prevention] Live Lesson - Reconnect and shared-session stability,Prevent join-state loss after network interruption browser refresh tab switch or shared device/session.,"- Published online lesson exists with teacher and at least two students.
+- Teacher and student can join from supported browser/device combinations.",,Incident Prevention;Live Lesson;Reconnect;Session,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher starts lesson and two students join.
+2. Disconnect one student network for 30 seconds, reconnect, and rejoin.
+3. Switch browser tab/app away and back during the lesson.
+4. Log out one shared device account, log in as another teacher, and start a different online lesson.","1. All participants appear in the room; lesson remains active.
+2. Student can rejoin without requiring lesson recreation; attendance/join state is not duplicated.
+3. Audio/video/join state remains active or recovers automatically.
+4. Teacher identity and lesson room are not reused from the previous session.","1. participants = teacher+2_students
+2. network = temporary_disconnect
+3. action = tab_switch
+4. device = shared",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28766,[Incident Prevention] Live Lesson - Whiteboard poll pen and text latency guard,Prevent class-blocking latency or broken whiteboard actions during operational live lesson flow.,"- Online lesson supports whiteboard/material sharing, poll, pen, text, undo, and redo.
+- At least one teacher and five students can join the room.",,Incident Prevention;Live Lesson;Whiteboard;Poll,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher shares a PDF/material and moves between pages.
+2. Teacher draws with pen, types text, and uses undo/redo.
+3. Run a poll and close it.
+4. Repeat on one lower-spec supported device and one desktop browser.","1. Page movement appears for students within acceptable latency; no blank/sunk page.
+2. Each action is visible to students; undo/redo affects the teacher's own annotation correctly.
+3. Student poll ribbon updates correctly; no stale poll remains after the teacher closes it.
+4. Behavior stays within supported-device expectation; unsupported-device gaps are documented.","1. material = PDF
+2. tools = pen,text,undo,redo
+3. feature = poll
+4. devices = desktop+tablet",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28767,[Incident Prevention] Zoom - One-way sync regeneration and stale link handling,Prevent stale Zoom link after lesson edit/delete or Zoom-side changes.,"- Online lesson with Zoom integration exists.
+- Zoom owner is assigned and Zoom link is generated.",,Incident Prevention;Zoom;Live Lesson;Sync,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Edit lesson date/time in SF and regenerate Zoom link.
+2. Delete/cancel the lesson in SF.
+3. Delete or edit the meeting directly in Zoom.
+4. Start Zoom from BO and Learner App.","1. New Zoom meeting reflects updated date/time; SF, BO, and Learner App show the same link.
+2. Manabie lesson state changes correctly; any remaining Zoom-side meeting behavior is documented and does not show as an active Manabie lesson.
+3. Manabie does not silently assume bidirectional sync; starting stale link shows clear error/recovery guidance.
+4. Both paths use the current valid link or show the same controlled error.","1. action = edit_time
+2. action = delete_lesson
+3. action = zoom_side_change
+4. entry = BO+App",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28768,[Incident Prevention] Calendar Lesson - Published/imported lesson has Student Sessions,Prevent lessons being created or published without Student Sessions despite active Class Members.,"- Class has active Class Members.
+- Lesson import/generation or publish flow is available.",,Incident Prevention;Calendar;Lesson;Student Session,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Generate or import lessons for a class with active members.
+2. Publish the created lessons.
+3. Open SF Calendar, BO Lesson Detail, and attendance/report entry.
+4. Check data checker/monitor for zero-session lessons.","1. Lessons are created with expected status and schedule data.
+2. Student Sessions are created for every eligible active class member.
+3. Same student list appears across surfaces; attendance can be collected.
+4. No Published lesson with active Class Members and zero Student Sessions is left unalerted.","1. class_members = active
+2. status = Published
+3. surfaces = SF,BO
+4. monitor = zero_student_session",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28769,[Incident Prevention] Calendar Lesson - Lesson Allocation lifecycle does not mislink or silently remove sessions,Prevent LA/order lifecycle actions from leaving wrong LA linkage wrong total sessions or unexpected session deletion.,"- Student has active Lesson Allocation and linked Student Sessions.
+- Staff can perform order lifecycle actions: cancel, void, update slot/duration, change course.",,Incident Prevention;Calendar;Lesson Allocation;Student Session,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Create a lesson linked to the student's current LA.
+2. Perform update slot/duration or change associated course.
+3. Perform cancel/void order scenario.
+4. Review SF Calendar, BO Lesson Detail, and report/attendance data.","1. Student Session contains the correct LA reference and consumed-session basis.
+2. Only sessions outside the valid range are removed or relinked according to business rules.
+3. LA/session counts are recalculated correctly; financial/point impact is not lost.
+4. No manually assigned session is silently deleted unless explicitly intended and auditable.","1. LA = active
+2. action = update_duration
+3. action = cancel_or_void
+4. audit = session_source",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28770,[Incident Prevention] Calendar Lesson - Location report publish and student-session consistency,Prevent missing Main Location mismatched report data or blank Student Session after lesson/report publish and student re-add.,"- Published lesson exists with location, teacher, student, and lesson report.
+- Staff can remove/re-add student and publish lesson report.",,Incident Prevention;Calendar;Lesson Report;Location,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Publish lesson report for a lesson shown on calendar.
+2. Remove a student, save report, then re-add the same student.
+3. Reopen BO Lesson Detail and SF Calendar lesson drawer.
+4. Run data checker for mismatch records.","1. Report and calendar event keep Main Location and student-session linkage.
+2. Student Session is recreated/linked with nonblank report detail state.
+3. Student, attendance, report, and location values are consistent.
+4. Any mismatch is reported with lesson/student/report IDs for recovery.","1. status = report_published
+2. action = remove_readd_student
+3. surfaces = SF,BO
+4. checker = report_session_mismatch",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28771,[Incident Prevention] Calendar Lesson - Recurring/full-year import duplicate and partial-failure guard,Prevent duplicate lessons or partial schedule creation during recurring lesson edits and full-year imports.,"- Full-year or large recurring lesson import data is prepared.
+- Staff can edit recurring lessons with Only this / This and following.",,Incident Prevention;Calendar;Recurring Lesson;Import,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Import or generate a large recurring lesson set.
+2. Edit one lesson with This and following.
+3. Remove a student assignment and repeat import/edit.
+4. Force a partial failure or retry the import.","1. All valid lessons are created once; no duplicate lesson codes or duplicate schedule rows.
+2. Future lessons are updated once and keep expected lesson code behavior.
+3. Removed assignment is not recreated unless the source rule explicitly requires it.
+4. Retry is idempotent; partial failures are visible and recoverable.","1. import = full_year
+2. edit = this_and_following
+3. action = remove_assignment
+4. retry = import_retry",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28772,[Incident Prevention] Event Booking - Org config internal/external route and direct link matrix,Prevent booking behavior from diverging by org configuration or entry route.,"- One org has Event enabled; one org has Event disabled or does not use Event.
+- Event Master has target segment, booking settings, internal booking path, and external direct link.",,Incident Prevention;Event;Booking;Config,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open booking from an Event-enabled org as eligible student/parent.
+2. Open booking from an org where Event is disabled/not used.
+3. Book via internal staff path.
+4. Book via external/direct link.","1. Eligible event appears and can be booked according to target segment rules.
+2. No broken booking link or unexpected event UI appears.
+3. Participant records are created once and visible in Event Master/Activity Event.
+4. Documented direct-link eligibility behavior is preserved; no unintended target-segment bypass beyond spec.","1. org = event_enabled
+2. org = event_disabled
+3. route = internal
+4. route = external_direct",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28773,[Incident Prevention] Event Booking - Search/list limit and target segment query scale,Prevent valid students/events from being hidden by pagination 100-record UI limit or aggregate query limits.,"- Event Master has more than 100 eligible candidates or participant records.
+- Target segment includes location, grade, school, and course filters.",,Incident Prevention;Event;Booking;Target Segment,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open booking/search modal with more than 100 possible records.
+2. Search for a candidate not in the first displayed page.
+3. Apply target segment filters with large data volume.
+4. Compare Event Master participant, Activity Event participant, and booking UI.","1. Search queries all eligible data, not only records currently displayed.
+2. Candidate appears and can be selected/booked if eligible.
+3. Query completes without aggregate/too-many-row failure and returns correct eligible list.
+4. Counts and records stay consistent after booking.","1. records = 100_plus
+2. candidate = page_2_or_later
+3. segment = large
+4. verify = participant_records",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28774,[Incident Prevention] Event Booking - Participant idempotency under account switching and concurrency,Expand existing participant-duplication prevention to cover account switch and concurrent booking.,"- Parent has multiple linked students.
+- Event has limited capacity and is bookable by the students.",,Incident Prevention;Event;Booking;Idempotency,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Parent books event for Student A, switches account/student, then returns to Student A.
+2. Student account books the same event while parent account is open.
+3. Two sessions reserve the last available slot at nearly the same time.
+4. Refresh Activity Event and Event Master records.","1. Only one Event Participant exists for Student A.
+2. Duplicate participant creation is blocked idempotently.
+3. Only one reservation succeeds; loser sees clear capacity/full message.
+4. Participant count and capacity are correct with no duplicate rows.","1. switch = parent_student
+2. users = parent+student
+3. concurrency = last_slot
+4. verify = capacity",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28775,[Incident Prevention] Lesson-Learn - Large course study plan update is batched and idempotent,Prevent large course study plan updates from timing out or creating duplicate/empty Study Plan Items.,"- Course has at least 400 students or enough data to exercise batching.
+- Course study plan CSV/update path is available.",,Incident Prevention;Lesson Learn;Study Plan;Batching,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Upload or update course study plan for the large course.
+2. Re-run the same update.
+3. Add students with empty individual study plans and update from course study plan.
+4. Check Learner App and Teacher Web.","1. Processing is batched and completes without request timeout.
+2. Existing Study Plan Items are updated idempotently; no duplicate rows are created.
+3. Empty individual study plans receive expected items.
+4. Items, order, visibility, and teacher progress view are consistent.","1. course_size = large
+2. retry = same_csv
+3. students = empty_study_plan
+4. surfaces = Learner+TW",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28776,[Incident Prevention] Lesson-Learn - Multi-tab learning time and stale session guard,Prevent incorrect learning time from multi-tab pause/resume idle or stale sessions.,"- Student can open Learner Web/App and access at least two LOs.
+- Learning time is visible in teacher/parent/report surfaces.",,Incident Prevention;Lesson Learn;Learning Time;Session,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open LO A, then open LO B in another tab/session.
+2. Leave LO A idle for an extended period, then return and complete it.
+3. Trigger pause/resume by backgrounding app or switching tabs.
+4. Check teacher/parent/report surfaces.","1. Only the active learning tab/session accumulates learning time.
+2. Idle/stale time is capped or excluded according to product rule.
+3. Pause/resume events are handled; no overnight/24h learning time is recorded.
+4. Displayed learning time is consistent and any anomaly is detectable by data checker.","1. tabs = two
+2. session = stale
+3. event = pause_resume
+4. verify = learning_time",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no
+28777,[Incident Prevention] Release and Config - Feature flag hotfix job and provider SDK guard,Prevent release/config changes from breaking event/calendar/live lesson operations.,"- Release candidate or hotfix includes event, calendar, live lesson, provider SDK, feature flag, or background job changes.
+- UAT/staging and PROD flag/config snapshots are available.",,Incident Prevention;Release;Feature Flag;Config,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Compare UAT/staging and PROD feature flags/custom settings for the affected features.
+2. Run smoke paths for event booking, SF Calendar lesson list/detail, and live lesson start.
+3. Verify background jobs/platform events/provider integrations after deployment.
+4. Confirm rollback/disable path.","1. Required flags are aligned or documented with explicit rollout plan.
+2. Critical operations still work after deployment/hotfix.
+3. Jobs/events are running; provider SDK/API health is confirmed.
+4. Team can disable feature safely without leaving partial data or hidden broken UI.","1. flags = pre_release
+2. smoke = event_calendar_live
+3. monitor = jobs_provider
+4. rollback = ready",,,3569,2183,Incident Prevention - Event Calendar Live Lesson Lesson-Learn,no,,no

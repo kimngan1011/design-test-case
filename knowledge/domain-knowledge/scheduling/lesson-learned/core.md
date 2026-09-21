@@ -129,3 +129,32 @@ A bulk lesson-generation import (~1,300 lesson schedules across ~1,200 classes) 
 - Even where auto-removal is by-design (class-mismatch case), deletions are user-visible and partner-impacting — communicate the behavior to partners proactively rather than only after an incident is raised.
 
 ---
+
+## [2026-09-21] Cross-Domain — Incident Prevention Patterns for Event, Calendar, Live Lesson, and Lesson-Learn Flows
+
+**Slack thread:** https://manabiebiz.slack.com/archives/C0BPM7GABDW
+
+### Issue
+
+Historical JP incidents show repeated escape patterns across event booking, lesson calendar, live lesson, and lesson-learn data flows. Existing Incident Prevention coverage was present but narrow: only 16 cases existed under Qase suite 2183 and most gaps were around integrated, operationally realistic flows.
+
+**Root cause:**
+1. Test coverage was split by feature area, while incidents often crossed systems: Salesforce calendar, BO, Learner App, Zoom/Agora, booking, class/course/location sync, and background jobs.
+2. Several failures were not pure UI bugs; they were data integrity, idempotency, batching, configuration, feature flag, timezone, provider SDK, or environment-parity problems.
+3. Existing prevention cases did not consistently assert downstream records, retries, duplicate prevention, or monitoring signals after the visible user action.
+
+### Resolution
+
+- Added new Incident Prevention test design artifacts for event/calendar/live lesson/lesson-learn themes.
+- Added Qase cases under the Incident Prevention suite to cover gaps not represented by existing cases.
+- Kept existing case IDs as impacted coverage rather than duplicating them.
+
+### Lessons Learned / Design Notes
+
+- Incident-prevention cases should validate the full chain: user action, source object, downstream record, mobile/BO visibility, retry/idempotency, and monitoring signal.
+- Calendar and lesson tests must include generated/imported lessons, recurring edits, location/timezone boundaries, class-member assignment, Student Session integrity, and Lesson Allocation side effects.
+- Event booking tests must include enabled/disabled org configuration, internal vs external booking, search/list limits, target segment filtering, direct booking links, and participant idempotency under account switching/concurrency.
+- Live lesson tests must include provider token refresh, shared device/session behavior, reconnect, tab switch, whiteboard/poll latency, Zoom one-way sync, and SDK upgrade smoke coverage.
+- Lesson-learn tests must include large-course batching, duplicate/empty study plan item prevention, CSV update behavior, multi-tab learning time, stale session caps, and data checkers.
+
+---
