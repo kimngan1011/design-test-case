@@ -18,6 +18,7 @@ Validate Riso Location Course duration configuration and lesson creation duratio
 | R8 | Timeslot change recalculates after manual edits | High | TC-07 |
 | R9 | Location Course change recalculates after manual edits | High | TC-08 |
 | R10 | Non-Riso/OFF config keeps existing behavior | High | TC-08 |
+| R11 | Tenant/org without Timeslot feature still applies Location Course duration without breaking manual/default flow | High | TC-09 |
 
 ## Test Design
 
@@ -31,6 +32,7 @@ Validate Riso Location Course duration configuration and lesson creation duratio
 | TC-06 | Lesson creation - Manual Duration, Start Time, and End Time edits are retained until source change | State Retention | Deep | High |
 | TC-07 | Lesson creation - Timeslot change recalculates after manual override | State Transition | Deep | High |
 | TC-08 | Lesson creation - Location Course change recalculates and config OFF preserves old behavior | State Transition + Scope Guard | Deep | High |
+| TC-09 | Lesson creation - Tenant without Timeslot feature still applies Location Course duration | Feature Toggle / Regression | Deep | High |
 
 ## Test Data
 
@@ -41,6 +43,7 @@ Validate Riso Location Course duration configuration and lesson creation duratio
 | Course A | Location Course Duration = 50 | Younger-student short lesson |
 | Course B | Location Course Duration blank | Timeslot fallback |
 | Course C | Location Course Duration = 60 | Course-change recalculation |
+| No-timeslot tenant fixture | Tenant/org with Timeslot feature disabled or not used in lesson creation | Duration source fallback without Timeslot |
 | Config ON | `config_Lesson_Location_Lesson_Duration__c = true` | Riso enabled behavior |
 | Config OFF | `config_Lesson_Location_Lesson_Duration__c = false` | Non-Riso / disabled guard |
 

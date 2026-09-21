@@ -33,3 +33,7 @@ Verify changing Timeslot after manual edits recalculates the form.
 ### TC-08 - Lesson creation - Location Course change recalculates and config OFF preserves old behavior
 
 Verify changing course recalculates, and disabled config hides the feature for non-Riso/OFF scenarios.
+
+### TC-09 - Lesson creation - Tenant without Timeslot feature still applies Location Course duration
+
+Verify tenant/org flows that do not use Timeslot can still apply Location Course duration from course selection, and blank course duration preserves the existing manual/default duration behavior.
