@@ -1,0 +1,199 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3581,3576,[JPREP] Live Lesson – In-room Key Features,0,,
+,[JPREP] Live Lesson – Camera and Mic – Teacher and student toggle on and off – State shown on the other side,"AC 06.1 — Scenario — Camera/mic toggles of teacher and student are reflected in each other's view.
+
+Spec sources (evidence):
+- [S18] Confluence – Test plan coverage KEY feature for Live Lesson — https://manabie.atlassian.net/wiki/spaces/TECH/pages/2189852681
+- [S19] Confluence – Live Lesson Smoke Test Planning on PROD (share screen hidden on JPREP; recording & private chat JPREP only) — https://manabie.atlassian.net/wiki/spaces/LT/pages/411631738
+- [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
+- Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
+- Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
+- Teacher T1 started Lesson L1 from BO and is inside the live room
+- Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 turns camera ON and mic ON
+2. Teacher T1 turns camera OFF and mic OFF
+3. Student S1 turns camera ON and mic ON
+4. Student S1 turns camera OFF and mic OFF","1. Students S1 and S2 see the teacher video and the teacher mic icon as ON
+2. Students see the teacher video replaced by placeholder and mic icon OFF
+3. Teacher T1 sees S1 video and S1 mic icon ON in the participant list
+4. Teacher T1 sees S1 camera and mic OFF","1. 
+2. 
+3. 
+4. ",,,3581,3576,[JPREP] Live Lesson – In-room Key Features,,,
+,[JPREP] Live Lesson – Camera and Mic – Rapid repeated taps – Final state matches last tap and room stays usable,"AC 06.1 — Negative (monkey) — Spam-clicking the camera and mic buttons must not freeze the room or leave a mismatched state (monkey test in S18).
+
+Spec sources (evidence):
+- [S18] Confluence – Test plan coverage KEY feature for Live Lesson — https://manabie.atlassian.net/wiki/spaces/TECH/pages/2189852681
+- [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
+- Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
+- Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
+- Teacher T1 started Lesson L1 from BO and is inside the live room
+- Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 clicks the mic button 11 times within 5 seconds
+2. Teacher T1 clicks the camera button 11 times within 5 seconds
+3. Student S1 checks the teacher tile
+4. Teacher T1 shares W2_Slides.pdf","1. Mic ends in the opposite state of the start (odd number of clicks); icon matches the audio actually sent
+2. Camera ends in the opposite state; video tile matches icon
+3. Student sees the same final mic/camera state as the teacher icon
+4. Sharing still works (room not frozen)","1. 11 clicks / 5 s
+2. 11 clicks / 5 s
+3. 
+4. ",,,3581,3576,[JPREP] Live Lesson – In-room Key Features,,,
+,[JPREP] Live Lesson – Share PDF – Teacher shares and changes page – All students see the same page and sharing stops for all,"AC 06.2 — Scenario — Guard for the 2024-03-30 incident where attendees could not see shared material.
+
+Spec sources (evidence):
+- [S18] Confluence – Test plan coverage KEY feature for Live Lesson — https://manabie.atlassian.net/wiki/spaces/TECH/pages/2189852681
+- [S26] Confluence – Postmortem 2024-03-30 Room attendees cannot see the sharing material — https://manabie.atlassian.net/wiki/spaces/TECH/pages/937787471
+- [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
+- Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
+- Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
+- Teacher T1 started Lesson L1 from BO and is inside the live room
+- Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
+- W2_Slides.pdf (2 pages) is in the room material list",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 shares W2_Slides.pdf
+2. Teacher T1 moves to page 2
+3. Teacher T1 stops sharing","1. S1 (web) and S2 (app) both show page 1 within 5 seconds
+2. S1 and S2 both show page 2
+3. The PDF disappears for S1 and S2","1. 
+2. page 1 -> 2
+3. ",,,3581,3576,[JPREP] Live Lesson – In-room Key Features,,,
+,[JPREP] Live Lesson – Share Image – Image with Japanese file name – Displayed to all students,"AC 06.2 — Scenario — Teacher can share an image material; Japanese file names are shown without broken characters.
+
+Spec sources (evidence):
+- [S18] Confluence – Test plan coverage KEY feature for Live Lesson — https://manabie.atlassian.net/wiki/spaces/TECH/pages/2189852681
+- [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
+- Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
+- Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
+- Teacher T1 started Lesson L1 from BO and is inside the live room
+- Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
+- Image 教材_第2週.png is uploaded to Week 2 materials",,"JPREP,live-lesson,LT-111600",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 opens the room material list
+2. Teacher T1 shares 教材_第2週.png
+3. Teacher T1 stops sharing","1. File name 教材_第2週.png is shown without garbled characters
+2. S1 and S2 see the image
+3. Image disappears for students","1. file = 教材_第2週.png
+2. 
+3. ",,,3581,3576,[JPREP] Live Lesson – In-room Key Features,,,
+,[JPREP] Live Lesson – Share Video – Brightcove video material – Plays with sound on student side,"AC 06.2 — Scenario — JPREP live lesson video material is served via Brightcove; shared video plays for students (S24).
+
+Spec sources (evidence):
+- [S18] Confluence – Test plan coverage KEY feature for Live Lesson — https://manabie.atlassian.net/wiki/spaces/TECH/pages/2189852681
+- [S24] Slack #draft-discuss-lesson-feature 2026-07-31 – JPREP live lesson uses Brightcove video — https://manabiebiz.slack.com/archives/C0BNPCH3605
+- [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
+- Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
+- Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
+- Teacher T1 started Lesson L1 from BO and is inside the live room
+- Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
+- Video material W2_Video.mp4 (uploaded, stored on Brightcove) is in Week 2 materials",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 shares W2_Video.mp4 and clicks play
+2. Student S1 and Student S2 watch
+3. Teacher T1 pauses the video
+4. Teacher T1 stops sharing","1. Video plays on teacher side
+2. Video plays on both with sound, no ""video unavailable"" error
+3. Video pauses for students
+4. Video disappears for students","1. 
+2. 
+3. 
+4. ",,,3581,3576,[JPREP] Live Lesson – In-room Key Features,,,
+,[JPREP] Live Lesson – Whiteboard – Teacher draws and allows student annotation – Drawings synced both ways,"AC 06.3 — Scenario — Teacher and learner can interact on the whiteboard / annotation layer.
+
+Spec sources (evidence):
+- [S18] Confluence – Test plan coverage KEY feature for Live Lesson — https://manabie.atlassian.net/wiki/spaces/TECH/pages/2189852681
+- [S19] Confluence – Live Lesson Smoke Test Planning on PROD (share screen hidden on JPREP; recording & private chat JPREP only) — https://manabie.atlassian.net/wiki/spaces/LT/pages/411631738
+- [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
+- Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
+- Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
+- Teacher T1 started Lesson L1 from BO and is inside the live room
+- Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
+- Teacher T1 is sharing W2_Slides.pdf page 1",,"JPREP,live-lesson,LT-111600",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 draws a line with the pen tool on page 1
+2. Teacher T1 enables annotation for students
+3. Student S1 draws a circle
+4. Teacher T1 disables annotation for students","1. S1 and S2 see the line at the same position
+2. Annotation tools appear on S1 and S2
+3. Teacher T1 and S2 see the circle
+4. Annotation tools disappear for students; existing drawings remain","1. 
+2. 
+3. 
+4. ",,,3581,3576,[JPREP] Live Lesson – In-room Key Features,,,
+,[JPREP] Live Lesson – Public Chat – Teacher and student send messages – Every participant sees both messages,"AC 06.4 — Scenario — Public chat in the JPREP live room (ChatV1 still used by JPREP – S21).
+
+Spec sources (evidence):
+- [S18] Confluence – Test plan coverage KEY feature for Live Lesson — https://manabie.atlassian.net/wiki/spaces/TECH/pages/2189852681
+- [S21] Confluence – [ChatV1] cleanup plan (live lesson chat still used by JPREP) — https://manabie.atlassian.net/wiki/spaces/TECH/pages/2627272747
+- [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
+- Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
+- Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
+- Teacher T1 started Lesson L1 from BO and is inside the live room
+- Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room",,"JPREP,live-lesson,LT-111600",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 opens Chat > Public and sends ""Hello class 1""
+2. Student S1 and Student S2 open public chat
+3. Student S1 sends ""Hi teacher""","1. Message appears in the teacher chat
+2. Both see ""Hello class 1"" from Teacher T1
+3. Teacher T1 and S2 see ""Hi teacher"" from S1","1. text = Hello class 1
+2. 
+3. text = Hi teacher",,,3581,3576,[JPREP] Live Lesson – In-room Key Features,,,
+,[JPREP] Live Lesson – Private Chat – Teacher messages one student – Only that student receives it,"AC 06.5 — Permission Matrix — Private chat is a JPREP-only feature (S19); a private message is visible only to the teacher and the target student. Needs mock student data (S18).
+
+Spec sources (evidence):
+- [S18] Confluence – Test plan coverage KEY feature for Live Lesson — https://manabie.atlassian.net/wiki/spaces/TECH/pages/2189852681
+- [S19] Confluence – Live Lesson Smoke Test Planning on PROD (share screen hidden on JPREP; recording & private chat JPREP only) — https://manabie.atlassian.net/wiki/spaces/LT/pages/411631738
+- [S21] Confluence – [ChatV1] cleanup plan (live lesson chat still used by JPREP) — https://manabie.atlassian.net/wiki/spaces/TECH/pages/2627272747
+- [S27] Confluence – JPREP Live Lesson Post-mortem (2023, private chat load) — https://manabie.atlassian.net/wiki/spaces/ERP/pages/791511059
+- [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
+- Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
+- Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
+- Teacher T1 started Lesson L1 from BO and is inside the live room
+- Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
+- Private chat is enabled for JPREP in the environment under test (Staging confirmed working 2026-08-19 – S21; PROD status: open question 6)",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 opens a private chat with Student S1 and sends ""Private to S1""
+2. Student S1 opens private chat
+3. Student S2 opens public and private chat
+4. Student S1 replies ""Reply from S1""","1. Message appears in the T1–S1 private conversation
+2. S1 sees ""Private to S1"" from Teacher T1
+3. S2 does NOT see ""Private to S1"" anywhere
+4. Teacher T1 sees the reply; S2 does not","1. text = Private to S1
+2. 
+3. 
+4. text = Reply from S1",,,3581,3576,[JPREP] Live Lesson – In-room Key Features,,,
+,[JPREP] Live Lesson – Share Screen – JPREP teacher room – Share screen control not shown,"AC 06.6 — Negative — Share screen is hidden for JPREP (S19).
+
+Spec sources (evidence):
+- [S19] Confluence – Live Lesson Smoke Test Planning on PROD (share screen hidden on JPREP; recording & private chat JPREP only) — https://manabie.atlassian.net/wiki/spaces/LT/pages/411631738
+- [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
+- Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
+- Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
+- Teacher T1 started Lesson L1 from BO and is inside the live room
+- Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room",,"JPREP,live-lesson,LT-111600",low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,1. Teacher T1 looks at the room toolbar and the share menu,1. No Share screen option is displayed,1. Tenant = JPREP,,,3581,3576,[JPREP] Live Lesson – In-room Key Features,,,
+,[JPREP] Live Lesson – Reconnect – Student loses network and reconnects – Student back in room seeing the current shared page,"AC 06.7 — State Transition — Network drops (see MANACS-2179 / JPREP-105) must not lock the student out; after reconnect the student sees the current room state.
+
+Spec sources (evidence):
+- [S19] Confluence – Live Lesson Smoke Test Planning on PROD (share screen hidden on JPREP; recording & private chat JPREP only) — https://manabie.atlassian.net/wiki/spaces/LT/pages/411631738
+- [S28] Jira MANACS-2179 / JPREP-105 – Students cannot connect to network during live lesson — https://manabie.atlassian.net/browse/MANACS-2179
+- [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
+- Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
+- Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
+- Teacher T1 started Lesson L1 from BO and is inside the live room
+- Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
+- Teacher T1 is sharing W2_Slides.pdf page 1",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Student S1 turns off Wi-Fi for 20 seconds
+2. Teacher T1 moves to page 2 while S1 is offline
+3. Student S1 turns Wi-Fi back on
+4. Student S1 looks at the shared material","1. S1 sees a reconnecting indicator; Teacher T1 sees S1 as disconnected
+2. S2 sees page 2
+3. S1 rejoins the room automatically within 30 seconds without clicking Join again
+4. S1 sees page 2 (current page), not page 1","1. offline 20 s
+2. 
+3. wait <= 30 s
+4. ",,,3581,3576,[JPREP] Live Lesson – In-room Key Features,,,
