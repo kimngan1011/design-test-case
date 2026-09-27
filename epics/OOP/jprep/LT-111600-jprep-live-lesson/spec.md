@@ -55,6 +55,7 @@ Parent epic: [LT-54444 [LMS 2.0][JPREP] Launch Live Lesson on BO](https://manabi
 | S29 | Code — backend `internal/enigma/dto/jprep.go` + BDD `features/gandalf/jprep/jprep_sync_live_lesson.feature` (create/update/delete lesson; missing required field → 400) | https://github.com/manabie-com/backend/blob/develop/features/gandalf/jprep/jprep_sync_live_lesson.feature |
 | S30 | Postmortem 2022-06-16 — JPREP data sync: `lesson_members` wrongly soft-deleted → students missing on Teacher Web and cannot join; Jira LT-61156 — student synced to lesson not shown in Lesson management | https://manabie.atlassian.net/wiki/spaces/TECH/pages/471957547 |
 | S31 | Code — school-portal-admin `src/squads/syllabus/components/RelatedCourse/LessonTab` + `LessonUploadDialog`: materials attach to the Week (lesson group), Action > "Upload file", PDF / video (≤ 1 GB) / audio (flag), optional Brightcove | local repo school-portal-admin |
+| S32 | Confluence — Live Lesson - Cloud Recording (JPREP-only "Please start recording" dialog; Record → Chrome screen picker Tab / Window / Entire Screen → consent dialog → REC; stop on Stop / End lesson for all / leave / disconnect / close tab; JPREP learners see no recording indicator; Recording list on BO lesson detail with Download) | https://manabie.atlassian.net/wiki/spaces/LT/pages/519602177 |
 
 ---
 
@@ -87,7 +88,7 @@ Parent epic: [LT-54444 [LMS 2.0][JPREP] Launch Live Lesson on BO](https://manabi
 | 9 | AC 03.5 | Page refresh keeps teacher in room | — | — | [TW] | S5 |
 | 10 | AC 03.6 | Leave / End lesson closes the browser tab | — | — | [TW] | S6 |
 | 11 | AC 03.7 | Only Teacher can start/join; Admin blocked ("Account is not registered") unless AllowAllRoles flag ON | Role | permission | [BO→TW] | S13, S15 |
-| 12 | AC 03.8 | Recording dialog: Cancel → enter without recording; Start recording → recording on | Recording | conditional | [TW] | S19, S20 |
+| 12 | AC 03.8 | "Please start recording" dialog: Cancel → room without recording; Record → Chrome screen picker (Tab / Window / Entire Screen — picks what is recorded, not Share screen) → consent dialog Start → REC; Stop ends the session; session listed in BO Recording list and downloadable. JPREP learners never see a recording indicator | Recording | conditional | [TW→BO] | S19, S20, S32 |
 | 13 | AC 04.1 | Admin can add / delete weekly materials | Materials | READWRITE | [BO] | S1, S11 |
 | 14 | AC 04.2 | Teacher sees materials read-only | Materials | READ | [BO] | S11 |
 | 15 | AC 04.3 | Uploaded materials appear in the room for sharing | Materials | cross-surface | [BO→TW] | S1, S18 |
@@ -190,12 +191,12 @@ Parent epic: [LT-54444 [LMS 2.0][JPREP] Launch Live Lesson on BO](https://manabi
 | JPREP | Created | 3575 | – |
 | [JPREP] Live Lesson | Created | 3576 | – |
 | [JPREP] Live Lesson – BO Course Lesson Tab & Lesson Detail | Created | 3577 | PX-28993 – 28998 (6) |
-| [JPREP] Live Lesson – Start from BO | Created | 3578 | PX-28999 – 29008 (10) |
+| [JPREP] Live Lesson – Start from BO | Created | 3578 | PX-28999 – 29008 (10) + PX-29042 (added 2026-09-28; PX-29007 / 29008 revised per S32) |
 | [JPREP] Live Lesson – Student Join & Course Whitelist | Created | 3579 | PX-29009 – 29017 (9) |
 | [JPREP] Live Lesson – Weekly Materials | Created | 3580 | PX-29018 – 29021 (4) + PX-29041 (added 2026-09-28) |
 | [JPREP] Live Lesson – In-room Key Features | Created | 3581 | PX-29022 – 29031 (10) |
 | [JPREP] Live Lesson – Sync from JPREP (Lesson & Student) | Created 2026-09-28 | 3582 | PX-29032 – 29040 (9) |
 
-Totals: suites created 8 · cases created 49 (39 on 2026-09-26 + 10 on 2026-09-28) · skipped (duplicates) 0 · failed 0 (one bulk call timed out and was re-sent after confirming nothing was created).
+Totals: suites created 8 · cases created 50 (39 on 2026-09-26 + 11 on 2026-09-28) · skipped (duplicates) 0 · failed 0 (one bulk call timed out and was re-sent after confirming nothing was created).
 Old JPREP URL cases PX-19523, 19524, 25084, 25086 (created by Linh Nguyen) were fully covered by PX-29000 / PX-29002 and deleted on 2026-09-26 after user confirmation; PX-29000 step 5 now also asserts user_id is not empty.
 All 39 cases re-fetched: title, preconditions, step count and every action/expected result match the local source.

@@ -237,12 +237,13 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 
 ---
 
-### [JPREP] Live Lesson – Start – Recording confirmation dialog – Cancel enters the room without recording
+### [JPREP] Live Lesson – Start – "Please start recording" dialog – Cancel enters the room without recording
 
-**Description:** AC 03.8 — Decision Table — If the recording confirmation dialog appears when starting from BO, Cancel must be clickable and let the teacher enter the room without recording (MANACS-2343).
+**Description:** AC 03.8 — Decision Table — When the JPREP teacher enters the room, the JPREP-only dialog "Please start recording if needed" is shown; Cancel must be clickable on the first click and leave the teacher in the room without recording (MANACS-2343). Learners of JPREP never see a recording indicator (S32), so this case checks the teacher side only.
 
 **Spec sources:**
 - [S20] Jira MANACS-2343 – [JPREP] Unable to start online lesson from BO (recording dialog Cancel) — https://manabie.atlassian.net/browse/MANACS-2343
+- [S32] Confluence – Live Lesson - Cloud Recording (Record button → Chrome screen picker Tab / Window / Entire Screen → consent dialog; JPREP-only start-recording dialog; learners of JPREP see no recording indicator; Recording list on BO lesson detail) — https://manabie.atlassian.net/wiki/spaces/LT/pages/519602177
 - [S19] Confluence – Live Lesson Smoke Test Planning on PROD (share screen hidden on JPREP; recording & private chat JPREP only) — https://manabie.atlassian.net/wiki/spaces/LT/pages/411631738
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md
 
@@ -251,25 +252,25 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
-- Recording feature is enabled for JPREP (JPREP-only feature per S19)
+- Recording feature is enabled for JPREP (JPREP-only feature per S19, S32)
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
-| 1 | Teacher T1 logs in to JPREP Back Office and clicks Start Live Lesson on Lesson L1 | Teacher Web tab opens and the recording confirmation dialog is shown |  |
-| 2 | Teacher T1 clicks Cancel in the recording dialog | Dialog closes on the first click (button is clickable) | Choice = Cancel |
-| 3 | Teacher T1 looks at the room | Teacher T1 is inside the live room; no recording indicator is shown |  |
-| 4 | Student S1 joins the room from Learner Web | Student S1 sees the room; no recording indicator is shown to the student |  |
+| 1 | Teacher T1 logs in to JPREP Back Office and clicks Start Live Lesson on Lesson L1 | Teacher Web opens the live room of L1 and shows the "Please start recording if needed" dialog (JP: 録画を開始してください) with buttons Cancel (キャンセル) and Record (録画を開始); the dialog text says "This lesson is not recorded now. Please click on 'Record' button and select a screen to start recording." |  |
+| 2 | Teacher T1 clicks Cancel in the dialog | The dialog closes on the first click (the button is clickable) | Choice = Cancel |
+| 3 | Teacher T1 looks at the room toolbar | Teacher T1 is inside the live room; no REC (録画) indicator is shown; the Record button is available on the toolbar |  |
 
 **Severity:** major
 **Priority:** high
 
 ---
 
-### [JPREP] Live Lesson – Start – Recording confirmation dialog – Start recording enters the room with recording on
+### [JPREP] Live Lesson – Recording – Teacher clicks Record, selects the live room tab and confirms Start – REC indicator shown and recording runs until Stop
 
-**Description:** AC 03.8 — Decision Table — Choosing Start recording in the dialog enters the room and starts recording; the teacher is not left on an error screen (MANACS-2343).
+**Description:** AC 03.8 — Scenario — Starting a recording goes through three dialogs: the JPREP-only "Please start recording" dialog, Chrome's screen picker (the recorded view is the selected Tab / Window / Entire Screen, not a Share screen to students) and the consent dialog "Make sure that everyone is ready". The teacher is not left on an error screen (MANACS-2343).
 
 **Spec sources:**
+- [S32] Confluence – Live Lesson - Cloud Recording (Record button → Chrome screen picker Tab / Window / Entire Screen → consent dialog; JPREP-only start-recording dialog; learners of JPREP see no recording indicator; Recording list on BO lesson detail) — https://manabie.atlassian.net/wiki/spaces/LT/pages/519602177
 - [S20] Jira MANACS-2343 – [JPREP] Unable to start online lesson from BO (recording dialog Cancel) — https://manabie.atlassian.net/browse/MANACS-2343
 - [S19] Confluence – Live Lesson Smoke Test Planning on PROD (share screen hidden on JPREP; recording & private chat JPREP only) — https://manabie.atlassian.net/wiki/spaces/LT/pages/411631738
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md
@@ -279,14 +280,47 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
-- Recording feature is enabled for JPREP
+- Recording feature is enabled for JPREP (JPREP-only feature per S19, S32)
+- Teacher T1 uses Google Chrome (recording uses Chrome's screen share picker)
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
-| 1 | Teacher T1 logs in to JPREP Back Office and clicks Start Live Lesson on Lesson L1 | Recording confirmation dialog is shown |  |
-| 2 | Teacher T1 clicks Start recording | Dialog closes | Choice = Start recording |
-| 3 | Teacher T1 looks at the room | Teacher T1 is inside the live room and a recording indicator is shown; no error screen |  |
-| 4 | Teacher T1 stops the recording (or ends the lesson) | Recording stops without error |  |
+| 1 | Teacher T1 logs in to JPREP Back Office and clicks Start Live Lesson on Lesson L1 | Teacher Web opens the live room of L1 and shows the "Please start recording if needed" dialog (JP: 録画を開始してください) with buttons Cancel (キャンセル) and Record (録画を開始) |  |
+| 2 | Teacher T1 clicks Record (録画を開始) in the dialog | Chrome's screen picker opens with the options Chrome Tab, Window and Entire Screen |  |
+| 3 | Teacher T1 selects the Chrome Tab of the live room and clicks Share in the picker | A dialog "Make sure that everyone is ready" (全員の準備が整っていることを確認してください) with the text "When you start recording, all participants are notified" and buttons Cancel / Start is shown | Picker choice = Chrome Tab of teacher.staging.jprep.manabie.io |
+| 4 | Teacher T1 clicks Start (開始) | The dialog closes; the toolbar shows the REC (録画) indicator and a Stop (録画を停止) button; no error screen |  |
+| 5 | Teacher T1 keeps the recording running for 2 minutes, then clicks Stop (録画を停止) | The REC indicator disappears and the Record button is shown again; Teacher T1 stays in the room | Recording length = 2 minutes |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [JPREP] Live Lesson – Recording – Recorded session stopped by the teacher – Session listed in the Recording list of the Back Office lesson detail and downloadable
+
+**Description:** AC 03.8 — Cross-system — After the recording teacher stops a recording, the session is uploaded and listed under "Recording list" at the bottom of the Back Office lesson detail with its number, start date/time, duration and file size, and can be downloaded (S32 Back Office US 01 – US 03).
+
+**Spec sources:**
+- [S32] Confluence – Live Lesson - Cloud Recording (Record button → Chrome screen picker Tab / Window / Entire Screen → consent dialog; JPREP-only start-recording dialog; learners of JPREP see no recording indicator; Recording list on BO lesson detail) — https://manabie.atlassian.net/wiki/spaces/LT/pages/519602177
+- [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md
+
+**Preconditions:**
+- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
+- Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
+- JPREP BO Admin account is available
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
+- Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
+- Recording feature is enabled for JPREP (JPREP-only feature per S19, S32)
+- Teacher T1 uses Google Chrome (recording uses Chrome's screen share picker)
+- Lesson L1 has no recording yet
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Teacher T1 starts Lesson L1 from Back Office, clicks Record, selects the Chrome Tab of the live room and clicks Start | The REC (録画) indicator is shown in the room | Same flow as PX-29008 steps 1–4 |
+| 2 | Teacher T1 keeps recording for 2 minutes, then clicks Stop (録画を停止) | The REC indicator disappears | Note the stop time; recording length = 2 minutes |
+| 3 | JPREP BO Admin opens Lesson Management in JPREP Back Office and opens the lesson detail of L1 | The lesson detail of L1 is shown | URL = /lesson/lesson_management/JPREP_LESSON_<L1>/show |
+| 4 | JPREP BO Admin scrolls to the bottom of the lesson detail (reload after a few minutes if the upload is not finished) | Section "Recording list" shows 1 session: session number 1, start date/time = the recording start (Asia/Tokyo), duration = 2 min, file size in GB and a Download action | duration < 1 hour → shown in min |
+| 5 | JPREP BO Admin clicks Download on session 1 and opens the file | A video file is downloaded; it plays the recorded live room tab with the participants' audio |  |
 
 **Severity:** major
 **Priority:** high
