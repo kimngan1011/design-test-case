@@ -18,7 +18,7 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 is NOT logged in to Teacher Web in this browser (clear Teacher Web session first)
 - Browser allows camera and microphone for the Teacher Web domain
@@ -51,7 +51,7 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Unleash flag User_Authentication_ImproveSSO = OFF for JPREP Staging
 - Teacher T1 user ID is known (from BO Staff detail or dev support) = <T1_user_id>
@@ -80,7 +80,7 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Unleash flag User_Authentication_ImproveSSO = ON for the JPREP environment under test (confirm env with dev – open question 7)
 
@@ -138,7 +138,7 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 has started Lesson L1 from BO and is inside the live room
 - Student S1 is inside the live room
@@ -165,7 +165,7 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 opened the live room of L1 from BO (Teacher Web tab opened by Start Live Lesson)
 
@@ -193,7 +193,7 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - JPREP BO Admin (non-teacher) account is available
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Unleash flag User_Auth_AllowAllRolesToLoginTeacherWeb = OFF for the JPREP environment under test
 
@@ -221,7 +221,7 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - JPREP BO Admin (non-teacher) account is available
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Unleash flag User_Auth_AllowAllRolesToLoginTeacherWeb = ON for the JPREP environment under test
 
@@ -249,7 +249,7 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Recording feature is enabled for JPREP (JPREP-only feature per S19)
 
@@ -277,7 +277,7 @@ _Start Live Lesson from JPREP BO → Teacher Web live room (SSO, URL, account, r
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Recording feature is enabled for JPREP
 

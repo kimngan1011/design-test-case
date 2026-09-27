@@ -31,7 +31,7 @@ Spec sources (evidence):
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Course C1 = JPREP_COURSE_000000119 has Week 2 paired with Lesson L1
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2",,"JPREP,live-lesson,LT-111600",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 logs in to JPREP Back Office
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2",,"JPREP,live-lesson,LT-111600",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 logs in to JPREP Back Office
 2. Teacher T1 opens Course > course C1 > Lesson tab
 3. Teacher T1 clicks the lesson name L1 in row Week 2
 4. Teacher T1 reads the page header, lesson date/time and course on the detail page
@@ -52,7 +52,7 @@ Spec sources (evidence):
 - [S2] Jira LT-54444 – [LMS 2.0][JPREP] Launch Live Lesson on BO (epic + child tickets) — https://manabie.atlassian.net/browse/LT-54444
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 logs in to JPREP Back Office
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 logs in to JPREP Back Office
 2. Teacher T1 opens the lesson detail page of Lesson L1 (Lesson Management > L1)
 3. Teacher T1 reads the Teaching Medium field
 4. Teacher T1 looks for the Start Live Lesson button","1. Back Office home page is shown
@@ -69,7 +69,7 @@ Spec sources (evidence):
 - [S1] Confluence – [JPREP] Agora in LMSv2 JPREP (functional spec) — https://manabie.atlassian.net/wiki/spaces/LT/pages/892403790
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L2 is synced from JPREP with teaching medium = Offline, course JPREP_COURSE_000000119, teacher = T1",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 logs in to JPREP Back Office
+- Lesson L2 is synced from JPREP with teaching medium = Offline, course JPREP_COURSE_000000119",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 logs in to JPREP Back Office
 2. Teacher T1 opens the lesson detail page of Lesson L2
 3. Teacher T1 reads the Teaching Medium field
 4. Teacher T1 looks for the Start Live Lesson button
@@ -90,7 +90,7 @@ Spec sources (evidence):
 - [S1] Confluence – [JPREP] Agora in LMSv2 JPREP (functional spec) — https://manabie.atlassian.net/wiki/spaces/LT/pages/892403790
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L3 exists with teaching medium = Offline, course JPREP_COURSE_000000119, teacher = T1
+- Lesson L3 exists with teaching medium = Offline, course JPREP_COURSE_000000119
 - Dev/PS support can re-send the JPREP sync payload for L3 with lesson_type = online (same payload shape as source S13: m_lesson with lesson_type, start_datetime, end_datetime, m_course_name_id)",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 opens the lesson detail page of Lesson L3 in JPREP Back Office
 2. Dev/PS support sends the JPREP sync for L3 with lesson_type = online
 3. Teacher T1 reloads the lesson detail page of L3

@@ -17,7 +17,7 @@ _KEY features per Test plan coverage KEY feature for Live Lesson (S18) and JPREP
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 started Lesson L1 from BO and is inside the live room
 - Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
@@ -46,7 +46,7 @@ _KEY features per Test plan coverage KEY feature for Live Lesson (S18) and JPREP
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 started Lesson L1 from BO and is inside the live room
 - Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
@@ -76,7 +76,7 @@ _KEY features per Test plan coverage KEY feature for Live Lesson (S18) and JPREP
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 started Lesson L1 from BO and is inside the live room
 - Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
@@ -105,7 +105,7 @@ _KEY features per Test plan coverage KEY feature for Live Lesson (S18) and JPREP
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 started Lesson L1 from BO and is inside the live room
 - Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
@@ -135,7 +135,7 @@ _KEY features per Test plan coverage KEY feature for Live Lesson (S18) and JPREP
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 started Lesson L1 from BO and is inside the live room
 - Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
@@ -166,7 +166,7 @@ _KEY features per Test plan coverage KEY feature for Live Lesson (S18) and JPREP
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 started Lesson L1 from BO and is inside the live room
 - Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
@@ -197,7 +197,7 @@ _KEY features per Test plan coverage KEY feature for Live Lesson (S18) and JPREP
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 started Lesson L1 from BO and is inside the live room
 - Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
@@ -228,7 +228,7 @@ _KEY features per Test plan coverage KEY feature for Live Lesson (S18) and JPREP
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 started Lesson L1 from BO and is inside the live room
 - Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
@@ -258,7 +258,7 @@ _KEY features per Test plan coverage KEY feature for Live Lesson (S18) and JPREP
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 started Lesson L1 from BO and is inside the live room
 - Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room
@@ -285,7 +285,7 @@ _KEY features per Test plan coverage KEY feature for Live Lesson (S18) and JPREP
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Student S1 and Student S2 are JPREP student accounts assigned to Lesson L1 (e.g. Staging sync student tongan.pham+student45@manabie.com; UAT jprep-superman62 / jprep-superman63 from source S22)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 started Lesson L1 from BO and is inside the live room
 - Student S1 (Learner Web, Chrome) and Student S2 (Learner App, iPad or Android) joined the live room

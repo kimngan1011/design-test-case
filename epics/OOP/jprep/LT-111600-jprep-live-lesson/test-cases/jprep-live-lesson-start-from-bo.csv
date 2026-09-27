@@ -9,7 +9,7 @@ Spec sources (evidence):
 - [S13] Slack #jp_incidents – MANACS-2620 EX240 students cannot join (whitelist root cause, Admin error, waiting room, late sync, end lesson) — https://manabiebiz.slack.com/archives/C0BPM7GABDW/p1789976358320349
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 is NOT logged in to Teacher Web in this browser (clear Teacher Web session first)
 - Browser allows camera and microphone for the Teacher Web domain",,"JPREP,live-lesson,LT-111600",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 logs in to JPREP Back Office
@@ -37,7 +37,7 @@ Spec sources (evidence):
 - [S23] Confluence – Live Lesson - Launch Live lesson from BO (JPREP URL structure) — https://manabie.atlassian.net/wiki/spaces/TECH/pages/953253916
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Unleash flag User_Authentication_ImproveSSO = OFF for JPREP Staging
 - Teacher T1 user ID is known (from BO Staff detail or dev support) = <T1_user_id>",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 logs in to JPREP Back Office and opens the lesson detail page of Lesson L1
@@ -59,7 +59,7 @@ Spec sources (evidence):
 - [S7] Jira LT-88036 – Live lesson redirect URL + unleash User_Authentication_ImproveSSO — https://manabie.atlassian.net/browse/LT-88036
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Unleash flag User_Authentication_ImproveSSO = ON for the JPREP environment under test (confirm env with dev – open question 7)",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 logs in to JPREP Back Office and opens the lesson detail page of Lesson L1
 2. Teacher T1 clicks Start Live Lesson
@@ -105,7 +105,7 @@ Spec sources (evidence):
 - [S5] Jira LT-56381 – Keep staying in live lesson after refresh — https://manabie.atlassian.net/browse/LT-56381
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 has started Lesson L1 from BO and is inside the live room
 - Student S1 is inside the live room",,"JPREP,live-lesson,LT-111600",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 presses the browser refresh button (F5) on the live room tab
@@ -121,7 +121,7 @@ Spec sources (evidence):
 - [S6] Jira LT-56382 – Close browser tab when leaving / ending live lesson — https://manabie.atlassian.net/browse/LT-56382
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Teacher T1 opened the live room of L1 from BO (Teacher Web tab opened by Start Live Lesson)",,"JPREP,live-lesson,LT-111600",medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 clicks the Leave button in the live room and confirms Leave (not End for all)
 2. Teacher T1 looks at the remaining tabs
@@ -138,7 +138,7 @@ Spec sources (evidence):
 - [S11] Confluence – [JPREP][External] Role access level for backoffice — https://manabie.atlassian.net/wiki/spaces/LT/pages/969212037
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - JPREP BO Admin (non-teacher) account is available
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Unleash flag User_Auth_AllowAllRolesToLoginTeacherWeb = OFF for the JPREP environment under test",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. JPREP BO Admin logs in to JPREP Back Office and opens the lesson detail page of Lesson L1
 2. JPREP BO Admin clicks Start Live Lesson
@@ -157,7 +157,7 @@ Spec sources (evidence):
 - [S13] Slack #jp_incidents – MANACS-2620 EX240 students cannot join (whitelist root cause, Admin error, waiting room, late sync, end lesson) — https://manabiebiz.slack.com/archives/C0BPM7GABDW/p1789976358320349
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - JPREP BO Admin (non-teacher) account is available
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Unleash flag User_Auth_AllowAllRolesToLoginTeacherWeb = ON for the JPREP environment under test",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. JPREP BO Admin logs in to JPREP Back Office and opens the lesson detail page of Lesson L1
 2. JPREP BO Admin clicks Start Live Lesson
@@ -176,7 +176,7 @@ Spec sources (evidence):
 - [S19] Confluence – Live Lesson Smoke Test Planning on PROD (share screen hidden on JPREP; recording & private chat JPREP only) — https://manabie.atlassian.net/wiki/spaces/LT/pages/411631738
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Recording feature is enabled for JPREP (JPREP-only feature per S19)",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 logs in to JPREP Back Office and clicks Start Live Lesson on Lesson L1
 2. Teacher T1 clicks Cancel in the recording dialog
@@ -195,7 +195,7 @@ Spec sources (evidence):
 - [S19] Confluence – Live Lesson Smoke Test Planning on PROD (share screen hidden on JPREP; recording & private chat JPREP only) — https://manabie.atlassian.net/wiki/spaces/LT/pages/411631738
 - [SPEC] Local spec – design-test-case/epics/OOP/jprep/LT-111600-jprep-live-lesson/spec.md","- Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 - Current time (JST) is inside the lesson window of Lesson L1 (lesson start <= now < lesson end)
 - Recording feature is enabled for JPREP",,"JPREP,live-lesson,LT-111600",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Teacher T1 logs in to JPREP Back Office and clicks Start Live Lesson on Lesson L1
 2. Teacher T1 clicks Start recording

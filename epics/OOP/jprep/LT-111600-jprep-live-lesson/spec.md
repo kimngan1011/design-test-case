@@ -50,12 +50,20 @@ Parent epic: [LT-54444 [LMS 2.0][JPREP] Launch Live Lesson on BO](https://manabi
 | S24 | Slack #draft-discuss-lesson-feature 2026-07-31 — test JPREP live lesson with Brightcove video | (search "tâm test livelesson jprep với brightcove") |
 | S25 | Jira LT-11390 / LT-15745 — pilot course whitelist (2022) → blacklist A+ for lesson list | https://manabie.atlassian.net/browse/LT-15745 |
 | S26 | Confluence postmortems — JPREP Live Lesson Post-mortem (2023, private chat CPU) / Room attendees cannot see sharing material (2024-03-30) | https://manabie.atlassian.net/wiki/spaces/ERP/pages/791511059 · https://manabie.atlassian.net/wiki/spaces/TECH/pages/937787471 |
+| S27 | Confluence — How to use API to create JPREP's data for testing (Master Registration `m_course_name` / `m_regular_course` / `m_lesson` / `m_academic_year`; User Registration `m_student` / `m_staff`; `student_lesson` sync) | https://manabie.atlassian.net/wiki/spaces/TECH/pages/47087636 |
+| S28 | Confluence — How to create and sync account on JPREP (STG/UAT base URL + signature) | https://manabie.atlassian.net/wiki/spaces/TECH/pages/416940142 |
+| S29 | Code — backend `internal/enigma/dto/jprep.go` + BDD `features/gandalf/jprep/jprep_sync_live_lesson.feature` (create/update/delete lesson; missing required field → 400) | https://github.com/manabie-com/backend/blob/develop/features/gandalf/jprep/jprep_sync_live_lesson.feature |
+| S30 | Postmortem 2022-06-16 — JPREP data sync: `lesson_members` wrongly soft-deleted → students missing on Teacher Web and cannot join; Jira LT-61156 — student synced to lesson not shown in Lesson management | https://manabie.atlassian.net/wiki/spaces/TECH/pages/471957547 |
+| S31 | Code — school-portal-admin `src/squads/syllabus/components/RelatedCourse/LessonTab` + `LessonUploadDialog`: materials attach to the Week (lesson group), Action > "Upload file", PDF / video (≤ 1 GB) / audio (flag), optional Brightcove | local repo school-portal-admin |
 
 ---
 
 ## Acceptance Criteria (reconstructed from S1 user stories + later tickets)
 
 - **US 01 – System creates JPREP live lessons through API** (S1). AC 01.1 Lessons, teaching medium (`online`/`offline`), start/end time, course, week and class come from JPREP sync (S13 payload). AC 01.2 A later sync that changes the lesson (e.g. offline → online, new members) is reflected in BO and Learner.
+  - AC 01.3 (S27, S29) Master Registration `m_lesson` creates (`upserted` + new `m_lesson_id`), updates (`upserted` + existing id) or deletes (`deleted`) a lesson. Required: action_kind, m_lesson_id, class_name (= lesson name), lesson_type (online / offline / hybrid), m_course_name_id, start_datetime, end_datetime (epoch). Missing any required field → 400 and nothing stored. Invalid action_kind / lesson_type → rejected.
+  - AC 01.4 (S27, S29, verified on Staging 2026-09-28) Student lesson sync = PUT `/user-course` (NOT `/user-registration`, which only reads `m_student` / `m_staff` and silently ignores `student_lesson` with HTTP 200). `student_id` = Manabie user ID (UUID, = JWT `x-hasura-user-id`), not the login name. Only `action_kind = upserted` is accepted — `deleted` returns 400 "action_kind should be upserted" (S27 is outdated). An upsert REPLACES the student's whole lesson list: lessons not in `m_lesson_ids` are removed; an empty list removes the student from all lessons. HTTP 200 only means accepted — processing is async (enigma → NATS → yasuo); confirm with POST `/partner-log` {signature} → status `SUCCESS`. Messages older than 1 hour are skipped. Re-syncing must not drop other members (S30).
+  - AC 01.5 (user confirmed 2026-09-28; S29) **Teachers are NOT assigned to JPREP lessons.** `m_lesson` has no teacher field; `m_staff` only creates the teacher account. Any JPREP teacher can open any lesson and Start it — test cases must not use "teacher = T1" as lesson data.
 - **US 02 – JPREP BO user accesses the paired live lesson through the Course menu** (S1, S2 LT-56315). AC 02.1 Course > `Lesson` tab lists each Week with the **name of its paired lesson**. AC 02.2 Clicking the lesson name opens that lesson's detail page.
 - **US 03 – JPREP BO user starts the live lesson** (S1). AC 03.1 `Start Live Lesson` shows only when teaching medium = Online; hidden/disabled when Offline (S3). AC 03.2 Click opens the Teacher Web live room in a new tab with the same account, no extra login (S2, S4). AC 03.3 URL format per unleash `User_Authentication_ImproveSSO` (S7, S8, S9, S23). AC 03.4 After BO account switch the room opens as the new account (S10). AC 03.5 Refresh keeps the teacher in the room (S5). AC 03.6 Leave/End closes the tab (S6). AC 03.7 Only Teacher role can enter; Admin gets "Account is not registered" unless `User_Auth_AllowAllRolesToLoginTeacherWeb` is ON (S13, S15 — needs confirmation). AC 03.8 Recording confirmation dialog: Cancel enters room without recording; Start recording records (S20).
 - **US 04 – BO user uploads weekly live lesson materials** (S1, S11). AC 04.1 Admin can add/delete materials in Course > Lesson. AC 04.2 Teacher can only view materials. AC 04.3 Uploaded materials are available to share inside the room.
@@ -144,6 +152,8 @@ Parent epic: [LT-54444 [LMS 2.0][JPREP] Launch Live Lesson on BO](https://manabi
 - STG whitelist = JPREP_COURSE_000000119, JPREP_COURSE_020240109, JPREP_COURSE_000000122, JPREP_COURSE_000000218 (S16). PROD whitelist = 10 courses (S13, 2026-09-25).
 - Accounts: STG teacher `jprep.teachertest01` / `jprep.teachertest02` (S10); UAT accounts from S22. Passwords are not copied into test cases.
 - "Admin" in this spec = JPREP BO Admin role in S11 (the JPREP role matrix names Admin explicitly).
+- `hybrid` lessons follow S27 only: "only online lessons are shown on the UI of CMS / Teacher Web / Learner App". No dedicated test case (user decision 2026-09-28).
+- Teachers are not assigned to JPREP lessons (user confirmed 2026-09-28, AC 01.5); "teacher = T1" was removed from the lesson preconditions of PX-28994 – 29031 (30 cases) locally and on Qase.
 
 ---
 
@@ -182,9 +192,10 @@ Parent epic: [LT-54444 [LMS 2.0][JPREP] Launch Live Lesson on BO](https://manabi
 | [JPREP] Live Lesson – BO Course Lesson Tab & Lesson Detail | Created | 3577 | PX-28993 – 28998 (6) |
 | [JPREP] Live Lesson – Start from BO | Created | 3578 | PX-28999 – 29008 (10) |
 | [JPREP] Live Lesson – Student Join & Course Whitelist | Created | 3579 | PX-29009 – 29017 (9) |
-| [JPREP] Live Lesson – Weekly Materials | Created | 3580 | PX-29018 – 29021 (4) |
+| [JPREP] Live Lesson – Weekly Materials | Created | 3580 | PX-29018 – 29021 (4) + PX-29041 (added 2026-09-28) |
 | [JPREP] Live Lesson – In-room Key Features | Created | 3581 | PX-29022 – 29031 (10) |
+| [JPREP] Live Lesson – Sync from JPREP (Lesson & Student) | Created 2026-09-28 | 3582 | PX-29032 – 29040 (9) |
 
-Totals: suites created 7 · cases created 39 · skipped (duplicates) 0 · failed 0 (one bulk call timed out and was re-sent after confirming nothing was created).
+Totals: suites created 8 · cases created 49 (39 on 2026-09-26 + 10 on 2026-09-28) · skipped (duplicates) 0 · failed 0 (one bulk call timed out and was re-sent after confirming nothing was created).
 Old JPREP URL cases PX-19523, 19524, 25084, 25086 (created by Linh Nguyen) were fully covered by PX-29000 / PX-29002 and deleted on 2026-09-26 after user confirmation; PX-29000 step 5 now also asserts user_id is not empty.
 All 39 cases re-fetched: title, preconditions, step count and every action/expected result match the local source.

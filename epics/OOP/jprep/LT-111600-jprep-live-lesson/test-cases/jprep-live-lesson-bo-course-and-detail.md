@@ -47,7 +47,7 @@ _Course > Lesson tab (Week ↔ paired live lesson), lesson detail Start Live Les
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
 - Course C1 = JPREP_COURSE_000000119 has Week 2 paired with Lesson L1
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
@@ -75,7 +75,7 @@ _Course > Lesson tab (Week ↔ paired live lesson), lesson detail Start Live Les
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, teacher = T1, students = S1 and S2
+- Lesson L1 is synced from JPREP with: lesson ID JPREP_LESSON_<L1>, course JPREP_COURSE_000000119 (whitelisted), teaching medium = Online, students = S1 and S2
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
@@ -101,7 +101,7 @@ _Course > Lesson tab (Week ↔ paired live lesson), lesson detail Start Live Les
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L2 is synced from JPREP with teaching medium = Offline, course JPREP_COURSE_000000119, teacher = T1
+- Lesson L2 is synced from JPREP with teaching medium = Offline, course JPREP_COURSE_000000119
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
@@ -129,7 +129,7 @@ _Course > Lesson tab (Week ↔ paired live lesson), lesson detail Start Live Les
 **Preconditions:**
 - Environment is JPREP Staging: Back Office https://backoffice-mfe.staging.jprep.manabie.io, Teacher Web https://teacher.staging.jprep.manabie.io, Learner Web https://learner.staging.jprep.manabie.io
 - Teacher T1 account is available: Teacher T1 = JPREP teacher account jprep.teachertest01 (password: see source S10 / team vault)
-- Lesson L3 exists with teaching medium = Offline, course JPREP_COURSE_000000119, teacher = T1
+- Lesson L3 exists with teaching medium = Offline, course JPREP_COURSE_000000119
 - Dev/PS support can re-send the JPREP sync payload for L3 with lesson_type = online (same payload shape as source S13: m_lesson with lesson_type, start_datetime, end_datetime, m_course_name_id)
 
 | # | Action | Expected Result | Test Data |
