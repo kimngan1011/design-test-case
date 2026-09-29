@@ -158,3 +158,39 @@ Historical JP incidents show repeated escape patterns across event booking, less
 - Lesson-learn tests must include large-course batching, duplicate/empty study plan item prevention, CSV update behavior, multi-tab learning time, stale session caps, and data checkers.
 
 ---
+
+## [2026-09-29] Core — Teacher List Filter Fails Silently When Subject + Location + Working Time Are Combined (SOQL 2 Semi-Join Limit)
+
+**Jira:** [LT-107834](https://manabie.atlassian.net/browse/LT-107834) (related: [LT-107836](https://manabie.atlassian.net/browse/LT-107836), fix commit `9deddb4` in erp-salesforce)
+
+### Issue
+
+In the SF Lesson Calendar 7-Day Teacher Schedule View, the selected teacher count dropped to 0 and the calendar exited back to the standard view. It only happened when the Teacher List filter had **Subject, Location and Working time applied together**. In every other view the same filter just showed an **empty Teacher List with no error message**, so the bug looked like "no teacher matches" and was only noticed because the 7-Day View exits when the count is not 1.
+
+**Root cause:**
+1. *(Confirmed by dev — Long, 2026-09-29)* With these 3 filters the teacher list API `LessonMasterHandler.getAssignTeacher` returns an error, so no new teacher list is loaded and the selected teacher count drops to 0.
+2. *(From reading the Apex code — not yet confirmed from a debug log)* Each of the 3 filters adds a **semi-join sub-query** to the same `WHERE` clause:
+   - Location → `Id IN (SELECT Contact__c FROM Affiliation__c …)`
+   - Subject → `Id IN (SELECT Contact__c FROM Eligible_Subject__c …)`
+   - Working time → `Id IN (SELECT Staff__c FROM Working_Hour__c …)`
+
+   **SOQL allows at most 2 semi-join (`IN (SELECT …)` / `NOT IN (SELECT …)`) sub-queries per `WHERE` clause**; the 3rd makes the query fail (expected message: *"Maximum 2 semi join sub-selects are allowed"*).
+3. The bug depends on org configuration:
+   - When **Restrict Teacher Match All Subjects** (`MANAERP__Lesson_Custom_Settings__c.MANAERP__Restrict_Teacher_Match_All_Subjects__c`, org default) is ON, the Subject filter binds a pre-computed ID list (`Id IN :eligibleTeacherIds`) instead of a sub-query → only 2 semi-joins → no error.
+   - When the **Lesson_Staff_Working_Hour** feature flag is OFF, the Working time filter does not exist → no error.
+4. The LWC `listTeacherCalendar` handles the API error with only `console.warn`, clears the list and does not re-add the selected (pinned) teacher, so the failure is invisible in the UI.
+
+### Resolution
+
+- LT-107836 fix (`9deddb4`) makes the LWC ignore empty selection events while re-syncing the selection; it does not fix the Apex query.
+- LT-107834 is still In Progress. Expected fix: run one or more of the sub-queries first in Apex and bind the resulting ID set (as the Subject filter already does when the setting is ON), so the main query keeps at most 2 semi-joins; and show an error to the user when the API fails.
+- Qase: PX-25846 (precondition: 3 filters + setting OFF + flag ON) and new PX-29120 (Teacher List 3-filter case that checks the `getAssignTeacher` response state in DevTools).
+
+### Lessons Learned / Design Notes
+
+- **Any filter panel that builds one SOQL query from several optional filters** can hit the 2-semi-join limit only when a specific combination is applied. Test the combination of all sub-query-based filters together, not each filter alone.
+- **Silent API errors hide bugs.** An empty result list can mean "no match" or "the API failed". For filter/search features, QA must check the API response in DevTools (Aura `actions[0].state` = `SUCCESS` vs `ERROR`), not only the UI. Ask dev to surface API errors as a toast instead of `console.warn`.
+- **Feature settings change the query shape.** Record which org setting / feature flag each filter depends on (here: Restrict Teacher Match All Subjects, Lesson_Staff_Working_Hour) and put the required values in test case preconditions; otherwise the bug "does not reproduce" on orgs with a different setting.
+- Other Salesforce governor limits worth keeping in mind for filter/list features: 10,000 records per DML operation (see 2026-08-18 entry), 50,000 query rows per transaction, 100 SOQL queries per synchronous transaction.
+
+---
