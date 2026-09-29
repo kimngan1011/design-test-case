@@ -189,6 +189,7 @@ In the SF Lesson Calendar 7-Day Teacher Schedule View, the selected teacher coun
 ### Lessons Learned / Design Notes
 
 - **Any filter panel that builds one SOQL query from several optional filters** can hit the 2-semi-join limit only when a specific combination is applied. Test the combination of all sub-query-based filters together, not each filter alone.
+- **Same limit applies to Salesforce GraphQL** (`inq` / `ninq` = semi-join / anti-join). Found again on 2026-09-29: [LT-111933](https://manabie.atlassian.net/browse/LT-111933) Aver Lesson Report list (a default `inq` + student search + Teacher) and [LT-111934](https://manabie.atlassian.net/browse/LT-111934) Lesson List for Aver (student search + Teacher Name + Report Status). GraphQL returns HTTP 200 with an `errors` array (`DataFetchingException`, generic "We couldn't find the record…" message) — check the response body, not the status code.
 - **Silent API errors hide bugs.** An empty result list can mean "no match" or "the API failed". For filter/search features, QA must check the API response in DevTools (Aura `actions[0].state` = `SUCCESS` vs `ERROR`), not only the UI. Ask dev to surface API errors as a toast instead of `console.warn`.
 - **Feature settings change the query shape.** Record which org setting / feature flag each filter depends on (here: Restrict Teacher Match All Subjects, Lesson_Staff_Working_Hour) and put the required values in test case preconditions; otherwise the bug "does not reproduce" on orgs with a different setting.
 - Other Salesforce governor limits worth keeping in mind for filter/list features: 10,000 records per DML operation (see 2026-08-18 entry), 50,000 query rows per transaction, 100 SOQL queries per synchronous transaction.
@@ -223,6 +224,33 @@ The SF and BO calendar grid load lessons through `/LessonCalendar/v1/retrieveV2`
 
 ---
 
+## [2026-09-29] Core — BO Lesson List Filter Chain: Location → Course → Class (Behavior Differs From the Original Spec)
+
+**Source:** Code review of school-portal-admin `develop` (2026-09-25) while reproducing LT-111934; original spec [Lesson | Group Teaching Lesson – US 06](https://manabie.atlassian.net/wiki/spaces/LT/pages/427033765).
+
+### Issue
+
+While trying to combine the Class filter with other filters on BO Lesson Management > Lesson List, QA could not select a Class and could not find a Course by name. The fields depend on each other, and this dependency is only in code, not in the spec.
+
+**Current behavior (from code):**
+1. **Course needs Location first.** `useLocationCourseAutocompleteSF` only queries when at least one Location is selected (`isEnabledQuery = arrayHasItem(location_ids)`). With no Location, the Course list is always empty, whatever name is typed. With Location(s), Course is searched by name (`Name like %text%`) among the courses of those locations (`Location_Course__c`).
+2. **Class needs Course first.** `FilterLessonListSF` passes `isDisabledClassIfNoCourse={!arrayHasItem(watchingCourses)}` → the Class field is disabled until a Course is selected (since LT-51751, Lesson List V2 SF UI, 2024-03). Class options are limited to the selected course(s) and location(s) (LT-73401 fixed duplicate classes).
+3. **Teacher Name has a default.** The logged-in user is pre-filled as Teacher Name unless feature setting `lesson.remove_default_teacher_filter.is_enabled` is on — so the Teacher semi-join is often already active when the page opens.
+
+**Original spec (US 06, AC 06.1)** says: if no Course is selected, the Class filter shows **all classes**; if a Course is selected, only its classes; changing/deleting the Course resets the Class. It does not require Location before Course. AC 06.2: all filters are combined with AND.
+
+### Resolution
+
+- Not a confirmed bug: the current Location → Course → Class chain is not documented anywhere. **Needs PO confirmation** whether it is the intended ERPv2 SF behavior or a deviation from the spec.
+
+### Lessons Learned / Design Notes
+
+- To test Class-related filters on Lesson List (and Lesson Report, which uses the same `isDisabledClassIfNoCourse`), always select **Location → Course → Class** in that order; write test data and preconditions in this order.
+- "Search by name returns nothing" can be a **disabled query**, not a search bug — check whether a parent filter must be selected first.
+- Remember the default Teacher Name when counting filter combinations (e.g. semi-join limit: Teacher + Class + student search = 3 on Lesson List, see LT-111934 and the semi-join entries above).
+- When code behavior and the spec differ, record both and get a PO decision before writing expected results.
+
+---
 ## [2026-09-29] Core — Infinite-Scroll / Paged Lists Stop at ~2,000 Rows (SOQL OFFSET Limit), Search Is the Workaround
 
 **Source:** Code review of event / lesson report list APIs (erp-salesforce `develop` 2026-09-29, school-portal-admin `develop` 2026-09-25). The limit is **known and accepted by the team**; this entry records the exact behavior so it is tested, not rediscovered.
@@ -238,6 +266,9 @@ SOQL `OFFSET` cannot be greater than **2,000** (`NUMBER_OUTSIDE_VALID_RANGE`). L
 | Assign Staff to Activity Event (`addEventStaffOnAssignEvent` → `getEventStaffOnAssignEvent`) | 100 | ~2,100 | scrolling just stops |
 | Assign Participant to Activity Event (`addEventParticipantOnAssignEvent` → `getEventParticipantFilters`) | 100 | ~2,100 | code caps at `offset <= 2000` but one page late: the request at offset 2,100 still fails silently |
 | Aver Lesson Report List, V1 (Unleash `Lesson_BackOffice_LessonSF_AllowViewLessonOtherLocations` OFF) | 25 | row 2,025 | pages starting after row 2,025 show "Unable to load data"; total count is not capped |
+| Change Lesson popup from lesson detail on SF calendar (`modalChangeLessonInLessonCalendar` → `LessonHandler.getReallocateLessonList`) | 20 | ~2,020 | scrolling just stops |
+| Reallocate to new lesson popup (`modalNewReallocateLesson` → `getReallocateLessonList`) | set by parent | ~2,000 | scrolling just stops |
+| Add Student popup on Lesson Detail (`modalNewStudentSession` → `LessonAllocationHandler.getLessonAllocationListByLessonInfo`) | 20 | ~2,020 | scrolling just stops |
 
 **Workaround / accepted behavior:** the search box is applied in the query **before** `LIMIT/OFFSET`, so searching by name returns a record even if it is beyond row 2,000 in the unfiltered list.
 
@@ -245,7 +276,8 @@ Lists that are **not** affected: cursor-paged lists (Aver Lesson Report V2 via G
 
 ### Resolution
 
-- Accepted limitation. Test cases PX-29124 (Add Master Participant), PX-29125 (Add Master Staff), PX-29126 (Assign Staff to Event), PX-29127 (Assign to Event students), PX-29128 (Aver Lesson Report V1) confirm that search reaches records beyond row 2,000.
+- Accepted limitation. Test cases PX-29124 (Add Master Participant), PX-29125 (Add Master Staff), PX-29126 (Assign Staff to Event), PX-29127 (Assign to Event students), PX-29128 (Aver Lesson Report V1), PX-29132 (Change Lesson popup), PX-29133 (Reallocate popup), PX-29134 (Add Student popup) confirm that search reaches records beyond row 2,000.
+- Not covered on purpose: Available Events table on the Student record (50 per page, no search box; a student is not expected to have > 2,050 available Event Masters), Mark Attendance participant list and Product Offering lookup (per-event / per-product volumes far below 2,000), learner-side event / lesson lists (`ActivityEventHandlerOutside.getCalendarActivityEvents`, `LessonDataHandlerOutSide.getLessonList` — one student's data in a date range).
 
 ### Lessons Learned / Design Notes
 

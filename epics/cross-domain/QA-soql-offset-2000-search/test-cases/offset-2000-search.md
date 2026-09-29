@@ -149,3 +149,97 @@ _Qase: PX-29128_
 **Priority:** medium
 
 ---
+
+## Suite: Change lesson (Qase 2271)
+
+### Change Lesson popup – More than 2,020 candidate lessons – Scroll stops loading and search by lesson name still finds a not-loaded lesson
+
+_Qase: PX-29132_
+
+**Description:** OFFSET limit — Boundary — The Change Lesson popup (opened from lesson detail on the SF calendar) loads 20 lessons per scroll through LessonHandler.getReallocateLessonList (LIMIT/OFFSET) and cannot load beyond ~2,020 rows; the lesson-name search is applied in the query, so a lesson past that row is still found. Accepted limitation: loading stops around row 2,000; searching by name must still return records that are not loaded.
+
+**Spec sources:**
+- [S3] Code – modalChangeLessonInLessonCalendar (queryLimit 20, infinite scroll) → LessonHandler.getReallocateLessonList (LIMIT :countLimit OFFSET :countOffset, Name LIKE search)
+- [S1] Lesson learned 2026-09-29 "Infinite-Scroll / Paged Lists Stop at ~2,000 Rows (SOQL OFFSET Limit)" — design-test-case/knowledge/domain-knowledge/scheduling/lesson-learned/core.md
+- [S2] Salesforce SOQL: OFFSET maximum is 2,000 rows (NUMBER_OUTSIDE_VALID_RANGE above it)
+
+**Preconditions:**
+- HQ or CM Staff is logged in to Salesforce
+- Location Loc_A has more than 2,020 future Draft / Published lessons that the student is not assigned to
+- Lesson L_LAST is one of them and sorts after row 2,020 (lessons are ordered by lesson date, start time)
+- Student S1 has a student session in a lesson at Loc_A; its lesson detail is open on the SF calendar
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the Change Lesson popup for Student S1 from the lesson detail | The popup lists candidate lessons of Loc_A, 20 at a time |  |
+| 2 | HQ or CM Staff scrolls the lesson list to the bottom repeatedly until no more rows load | Loading stops at about 2,020 lessons; L_LAST is not in the loaded list; no error message is shown | expected stop ≈ 2,020 rows |
+| 3 | HQ or CM Staff types the name of L_LAST in the Search lessons box and presses Enter | The list shows L_LAST | search = L_LAST name |
+| 4 | HQ or CM Staff selects L_LAST and completes the change | Student S1 is moved to L_LAST |  |
+
+**Severity:** minor
+**Priority:** medium
+
+---
+
+## Suite: Reallocate to new lesson (Qase 3421)
+
+### Reallocate to new lesson – More than 2,000 candidate lessons – Scroll stops loading and search by lesson name still finds a not-loaded lesson
+
+_Qase: PX-29133_
+
+**Description:** OFFSET limit — Boundary — The Reallocate popup (from the Lesson Schedule or Student Session table) pages lessons through LessonHandler.getReallocateLessonList (LIMIT/OFFSET) and cannot load beyond ~2,000 rows; searching by lesson name still finds a lesson past that row. Accepted limitation: loading stops around row 2,000; searching by name must still return records that are not loaded.
+
+**Spec sources:**
+- [S3] Code – modalNewReallocateLesson (paged, currentPage × queryLimit) → LessonHandler.getReallocateLessonList
+- [S1] Lesson learned 2026-09-29 "Infinite-Scroll / Paged Lists Stop at ~2,000 Rows (SOQL OFFSET Limit)" — design-test-case/knowledge/domain-knowledge/scheduling/lesson-learned/core.md
+- [S2] Salesforce SOQL: OFFSET maximum is 2,000 rows (NUMBER_OUTSIDE_VALID_RANGE above it)
+
+**Preconditions:**
+- HQ or CM Staff is logged in to Salesforce
+- The student session to reallocate belongs to a student at Location Loc_A
+- Loc_A has more than 2,000 future Draft / Published lessons the student is not assigned to
+- Lesson L_LAST is one of them and sorts after row 2,000 (lesson date, start time)
+- The student session is marked for reallocation and its Reallocate popup is open
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff scrolls the lesson list to the bottom repeatedly until no more rows load | Loading stops at about 2,000 rows (+ one page); L_LAST is not in the loaded list; no error message is shown | expected stop ≈ 2,000 rows |
+| 2 | HQ or CM Staff types the name of L_LAST in the Enter lesson name box | The list shows L_LAST | search = L_LAST name |
+| 3 | HQ or CM Staff selects L_LAST and saves | The student session is reallocated to L_LAST |  |
+
+**Severity:** minor
+**Priority:** medium
+
+---
+
+## Suite: View the Add Student Popup (Qase 1648)
+
+### Add Student Popup – More than 2,020 eligible lesson allocations – Scroll stops loading and search by student name still finds a not-loaded student
+
+_Qase: PX-29134_
+
+**Description:** OFFSET limit — Boundary — The Add Student popup on Lesson Detail loads 20 lesson allocations per scroll through LessonAllocationHandler.getLessonAllocationListByLessonInfo (LIMIT/OFFSET) and cannot load beyond ~2,020 rows; the student-name search is applied in the query, so a student past that row is still found. Accepted limitation: loading stops around row 2,000; searching by name must still return records that are not loaded.
+
+**Spec sources:**
+- [S3] Code – modalNewStudentSession (queryLimit 20) → LessonAllocationHandler.getLessonAllocationListByLessonInfo (LIMIT/OFFSET, Student name LIKE)
+- [S1] Lesson learned 2026-09-29 "Infinite-Scroll / Paged Lists Stop at ~2,000 Rows (SOQL OFFSET Limit)" — design-test-case/knowledge/domain-knowledge/scheduling/lesson-learned/core.md
+- [S2] Salesforce SOQL: OFFSET maximum is 2,000 rows (NUMBER_OUTSIDE_VALID_RANGE above it)
+
+**Preconditions:**
+- HQ or CM Staff is logged in to Salesforce
+- Lesson L1 is at Location Loc_A in academic year AY1
+- More than 2,020 active lesson allocations of AY1 match the popup (students enrolled at Loc_A, not yet in L1)
+- Student S_LAST has one of these lesson allocations and sorts after row 2,020 in the popup order
+- The Lesson Detail of L1 is open
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff clicks "Add Students" in the Student Sessions section | The Add Student popup lists lesson allocations, 20 at a time |  |
+| 2 | HQ or CM Staff scrolls the list to the bottom repeatedly until no more rows load | Loading stops at about 2,020 rows; S_LAST is not in the loaded list; no error message is shown | expected stop ≈ 2,020 rows |
+| 3 | HQ or CM Staff types the name of S_LAST in the Enter student name box | The list shows the lesson allocation of S_LAST | search = S_LAST name |
+| 4 | HQ or CM Staff selects S_LAST and adds it | S_LAST is added as a student session of L1 |  |
+
+**Severity:** minor
+**Priority:** medium
+
+---
