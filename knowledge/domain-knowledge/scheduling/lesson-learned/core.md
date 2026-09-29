@@ -189,7 +189,7 @@ In the SF Lesson Calendar 7-Day Teacher Schedule View, the selected teacher coun
 ### Lessons Learned / Design Notes
 
 - **Any filter panel that builds one SOQL query from several optional filters** can hit the 2-semi-join limit only when a specific combination is applied. Test the combination of all sub-query-based filters together, not each filter alone.
-- **Same limit applies to Salesforce GraphQL** (`inq` / `ninq` = semi-join / anti-join). Found again on 2026-09-29: [LT-111933](https://manabie.atlassian.net/browse/LT-111933) Aver Lesson Report list (a default `inq` + student search + Teacher) and [LT-111934](https://manabie.atlassian.net/browse/LT-111934) Lesson List for Aver (student search + Teacher Name + Report Status). GraphQL returns HTTP 200 with an `errors` array (`DataFetchingException`, generic "We couldn't find the record…" message) — check the response body, not the status code.
+- **Same limit applies to Salesforce GraphQL** (`inq` / `ninq` = semi-join / anti-join). Found again on 2026-09-29: [LT-111933](https://manabie.atlassian.net/browse/LT-111933) Aver Lesson Report list (a default `inq` + student search + Teacher) [LT-111934](https://manabie.atlassian.net/browse/LT-111934) Lesson List for Aver (student search + Teacher Name + Report Status) and [LT-111936](https://manabie.atlassian.net/browse/LT-111936) Lesson List for all tenants (student search + Teacher Name + Class). GraphQL returns HTTP 200 with an `errors` array (`DataFetchingException`, generic "We couldn't find the record…" message) — check the response body, not the status code.
 - **Silent API errors hide bugs.** An empty result list can mean "no match" or "the API failed". For filter/search features, QA must check the API response in DevTools (Aura `actions[0].state` = `SUCCESS` vs `ERROR`), not only the UI. Ask dev to surface API errors as a toast instead of `console.warn`.
 - **Feature settings change the query shape.** Record which org setting / feature flag each filter depends on (here: Restrict Teacher Match All Subjects, Lesson_Staff_Working_Hour) and put the required values in test case preconditions; otherwise the bug "does not reproduce" on orgs with a different setting.
 - Other Salesforce governor limits worth keeping in mind for filter/list features: 10,000 records per DML operation (see 2026-08-18 entry), 50,000 query rows per transaction, 100 SOQL queries per synchronous transaction.
@@ -247,7 +247,7 @@ While trying to combine the Class filter with other filters on BO Lesson Managem
 
 - To test Class-related filters on Lesson List (and Lesson Report, which uses the same `isDisabledClassIfNoCourse`), always select **Location → Course → Class** in that order; write test data and preconditions in this order.
 - "Search by name returns nothing" can be a **disabled query**, not a search bug — check whether a parent filter must be selected first.
-- Remember the default Teacher Name when counting filter combinations (e.g. semi-join limit: Teacher + Class + student search = 3 on Lesson List, see LT-111934 and the semi-join entries above).
+- Remember the default Teacher Name when counting filter combinations (e.g. semi-join limit: Teacher + Class + student search = 3 on Lesson List, see LT-111936; Teacher + Report Status + student search on Aver, see LT-111934).
 - When code behavior and the spec differ, record both and get a PO decision before writing expected results.
 
 ---
