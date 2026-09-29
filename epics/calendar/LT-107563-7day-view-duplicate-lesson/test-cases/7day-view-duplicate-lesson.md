@@ -28,7 +28,7 @@
 
 ### Calendar 7-Day View – Location switched while the view is open (LBAC multi-location) – Duplicate action still not available
 
-**Description:** LT-107563 — State transition (bug scenario) — After selecting a teacher and opening the 7-Day View, switching to another location and opening a lesson card must still not offer Duplicate. Before the fix, Duplicate became available here. Only in 7-Day View does a location change keep the selected teacher (other views unselect it), so this scenario is specific to this view.
+**Description:** LT-107563 — State transition (bug scenario) — After selecting a teacher and opening the 7-Day View, switching to another location and opening a lesson card must still not offer Duplicate. Before the fix, Duplicate became available here.
 
 **Spec sources:**
 - [S1] Jira LT-107563 – [ERPv2 SF] [Preprod] User can duplicate lesson in calendar in 7-days view — https://manabie.atlassian.net/browse/LT-107563
@@ -44,7 +44,7 @@
 |---|--------|-----------------|-----------|
 | 1 | HQ or CM Staff opens the Teacher List, selects only Teacher T1 and clicks the 7-Day View icon (tooltip "Show teacher's 7-day view" / 講師の週間ビューを表示) | The calendar switches to 7-Day View: 7 day rows for Teacher T1 with the lessons of the current week | Teacher List: T1 only |
 | 2 | HQ or CM Staff clicks lesson card L_A | The lesson detail panel of L_A opens; the Duplicate action is not shown | Card = L_A (Loc_A) |
-| 3 | HQ or CM Staff closes the lesson detail and changes the calendar location to Loc_B | The calendar shows Loc_B; Teacher T1 stays selected and 7-Day View stays active (in 7-Day View changing location does not unselect the teacher; in other views it does) | Location: Loc_A → Loc_B |
+| 3 | HQ or CM Staff closes the lesson detail and changes the calendar location to Loc_B | The calendar shows Loc_B; Teacher T1 stays selected (changing location does not unselect the teacher) and 7-Day View stays active | Location: Loc_A → Loc_B |
 | 4 | HQ or CM Staff clicks lesson card L_B | The lesson detail panel of L_B opens; the Duplicate action is not shown | Card = L_B (Loc_B) |
 
 **Severity:** major
