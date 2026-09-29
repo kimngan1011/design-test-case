@@ -1,0 +1,47 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"AC 01.1 – Subject Filter – No options displayed on open","AC 01 — Decision Table — Subject filter shows no confusing partial suggestions when opened without text entry.","User role: HQ/CM Staff
+Location: Riso TAC (Teacher Availability Calendar)
+Subject list exists in system (≥3 subjects configured)
+No text entered in Subject filter field yet",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC page""
+2. ""Locate Subject filter dropdown""
+3. ""Click on Subject filter dropdown to open""
+4. ""Verify no autocomplete options shown""","1. ""TAC page loads successfully""
+2. ""Subject filter control visible""
+3. ""Dropdown opens; no partial suggestions displayed""
+4. ""Empty state or placeholder text shown (per Figma design)""","1. ""locale = JP""
+2. ""filter_section = Filters""
+3. ""subject_list_size = 3""
+4. ""behavior = no_options_on_open"""
+,"AC 01.2 – Subject Filter – Search matches subject by name","AC 01 — Equivalence Partitioning — Subject search returns matching subjects after user enters search term.","User role: HQ/CM Staff
+Location: Riso TAC
+Subject list configured: [""Mathematics"", ""English"", ""Science"", ""History""]
+Subject filter dropdown opened",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Type ""Math"" in Subject filter field""
+2. ""Verify filtered list contains ""Mathematics""""
+3. ""Click ""Mathematics"" to select""
+4. ""Observe calendar display""","1. ""Dropdown updates with matching subjects""
+2. ""Mathematics appears in dropdown list""
+3. ""Subject filter applied; Mathematics shown as selected""
+4. ""Calendar shows lessons for Mathematics subject only""","1. ""search_term = Math""
+2. ""subject_list_filtered = [Mathematics]""
+3. ""selected_subject = Mathematics""
+4. ""platform = SF"""
+,"AC 01.3 – Subject Filter – Search no matches","AC 01 — Equivalence Partitioning (Negative) — Subject search returns no results when search term has no matches.","User role: HQ/CM Staff
+Location: Riso TAC
+Subject list configured: [""Mathematics"", ""English"", ""Science"", ""History""]
+Subject filter dropdown opened",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Type ""Xyz123"" in Subject filter field (non-matching)""
+2. ""Verify no matching subjects displayed""
+3. ""Clear search field""","1. ""Dropdown updates""
+2. ""Empty state message or No results found shown""
+3. ""Dropdown closes or returns to no-options state""","1. ""search_term = Xyz123""
+2. ""subject_list_filtered = []""
+3. ""clear_action = backspace_all"""
+,"AC 01.4 – Subject Filter – Clear filter resets state","AC 01 — Decision Table — Subject filter clear action returns to initial no-options state.","User role: HQ/CM Staff
+Location: Riso TAC
+Subject filter has search term entered and results visible
+Subject filter dropdown is open",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Subject filter shows ""Math"" search results""
+2. ""Click clear button (X icon) or reset filter""
+3. ""Verify calendar shows all lessons (no subject filter applied)""","1. ""Results visible in dropdown""
+2. ""Filter input cleared; dropdown closes or returns to no-options state""
+3. ""Subject filter removed; all lessons on TAC visible""","1. ""search_term = Math""
+2. ""clear_button = x_icon""
+3. ""expected_display = all_subjects"""

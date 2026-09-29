@@ -1,0 +1,41 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"AC 03.1 – Lesson Label – Subject name and teacher name displayed in new format","AC 03 — Component — Student lesson label displays Subject Name followed by Teacher Name in the new format.","User role: HQ/CM Staff or Teacher
+Location: Riso TAC (Teacher Availability Calendar)
+Lesson exists with: subject=""Mathematics"", teacher=""Tanaka Yuki""
+Calendar page loaded and rendering lessons",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC""
+2. ""Locate lesson card for the sample lesson""
+3. ""Verify lesson label text format""
+4. ""Verify label text is readable (not truncated excessively)""","1. ""TAC page loads with lesson calendar""
+2. ""Lesson card visible on calendar at correct timeslot""
+3. ""Label displays as ""Mathematics (Tanaka Yuki)"" or per Figma design spec""
+4. ""Full subject and teacher names visible or truncated with ellipsis per design""","1. ""lesson_id = LESSON-001""
+2. ""timeslot = 09:00-10:00""
+3. ""label_format = subject (teacher)""
+4. ""text_truncation = design_compliant"""
+,"AC 03.2 – Lesson Label – Null subject displays correctly (no confusing placeholder)","AC 03 — Boundary Value Analysis + Conditional — Lesson label handles null subject field without confusing or error display.","User role: HQ/CM Staff
+Location: Riso TAC
+Lesson exists with: subject=null, teacher=""Tanaka Yuki""
+Calendar page loaded",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC""
+2. ""Locate lesson card with null subject""
+3. ""Verify label format with null subject""
+4. ""Verify no error message or warning icon""","1. ""TAC page loads""
+2. ""Lesson visible on calendar""
+3. ""Label displays as ""null (Tanaka Yuki)"", ""(Tanaka Yuki)"", or empty subject per spec resolution (no placeholder confusion)""
+4. ""Calendar displays cleanly without error indicators""","1. ""lesson_id = LESSON-002""
+2. ""subject_value = null""
+3. ""label_with_null_subject = display_as_null_or_empty""
+4. ""error_state = none"""
+,"AC 03.3 – Lesson Label – Truncation remains usable after label format change","AC 03 — Component — Lesson label truncation (if applied) maintains usability with new Subject+Teacher format.","User role: HQ/CM Staff
+Location: Riso TAC
+Lesson with long subject name: ""Advanced Physics with Laboratory Experiments"", teacher=""Yoshida Akira""
+Calendar responsive design configured
+Lesson card width limited (e.g., mobile view or narrow layout)",,,low,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC on narrow viewport (mobile or small container)""
+2. ""Locate lesson card with long label""
+3. ""Verify label truncates gracefully""
+4. ""Verify teacher name remains visible or tooltip shows full text""","1. ""TAC loads with responsive layout""
+2. ""Lesson visible on calendar""
+3. ""Subject or full label truncates with ellipsis (...) per design, not broken or unreadable""
+4. ""Teacher name visible or full label accessible via hover/tooltip""","1. ""viewport_width = 375px""
+2. ""subject_name = Advanced Physics with Laboratory Experiments""
+3. ""truncation_style = ellipsis""
+4. ""teacher_name_visibility = visible_or_tooltip"""

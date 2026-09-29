@@ -1,0 +1,108 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"AC 02.1 – Teacher Filter – Search by name returns matches","AC 02 — CRUD + Decision Table — Teacher search by Name field returns matching teacher records.","User role: HQ/CM Staff
+Location: Riso TAC
+Teacher records configured: [{""name"": ""Tanaka Yuki"", ""phonetic"": ""たなかゆき"", ""external_id"": ""T001""}, {""name"": ""Suzuki Hana"", ""phonetic"": ""すずきはな"", ""external_id"": ""T002""}]
+Teacher filter dropdown opened",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC Teacher filter""
+2. ""Type ""Tanaka"" in Teacher filter field""
+3. ""Verify ""Tanaka Yuki"" appears in dropdown""
+4. ""Click ""Tanaka Yuki"" to select""","1. ""Teacher filter control visible""
+2. ""Dropdown updates with matching names""
+3. ""Teacher name displayed in filtered list""
+4. ""Teacher filter applied; Tanaka Yuki shown as selected""","1. ""filter_section = Filters""
+2. ""search_field = name, search_term = Tanaka""
+3. ""result_contains = Tanaka Yuki""
+4. ""selected_teacher = Tanaka Yuki"""
+,"AC 02.2 – Teacher Filter – Search by phonetic name matches","AC 02 — CRUD + Decision Table — Teacher search by Phonetic Name field returns matching teacher records.","User role: HQ/CM Staff
+Location: Riso TAC
+Teacher records configured with phonetic names: [{""name"": ""Tanaka Yuki"", ""phonetic"": ""たなかゆき""}]
+Teacher filter dropdown opened
+Locale set to JP (Japanese input method available)",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC Teacher filter""
+2. ""Type ""たなか"" (phonetic) in Teacher filter field""
+3. ""Verify ""Tanaka Yuki (たなかゆき)"" appears""
+4. ""Click to select""","1. ""Teacher filter control visible""
+2. ""Dropdown updates with matching phonetic names""
+3. ""Teacher with matching phonetic displayed""
+4. ""Teacher filter applied""","1. ""locale = JP""
+2. ""search_field = phonetic, search_term = たなか""
+3. ""result_contains = Tanaka Yuki""
+4. ""selected_teacher = Tanaka Yuki"""
+,"AC 02.3 – Teacher Filter – Search by external ID matches","AC 02 — CRUD + Decision Table — Teacher search by External User ID field returns matching teacher records.","User role: HQ/CM Staff
+Location: Riso TAC
+Teacher records configured: [{""name"": ""Tanaka Yuki"", ""external_id"": ""EMP-2024-001""}]
+Teacher filter dropdown opened",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC Teacher filter""
+2. ""Type ""EMP-2024-001"" in Teacher filter field""
+3. ""Verify ""Tanaka Yuki (EMP-2024-001)"" appears""
+4. ""Click to select""","1. ""Teacher filter control visible""
+2. ""Dropdown updates""
+3. ""Teacher with matching external ID displayed""
+4. ""Teacher filter applied; external ID shown for reference""","1. ""filter_section = Filters""
+2. ""search_field = external_id, search_term = EMP-2024-001""
+3. ""result_contains = Tanaka Yuki""
+4. ""selected_teacher = Tanaka Yuki"""
+,"AC 02.4 – Teacher Filter – No match for search term","AC 02 — CRUD + Decision Table (Negative) — Teacher search returns no results when term does not match any field.","User role: HQ/CM Staff
+Location: Riso TAC
+Teacher list configured: [{""name"": ""Tanaka Yuki"", ""phonetic"": ""たなかゆき"", ""external_id"": ""T001""}]
+Teacher filter dropdown opened",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Type ""NonexistentTeacher123"" in Teacher filter field""
+2. ""Verify no results displayed""
+3. ""Clear search term""","1. ""Search processes""
+2. ""Empty state or No matching teachers message shown""
+3. ""Filter resets to initial state""","1. ""search_term = NonexistentTeacher123""
+2. ""result_list = []""
+3. ""clear_action = backspace_all"""
+,"AC 02.5 – Teacher Filter – Placeholder text in English locale","AC 02 — Component — Teacher filter placeholder text displays correct localized text in English.","User role: HQ/CM Staff
+Location: Riso TAC
+Locale configured: EN (English)
+Teacher filter visible on page",,,low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC in English locale""
+2. ""Locate Teacher filter control""
+3. ""Verify placeholder text matches spec""","1. ""TAC page loads with EN language settings""
+2. ""Filter control visible with placeholder text""
+3. ""Placeholder shows localized English text (e.g., Search by teacher name, phonetic, or ID)""","1. ""locale = EN""
+2. ""filter_section = Filters""
+3. ""placeholder_text_en = Search by teacher name, phonetic, or ID"""
+,"AC 02.6 – Teacher Filter – Placeholder text in Japanese locale","AC 02 — Component — Teacher filter placeholder text displays correct localized text in Japanese.","User role: HQ/CM Staff
+Location: Riso TAC
+Locale configured: JP (Japanese)
+Teacher filter visible on page",,,low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC in Japanese locale""
+2. ""Locate Teacher filter control""
+3. ""Verify placeholder text is Japanese""","1. ""TAC page loads with JP language settings""
+2. ""Filter control visible with Japanese placeholder""
+3. ""Placeholder shows localized Japanese text (e.g., 教師名、フォネティック、またはIDで検索)""","1. ""locale = JP""
+2. ""filter_section = Filters""
+3. ""placeholder_text_jp = 教師名、フォネティック、またはIDで検索"""
+,"AC 02.7 – Teacher Filter – Selection persists after accordion collapse and expand","AC 02 — Regression + State Transition — Teacher selection retains value when filter accordion is collapsed and re-expanded.","User role: HQ/CM Staff
+Location: Riso TAC
+Teacher records exist: [""Tanaka Yuki"", ""Suzuki Hana""]
+Filter accordion is visible (can be collapsed/expanded)
+Teacher ""Tanaka Yuki"" has been selected and applied",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select ""Tanaka Yuki"" in Teacher filter""
+2. ""Verify calendar shows only lessons for Tanaka Yuki""
+3. ""Collapse filter accordion (click collapse button)""
+4. ""Expand filter accordion again (click expand button)""
+5. ""Verify calendar display unchanged""","1. ""Teacher filter applied; Tanaka Yuki shown as active selection""
+2. ""Calendar filtered by selected teacher""
+3. ""Accordion collapses; Teacher filter still active (applied to calendar)""
+4. ""Accordion expands; Tanaka Yuki still selected in Teacher filter field""
+5. ""Calendar still shows lessons for Tanaka Yuki only; no reset""","1. ""selected_teacher = Tanaka Yuki""
+2. ""display_state = filtered_by_tanaka""
+3. ""accordion_state = collapsed""
+4. ""accordion_state = expanded""
+5. ""expected_display = still_filtered_by_tanaka"""
+,"AC 02.8 – Teacher Filter – Selection persists with other filter changes","AC 02 — Regression + State Transition — Teacher selection retains value when other filters (Subject, Location, Date) are changed.","User role: HQ/CM Staff
+Location: Riso TAC
+Teacher ""Tanaka Yuki"" selected and applied
+Subject, Location, and Date filters available
+Calendar shows Tanaka Yuki's lessons filtered",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Verify current state: Teacher=Tanaka Yuki, Subject=All, Location=All""
+2. ""Change Subject filter to Mathematics""
+3. ""Verify Teacher filter still shows Tanaka Yuki""
+4. ""Change Location filter to Room A""
+5. ""Verify Teacher filter still shows Tanaka Yuki""
+6. ""Observe calendar""","1. ""Starting state confirmed""
+2. ""Subject filter applied""
+3. ""Teacher selection unchanged""
+4. ""Location filter applied""
+5. ""Teacher selection persists""
+6. ""Calendar shows lessons: Tanaka Yuki + Mathematics + Room A (intersection)""","1. ""initial_filters = {teacher: Tanaka Yuki, subject: All}""
+2. ""new_subject = Mathematics""
+3. ""teacher_after_subject_change = Tanaka Yuki""
+4. ""new_location = Room A""
+5. ""teacher_after_location_change = Tanaka Yuki""
+6. ""expected_display = all_three_filters_applied"""

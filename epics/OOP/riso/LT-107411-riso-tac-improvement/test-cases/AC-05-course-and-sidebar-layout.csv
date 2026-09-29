@@ -1,0 +1,84 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"AC 05.1 – Course Required – Creation blocked when course field is null","AC 05 — Equivalence Partitioning (Critical Risk) — Lesson creation is blocked when required Course field is null or not selected.","User role: HQ/CM Staff
+Location: Riso TAC (Teacher Availability Calendar)
+Create Lesson form is open
+Course field is visible and marked as required
+Courses available in system: [""Course A"", ""Course B"", ""Course C""]",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC and click Create Lesson button""
+2. ""Verify Course field is empty/null""
+3. ""Attempt to submit form without selecting Course""
+4. ""Verify validation error message displayed""
+5. ""Verify lesson is NOT created in database""","1. ""Create Lesson form opens with empty Course field""
+2. ""Course field shows no value selected""
+3. ""Form submission rejected or blocked""
+4. ""Error message shown (e.g., Course is required) or create button disabled""
+5. ""Query lesson table; no orphaned record created""","1. ""form_state = empty""
+2. ""course_value = null""
+3. ""submit_action = click_save""
+4. ""error_message_present = true""
+5. ""lesson_count_after = 0"""
+,"AC 05.2 – Course Required – Creation allowed when course field is populated","AC 05 — Equivalence Partitioning (Boundary) — Lesson creation is allowed when Course field is populated with a valid value.","User role: HQ/CM Staff
+Location: Riso TAC
+Create Lesson form is open
+Course field is required and visible
+Courses configured: [""Course A"", ""Course B"", ""Course C""]",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC and click Create Lesson button""
+2. ""Select ""Course A"" from Course dropdown""
+3. ""Fill other required fields (Subject, Teacher, Date/Time, Location)""
+4. ""Submit form by clicking Save/Create button""
+5. ""Verify lesson created in database and displayed on calendar""","1. ""Create Lesson form opens""
+2. ""Course field populated with Course A""
+3. ""Form populated with valid values""
+4. ""Form submission accepted""
+5. ""Lesson record exists; visible on TAC""","1. ""form_state = empty""
+2. ""course_value = Course A""
+3. ""form_complete = true""
+4. ""submit_action = click_save""
+5. ""lesson_created = true"""
+,"AC 05.3 – Course Sticky Positioning – Header remains visible during Timeslot scroll (5 timeslots)","AC 05 — Boundary Value Analysis — Course field header remains fixed/sticky while Timeslot content scrolls in left sidebar (5 rows).","User role: HQ/CM Staff or Teacher
+Location: Riso TAC with left sidebar visible
+Sidebar contains Course section + Timeslot section (scrollable)
+Timeslots displayed: 5 rows (e.g., 09:00, 10:00, 11:00, 12:00, 13:00)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC on desktop/tablet""
+2. ""Verify Course section visible at top of sidebar""
+3. ""Verify Timeslot section below Course with 5 rows""
+4. ""Scroll down in Timeslot section (vertical scroll)""
+5. ""Verify Course section header remains visible (sticky)""","1. ""TAC loads with sidebar layout visible""
+2. ""Course field/header displayed""
+3. ""5 timeslot rows visible""
+4. ""Timeslot content scrolls""
+5. ""Course header does NOT scroll out of view; fixed position maintained""","1. ""device = desktop""
+2. ""sidebar_section = course""
+3. ""timeslot_count = 5""
+4. ""scroll_action = scroll_down""
+5. ""course_position = sticky"""
+,"AC 05.4 – Course Sticky Positioning – Header remains visible during Timeslot scroll (20 timeslots)","AC 05 — Boundary Value Analysis (Extended) — Course field header remains fixed/sticky while Timeslot content scrolls (20 rows, high-volume test).","User role: HQ/CM Staff
+Location: Riso TAC with left sidebar
+Sidebar with Course section + Timeslot section (scrollable)
+High-volume timeslots: 20 rows (e.g., 06:00 through 21:00, hourly)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC with 20 timeslots displayed""
+2. ""Verify Course section visible at top""
+3. ""Scroll down through Timeslot section to bottom""
+4. ""Verify Course header remains sticky and visible""
+5. ""Verify no overlap or collision between Course and Timeslot content""","1. ""TAC loads with extended timeslot list""
+2. ""Course header displayed""
+3. ""Scroll through full timeslot range""
+4. ""Course does NOT scroll out of view during timeslot scroll""
+5. ""Layout remains clean, Course and Timeslot content separated""","1. ""timeslot_count = 20""
+2. ""sidebar_section = course""
+3. ""scroll_distance = full_height""
+4. ""course_position = sticky_at_20_rows""
+5. ""layout_integrity = no_overlap"""
+,"AC 05.5 – Japanese Date Format – Calendar displays date as 7月1日 (no slash)","AC 05 — Component + Validation — Japanese date format in calendar uses 7月1日 format without slash (/) separator.","User role: HQ/CM Staff or Teacher
+Location: Riso TAC
+Locale set to Japanese (JP)
+Calendar showing lessons with dates
+Date range includes July 1st, 2026",,,low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC with JP locale""
+2. ""Verify calendar header or date display""
+3. ""Locate a date entry (e.g., July 1st)""
+4. ""Verify date format is ""7月1日"" (no slash)""
+5. ""Verify no slash character present""","1. ""TAC page loads with Japanese language settings""
+2. ""Calendar shows dates in Japanese format""
+3. ""Date visible on calendar""
+4. ""Date displays exactly as 7月1日 (not 7/1 or 7月1日/)""
+5. ""Format validation: slash count = 0""","1. ""locale = JP, date_today = 2026-07-01""
+2. ""calendar_section = header_or_timeslot""
+3. ""target_date = 2026-07-01""
+4. ""expected_format = 7月1日""
+5. ""slash_count = 0"""

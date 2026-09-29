@@ -1,0 +1,36 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"AC 04.1 – Location Filter – Included in collapsible filter accordion","AC 04 — CRUD — Location filter control is present and functional within the collapsible filter accordion.","User role: HQ/CM Staff
+Location: Riso TAC (Teacher Availability Calendar)
+Filter accordion visible on page
+Location list exists: [""Room A"", ""Room B"", ""Room C""]",,,low,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Riso TAC""
+2. ""Expand filter accordion (if collapsed)""
+3. ""Verify Location filter control is present""
+4. ""Click on Location filter dropdown""
+5. ""Select ""Room A""""
+6. ""Observe calendar""","1. ""TAC page loads with filter accordion visible""
+2. ""Accordion expands showing filter controls""
+3. ""Location filter input or dropdown visible in accordion""
+4. ""Dropdown opens showing available locations""
+5. ""Location filter applied to calendar""
+6. ""Calendar now shows only lessons in Room A""","1. ""page = Riso TAC""
+2. ""accordion_state = expanded""
+3. ""filter_type = location""
+4. ""locations = [Room A, Room B, Room C]""
+5. ""selected_location = Room A""
+6. ""expected_display = filtered_by_room_a"""
+,"AC 04.2 – Location Filter – Selection persists after accordion collapse and expand","AC 04 — Regression + State Transition — Location filter selection retains its value when filter accordion is collapsed and re-expanded.","User role: HQ/CM Staff
+Location: Riso TAC
+Location list exists: [""Room A"", ""Room B"", ""Room C""]
+Filter accordion expanded; Location filter available",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Select Location filter to ""Room B""""
+2. ""Verify calendar displays only Room B lessons""
+3. ""Collapse filter accordion (click collapse button/icon)""
+4. ""Expand filter accordion again (click expand button/icon)""
+5. ""Verify calendar display unchanged""","1. ""Location filter applied; Room B shown as active""
+2. ""Calendar filtered correctly""
+3. ""Accordion collapses; Location filter remains applied to calendar""
+4. ""Accordion expands; Location filter shows Room B still selected""
+5. ""Calendar still shows only Room B lessons; no filter reset""","1. ""selected_location = Room B""
+2. ""display_state = filtered_by_room_b""
+3. ""accordion_state = collapsed""
+4. ""accordion_state = expanded""
+5. ""expected_display = still_filtered_by_room_b"""
