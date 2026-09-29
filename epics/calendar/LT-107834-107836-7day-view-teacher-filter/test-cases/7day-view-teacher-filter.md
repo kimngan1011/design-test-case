@@ -47,7 +47,8 @@ _Qase: PX-25846_
 - HQ or CM Staff is on the Lesson Calendar in Salesforce (7-Day Teacher Schedule View exists only on the SF calendar, not on Back Office)
 - 7-Day Teacher Schedule View is active with 1 teacher selected (count = 1)
 - The Teacher List filter has Subject, Location and Working time applied together (the 3 fields that reproduce LT-107834)
-- The Restrict Eligible Subject toggle is OFF for the org (when ON, the Subject filter does not use a sub-query and the bug does not reproduce)
+- The Restrict Teacher Match All Subjects setting is OFF for the org (when ON, the Subject filter does not use a sub-query and the bug does not reproduce). How to check: Setup > Quick Find "Custom Settings" > Lesson Custom Settings > Manage > Default Organization Level Value: "Restrict Teacher Match All Subjects" must be unticked (no org default record also means OFF; Profile / User rows are ignored). Alternative: Developer Console > Query Editor: SELECT SetupOwner.Name, MANAERP__Restrict_Teacher_Match_All_Subjects__c FROM MANAERP__Lesson_Custom_Settings__c -> the row of the organization must be false or absent
+- The Lesson_Staff_Working_Hour feature flag is ON (otherwise the Working time filter does not exist). How to check: the Teacher List filter shows the working time fields (start time, end time, day of week); or Setup > Quick Find "Custom Metadata Types" > FeatureFlag > Manage Records > Lesson_Staff_Working_Hour: IsEnabled is ticked
 
 | # | Action | Expected Result | Test Data |
 |---|--------|-----------------|-----------|
@@ -127,8 +128,8 @@ _Qase: PX-29120_
 
 **Preconditions:**
 - HQ or CM Staff is on the Lesson Calendar in Salesforce (7-Day Teacher Schedule View exists only on the SF calendar, not on Back Office)
-- The Restrict Eligible Subject toggle is OFF for the org
-- Staff working hour feature is enabled for the org
+- The Restrict Teacher Match All Subjects setting is OFF for the org (when ON, the Subject filter does not use a sub-query and the bug does not reproduce). How to check: Setup > Quick Find "Custom Settings" > Lesson Custom Settings > Manage > Default Organization Level Value: "Restrict Teacher Match All Subjects" must be unticked (no org default record also means OFF; Profile / User rows are ignored). Alternative: Developer Console > Query Editor: SELECT SetupOwner.Name, MANAERP__Restrict_Teacher_Match_All_Subjects__c FROM MANAERP__Lesson_Custom_Settings__c -> the row of the organization must be false or absent
+- The Lesson_Staff_Working_Hour feature flag is ON (otherwise the Working time filter does not exist). How to check: the Teacher List filter shows the working time fields (start time, end time, day of week); or Setup > Quick Find "Custom Metadata Types" > FeatureFlag > Manage Records > Lesson_Staff_Working_Hour: IsEnabled is ticked
 - Teacher T1: eligible subject Sub_A, affiliated with Loc_A, working hour Monday 10:00–18:00 (not an off day)
 - Teacher T2: eligible subject Sub_A, affiliated with Loc_A, no working hour on Monday
 - Teacher T3: eligible subject Sub_B only, affiliated with Loc_A, working hour Monday 10:00–18:00
