@@ -1,0 +1,55 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Renseikai] Add Master Staff – Location filter – Part of a location name typed – Matching location suggested and selecting it filters the staff list,"LT-111007 (bug fix) / LT-96178 AC 6 — Scenario — In the Add Master Staff popup, typing part of a location name in the Location filter lists only the matching locations; the selected location then filters the staff list.
+
+Spec sources (evidence):
+- [S1] Jira LT-111007 – [ERPv2] [Master Staff] Cannot search for location name in Location filter on Add Master Staff form — https://manabie.atlassian.net/browse/LT-111007
+- [S2] Jira LT-96178 – [Renseikai] Core | Add Location Filter to Master Staff — https://manabie.atlassian.net/browse/LT-96178
+- [S3] Jira LT-88464 / LT-88578 – Can not find out location name on activity event creation form, add master participant form and add master staff form (closed) — https://manabie.atlassian.net/browse/LT-88464","- HQ or CM Staff is logged in to Salesforce
+- LT-96178 feature is enabled for Renseikai
+- Center locations Loc_A = ""Shibuya"" and Loc_C = ""Umeda"" exist; no other location name contains ""Ume""
+- Event Master EM01 has Target Location = Loc_A only
+- Staff_A is associated with Loc_A only
+- Staff_C is associated with Loc_C only",,"master-staff,renseikai,LT-96178,LT-111007,location-filter",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. HQ or CM Staff opens the Add Master Staff popup from EM01
+2. HQ or CM Staff opens the filter panel, clicks into the Location field and types ""Ume""
+3. HQ or CM Staff selects Umeda from the suggestions
+4. HQ or CM Staff removes Shibuya from the Location filter and clicks Apply","1. The popup opens with the Location filter pre-populated with Loc_A; Staff_A is shown and Staff_C is not shown
+2. The location suggestion list shows Umeda (Loc_C); Shibuya (Loc_A) and locations whose name does not contain ""Ume"" are not listed; ""No options"" is not shown
+3. Umeda is added to the Location filter next to Shibuya
+4. The staff list shows Staff_C; Staff_A is not shown","1. 
+2. Keyword = ""Ume""
+3. Filter: Loc_A, Loc_C
+4. Filter: Loc_C",,,2614,2615,[Renseikai] Add Master Staff – Location Filter,,,
+,Create Activity Event – Location field – Part of a location name typed – Matching location suggested and saved on the event,"LT-111007 (same location search) / regression of LT-88464, LT-88578 — Scenario — On the Create Activity Event form, typing part of a location name in the Location field lists only the matching open locations; the selected location is saved on the Activity Event.
+
+Spec sources (evidence):
+- [S1] Jira LT-111007 – [ERPv2] [Master Staff] Cannot search for location name in Location filter on Add Master Staff form — https://manabie.atlassian.net/browse/LT-111007
+- [S3] Jira LT-88464 / LT-88578 – Can not find out location name on activity event creation form, add master participant form and add master staff form (closed) — https://manabie.atlassian.net/browse/LT-88464
+- [S4] Qase PX-11198 – Location field excludes Closed Down locations (LT-86517) — https://app.qase.io/case/PX-11198","- HQ or CM Staff is logged in to Salesforce
+- Center locations Loc_A = ""Shibuya"" and Loc_C = ""Umeda"" exist; no other location name contains ""Ume""
+- Loc_C (Umeda) is not a Closed Down location
+- Event Master EM01 exists
+- The Activity Event list page is open",,"activity-event,location,LT-111007,LT-88464",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. HQ or CM Staff clicks New on the Activity Event list page
+2. HQ or CM Staff clicks into the Location field and types ""Ume""
+3. HQ or CM Staff selects Umeda from the suggestions
+4. HQ or CM Staff fills the required fields and clicks Save","1. The Create Activity Event form opens
+2. The location suggestion list shows Umeda (Loc_C); Shibuya (Loc_A) and locations whose name does not contain ""Ume"" are not listed; ""No options"" is not shown
+3. The Location field shows Umeda
+4. The Activity Event is created and its detail shows Location = Umeda","1. 
+2. Keyword = ""Ume""
+3. Location = Loc_C
+4. Event Master = EM01; Event Name = LT111007-AE; Start / End = any future slot",,,2611,2595,Activity Event – Lookup Fields & Draft API Filter,,,
+,Add Master Participant – Location filter – Part of a location name typed – Matching location suggested and selecting it filters the student list,"LT-111007 (same Location filter) / regression of LT-88464, LT-88578 — Scenario — In the Add Participant popup, typing part of a location name in the Location filter lists only the matching locations; the selected location then filters the student list.
+
+Spec sources (evidence):
+- [S1] Jira LT-111007 – [ERPv2] [Master Staff] Cannot search for location name in Location filter on Add Master Staff form — https://manabie.atlassian.net/browse/LT-111007
+- [S3] Jira LT-88464 / LT-88578 – Can not find out location name on activity event creation form, add master participant form and add master staff form (closed) — https://manabie.atlassian.net/browse/LT-88464","- HQ or CM Staff is logged in to Salesforce
+- Center locations Loc_A = ""Shibuya"" and Loc_C = ""Umeda"" exist; no other location name contains ""Ume""
+- Event Master EM01 exists (no target segment set) and its record page is open
+- Student_A (Enrolled) is at Loc_A only
+- Student_C (Enrolled) is at Loc_C only",,"add-master-participant,filter,LT-111007,LT-88464,location-filter",medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. HQ or CM Staff clicks the 'Add Master Participant' button in the Event Master header
+2. HQ or CM Staff clicks the filter icon (funnel), clicks into the Location field and types ""Ume""
+3. HQ or CM Staff selects Umeda from the suggestions and clicks Apply","1. The 'Add Participant' popup opens with the student list
+2. The location suggestion list shows Umeda (Loc_C); Shibuya (Loc_A) and locations whose name does not contain ""Ume"" are not listed; ""No options"" is not shown
+3. The student list shows Student_C and every row has Location = Umeda; Student_A is not shown","1. 
+2. Keyword = ""Ume""
+3. Filter: Location = Loc_C; Enrollment Status = Enrolled, Temporary (default)",,,2618,2617,Add master participant,,,
