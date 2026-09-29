@@ -194,3 +194,63 @@ In the SF Lesson Calendar 7-Day Teacher Schedule View, the selected teacher coun
 - Other Salesforce governor limits worth keeping in mind for filter/list features: 10,000 records per DML operation (see 2026-08-18 entry), 50,000 query rows per transaction, 100 SOQL queries per synchronous transaction.
 
 ---
+
+## [2026-09-29] Core — Calendar Grid May Hit the 50,000 Query-Row Limit on Monthly View (Untested Risk)
+
+**Source:** Code review of `LessonCalendarHandler` (erp-salesforce `develop`, 2026-09-29) — not a production incident yet. **Not covered by any test so far.**
+
+### Issue
+
+The SF and BO calendar grid load lessons through `/LessonCalendar/v1/retrieveV2` → `LessonCalendarHandler.getLessonsCalendarDeserializeV3`. Salesforce allows **50,000 query rows per transaction** (`Too many query rows: 50001` is a `LimitException` and cannot be caught). Dense orgs on Monthly view with Grade / Course / Student filters can approach this limit.
+
+**Why (from code):**
+1. Filters Grade, Course and Student first query `Student_Sessions__c` in the date range to get lesson IDs. This pre-query is limited by date only — **not by location** — so it scans the whole org's student sessions for the month.
+2. The main lesson query uses `LIMIT (50,000 − rows already used)`, which protects the **lesson rows only**. Its child sub-queries (`Lesson_Teachers__r`, `Lesson_Classrooms__r`, `Student_Sessions__r`) also count toward the 50,000 rows but are not reserved. Example: 8,000 lessons × 6 student sessions ≈ 56,000 rows → `LimitException` → API error → empty calendar.
+3. When the lesson rows alone exceed the remaining limit, the extra lessons are **dropped silently** (no message).
+4. BO splits a range longer than 2 days into 2 requests (`chunkRequest`), which halves the risk on BO but not on SF calendar.
+
+### Resolution
+
+- None yet. Needs a data-volume test on an org with the largest lesson / student-session volume (per month) before closing.
+
+### Lessons Learned / Design Notes
+
+- Test the calendar grid with **Monthly view + dense location(s)**, and with **Grade / Course / Student filters**, on a production-like data volume. Check: no API error, lesson count on the grid equals the count from a report/SOQL for the same range.
+- Count rows as **parents + all child sub-query rows + pre-query rows**; a `LIMIT` on the parent query is not enough.
+- Pre-queries used to build ID lists should be limited by the same location as the main query when possible.
+- When a result is truncated by a limit, the UI should say so instead of silently showing fewer records.
+- Related: the Teacher List SOQL semi-join limit (LT-107834, entry above) — same family of "filter combination / data volume hits a Salesforce limit and the UI hides it".
+
+---
+
+## [2026-09-29] Core — Infinite-Scroll / Paged Lists Stop at ~2,000 Rows (SOQL OFFSET Limit), Search Is the Workaround
+
+**Source:** Code review of event / lesson report list APIs (erp-salesforce `develop` 2026-09-29, school-portal-admin `develop` 2026-09-25). The limit is **known and accepted by the team**; this entry records the exact behavior so it is tested, not rediscovered.
+
+### Issue
+
+SOQL `OFFSET` cannot be greater than **2,000** (`NUMBER_OUTSIDE_VALID_RANGE`). Lists that page with `LIMIT … OFFSET (page × size)` cannot load records beyond that point:
+
+| Screen | Page size | Last rows that load | What the user sees after that |
+|---|---|---|---|
+| Add Master Participant (`addEventParticipantExt` → `EventParticipantHandler.getTargetParticipants`) | 50 | ~2,050 | scrolling just stops (error only in console) |
+| Add Master Staff (`addEventStaffExt` → `EventStaffHandler.getStaffByFilter`) | 50 | ~2,050 | scrolling just stops |
+| Assign Staff to Activity Event (`addEventStaffOnAssignEvent` → `getEventStaffOnAssignEvent`) | 100 | ~2,100 | scrolling just stops |
+| Assign Participant to Activity Event (`addEventParticipantOnAssignEvent` → `getEventParticipantFilters`) | 100 | ~2,100 | code caps at `offset <= 2000` but one page late: the request at offset 2,100 still fails silently |
+| Aver Lesson Report List, V1 (Unleash `Lesson_BackOffice_LessonSF_AllowViewLessonOtherLocations` OFF) | 25 | row 2,025 | pages starting after row 2,025 show "Unable to load data"; total count is not capped |
+
+**Workaround / accepted behavior:** the search box is applied in the query **before** `LIMIT/OFFSET`, so searching by name returns a record even if it is beyond row 2,000 in the unfiltered list.
+
+Lists that are **not** affected: cursor-paged lists (Aver Lesson Report V2 via GraphQL `after`, Booking System Event Master API `Id > nextPointer`) and lists with a fixed first page only (SF calendar Teacher / Student List, first 200 rows by design).
+
+### Resolution
+
+- Accepted limitation. Test cases PX-29124 (Add Master Participant), PX-29125 (Add Master Staff), PX-29126 (Assign Staff to Event), PX-29127 (Assign to Event students), PX-29128 (Aver Lesson Report V1) confirm that search reaches records beyond row 2,000.
+
+### Lessons Learned / Design Notes
+
+- For any paged list backed by SOQL `OFFSET`, test with **more than 2,000 matching records**: (1) note where loading stops, (2) search by the name of a record that is not loaded and confirm it is returned.
+- Silent stop is the risky part: the error is only logged with `console.warn`. If the limit is ever not accepted, the fix is cursor/keyset pagination (`WHERE Name > :lastName` / `Id > :lastId`) or a visible "refine your search" message when the offset would exceed 2,000.
+- Off-by-one guards: a cap must check `offset + pageSize <= 2000` for the **next** request, not the current one.
+
+---
