@@ -1,0 +1,30 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3646,3588,View lesson and lesson report,1,,
+,Learner App – Lesson Schedule List – Archived Student's Lesson Removed Entirely; No Join Button Ever Rendered,"Regression / control case - Decision Table - once a student's Lesson Allocation is archived, their upcoming lesson disappears from the Learner App's lesson schedule list entirely (not merely hiding the Join button on an otherwise-visible row), because getLessonList()'s query filters Is_Archived__c = FALSE before any zoomUrl is even computed. This is already correct and should be locked in with regression coverage.","- Student A has an upcoming Zoom lesson (Teaching Medium = Zoom) today, currently visible in their Learner App lesson schedule with a ""Join"" button.
+- Student A has an active Lesson Allocation for this course.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student A opens the Learner App lesson schedule and confirms the upcoming lesson is shown with a ""Join"" button""
+2. ""The Student Package Order behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""Student A refreshes the Learner App lesson schedule""
+4. ""A living Student Package Order reappears for Student A's Student Course, so the Lesson Allocation is unarchived on the same record Id, and Student A refreshes the schedule""
+","1. ""The lesson row is visible with a Join button""
+2. ""The Lesson Allocation shows Archived_At__c populated""
+3. ""The lesson no longer appears in the schedule at all - not grayed out, not missing only the Join button, but entirely absent""
+4. ""The lesson reappears in the schedule with its Join button restored""
+","1. ""Student A Is_Archived__c = FALSE; getLessonList returns this row""
+2. ""Archived_At__c = current timestamp""
+3. ""Student A's Student Session Is_Archived__c = TRUE (via formula) -> excluded from getLessonList's WHERE clause before zoomUrl computation""
+4. ""Archived_At__c = null (restored); getLessonList includes the row again""
+",,,3646,3588,View lesson and lesson report,,,
+,Learner App – Lesson Detail Screen Opened Directly (Cached/Deep-Linked) – Archived Student Can Still See and Use the Join Button,"Gap case - Decision Table, contrasts with the control case above - if Student A already has a specific lesson's detail screen cached, bookmarked, or reached via a push-notification deep link (bypassing a fresh fetch of the filtered schedule list), the ""Join"" button and Zoom link still resolve and work even after their Lesson Allocation is archived, because getLessonInfo/getLesson's Join-link resolution for non-""Zoom + Multiple-type"" lessons reads Live_Streaming_Link__c/Zoom_Link__c directly off the Lesson__c record with no Student_Sessions__c archive/delete gate at all.","- Student A has an upcoming lesson today with Teaching Medium = Offline with a Live Streaming Link configured (or Teaching Medium = Zoom with Zoom Type = ""Single""). Student A has already opened this lesson's detail screen on Learner App once (e.g., via a push notification), so the client has the lessonId cached independent of the schedule list.
+- Student A has an active Lesson Allocation for this course.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student A opens the cached lesson detail screen for this lesson and confirms the Join button / Live Streaming Link is shown and functional""
+2. ""The Student Package Order behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""Student A reopens the SAME cached lesson detail screen directly (not via the schedule list) and taps ""Join""""
+4. ""(Zoom Type = ""Multiple"" variant) Student A has a soft-deleted-but-not-archived Student Session for this lesson (Is_Deleted__c = TRUE, Is_Archived__c = FALSE) and reopens the cached detail screen""
+","1. ""The Join button is shown; tapping it opens the configured link""
+2. ""The Lesson Allocation shows Archived_At__c populated; the lesson no longer appears in Student A's schedule list (per the control case above)""
+3. ""The Join button is still shown and still works - the student can still access the lesson's Live Streaming Link / Zoom meeting despite being archived""
+4. ""The per-student Zoom URL for this session still resolves and is shown, because getLesson()'s attendance subquery filters Is_Archived__c but omits Is_Deleted__c""
+","1. ""Student A Is_Archived__c = FALSE""
+2. ""Archived_At__c = current timestamp""
+3. ""getLessonInfo's outer Lesson__c query has no session gate; for non-Zoom or Zoom-Type-Single lessons, zoomUrl resolves straight from Lesson__c fields regardless of Student_Sessions__c.Is_Archived__c""
+4. ""getLesson() subquery (lines 560-567) missing Is_Deleted__c = FALSE, inconsistent with getLessonList/getLessonReportDetailFromStudentSession/getLessonReportMedias in the same class""
+",,,3646,3588,View lesson and lesson report,,,

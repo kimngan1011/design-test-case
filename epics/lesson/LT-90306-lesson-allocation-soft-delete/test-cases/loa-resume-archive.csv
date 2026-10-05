@@ -1,0 +1,35 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3621,3588,LOA (Leave of Absence),1,,
+,"LOA Resume – Previously Archived Lesson Allocation – Same Record Restored, Not a New LA Created","Gap case - Decision Table, directly contrasts with the existing case (1825, ""LOA Resume – Resume Date > Scheduled Resume Date – New LA Created from Resume Date"") - when the LOA fully archived the student's Lesson Allocation (as opposed to only shortening its end date), submitting a Resume restores the SAME archived record (same record Id, Archived_At__c cleared) rather than creating a brand-new Lesson Allocation, since LessonAllocationSyncService always prefers unarchiving an existing record for that student-course over creating a new one.","- Student A's Lesson Allocation for Course A was fully archived (Archived_At__c populated) by a completed LOA application (the LOA removed Student A's only order for this student-course). Note its record Id.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the LOA Order, clicks ""Create Resume"", adds the Resume Product, saves draft, and submits (Resume Date > Scheduled Resume Date)""
+2. ""HQ or CM Staff opens Student A's Course A Lesson Allocation by its original (pre-LOA) record Id""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The resume is submitted successfully""
+2. ""The SAME record now shows Archived_At__c blank, with Start_Date_Time__c = the resume date - it was restored, not replaced""
+3. ""Only ONE Lesson Allocation for Course A is listed - the restored original, not a second newly-created record""
+","1. ""Resume Date > Scheduled Resume Date""
+2. ""Archived_At__c = null (restored); record Id unchanged; Start_Date_Time__c = resume date""
+3. ""Lesson Allocation count for Course A = 1""
+",,,3621,3588,LOA (Leave of Absence),,,
+,"Cancel LOA Resume – Resumed Lesson Allocation Archived Again, Not Deleted","Gap/update case - Decision Table, contrasts with the legacy-wording baseline (case 1826, ""Cancel LOA Resume – Resume LA Deleted"") - cancelling a Resume (continuing from the scenario above) re-archives the Lesson Allocation rather than deleting it, since the underlying order that justified the resume is removed again, satisfying the same ""all orders removed"" archive condition.","- Following directly from the case above: Student A's Lesson Allocation for Course A was restored via LOA Resume (Archived_At__c blank, same original record Id).
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the LOA application detail and clicks ""Cancel LOA Resume""""
+2. ""HQ or CM Staff opens Student A's Course A Lesson Allocation by the same record Id""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The resume is cancelled""
+2. ""The record still exists and is reachable; Archived_At__c is populated again""
+3. ""The Lesson Allocation no longer appears in the active list""
+","1. ""Resume status = Cancelled""
+2. ""Archived_At__c = current timestamp again; record NOT deleted""
+3. ""Archived LA excluded from active-list queries""
+",,,3621,3588,LOA (Leave of Absence),,,
+,"LOA – Partial (Last Attendance Day in the Future, Order Not Removed) – Lesson Allocation End Date Updated Only, Not Archived","Regression / boundary case - Decision Table, contrasts with the existing baseline cases (1821/10195, ""Last Attendance Day > Today"" / ""< Today — LA End Date Updated"") - a partial LOA (Last Attendance Day leaves the order alive with valid Start/End dates, as opposed to removing it entirely) never archives the Lesson Allocation, since shouldArchiveAllocationOfStudentCourse only fires when every order for the student-course is removed. This locks in that the archive mechanism has no effect on the already-covered partial-LOA behavior, distinct from the full-archive LOA scenario covered in the cases above.","- Student A has an active Lesson Allocation for Course A with a class assigned, lessons scheduled beyond today.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates an LOA application with Last Attendance Day > today, adds the LOA Product, saves draft, and submits""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The Lesson Allocation's end date updates to the Last Attendance Day; sessions beyond it are removed from future lessons""
+2. ""Archived_At__c remains blank - only End_Date_Time__c and Total_Session_Count__c were touched""
+3. ""The Lesson Allocation still appears in the active list, unaffected by the archive mechanism""
+","1. ""last_attendance_day > today""
+2. ""Archived_At__c = null throughout""
+3. ""Is_Archived__c = FALSE (via formula) -> unaffected""
+",,,3621,3588,LOA (Leave of Absence),,,

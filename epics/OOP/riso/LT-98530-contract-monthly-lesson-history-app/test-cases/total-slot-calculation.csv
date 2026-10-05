@@ -10,18 +10,53 @@ LA has one Active Monthly-type Riso Contract: start=2025-04, end=2026-02, monthl
 ","1. ""Total Slot shows 4""
 ","1. ""contract_start=2025-04; selected_month=2025-04; elapsed_months=1 (boundary); expected=4x1=4""
 ",,,3251,,[Riso] Total Slot Calculation,,,
-,[Riso] Total Slot – Monthly Contract – Selected Month Before Start Month – Zero Counted,AC01.2 - BVA (below boundary): When the selected month is before the contract start month, this contract contributes zero to Total Slot.,"Logged in as Student to the Riso Learner App
-LA has one Active Monthly-type Riso Contract: start=2025-04, monthly slot=4",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to March 2025 (1 month before contract start) and view the LA card""
+,[Riso] Total Slot – Monthly Contract – Selected Month Before Contract Duration – Zero Counted,"AC01.2 - BVA (below contract duration): When the selected month is before Contract Start Month, the contract has not started and contributes zero to Total Slot.","Logged in as Student to the Riso Learner App
+LA has one Active Monthly-type Riso Contract: start=2026-06, end=2026-08, monthly slot=1",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to May 2026 (1 month before contract start) and view the LA card""
 ","1. ""Total Slot shows 0 for this contract""
-","1. ""contract_start=2025-04; selected_month=2025-03 (below boundary); expected=0""
+","1. ""contract_start=2026-06; contract_end=2026-08; selected_month=2026-05; selected_month < contract_start; expected=0""
 ",,,3251,,[Riso] Total Slot Calculation,,,
-,[Riso] Total Slot – One-Time Contract – Selected Month Within Range – Full Slot Counted,AC01.2 - BVA: For a one-time contract (called Seasonal in the PRD), the full slot value is counted once the selected month (EOM) is on or after the contract start month.,"Logged in as Student to the Riso Learner App
-LA has one Active one-time Riso Contract: start=2025-08, end=2025-09, total slot=100",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to September 2025 and view the LA card""
+,[Riso] Total Slot – Monthly Contract – Selected Month After Contract Duration – Full Duration Capped at End Month,"AC01.2 - BVA (above contract duration): When the selected month is after Contract End Month, the Total Slot includes the complete inclusive contract duration only and does not add months after the End Month.","The Student is logged in to the Riso Learner App.
+The Lesson Allocation has one Active Monthly-type Riso Contract: start=2026-06, end=2026-08, Monthly Slot=1.",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student selects October 2026 in the Contract Info month selector and views the Lesson Allocation card""
+","1. ""The Total Slot shows 3""
+","1. ""contract_start=2026-06; contract_end=2026-08; selected_month=2026-10; counted_months=Jun+Jul+Aug=3; monthly_slot=1; expected=1x3=3""
+",,,3251,,[Riso] Total Slot Calculation,,,
+,[Riso] Total Slot – Weekly Contract – Start Month – Weekly Slot Converted to Monthly Equivalent,"AC01.2 - BVA: A Weekly Slot is multiplied by 4 to derive the Monthly Slot before the monthly Total Slot formula is applied. At the contract Start Month, one elapsed month is counted.","The Student is logged in to the Riso Learner App.
+The Lesson Allocation has one Active Riso Contract: type=weekly, start=2025-04, end=2026-02, Weekly Slot=1.",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student selects April 2025 in the Contract Info month selector and views the Lesson Allocation card""
+","1. ""The Total Slot shows 4""
+","1. ""contract_type=weekly; weekly_slot=1; monthly_slot=1x4=4; contract_start=2025-04; selected_month=2025-04; elapsed_months=1; expected=4x1=4""
+",,,3251,,[Riso] Total Slot Calculation,,,
+,[Riso] Total Slot – Weekly Contract – Selected Month Before Contract Duration – Zero Counted,"AC01.2 - BVA (below contract duration): A Weekly contract contributes zero when the selected month is before Contract Start Month; Weekly Slot conversion does not create a contribution before the contract starts.","The Student is logged in to the Riso Learner App.
+The Lesson Allocation has one Active Riso Contract: type=weekly, start=2026-06, end=2026-08, Weekly Slot=1.",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student selects May 2026 in the Contract Info month selector and views the Lesson Allocation card""
+","1. ""The Total Slot shows 0""
+","1. ""contract_type=weekly; weekly_slot=1; monthly_slot=1x4=4; contract_start=2026-06; contract_end=2026-08; selected_month=2026-05; selected_month < contract_start; expected=0""
+",,,3251,,[Riso] Total Slot Calculation,,,
+,[Riso] Total Slot – Weekly Contract – Selected Month After Contract Duration – Full Duration Capped at End Month,"AC01.2 - BVA (above contract duration): When the selected month is after Contract End Month, a Weekly Slot is first converted to a Monthly Slot and then counted only for the complete inclusive contract duration.","The Student is logged in to the Riso Learner App.
+The Lesson Allocation has one Active Riso Contract: type=weekly, start=2026-06, end=2026-08, Weekly Slot=1.",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student selects October 2026 in the Contract Info month selector and views the Lesson Allocation card""
+","1. ""The Total Slot shows 12""
+","1. ""contract_type=weekly; weekly_slot=1; monthly_slot=1x4=4; contract_start=2026-06; contract_end=2026-08; selected_month=2026-10; counted_months=Jun+Jul+Aug=3; expected=4x3=12""
+",,,3251,,[Riso] Total Slot Calculation,,,
+,[Riso] Total Slot – Weekly Contract – Elapsed Months From Start – Monthly Equivalent Times Month Count,"AC01.2 - Decision Table: A Weekly Slot is multiplied by 4 first, then the derived Monthly Slot is multiplied by the elapsed-month count, the same calculation used for a Monthly contract.","The Student is logged in to the Riso Learner App.
+The Lesson Allocation has one Active Riso Contract: type=weekly, start=2025-04, end=2026-02, Weekly Slot=1.",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student selects September 2025 in the Contract Info month selector and views the Lesson Allocation card""
+","1. ""The Total Slot shows 24""
+","1. ""contract_type=weekly; weekly_slot=1; monthly_slot=1x4=4; contract_start=2025-04; selected_month=2025-09; elapsed_months=6; expected=4x6=24""
+",,,3251,,[Riso] Total Slot Calculation,,,
+,[Riso] Total Slot – One-Time Contract – Selected Month After Start Month – Contract Total Counted,"AC01.2 - BVA: For a one-time contract (called Seasonal in the PRD), the Contract Total is counted when the selected month (EOM) is after the contract Start Month; Slot Number is not used.","Logged in as Student to the Riso Learner App
+LA has one Active one-time Riso Contract: start=2025-08, end=2025-09, Slot Number=4, Contract Total=100",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to September 2025 and view the LA card""
 ","1. ""Total Slot shows 100""
-","1. ""contract_start=2025-08; selected_month(EOM)=2025-09-30; 2025-08 <= 2025-09-30 -> full slot; expected=100""
+","1. ""contract_start=2025-08; selected_month(EOM)=2025-09-30; contract_total=100; slot_number=4; 2025-08 <= 2025-09-30 -> Contract Total counted; expected=100""
+",,,3251,,[Riso] Total Slot Calculation,,,
+,[Riso] Total Slot – One-Time Contract – Selected Month Equals Start Month – Contract Total Counted,"AC01.2 - BVA (exact boundary): When the selected month equals a one-time contract's Start Month, the Contract Total is counted. Slot Number is not used.","The Student is logged in to the Riso Learner App.
+The Lesson Allocation has one Active one-time Riso Contract: start=2026-06, end=2026-08, Slot Number=4, Contract Total=20.",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student selects June 2026 in the Contract Info month selector and views the Lesson Allocation card""
+","1. ""The Total Slot shows 20""
+","1. ""contract_type=one-time; contract_start=2026-06; contract_end=2026-08; selected_month=2026-06; contract_total=20; slot_number=4; selected_month = contract_start; expected=20""
+",,,3251,,[Riso] Total Slot Calculation,,,
+,[Riso] Total Slot – One-Time Contract – Selected Month After Contract End Month – Contract Total Counted,"AC01.2 - BVA (above contract duration): When the selected month is after a one-time contract's End Month, the full Contract Total remains counted. Slot Number is not used.","The Student is logged in to the Riso Learner App.
+The Lesson Allocation has one Active one-time Riso Contract: start=2026-06, end=2026-08, Slot Number=4, Contract Total=20.",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student selects October 2026 in the Contract Info month selector and views the Lesson Allocation card""
+","1. ""The Total Slot shows 20""
+","1. ""contract_type=one-time; contract_start=2026-06; contract_end=2026-08; selected_month=2026-10; selected_month > contract_end; contract_total=20; slot_number=4; expected=20""
 ",,,3251,,[Riso] Total Slot Calculation,,,
 ,[Riso] Total Slot – One-Time Contract – Selected Month Before Start – Zero Counted,AC01.2 - BVA (below boundary): A one-time contract contributes zero when the selected month (EOM) is before the contract start month.,"Logged in as Student to the Riso Learner App
-LA has one Active one-time Riso Contract: start=2025-08, end=2025-09, total slot=100",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to May 2025 and view the LA card""
+LA has one Active one-time Riso Contract: start=2025-08, end=2025-09, Slot Number=4, Contract Total=100",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Set the month selector to May 2025 and view the LA card""
 ","1. ""Total Slot shows 0 for this contract""
 ","1. ""contract_start=2025-08; selected_month(EOM)=2025-05-31; 2025-08 > 2025-05-31 -> zero; expected=0""
 ",,,3251,,[Riso] Total Slot Calculation,,,

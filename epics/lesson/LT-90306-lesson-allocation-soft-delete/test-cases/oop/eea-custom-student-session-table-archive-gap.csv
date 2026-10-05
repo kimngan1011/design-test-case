@@ -1,0 +1,20 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[EEA] Custom Student Session Table – Archived Session Excluded From Lesson Detail,AC-5 - Decision Table - [UNVERIFIED]: Mirrors the AC-5 exclusion principle already proven for every other Student Session list/table in this epic.,"HQ or CM Staff is on the EEA Salesforce org, viewing a Lesson's detail page with the custom Student Session table
+Student A (active Lesson Allocation) and Student B (active Lesson Allocation) both currently appear in the table, with their Attendance Response, Attendance Status, Attendance Reason, and Reallocate Flag populated",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff confirms both Student A and Student B appear in the custom table""
+2. ""The Student Package Order group behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""HQ or CM Staff reopens the Lesson's detail page""
+","1. ""Both rows visible with all 7 required fields""
+2. ""Student A's Student Session becomes Is_Archived__c = TRUE via formula""
+3. ""[UNVERIFIED] Record actual behavior: Student A no longer appears in the custom table, Student B unaffected (pass), or Student A still appears as if active (fail - route to the engineering owner of [SF][EEA] Check custom Student Session table)""
+","1. ""Both sessions Is_Archived__c = FALSE""
+2. ""Archived_At__c = current timestamp""
+3. ""Actual result to be captured against the live EEA org""
+",,,3653,3589,EEA,,,
+,[EEA] Custom Student Session Table – Restore – Row Reappears With Correct Field Values,"AC-3 - Regression - [UNVERIFIED]: Confirms the custom table shows the student's row again with all fields intact after restore, matching the restore-correctness principle already proven across this epic.","Student A's row was hidden from the custom table per the case above
+A living Student Package Order reappears for Student A's Student Course, and the Lesson Allocation is unarchived on the same record Id, with Attendance Response/Status/Reason and Reallocate Flag unchanged from before the archive",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff confirms the Lesson Allocation is restored (Archived_At__c cleared, same Id)""
+2. ""HQ or CM Staff reopens the Lesson's detail page""
+","1. """"
+2. ""[UNVERIFIED] Record actual behavior: Student A's row reappears with all fields matching the pre-archive values (pass), or the row remains missing / shows stale data (fail)""
+","1. ""Archived_At__c = null (restored)""
+2. ""Actual result to be captured against the live EEA org""
+",,,3653,3589,EEA,,,

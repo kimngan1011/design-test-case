@@ -1,0 +1,103 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+28190,Student Session Columns – Column Picker – Enabled tenant – Ten supported fields listed,Core configuration — Component and Scroll scenario — A System Administrator can access the enabled tenant picker and see the complete field catalog.,"- System Administrator is logged in to the Renseikai Salesforce tenant.
+- The Renseikai Enable Customizable Table Columns setting is ON.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System Administrator opens Lesson Custom Settings.""
+2. ""System Administrator opens the Student Session column configuration.""
+3. ""System Administrator reads the visible field choices and scrolls to the end of the list.""","1. ""Lesson Custom Settings opens.""
+2. ""The configuration opens with the exact label Visible Columns.""
+3. ""Grade, Risk, Type, Attendance Response, Attendance Status, Attendance Notice, Attendance Reason, Reallocate Flag, Student Name, and Attendance Note are reachable exactly once.""","1. ""tenant = Renseikai; Enable Customizable Table Columns = ON""
+2. ""picker label = Visible Columns""
+3. ""expected catalog = 10 unique fields""",,,3543,3534,Custom Column Configuration,1,,no
+28191,Student Session Columns – Tenant Setting – Disabled tenant – Configuration unavailable,Core configuration — Decision Table and Negative — A tenant with the setting disabled cannot customize Student Session columns.,"- System Administrator is logged in to the EEA Salesforce tenant.
+- The EEA Enable Customizable Table Columns setting is OFF.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System Administrator opens Lesson Custom Settings.""
+2. ""System Administrator searches for Student Session column configuration.""
+3. ""System Administrator opens a published EEA lesson in Salesforce Lesson Detail.""","1. ""Lesson Custom Settings opens for EEA.""
+2. ""No active control allows the System Administrator to select or reorder Student Session columns.""
+3. ""The EEA table remains usable with its existing saved layout and no configuration action is shown to the System Administrator.""","1. ""tenant = EEA; Enable Customizable Table Columns = OFF""
+2. ""expected configuration access = unavailable""
+3. ""expected table state = existing saved EEA layout""",,,3543,3534,Custom Column Configuration,1,,no
+28193,Student Session Columns – Configuration Access – Non-System Administrator – Changes blocked,Core configuration — Permission Matrix and Negative — A non-System Administrator cannot change a tenant layout.,"- HQ or CM Staff is logged in to the Renseikai Salesforce tenant without the System Administrator role.
+- The Renseikai Enable Customizable Table Columns setting is ON.
+- The saved Renseikai layout is Student Name, Grade, Attendance Status.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Lesson Custom Settings.""
+2. ""HQ or CM Staff opens the published lesson in Salesforce Lesson Detail.""
+3. ""HQ or CM Staff refreshes Salesforce Lesson Detail.""","1. ""The staff user cannot access the Student Session column configuration as an editable control.""
+2. ""The table shows the saved Renseikai layout without any column-edit control.""
+3. ""The saved Renseikai layout remains unchanged.""","1. ""tenant = Renseikai; role = non-System Administrator; setting = ON""
+2. ""saved headers = Student Name, Grade, Attendance Status""
+3. ""expected configuration write = none""",,,3543,3534,Custom Column Configuration,1,,no
+28194,Student Session Columns – Field Selection – Saved subset – Headers persist after refresh,Core configuration — State Transition and Readback — A System Administrator saves a selected subset and the target tenant table retains exactly that subset.,"- System Administrator is logged in to the Renseikai Salesforce tenant.
+- The Renseikai Enable Customizable Table Columns setting is ON.
+- A published lesson contains Student A with Grade 7 and Attendance Status Absent.
+- A different HQ or CM Staff user can access the Renseikai Salesforce tenant without the System Administrator role.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System Administrator opens the Student Session column configuration.""
+2. ""System Administrator selects Student Name, Grade, and Attendance Status and saves the configuration.""
+3. ""System Administrator opens the published lesson in Salesforce Lesson Detail.""
+4. ""System Administrator refreshes Salesforce Lesson Detail.""
+5. ""A different HQ or CM Staff user opens and refreshes the same published lesson in Salesforce Lesson Detail.""","1. ""The column configuration opens for Renseikai.""
+2. ""The saved selection contains exactly Student Name, Grade, and Attendance Status.""
+3. ""The Student Session table shows exactly Student Name, Grade, and Attendance Status.""
+4. ""The same three headers remain and Student A still shows 7 and Absent.""
+5. ""The Student Session table shows exactly Student Name, Grade, and Attendance Status.""","1. ""tenant = Renseikai; setting = ON; selected fields = none before selection""
+2. ""selected fields = Student Name, Grade, Attendance Status""
+3. ""expected headers = Student Name, Grade, Attendance Status""
+4. ""expected persisted headers = Student Name, Grade, Attendance Status""
+5. ""role = non-System Administrator; expected headers = Student Name, Grade, Attendance Status""",,,3543,3534,Custom Column Configuration,1,,no
+28192,Student Session Columns – Field Order – Non-default sequence – Header order persists,Core configuration — Scenario — A saved non-default order is rendered in the same relative order after refresh.,"- System Administrator is logged in to the Renseikai Salesforce tenant.
+- The Renseikai Enable Customizable Table Columns setting is ON.
+- Student Name, Grade, and Attendance Status are selected for the Renseikai tenant.
+- A different HQ or CM Staff user can access the Renseikai Salesforce tenant without the System Administrator role.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System Administrator opens the Student Session column configuration.""
+2. ""System Administrator saves the order Attendance Status, Student Name, Grade.""
+3. ""System Administrator opens and refreshes the published lesson in Salesforce Lesson Detail.""
+4. ""A different HQ or CM Staff user opens and refreshes the same published lesson in Salesforce Lesson Detail.""","1. ""The three selected fields are available for reordering.""
+2. ""The saved order is Attendance Status first, Student Name second, and Grade third.""
+3. ""The first three Student Session table headers are Attendance Status, Student Name, and Grade in that exact order.""
+4. ""The first three Student Session table headers are Attendance Status, Student Name, and Grade in that exact order.""","1. ""tenant = Renseikai; setting = ON; selected fields = Student Name, Grade, Attendance Status""
+2. ""saved order = Attendance Status → Student Name → Grade""
+3. ""expected header order = Attendance Status → Student Name → Grade""
+4. ""role = non-System Administrator; expected header order = Attendance Status → Student Name → Grade""",,,3543,3534,Custom Column Configuration,1,,no
+28195,Student Session Columns – Field Exclusion – Selected field removed – Header absent after save,Core configuration — State Transition and Negative — Removing a selected field removes only that field from the saved tenant layout.,"- System Administrator is logged in to the Renseikai Salesforce tenant.
+- The Renseikai Enable Customizable Table Columns setting is ON.
+- The saved Renseikai layout contains Student Name, Grade, Attendance Status, and Attendance Notice.
+- A different HQ or CM Staff user can access the Renseikai Salesforce tenant without the System Administrator role.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System Administrator opens the Student Session column configuration.""
+2. ""System Administrator removes Attendance Notice from the selected fields and saves the configuration.""
+3. ""System Administrator opens and refreshes the published lesson in Salesforce Lesson Detail.""
+4. ""A different HQ or CM Staff user opens and refreshes the same published lesson in Salesforce Lesson Detail.""","1. ""Attendance Notice appears as a currently selected field.""
+2. ""The saved selection no longer includes Attendance Notice.""
+3. ""Attendance Notice is absent while Student Name, Grade, and Attendance Status remain visible.""
+4. ""Attendance Notice is absent while Student Name, Grade, and Attendance Status remain visible.""","1. ""tenant = Renseikai; setting = ON; selected fields include Attendance Notice""
+2. ""removed field = Attendance Notice""
+3. ""expected headers = Student Name, Grade, Attendance Status; excluded header = Attendance Notice""
+4. ""role = non-System Administrator; expected headers = Student Name, Grade, Attendance Status; excluded header = Attendance Notice""",,,3543,3534,Custom Column Configuration,1,,no
+28197,Student Session Columns – Tenant Isolation – Renseikai saved layout – EEA layout unchanged,Core configuration — Decision Table and Regression — Saving a Renseikai layout does not overwrite the EEA layout.,"- System Administrator can access the Renseikai and EEA Salesforce tenants.
+- The Renseikai and EEA Enable Customizable Table Columns settings are ON.
+- The saved EEA layout is Student Name, Grade, Type, Attendance Status, Attendance Reason, and Reallocate Flag.
+- A different HQ or CM Staff user can access the Renseikai Salesforce tenant without the System Administrator role.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System Administrator saves the Renseikai layout as Student Name, Grade, Attendance Status.""
+2. ""A different HQ or CM Staff user opens and refreshes a published Renseikai lesson in Salesforce Lesson Detail.""
+3. ""System Administrator switches to EEA and opens a published EEA lesson in Salesforce Lesson Detail.""","1. ""The Renseikai saved layout contains exactly three fields.""
+2. ""The Renseikai table shows Student Name, Grade, and Attendance Status.""
+3. ""The EEA table still shows Student Name, Grade, Type, Attendance Status, Attendance Reason, and Reallocate Flag.""","1. ""tenant A = Renseikai; saved headers = Student Name, Grade, Attendance Status""
+2. ""role = non-System Administrator; expected Renseikai headers = Student Name, Grade, Attendance Status""
+3. ""tenant B = EEA; expected EEA headers = Student Name, Grade, Type, Attendance Status, Attendance Reason, Reallocate Flag""",,,3543,3534,Custom Column Configuration,1,,no
+28196,Student Session Columns – Configuration Save – Existing session values – No attendance data changed,Core configuration — Data Integrity and Regression — Saving a column layout never changes Student Session attendance data.,"- System Administrator is logged in to the Renseikai Salesforce tenant.
+- The Renseikai Enable Customizable Table Columns setting is ON.
+- A published lesson contains Student A with Attendance Response Absent (Family event), Attendance Status Absent, Attendance Reason Family event, and Attendance Note Parent called at 08:15.
+- A different HQ or CM Staff user can access the Renseikai Salesforce tenant without the System Administrator role.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System Administrator records Student A's four attendance values from the separate Edit function.""
+2. ""System Administrator saves a new table layout containing Student Name, Attendance Response, Attendance Status, Attendance Reason, and Attendance Note.""
+3. ""System Administrator refreshes Salesforce Lesson Detail and opens the separate Edit function for Student A.""
+4. ""A different HQ or CM Staff user opens and refreshes the same published lesson in Salesforce Lesson Detail.""","1. ""The recorded values are Absent (Family event), Absent, Family event, and Parent called at 08:15.""
+2. ""The table layout is saved for Renseikai.""
+3. ""The four attendance values remain exactly Absent (Family event), Absent, Family event, and Parent called at 08:15.""
+4. ""The Student Session table shows exactly Student Name, Attendance Response, Attendance Status, Attendance Reason, and Attendance Note.""","1. ""tenant = Renseikai; setting = ON; Student A attendance values = precondition values""
+2. ""selected fields = Student Name, Attendance Response, Attendance Status, Attendance Reason, Attendance Note""
+3. ""expected Student A attendance values = precondition values""
+4. ""role = non-System Administrator; expected headers = Student Name, Attendance Response, Attendance Status, Attendance Reason, Attendance Note""",,,3543,3534,Custom Column Configuration,1,,no
+28248,[Renseikai] Student Session Columns – Japanese locale – Japanese field selection – Saved headers rendered,LT-108387 + User request — Component and Readback — A System Administrator customizes the Renseikai Student Session table in Japanese locale and the saved table renders the selected Japanese headers.,"- System Administrator is logged in to the Renseikai Salesforce tenant in Japanese locale.
+- The Renseikai Enable Customizable Table Columns setting is ON.
+- A published lesson contains Student A with Grade 7, Attendance Response Absent (Family event), Attendance Status Absent, Attendance Reason Family event, and Attendance Note Parent called at 08:15.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System Administrator opens the Student Session column configuration.""
+2. ""System Administrator selects 生徒名, 学年, 出欠連絡, 出欠状況, 欠席理由, and 備考 and saves the configuration.""
+3. ""System Administrator opens and refreshes the published lesson in Salesforce Lesson Detail.""
+4. ""System Administrator reads the Student A row.""","1. ""The Renseikai column configuration opens in Japanese locale.""
+2. ""The saved selection contains exactly 生徒名, 学年, 出欠連絡, 出欠状況, 欠席理由, and 備考.""
+3. ""The Student Session table headers are exactly 生徒名, 学年, 出欠連絡, 出欠状況, 欠席理由, and 備考.""
+4. ""The Student A row shows 7, Absent (Family event), Absent, Family event, and Parent called at 08:15 under the matching Japanese headers.""","1. ""tenant = Renseikai; locale = Japanese; setting = ON""
+2. ""selected Japanese fields = 生徒名, 学年, 出欠連絡, 出欠状況, 欠席理由, 備考""
+3. ""expected Japanese headers = 生徒名, 学年, 出欠連絡, 出欠状況, 欠席理由, 備考""
+4. ""Student A values = configured precondition values""",,,3543,3534,Custom Column Configuration,,,

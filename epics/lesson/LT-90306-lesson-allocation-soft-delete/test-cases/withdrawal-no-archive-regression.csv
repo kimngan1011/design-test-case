@@ -1,0 +1,13 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3648,3588,Withdrawal,1,,
+,"Withdrawal – Last Attendance Day = Today (Narrowest Valid Boundary) – Lesson Allocation End Date Updated Only, Not Archived","Regression / boundary case - Decision Table, contrasts with the existing baseline cases (1812/10191, ""Last Attendance Day > Today"" / ""< Today"") - submitting a withdrawal with Last Attendance Day = today (the narrowest valid boundary, shortening the Lesson Allocation as much as possible without removing the order outright) never archives the Lesson Allocation. Only the end date and downstream session count are updated; Archived_At__c remains untouched throughout.","- Student A has an active enrollment with a Lesson Allocation for Course A, Require Allocation = True, with a class assigned and lessons scheduled beyond today.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates a Withdrawal application with Last Attendance Day = today, adds the Withdrawal Product, saves draft, and submits""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The Lesson Allocation's end date updates to today; sessions beyond today are removed from future lessons""
+2. ""Archived_At__c remains blank - only End_Date_Time__c and Total_Session_Count__c were touched""
+3. ""The Lesson Allocation still appears in the active list, unaffected by the archive mechanism""
+","1. ""last_attendance_day = today""
+2. ""Archived_At__c = null throughout""
+3. ""Is_Archived__c = FALSE (via formula) -> unaffected""
+",,,3648,3588,Withdrawal,,,

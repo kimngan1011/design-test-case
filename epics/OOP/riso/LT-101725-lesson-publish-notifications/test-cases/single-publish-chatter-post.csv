@@ -113,38 +113,38 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""Post body reads: @田中健二 — 英語クラスAが公開されました。詳細はこちらをクリックしてください。 where 英語クラスA is a hyperlink""","1. ""lesson_name=英語クラスA; teacher=田中健二""
 2. """"
 3. ""JP post; expected text per BR-11"",,3053,,[Riso] Single Publish – Chatter Post,,,
-,[Riso] Lesson Publish – Chatter Post Content – Lesson Name in post body – Hyperlinked to SF Lesson Detail page,AC-05"," BR-12 — Component — The Lesson Name in the Chatter post body is a clickable hyperlink pointing to the SF Lesson Detail page.""","- Riso Salesforce org with config flag = ON
+,[Riso] Lesson Publish – Chatter Post Content – Lesson Name in post body – Hyperlinked to BO Lesson Detail page,AC-05"," BR-12 — Component — The Lesson Name in the Chatter post body is a clickable hyperlink pointing to the BO Lesson Detail page for the same lesson.""","- Riso Salesforce org with config flag = ON
 - A Draft lesson with lesson_name=English Class A published; Chatter post visible in Chatter section
 - Logged in as HQ or CM Staff to the Salesforce org",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the Chatter section of the published lesson""
 2. ""Locate the lesson name English Class A in the post body""
 3. ""Click the English Class A hyperlink""","1. ""Chatter post is visible""
 2. ""English Class A appears as a hyperlink (underlined or styled as a clickable link)""
-3. ""SF Lesson Detail page for English Class A opens in a new browser tab""","1. ""lesson_name=English Class A""
+3. ""BO Lesson Detail page for English Class A opens in a new browser tab""","1. ""lesson_name=English Class A""
 2. """"
 3. ""expected: new tab, correct lesson"",,3053,,[Riso] Single Publish – Chatter Post,,,
-,[Riso] Lesson Publish – Chatter Post – Lesson Name hyperlink clicked – SF Lesson Detail opens in new browser tab,AC-08", BR-15 — Component (Smoke) — Clicking the Lesson Name hyperlink opens the SF Lesson Detail page in a new tab," leaving the current tab open.""","- Riso Salesforce org
+,[Riso] Lesson Publish – Chatter Post – Lesson Name hyperlink clicked – BO Lesson Detail opens in new browser tab,AC-08", BR-15 — Component (Smoke) — Clicking the Lesson Name hyperlink opens the BO Lesson Detail page for the same lesson in a new tab," leaving the current tab open.""","- Riso Salesforce org
 - A published lesson with a Chatter post visible in the Chatter section
 - Logged in as HQ or CM Staff to the Salesforce org",,,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Chatter section of the published lesson""
 2. ""Click the Lesson Name hyperlink in the Chatter post""
 3. ""Observe the new tab content""
 4. ""Switch back to the original tab""","1. ""Chatter post visible with a clickable Lesson Name hyperlink""
 2. ""A new browser tab opens""
-3. ""The new tab displays the SF Lesson Detail page for the correct lesson""
+3. ""The new tab displays the BO Lesson Detail page for the correct lesson""
 4. ""The original Salesforce tab remains open and unchanged""","1. """"
 2. """"
 3. """"
 4. """",,3053,,[Riso] Single Publish – Chatter Post,,,
-,[Riso] Lesson Publish – Teacher Added – Available teacher added to Published future-date lesson – Chatter post triggered,AC-01"," BR-26 — State Transition — Adding an Available teacher to a Published lesson whose date is in the future triggers a new Chatter post for the added teacher.""","- Riso Salesforce org with config flag = ON
+,[Riso] Lesson Publish – Teacher Added from SF Lesson Detail – Available teacher added to Published future-date lesson – One new Chatter post triggered,AC-01"," BR-26 — State Transition — Adding one Available teacher from SF Lesson Detail to a Published future-date lesson creates exactly one new Chatter post that @mentions that teacher.""","- Riso Salesforce org with config flag = ON
 - today = 2026-06-23; lesson_date = 2026-06-30 (7 days in the future)
 - A lesson in Published status with lesson_date = 2026-06-30 and no Lesson Teachers assigned
 - Teacher Tanaka Kenji (working_status=Available, working_type=Full Time) exists in SF
-- Logged in as HQ or CM Staff to the Salesforce org",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Published lesson (lesson_date = 2026-06-30) in SF Lesson Detail""
+- Logged in as HQ or CM Staff to the Salesforce org",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Open the Published lesson (lesson_date = 2026-06-30) in SF Lesson Detail and record the Chatter post count""
 2. ""Navigate to the Teacher section of the Lesson Detail""
 3. ""Add Tanaka Kenji as a Lesson Teacher""
-4. ""Navigate to the Chatter section""","1. ""Lesson status = Published; lesson_date = 2026-06-30; 1 Chatter post from original publish""
+4. ""Navigate to the Chatter section and compare against the baseline""","1. ""Lesson status = Published; lesson_date = 2026-06-30; baseline Chatter post count is recorded""
 2. ""Teacher list is empty""
 3. ""Tanaka Kenji appears in the lesson's teacher list""
-4. ""A new Chatter post appears @mentioning @Tanaka Kenji""","1. ""today=2026-06-23; lesson_date=2026-06-30""
+4. ""Chatter post count increases by exactly 1; the new post @mentions @Tanaka Kenji""","1. ""today=2026-06-23; lesson_date=2026-06-30""
 2. """"
 3. ""working_status=Available; working_type=Full Time""
 4. ""lesson_date (2026-06-30) > today (2026-06-23) → Chatter post triggered"",,3053,,[Riso] Single Publish – Chatter Post,,,
@@ -175,16 +175,56 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""working_status=Available; working_type=Full Time""
 4. ""BVA: lesson_date = today (exact boundary)"",,3053,,[Riso] Single Publish – Chatter Post,,,
 "
-,[Riso] Lesson Publish – Teacher Added from SF Calendar – Available teacher added to Published lesson – Chatter post triggered,"AC-01, BR-26 — State Transition — Adding an Available teacher to a Published lesson via the SF Lesson Calendar triggers a new Chatter post for the added teacher.","- Riso Salesforce org with config flag = ON
-- A lesson in Published status with a future date
+,[Riso] Lesson Publish – Teacher Added from SF Lesson Calendar – Recurring lesson – This and the following – New Chatter post for each affected occurrence,"AC-01, BR-26 — State Transition — Adding one Available teacher from SF Lesson Calendar to recurring occurrence 2 with This and the following assigns the teacher to occurrences 2–3 and creates one new Chatter post on each affected occurrence.","- Riso Salesforce org with config flag = ON
+- today = 2026-06-23; Published recurring occurrences: 2026-06-30, 2026-07-07, 2026-07-14 (all future)
+- No Lesson Teachers are assigned to any occurrence
 - Teacher ""Yamamoto Yuki"" (working_status=Available, working_type=Part Time) exists in SF
-- Logged in as HQ or CM Staff to the Salesforce org",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Calendar
-2. Select the Published lesson and choose to edit
-3. Add ""Yamamoto Yuki"" as a Lesson Teacher and save
-4. Navigate to the Chatter section of the lesson","1. Calendar view is displayed
-2. Edit modal/page for the lesson opens
-3. ""Yamamoto Yuki"" is successfully added
-4. A new Chatter post appears @mentioning ""@Yamamoto Yuki""","1. """"
-2. lesson_status=Published
-3. working_status=Available
-4. """"",,,3053,,,,,
+- Logged in as HQ or CM Staff to the Salesforce org",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Navigate to the SF Lesson Calendar and locate occurrence 2 dated 2026-07-07; record Chatter post counts for occurrences 1–3
+2. Select occurrence 2, choose to edit, and add Yamamoto Yuki
+3. Select ""This and the following"" and save
+4. Verify teacher assignments and Chatter posts for occurrences 1–3","1. Calendar view shows three Published future occurrences; baselines recorded
+2. Recurring-scope selector is displayed
+3. Yamamoto Yuki is assigned to occurrences 2 and 3, not occurrence 1
+4. Occurrence 1 has no new teacher or post; occurrences 2 and 3 each have exactly 1 new post @mentioning @Yamamoto Yuki","1. occurrence_1=2026-06-30; occurrence_2=2026-07-07; occurrence_3=2026-07-14
+2. working_status=Available; working_type=Part Time
+3. scope=This and the following
+4. affected_occurrences=2,3",,,3053,,[Riso] Single Publish – Chatter Post,,,
+,[Riso] Lesson Publish – Teacher Added from SF Lesson Detail – Recurring lesson – Only this – One new Chatter post triggered,"AC-01, BR-26 — Adding one Available teacher from SF Lesson Detail to recurring occurrence 2 with Only this creates exactly one new Chatter post on occurrence 2 only.","- Riso Salesforce org with config flag = ON
+- Published recurring occurrences: 2026-06-30, 2026-07-07, 2026-07-14 (all future)
+- No Lesson Teachers are assigned to any occurrence
+- Tanaka Kenji is Available and Full Time",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open occurrence 2 in SF Lesson Detail and record Chatter post counts for occurrences 1–3
+2. Add Tanaka Kenji
+3. Select Only this and save
+4. Verify teacher assignments and Chatter posts for occurrences 1–3","1. Baseline Chatter post counts are recorded
+2. Recurring-scope selector is displayed
+3. Tanaka Kenji is assigned to occurrence 2 only
+4. Occurrence 2 has exactly 1 new post @mentioning @Tanaka Kenji; occurrences 1 and 3 remain unchanged","1. occurrence_1=2026-06-30; occurrence_2=2026-07-07; occurrence_3=2026-07-14
+2. working_status=Available; working_type=Full Time
+3. scope=Only this
+4. affected_occurrence=2",,3053,,[Riso] Single Publish – Chatter Post,,,
+,[Riso] Lesson Publish – Teacher Added from SF Lesson Detail – Recurring lesson – This and the following – New Chatter post for each affected occurrence,"AC-01, BR-26 — Adding one Available teacher from SF Lesson Detail to recurring occurrence 2 with This and the following creates one new Chatter post on each affected occurrence.","- Riso Salesforce org with config flag = ON
+- Published recurring occurrences: 2026-06-30, 2026-07-07, 2026-07-14 (all future)
+- No Lesson Teachers are assigned to any occurrence
+- Yamamoto Yuki is Available and Part Time",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open occurrence 2 in SF Lesson Detail and record Chatter post counts for occurrences 1–3
+2. Add Yamamoto Yuki
+3. Select This and the following and save
+4. Verify teacher assignments and Chatter posts for occurrences 1–3","1. Baseline Chatter post counts are recorded
+2. Recurring-scope selector is displayed
+3. Yamamoto Yuki is assigned to occurrences 2 and 3, not occurrence 1
+4. Occurrence 1 has no new teacher or post; occurrences 2 and 3 each have exactly 1 new post @mentioning @Yamamoto Yuki","1. occurrence_1=2026-06-30; occurrence_2=2026-07-07; occurrence_3=2026-07-14
+2. working_status=Available; working_type=Part Time
+3. scope=This and the following
+4. affected_occurrences=2,3",,3053,,[Riso] Single Publish – Chatter Post,,,
+,[Riso] Lesson Publish – Teacher Added from SF Lesson Calendar – Recurring lesson – Only this – One new Chatter post triggered,"AC-01, BR-26 — Adding one Available teacher from SF Lesson Calendar to recurring occurrence 2 with Only this creates exactly one new Chatter post on occurrence 2 only.","- Riso Salesforce org with config flag = ON
+- Published recurring occurrences: 2026-06-30, 2026-07-07, 2026-07-14 (all future)
+- No Lesson Teachers are assigned to any occurrence
+- Nakamura Hana is Available and Full Time",,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. Open the SF Lesson Calendar and record Chatter post counts for occurrences 1–3
+2. Select occurrence 2 and add Nakamura Hana
+3. Select Only this and save
+4. Verify teacher assignments and Chatter posts for occurrences 1–3","1. Baseline Chatter post counts are recorded
+2. Recurring-scope selector is displayed
+3. Nakamura Hana is assigned to occurrence 2 only
+4. Occurrence 2 has exactly 1 new post @mentioning @Nakamura Hana; occurrences 1 and 3 remain unchanged","1. occurrence_1=2026-06-30; occurrence_2=2026-07-07; occurrence_3=2026-07-14
+2. working_status=Available; working_type=Full Time
+3. scope=Only this
+4. affected_occurrence=2",,3053,,[Riso] Single Publish – Chatter Post,,,

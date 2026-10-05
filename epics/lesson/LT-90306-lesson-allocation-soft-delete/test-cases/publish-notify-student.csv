@@ -1,0 +1,22 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3631,3588,Publish and Notify Student – Notification Recipients,1,,
+,[Renseikai] Notification Recipients – Student with Archived Lesson Allocation – Student and Linked Parent Not Notified,"AC 02.1 (Notification Recipients) - Decision Table: a student whose Lesson Allocation has been archived must not receive the ""Publish and notify student"" push notification, and their linked parent must not receive it either, since the parent lookup is keyed off the same archived-filtered student set.","- User is logged into SF with the ""Publish Lesson With Notification"" custom permission (member of the Renseikai OOP Permission Set).
+- A lesson exists with status = Published; Student A was previously assigned with a Student Session.
+- Student A's Lesson Allocation has since been archived (Archived_At__c is populated) after its Student Package Order was fully removed, so the Student Session Is_Archived__c = TRUE.
+- Student B remains assigned to the same lesson with an active Lesson Allocation (Archived_At__c is blank).
+- Student A and Student B are each logged into the Learner App on separate test devices with push notifications enabled; Parent A (linked to Student A via a Relationship record) is logged into the Parent App with push notifications enabled.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to the SF Lesson Detail page of the Published lesson and click ""Publish and notify student""""
+2. ""Click ""Send"" in the modal""
+3. ""On Student B's device, check the Learner App notification inbox""
+4. ""On Student A's device, check the Learner App notification inbox""
+5. ""On Parent A's device, check the Parent App notification inbox""
+","1. ""Confirmation modal appears""
+2. ""Modal closes""
+3. ""Student B receives a push notification with title ""Lesson Published""""
+4. ""Student A does NOT receive any notification for this lesson""
+5. ""Parent A does NOT receive any notification for this lesson either""
+","1. """"
+2. """"
+3. ""Student B Is_Archived__c = FALSE -> included""
+4. ""Student A Is_Archived__c = TRUE -> excluded""
+5. ""Student A excluded -> linked parent also excluded from the recipient set""
+",,,3631,3588,Publish and Notify Student – Notification Recipients,,,

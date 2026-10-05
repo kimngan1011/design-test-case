@@ -1,0 +1,19 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[Nichibei] Smartphone Lesson List – Collect Attendance Roster – Archived Student Excluded, Including Booking Remark (Control Case)","AC-5 (parity) - Regression - control case, not a gap: Code-confirmed this Smartphone-view roster shares the exact same Is_Archived__c-filtered query and dialog as the already-covered desktop Collect Attendance entry points.","Logged into BO as a Nichibei staff user on the Smartphone view
+Published Lesson X has Student A (booked via Nichibei Lesson Booking, remark = ""Please arrange front row seat"", stored with ""Booking Note:"" prefix) and Student B (active, no remark) both assigned
+Status filter = ""Published"" (default)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Staff taps into Lesson X's Collect Attendance entry point from the Smartphone Lesson List""
+2. ""The Student Package Order group behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""Staff reopens Lesson X's Collect Attendance entry point from the Smartphone Lesson List""
+4. ""A living Student Package Order reappears for Student A's Student Course, so the Lesson Allocation is unarchived on the same record Id""
+5. ""Staff reopens the Collect Attendance entry point""
+","1. ""Both Student A (with 'Booking Note: Please arrange front row seat' shown read-only) and Student B appear in the roster""
+2. ""Student A's Student Session becomes Is_Archived__c = TRUE via formula""
+3. ""Student A no longer appears in the roster at all - neither their attendance row nor their booking remark leaks through; Student B is unaffected""
+4. ""Student A's Student Session returns to Is_Archived__c = FALSE""
+5. ""Student A reappears in the roster with their original booking remark intact ('Booking Note: Please arrange front row seat')""
+","1. ""Both sessions Is_Archived__c = FALSE""
+2. ""Archived_At__c = current timestamp""
+3. ""Student A excluded by Lesson_GetStudentSessionAttendance's Is_Archived__c = FALSE filter""
+4. ""Archived_At__c = null (restored)""
+5. ""Same Student_Sessions__c record, Attendance_Response__c unchanged by the archive/restore cycle""
+",,,3661,3654,[Nichibei] Lesson List in BO (Smartphone view),,,

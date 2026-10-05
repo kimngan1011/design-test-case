@@ -28,7 +28,7 @@ The underlying data (Riso Contract records, LA aggregation) is created by a sepa
 | ID | Feature | Acceptance Criteria |
 |---|---|---|
 | AC01.1 | Contract Info under User profile | Header unchanged (student icon + full name, edit icon). Per the PRD Localization table, section header "Contract Info"/"ご契約内容". Month selector (year-month dropdown, EN "MM YYYY" / JP "YYYY年MM月", default = last month of current AY) may select months outside the current AY; when no LA data qualifies for the selected month, no LA data/cards are shown. Info banner re: data update timing. Body = LA list filtered to `require_allocation = TRUE` AND `Academic Year = Current AY`. Each LA card shows Course Master Name (via Location Course → Course Master), Academic Year & Location, Total Slot (契約数) and Lesson Allocated (授業設定数) for the selected month. Sort: LA start date ASC → end date ASC → created_at ASC. |
-| AC01.2 | Calculate the Total Slot and Lesson Allocated | **App calculation:** Total Slot = SUM of related Riso Contracts' contributions: `monthly` type → Monthly Slot × elapsed months (Start Month→Selected Month); `one-time` type (called "Seasonal" in the PRD) → full slot if Start Date(month) ≤ Selected Month(EOM), else 0. There is no Trial contract type in Riso. Lesson Allocated = count of Student Sessions where Lesson Date is within AY AND ≤ EOM of selected month AND Lesson Status is NOT Cancelled, EXCLUDING sessions where Attendance = Absent AND Notice is NOT "In Advance". This Riso App rule deliberately follows the current PRD even where the sibling SF report differs. Ref: Riso \| OOP \| RISO Contract API (POST/PATCH) (LT-98533). |
+| AC01.2 | Calculate the Total Slot and Lesson Allocated | **App calculation:** Total Slot = SUM of related Riso Contracts' contributions: `monthly` type → Monthly Slot × the inclusive month count from Contract Start Month through the earlier of Selected Month and Contract End Month; a selected month before Contract Start Month contributes 0. `weekly` type → first convert Weekly Slot to Monthly Slot (`Weekly Slot × 4`), then apply the same capped inclusive-month formula. `one-time` type (called "Seasonal" in the PRD) → Contract Total (`Total__c`) if Start Date(month) ≤ Selected Month(EOM), else 0; this remains the full Contract Total when the selected month is after Contract End Month. Do not use Slot Number for this type. There is no Trial contract type in Riso. Lesson Allocated = count of Student Sessions where Lesson Date is within AY AND ≤ EOM of selected month AND Lesson Status is NOT Cancelled, EXCLUDING sessions where Attendance = Absent AND Notice is NOT "In Advance". This Riso App rule deliberately follows the current PRD even where the sibling SF report differs. Ref: Riso \| OOP \| RISO Contract API (POST/PATCH) (LT-98533). |
 
 ### US 02 (PRD: US 01B) — Lesson History
 **As a** student or parent, **I want** to view my/my child's lesson history by month **so that** I can review what lessons have already taken place and stay informed about attendance.
@@ -74,8 +74,8 @@ The Contract info-banner text and the Contract/Lesson History month and Lesson D
 | BR-12 | AC01.1/.2 | Card shows Lesson Allocated (授業設定数) for selected month | lesson_allocated | auto-calculated | app |
 | BR-13 | AC01.1 | Sort: LA start date ASC → end date ASC → created_at ASC | la_list | computed | app |
 | BR-14 | AC01.2 | Total Slot = SUM of related Riso Contracts' slot numbers | total_slot | auto-calculated | app |
-| BR-15 | AC01.2 | Monthly type: slot = Monthly Slot × elapsed months (Start Month→Selected Month) | total_slot | auto-calculated | app |
-| BR-16 | AC01.2 | `one-time` Contract.type (called "Seasonal" in the PRD): full slot if Start(month) ≤ Selected(EOM), else 0 | total_slot | auto-calculated | app |
+| BR-15 | AC01.2 | Monthly type: if Selected Month is before Start Month, slot = 0; otherwise slot = Monthly Slot × inclusive months from Start Month through the earlier of Selected Month and End Month. Weekly type: Monthly Slot = Weekly Slot × 4, then apply the same capped inclusive-month formula. | total_slot | auto-calculated | app |
+| BR-16 | AC01.2 | `one-time` Contract.type (called "Seasonal" in the PRD): Contract Total (`Total__c`) if Start(month) ≤ Selected(EOM), else 0; this includes selected months after End Month. Slot Number is not used | total_slot | auto-calculated | app |
 | BR-17 | AC01.2 | Trial is not a valid Riso Contract.type; no Trial calculation or card variant is in scope | total_slot | N/A | app |
 | BR-18 | AC01.2 | Lesson Allocated: sessions with Lesson Date within AY | lesson_allocated | auto-calculated | app |
 | BR-19 | AC01.2 | AND Lesson Date ≤ EOM of selected month | lesson_allocated | auto-calculated | app |
@@ -105,7 +105,7 @@ The Contract info-banner text and the Contract/Lesson History month and Lesson D
 
 | # | Topic | Decision | Test/document impact |
 |---|---|---|---|
-| 1 | Contract type terminology | The PRD's "Seasonal" contract means Riso `Contract.type=one-time`. Monthly remains `monthly`; Trial is not a valid Riso Contract.type. `weekly` has no AC01.2 formula and is outside this ticket's confirmed calculation scope. | Rename Seasonal cases/data to One-Time and remove the Trial placeholder. The App uses AC01.2's month-based formula, not the backend's flat LA aggregation as its display expectation. |
+| 1 | Contract type terminology | The PRD's "Seasonal" contract means Riso `Contract.type=one-time`. Monthly remains `monthly`; Trial is not a valid Riso Contract.type. | Rename Seasonal cases/data to One-Time and remove the Trial placeholder. The App uses AC01.2's month-based formula, not the backend's flat LA aggregation as its display expectation. |
 | 2 | Cancelled lessons in Lesson Allocated | Follow the current App specification: Cancelled lessons are excluded. The difference from LT-98531 is deliberate for this App feature and has been raised with PDM. | Keep the exclusion case; remove the alternate SF-report behaviour and any App–SF parity requirement. |
 | 3 | Lesson History status | Only `Completed` lessons are listed. | Status decision table is final; remove TBC wording. |
 | 4 | Attendance compound rule | This feature applies only to Riso. Present = included; Absent + In Advance = included; Absent + no In Advance notice = excluded. | Keep all three Riso cases; no cross-surface synchronisation assertion is required. |
@@ -113,6 +113,9 @@ The Contract info-banner text and the Contract/Lesson History month and Lesson D
 | 6 | Lesson History month navigation | Navigation is not bounded. For any selected month, show qualifying Completed lessons; otherwise show "No data". | Replace the boundary placeholder with unbounded-navigation coverage. |
 | 7 | Parent with multiple children | A parent must select a student before viewing either page. Data follows the selected student. | Keep the selected-child scope test as a confirmed rule. |
 | 8 | Figma caption localisation | The PRD Localization table is authoritative: "total at the time"/"時点の累計". | Cover it in the consolidated Contract Info Translation case; do not add a logic-case assertion. |
+| 9 | Weekly contract calculation | Per PdM clarification, convert a `weekly` contract's Weekly Slot to a Monthly Slot by multiplying it by 4, then calculate Total Slot using the same elapsed-month formula as `monthly`. | Add boundary and elapsed-month calculation cases. Example: Weekly Slot 1 → Monthly Slot 4. |
+| 10 | Selected month outside contract duration | Per PdM clarification, a selected month before Contract Start Month contributes 0. A selected month after Contract End Month includes the full contract duration only; do not continue adding months after the End Month. This applies to `monthly` and `weekly` after its Weekly Slot × 4 conversion. | Add before-Start and after-End BVA coverage for Monthly and Weekly. Example: Contract Jun–Aug, selected Oct → 3 counted months. |
+| 11 | One-time source value | Per PdM clarification, a `one-time` contract contributes its Contract Total (`Total__c`), not its Slot Number, once the selected month reaches its Start Month; it continues to contribute that full Contract Total after its End Month. | Update One-time cases and add Start-Month and after-End-Month boundary coverage with distinct Slot Number and Contract Total values. |
 
 ### Integration Notes
 
@@ -147,11 +150,11 @@ The Contract info-banner text and the Contract/Lesson History month and Lesson D
 
 ## Clarification Log
 
-All ten questions were answered on 2026-08-13. The resulting decisions and their test impact are recorded in [Clarification Decisions — 2026-08-13](#clarification-decisions--2026-08-13). `weekly` remains outside the AC01.2 calculation scope because the PRD provides no formula for it.
+The original questions were answered on 2026-08-13. The resulting decisions and their test impact are recorded in [Clarification Decisions — 2026-08-13](#clarification-decisions--2026-08-13), with the later PdM clarification for the `weekly` calculation captured above.
 
 ## Related Specs
 
-- `epics/OOP/riso/LT-98533-riso-contract-api/spec.md` — Riso Contract API (POST/PATCH); source for the `monthly`/`one-time` Contract.type mapping. Its flat LA aggregation is a backend value, distinct from this App's AC01.2 calculation.
+- `epics/OOP/riso/LT-98533-riso-contract-api/spec.md` — Riso Contract API (POST/PATCH); source for the Contract.type mapping. Its flat LA aggregation is a backend value, distinct from this App's AC01.2 calculation.
 - `epics/OOP/riso/LT-98531-riso-contract-lesson-report/spec.md` — SF-side sibling read surface for the same Contract/LA data. Its status-agnostic Lesson Allocated rule deliberately differs from this App's Cancelled exclusion.
 - `epics/OOP/riso/LT-92532-riso-create-update-la-on-ui/spec.md` — Riso manual LA creation; useful background for LA types, which are distinct from Contract.type.
 
@@ -163,5 +166,5 @@ All ten questions were answered on 2026-08-13. The resulting decisions and their
 ## QASE Coverage Gaps
 
 - AC01.1 — Contract Info page display, LA list filter/sort, including an out-of-AY selection with no qualifying data.
-- AC01.2 — Total Slot / Lesson Allocated calculation for `monthly` and `one-time` contracts; no Trial type is in scope.
+- AC01.2 — Total Slot / Lesson Allocated calculation for `monthly`, `weekly`, and `one-time` contracts; no Trial type is in scope.
 - AC02.1 — Lesson History page, unbounded month navigation, Completed-only filter, and row rendering.

@@ -1,0 +1,18 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3638,3588,Show Confirmation Alert when Lesson and LA course are different,1,,
+,Lesson Course Alert – Mismatched Student's Lesson Allocation Archived – Student and Alert Both Removed from the Lesson; Restored – Student and Mismatch Alert Reappear,"Regression / control case - Decision Table, contrasts with the baseline (case 12723, ""First Student Assigned to One-Time Group Lesson – Lesson course ≠ LA course – Confirmation alert shown""): once the mismatched student's Lesson Allocation is archived, the student's Student Session row - and with it the course-mismatch alert it was the sole cause of - disappears from the lesson entirely, rather than leaving a stale alert visible for a student who is no longer actually assigned. The alert correctly reappears, together with the student, once the Lesson Allocation is restored.","- Lesson L1 is type = Group, course = Course X. Student S1 has an active Lesson Allocation with course = Course Y (mismatch). S1 has already been added to L1, and the course-mismatch confirmation alert is currently shown.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff confirms the course-mismatch alert is visible in Lesson L1""
+2. ""The Student Package Order behind S1's Course Y Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""HQ or CM Staff reopens Lesson L1's Student Sessions section""
+4. ""A living Student Package Order reappears for S1's Course Y Student Course, so the Lesson Allocation is unarchived on the same record Id""
+5. ""HQ or CM Staff reopens Lesson L1's Student Sessions section""
+","1. ""Alert visible: S1's LA course (Course Y) ≠ Lesson course (Course X)""
+2. ""The Lesson Allocation shows Archived_At__c populated""
+3. ""S1 no longer appears in the student list at all, and the course-mismatch alert is no longer shown - not because the mismatch was resolved, but because the whole row is hidden""
+4. ""The Lesson Allocation shows Archived_At__c blank again""
+5. ""S1 reappears in the list, and the course-mismatch alert is shown again, since the underlying mismatch (Course Y vs Course X) was never actually resolved""
+","1. ""S1 Is_Archived__c = FALSE; isMismatchLessonCourse = TRUE""
+2. ""Archived_At__c = current timestamp""
+3. ""S1 Is_Archived__c = TRUE (via formula) -> row excluded from getStudentSessionsByLessonId, so isMismatchLessonCourse is never evaluated for it""
+4. ""Archived_At__c = null (restored)""
+5. ""S1 Is_Archived__c = FALSE (restored) -> row visible again; isMismatchLessonCourse recomputed as TRUE""
+",,,3638,3588,Show Confirmation Alert when Lesson and LA course are different,,,

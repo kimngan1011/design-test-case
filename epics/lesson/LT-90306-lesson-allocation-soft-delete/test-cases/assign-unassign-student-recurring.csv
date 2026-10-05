@@ -1,0 +1,17 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3600,3588,Assign/Unassign a student,1,,
+,Assign Student – This and Following Lessons – Lesson Allocation Restored – Student Appears and Assignable Across All Following Instances,"Feature Impact (LA authorization & Add Student / Class Assignment) - Decision Table: after a previously archived Lesson Allocation is restored (unarchived, same record Id), the student becomes selectable in the Add Student picker again and, once assigned with ""This and following lessons"" scope, is correctly propagated to every remaining instance of the recurring chain - not just the first one.","- HQ or CM Staff is logged in to Salesforce.
+- A weekly recurring lesson chain for Class A exists at Location Tokyo HQ with 5 instances: 2026-05-04, 05-11, 05-18, 05-25, 06-01.
+- Student A's Lesson Allocation was previously archived, then unarchived (same record Id) after a living Student Package Order reappeared for the same Student Course, so Student A's Lesson Allocation now shows Archived_At__c blank.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the first lesson instance (2026-05-04) and clicks Add Student""
+2. ""HQ or CM Staff selects Student A, chooses ""This and following lessons"" scope, and saves""
+3. ""HQ or CM Staff opens each of the remaining 4 lesson instances (2026-05-11, 05-18, 05-25, 06-01)""
+4. ""HQ or CM Staff opens Student A's Lesson Allocation record""
+","1. ""The Add Student picker opens and shows Student A, since their Lesson Allocation is no longer archived""
+2. ""Student A is assigned to the first instance and the assignment propagates to the following instances in the chain""
+3. ""Student A appears in the Student Sessions section of every instance""
+4. ""Lesson Allocated count reflects all 5 newly assigned sessions; Lesson Allocation Status and Report History are updated consistently with the full propagated assignment""
+","1. ""Student A Archived_At__c = blank (restored) -> shown""
+2. ""scope = This and following lessons""
+3. ""Student A present in all 5 lesson instances""
+4. ""Student A LA detail fields reflect all 5 sessions""
+",,,3600,3588,Assign/Unassign a student,,,

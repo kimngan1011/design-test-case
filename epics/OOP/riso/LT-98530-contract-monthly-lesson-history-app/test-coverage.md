@@ -20,8 +20,8 @@
 | BR-11/12 | AC01.1/.2 | LA card shows Total Slot and Lesson Allocated for selected month |
 | BR-13 | AC01.1 | LA list sort: start date ASC → end date ASC → created_at ASC |
 | BR-14 | AC01.2 | Total Slot = SUM of related Riso Contracts' slot numbers |
-| BR-15 | AC01.2 | `monthly` type: Monthly Slot × elapsed months |
-| BR-16 | AC01.2 | `one-time` type (called Seasonal in the PRD): full slot if Start(month) ≤ Selected(EOM), else 0 |
+| BR-15 | AC01.2 | `monthly` type: 0 before Start Month; otherwise Monthly Slot × inclusive months from Start through the earlier of Selected and End Month. `weekly` type: Weekly Slot × 4 = Monthly Slot, then the same capped calculation |
+| BR-16 | AC01.2 | `one-time` type (called Seasonal in the PRD): Contract Total (`Total__c`) if Start(month) ≤ Selected(EOM), else 0; the full Contract Total remains after End Month; Slot Number is not used |
 | BR-17 | AC01.2 | Trial is not a valid Riso Contract.type (out of scope) |
 | BR-18/19 | AC01.2 | Lesson Allocated: sessions within AY AND ≤ EOM of selected month |
 | BR-20 | AC01.2 | AND Lesson Status is NOT Cancelled |
@@ -89,8 +89,8 @@
 | AC01.1 | LA list sort order (start→end→created_at) | Ordering / Sort | Scenario | Medium | Standard |
 | AC01.1 | Zero qualifying data — no LA cards for selected month, including out-of-AY months | Display completeness | Negative | Medium | Standard |
 | AC01.2 | Total Slot = SUM(contract slot) across Active contracts | Data integrity | Decision Table | 🔴 Critical | Deep |
-| AC01.2 | Total Slot — Monthly type proration formula | Conditional + Boundary/range | BVA + Decision Table | 🔴 Critical | Deep |
-| AC01.2 | Total Slot — One-Time type on/off formula | Conditional + Boundary/range | BVA + Decision Table | 🔴 Critical | Deep |
+| AC01.2 | Total Slot — Monthly and Weekly type proration formula (0 before Start; cap at End; Weekly Slot × 4 before monthly calculation) | Conditional + Boundary/range | BVA + Decision Table | 🔴 Critical | Deep |
+| AC01.2 | Total Slot — One-Time Contract Total on/off formula, including Start-Month and after-End-Month boundaries | Conditional + Boundary/range | BVA + Decision Table | 🔴 Critical | Deep |
 | AC01.2 | Lesson Allocated — AY + EOM date range filter | Boundary/range | BVA | High | Deep |
 | AC01.2 | Lesson Allocated — Cancelled-status exclusion | Conditional logic | Decision Table | 🔴 Critical | Deep |
 | AC01.2 | Lesson Allocated — compound Attendance exclusion (lesson-learned risk) | Conditional logic | Decision Table | 🔴 Critical | Deep |
@@ -139,7 +139,7 @@
 
 | Area | Reason | Recommended Approach |
 |---|---|---|
-| Total Slot formula (Monthly/One-Time, BR-14–16) | The App's selected-month calculation differs from backend flat aggregation, so the UI calculation can silently regress. | Test the confirmed App formula: Monthly proration and One-Time full-slot boundary. Trial is out of scope. |
+| Total Slot formula (Monthly/Weekly/One-Time, BR-14–16) | The App's selected-month calculation differs from backend flat aggregation, so the UI calculation can silently regress. | Test the confirmed App formula: 0 before Start; capped inclusive months through End for Monthly; Weekly Slot × 4 followed by the same cap; and the One-Time Contract Total boundaries, including selected month = Start Month and after End Month. Trial is out of scope. |
 | Lesson Allocated — Cancelled-status exclusion (BR-20) | The App intentionally differs from the sibling SF report, so a shared-calculation assumption could remove the exclusion. | Assert only the confirmed App behaviour: Cancelled is excluded. |
 | Lesson Allocated — compound Attendance exclusion (BR-21) | Lesson-learned risk: OOP compound conditions have a documented history (Nichibei, 2026-03-04) of partial implementation causing silent miscalculation. | Mandatory 3-way decision table: Absent+InAdvance (INCLUDED), Absent+NoNotice (EXCLUDED), Present (INCLUDED) — no partial credit for 2 of 3 cases. |
 | Lesson History status filter (BR-29) | A wrong status filter would expose scheduled or cancelled lessons as history. | Decision-table coverage asserts Completed only. |
@@ -170,7 +170,7 @@
 | Gap Area | Existing Test Case | Overlap | New Coverage Needed |
 |---|---|---|---|
 | Contract Info page (display, list, sort, empty state) | None (greenfield App UI) | None | ✅ Full new suite |
-| Total Slot calculation (Monthly/One-Time) | `epics/OOP/riso/LT-98533-riso-contract-api/test-cases/la-aggregation-post.md`, `la-aggregation-patch.md` | Backend aggregation only; not the App calculation | ✅ App-specific Monthly and One-Time calculation TCs |
+| Total Slot calculation (Monthly/Weekly/One-Time) | `epics/OOP/riso/LT-98533-riso-contract-api/test-cases/la-aggregation-post.md`, `la-aggregation-patch.md` | Backend aggregation only; not the App calculation | ✅ App-specific Monthly, Weekly, and One-Time calculation TCs |
 | Lesson Allocated calculation (date range, status, attendance) | `epics/OOP/riso/LT-98531-riso-contract-lesson-report/test-cases/monthly-report-calculations.md` | Partial — same compound Attendance rule, but confirmed to differ on Cancelled-status handling | ✅ New TCs, explicitly parameterized to test both status-handling interpretations |
 | Lesson History page (display, navigator, filter, sort) | None (greenfield App UI) | None | ✅ Full new suite |
 | Contract API → App propagation | None | API write is covered, App presentation is not | ✅ New App propagation regression; no App–SF parity assertion |
@@ -183,7 +183,7 @@
 ```
 epics/OOP/riso/LT-98530-contract-monthly-lesson-history-app/test-cases/
 ├── contract-info-display.md          → AC01.1 — header, static text, LA list filter/fields/sort, empty state
-├── total-slot-calculation.md         → AC01.2 — Total Slot formula: Monthly/One-Time (🔴 Critical)
+├── total-slot-calculation.md         → AC01.2 — Total Slot formula: Monthly/Weekly/One-Time (🔴 Critical)
 ├── lesson-allocated-calculation.md   → AC01.2 — Lesson Allocated: date range, status filter, compound attendance exclusion (🔴 Critical)
 ├── lesson-history-display.md         → AC02.1 — page menu, month navigator, empty state, row field rendering
 ├── lesson-history-filter-sort.md     → AC02.1 — Completed-only status filter, month filter, sort order

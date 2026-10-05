@@ -2,6 +2,8 @@
 
 > **Confirmed 2026-08-13:** This Riso App follows AC01.2: Cancelled lessons are excluded. The sibling SF report's status-agnostic calculation is an intentional divergence and is not an alternate expected result here.
 
+- **Academic Year boundary rule:** Student sessions dated before Academic Year start or after Academic Year end do not contribute to Lesson Allocated, even when their dates are on or before the selected month's End-of-Month.
+
 ## Suite: [Riso] Lesson Allocated Calculation
 
 ### [Riso] Lesson Allocated – Session Date Within Academic Year – Included in Count
@@ -17,6 +19,42 @@
 | 1 | Set the month selector to September 2025 and view the LA card | Lesson Allocated count includes this session (count = 1) | session_date=2025-09-10; AY=2025-04-01 to 2026-03-31; expected=included |
 
 **Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocated – Sessions Outside Academic Year at Both Boundaries – Excluded
+
+**Description:** AC01.2 — BVA (both Academic Year boundaries) — Student sessions dated one day before Academic Year start and one day after Academic Year end are both excluded, even though both are on or before the selected month's End-of-Month.
+
+**Preconditions:**
+- The Student is logged in to the Riso Learner App.
+- The Lesson Allocation belongs to Academic Year 2025-04-01 to 2026-03-31.
+- The Student has two assigned student sessions with Lesson Status=Completed and Attendance=Present: 2025-03-31 and 2026-04-01.
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student selects April 2026 in the Contract Info month selector and views the Lesson Allocation card | The Lesson Allocated count does not include either session | academic_year_start=2025-04-01; academic_year_end=2026-03-31; selected_month=2026-04; selected_month_EOM=2026-04-30; session_1=2025-03-31 < AY start; session_2=2026-04-01 > AY end; both ≤ selected_month_EOM; expected=both excluded |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Allocated – Multiple Assigned Lessons Within Selected Month – Completed, Draft, and Published Counted
+
+**Description:** AC01.2 — Decision Table / Data Integrity — All assigned student sessions in the selected month are counted when their lessons are Completed, Draft, or Published, are within the Academic Year and before the selected-month End-of-Month, and have eligible attendance.
+
+**Preconditions:**
+- The Student is logged in to the Riso Learner App.
+- The Lesson Allocation belongs to Academic Year 2025-04-01 to 2026-03-31.
+- The Student is assigned to three lessons with one Present student session each: Completed on 2025-09-10, Draft on 2025-09-15, and Published on 2025-09-20.
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student selects September 2025 in the Contract Info month selector and views the Lesson Allocation card | The Lesson Allocated count shows 3 | selected_month=2025-09; selected_month_EOM=2025-09-30; sessions=[Completed/2025-09-10/Present, Draft/2025-09-15/Present, Published/2025-09-20/Present]; assigned_student=true; expected=3 |
+
+**Severity:** critical
 **Priority:** high
 
 ---

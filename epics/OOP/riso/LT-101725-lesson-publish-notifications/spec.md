@@ -7,7 +7,7 @@ bucket: OOP/riso
 status: In Development
 internal_uat_date: null
 production_release_date: null
-last_updated: 2026-06-23
+last_updated: 2026-09-09
 ---
 
 # LT-101725: [Riso] Core | Lesson Publish Notifications to Teachers
@@ -80,7 +80,7 @@ Chatter post content (both EN and JP templates provided; language selection TBD 
 - **EN:** `@[Teacher Name] — [Lesson Name] has been published. Click to see more details.`
 - **JP:** `@[先生名] — [授業名]が公開されました。詳細はこちらをクリックしてください。`
 
-The **Lesson Name must be hyperlinked** to the SF Lesson Detail page (opens in new tab per AC-08).
+The **Lesson Name must be hyperlinked** to the Back Office (BO) Lesson Detail page for the same lesson (opens in a new tab per AC-08).
 
 #### AC-06 — SF Notification Center delivery (single publish only)
 
@@ -92,7 +92,7 @@ Only @mentioned Lesson Teachers receive the SF notification center alert. **Othe
 
 #### AC-08 — Lesson Name hyperlink navigation
 
-When a user clicks the Lesson Name hyperlink in the Chatter post or notification center, they must be redirected to the **SF Lesson Detail page in a new tab**.
+When a user clicks the Lesson Name hyperlink in the Chatter post or notification center, they must be redirected to the **BO Lesson Detail page for the same lesson in a new tab**.
 
 ---
 
@@ -158,10 +158,10 @@ Because Lesson Teachers are @mentioned in Chatter posts (AC-04), notifications a
 | BR-09 | AC-04 | Multiple teachers → single post (NOT one post per teacher) |
 | BR-10 | AC-05 | Chatter post EN body: `@[Teacher Name] — [Lesson Name.hyperlink] has been published. Click to see more details.` |
 | BR-11 | AC-05 | Chatter post JP body: `@[先生名] — [授業名.hyperlink]が公開されました。詳細はこちらをクリックしてください。` |
-| BR-12 | AC-05 | Lesson Name in Chatter post = hyperlink to SF Lesson Detail page |
+| BR-12 | AC-05 | Lesson Name in Chatter post = hyperlink to the BO Lesson Detail page for the same lesson |
 | BR-13 | AC-06 | SF notification center message = default SF @mention notification; no custom notification code required |
 | BR-14 | AC-07 | Only @mentioned teachers receive notification center alert; LBAC-only users can view post but receive NO alert |
-| BR-15 | AC-08 | Lesson Name hyperlink → opens SF Lesson Detail page in new tab |
+| BR-15 | AC-08 | Lesson Name hyperlink → opens the BO Lesson Detail page for the same lesson in a new tab |
 | BR-16 | AC-09 | Bulk publish → one email per Available Lesson Teacher per bulk action |
 | BR-17 | AC-09 | Email content = published period summary (not individual lesson details) |
 | BR-18 | AC-10 | One email per teacher per bulk action (regardless of how many lessons in batch) |

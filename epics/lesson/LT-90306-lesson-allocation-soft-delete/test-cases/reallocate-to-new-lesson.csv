@@ -1,0 +1,28 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3633,3588,Reallocate to new lesson,1,,
+,Reallocation – Open Request – Lesson Allocation Archived Before Lesson Selected – Request Becomes Unprocessable,"Feature Impact / data-integrity - Decision Table: if a student's Lesson Allocation is archived while their reallocation request is still Open (no lesson selected yet), the request record itself is left unchanged, but the session lookup backing lesson-selection is excluded by the archive filter, so the request cannot be completed through the normal flow.","- Student A has an Absent Student Session in Lesson A with Reallocate_Flag__c = TRUE.
+- An Open reallocation request exists for Student A, with no linked lesson yet.
+- Student A's Lesson Allocation is subsequently archived (Archived_At__c populated) after its Student Package Order was fully removed, so the original session's Is_Archived__c = TRUE.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Reallocation list and looks for Student A's Open request""
+2. ""HQ or CM Staff opens Lesson A and views the Student Sessions section""
+3. ""HQ or CM Staff opens the Reallocate Lesson popup from Student A's request and selects Lesson B, then confirms""
+","1. ""The request is still listed with status = Open - the archive write never touched the Reallocation__c record""
+2. ""Student A no longer appears in the list""
+3. ""The reallocation does not complete normally - Student A is not added to Lesson B's Student Sessions, and/or an error/failure is surfaced, since the session lookup behind this action excludes archived sessions""
+","1. ""Reallocation request status unchanged""
+2. ""Student A Is_Archived__c = TRUE -> hidden""
+3. ""Student A's session excluded by Is_Archived__c = TRUE from the lookup backing this action""
+",,,3633,3588,Reallocate to new lesson,,,
+,Reallocation – Open Request – Lesson Allocation Restored – Student Can Be Reallocated to a New Lesson Normally,"Feature Impact / data-integrity, control case - Decision Table: after a previously archived Lesson Allocation is restored (unarchived, same record Id), the student's original session reappears and a still-Open reallocation request can be completed normally, confirming the request record survives the archive -> restore cycle intact.","- Student A has an Absent Student Session in Lesson A with Reallocate_Flag__c = TRUE; an Open reallocation request exists for Student A, with no linked lesson yet.
+- Student A's Lesson Allocation was previously archived, then unarchived (same record Id) after a living Student Package Order reappeared for the same Student Course, so Student A's original session Is_Archived__c = FALSE again.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Lesson A's Student Sessions section""
+2. ""HQ or CM Staff opens the Reallocation list and finds Student A's request""
+3. ""HQ or CM Staff opens the Reallocate Lesson popup for this request, selects Lesson B, and confirms""
+4. ""HQ or CM Staff checks Student A's reallocation request again""
+","1. ""Student A's session is visible again""
+2. ""The request is still listed with status = Open, unaffected by the archive/restore cycle""
+3. ""Student A is added to Lesson B's Student Sessions with session type = Reallocate""
+4. ""Request status = Approved, linked lesson = Lesson B, reallocation counter incremented by 1 - identical to a student whose LA was never archived""
+","1. ""Student A Is_Archived__c = FALSE (restored) -> shown""
+2. ""Reallocation request preserved""
+3. ""Normal reallocation completes""
+4. ""Reallocation proceeds exactly as the non-archived baseline (case 1447)""
+",,,3633,3588,Reallocate to new lesson,,,

@@ -1,0 +1,23 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[WithUs Juku] A07 Get All Lesson Allocation API – Current Partner Query Returns Archived LA Rows,"AC-5 (out-of-package, confirmed unfixable) - Negative: Documents the current behavior for the partner-notification effort - WithUs Juku's own query has no reason to exclude archived LA unless their Postman collection is explicitly updated.","A WithUs Juku Lesson Allocation record exists, archived (Archived_At__c populated, via its order group being fully removed)
+WithUs Juku's existing sample Postman request for A07 is available, using whatever WHERE clause their current collection defines (likely date-range/LastModifiedDate-based only, with no archive filter)",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send WithUs Juku's current A07 request as-is against an org containing the archived LA""
+2. ""Re-send the same request with 'AND MANAERP__Archived_At__c = null' added to the WHERE clause""
+3. ""Hand off: recommend the corrected WHERE clause from step 2 as the sample Postman collection update, and flag WithUs Juku for direct partner notification per the existing [SF] Check Partner REST API / Postman collection ticket""
+","1. ""[Documents current state] The archived LA record is returned in the response, indistinguishable from an active one - confirmed structurally unfixable server-side, since Manabie has no Apex layer to filter this partner-constructed query""
+2. ""The archived LA record is correctly excluded from the response""
+3. ""Ticket owner has a concrete before/after query pair to act on""
+","1. ""Current query has no Archived_At__c filter""
+2. ""Corrected query for the Postman collection update""
+3. ""No server-side fix possible - partner must adopt the corrected query themselves""
+",,,3663,3655,Lesson/Course Management & API update,,,
+,[WithUs Juku] A21 Get Class Member API – Current Partner Query Returns Archived Class Member Rows,"AC-5 (out-of-package, confirmed unfixable) - Negative: Same structural gap as A07, for Class_Member__c - relevant since this epic's spec already flags Class_Member__c.Is_Archived__c propagation as a critical architecture gap.","A Class Member record exists whose parent Lesson Allocation is archived, so Is_Archived__c = TRUE via formula
+WithUs Juku's existing sample Postman request for A21 is available (filtered/ordered by LastModifiedDate, with no archive filter)",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Send WithUs Juku's current A21 request as-is against an org containing the archived-parent Class Member""
+2. ""Re-send the same request with 'AND MANAERP__Is_Archived__c = false' added to the WHERE clause""
+3. ""Hand off: recommend the corrected WHERE clause from step 2 as the sample Postman collection update, flagged alongside A07 for the same partner-notification ticket""
+","1. ""[Documents current state] The Class Member record is returned, still appearing active to the partner's integration, despite the underlying LA being archived""
+2. ""The Class Member record is correctly excluded from the response""
+3. ""Ticket owner has a concrete before/after query pair to act on""
+","1. ""Current query has no Is_Archived__c filter""
+2. ""Corrected query for the Postman collection update""
+3. ""No server-side fix possible - partner must adopt the corrected query themselves""
+",,,3663,3655,Lesson/Course Management & API update,,,

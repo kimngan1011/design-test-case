@@ -1,0 +1,36 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3646,3588,View lesson and lesson report,1,,
+,Published Lesson Report – Individual Lesson – Student's Lesson Allocation Archived After Publish – Report Disappears Entirely from Student Mobile; Restored – Reappears Fully,"Gap case - Decision Table - an Individual lesson report already Published and visible to the student/parent on Student Mobile disappears completely from the mobile app once the student's Lesson Allocation is archived, because getLessonReportDetailFromStudentSession's individual-lesson query loop (the sole source of both the report content fields and lessonReportStatus for this teaching method) excludes archived sessions with no fallback - the family sees the report vanish with no explanation. It reappears in full once the Lesson Allocation is restored.","- Student A has an Individual lesson with a Published lesson report: Content = ""Great improvement in reading"", Understanding = ""Good"", Homework Completion = ""Done"", In-lesson Quiz = ""9/10"". Student A (or their parent) has already viewed this report on Student Mobile.
+- Student A has an active (non-archived) Lesson Allocation for this course.",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student/Parent opens the lesson on Student Mobile and views the Published report""
+2. ""The Student Package Order behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""Student/Parent reopens the same lesson's report on Student Mobile""
+4. ""A living Student Package Order reappears for Student A's Student Course, so the Lesson Allocation is unarchived on the same record Id""
+5. ""Student/Parent reopens the same lesson's report on Student Mobile""
+","1. ""Report shows Content = ""Great improvement in reading"", Understanding = ""Good"", Homework Completion = ""Done"", In-lesson Quiz = ""9/10""; lessonReportStatus = Published""
+2. ""The Lesson Allocation shows Archived_At__c populated""
+3. ""The report appears empty - Content, Understanding, Homework Completion, In-lesson Quiz, and even the Published status indicator are all gone, with no error or explanation shown""
+4. ""The Lesson Allocation shows Archived_At__c blank again""
+5. ""The report reappears in full - Content = ""Great improvement in reading"", Understanding = ""Good"", Homework Completion = ""Done"", In-lesson Quiz = ""9/10"", lessonReportStatus = Published - identical to step 1""
+","1. ""getLessonReportDetailFromStudentSession returns full individual-lesson payload""
+2. ""Archived_At__c = current timestamp""
+3. ""Student A Is_Archived__c = TRUE (via formula) -> the individual-lesson query loop (lines 117-141) returns zero rows, so response stays empty including lessonReportStatus""
+4. ""Archived_At__c = null (restored)""
+5. ""Student A Is_Archived__c = FALSE (restored) -> the same Student_Sessions__c record is read again, values unchanged""
+",,,3646,3588,View lesson and lesson report,,,
+,Published Lesson Report – Group Lesson – One Student's Lesson Allocation Archived After Publish – That Student's Personal Fields Disappear While Lesson Content Still Shows; Other Students Unaffected; Restored – Student's Fields Reappear,"Gap case - Decision Table, contrasts with the Individual-lesson case above - for a Group lesson, archiving one student's Lesson Allocation after Publish produces a visibly inconsistent result rather than a fully empty one: lesson-level fields (content, homework, announcement, lessonReportStatus) are set unconditionally from Lesson_Report__c and keep showing, but that one student's personal fields (homeworkCompletion, inLessonQuiz, understanding) silently disappear, while a different, non-archived student in the same group report is completely unaffected.","- A Group lesson has a Published lesson report with Content = ""Chapter 5 practice"", shared Homework = ""Workbook p.20-22"". Student A and Student B both have personal fields filled: Student A — Understanding = ""Excellent"", In-lesson Quiz = ""10/10""; Student B — Understanding = ""Fair"", In-lesson Quiz = ""6/10"".
+- Both students have active (non-archived) Lesson Allocations.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student A's and Student B's parents each open the lesson's report on Student Mobile""
+2. ""The Student Package Order behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""Student A's parent reopens the report on Student Mobile""
+4. ""Student B's parent reopens the same report on Student Mobile at the same time""
+5. ""A living Student Package Order reappears for Student A's Student Course, so the Lesson Allocation is unarchived on the same record Id, and Student A's parent reopens the report""
+","1. ""Both see Content = ""Chapter 5 practice"", Homework = ""Workbook p.20-22"", lessonReportStatus = Published, plus their own child's Understanding/In-lesson Quiz values""
+2. ""The Lesson Allocation shows Archived_At__c populated""
+3. ""Content, Homework, and lessonReportStatus still show normally (these come from Lesson_Report__c directly, not the archived-filtered loop), but Understanding and In-lesson Quiz for Student A are now missing/null - an inconsistent partial result""
+4. ""Student B still sees everything correctly: Content, Homework, lessonReportStatus, and their own Understanding = ""Fair"", In-lesson Quiz = ""6/10"" - completely unaffected by Student A's archive""
+5. ""Student A's Understanding = ""Excellent"" and In-lesson Quiz = ""10/10"" reappear, restoring full consistency with Content and Homework""
+","1. ""Student A: Understanding = Excellent, Quiz = 10/10; Student B: Understanding = Fair, Quiz = 6/10""
+2. ""Archived_At__c = current timestamp""
+3. ""Student A Is_Archived__c = TRUE -> excluded from the per-student loop (lines 154-166), but lesson-level fields (lines 146-150) are unaffected""
+4. ""Student B Is_Archived__c = FALSE -> unaffected by another student's LA archive""
+5. ""Student A Is_Archived__c = FALSE (restored) -> per-student loop includes Student A again, same values as step 1""
+",,,3646,3588,View lesson and lesson report,,,

@@ -1,0 +1,44 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3591,3588,Bulk Publish Lesson by Date Range (Calendar – With Student),1,,
+,Bulk Publish Lesson by Date Range – Specific Student Selected – Student with Archived Lesson Allocation Has No Lessons Published,"Negative Testing / Decision Table: when staff runs the Calendar bulk-publish action scoped to a specific student whose Lesson Allocation has been archived, no lesson is published for that student and no error is shown, since the eligibility query requires Is_Archived__c = FALSE.","- HQ or CM Staff is logged in to Salesforce with access to the Calendar bulk-publish action.
+- Bulk_Publish_With_Student__c custom setting is enabled.
+- Student A has a Draft lesson TC-BULK-A at Location Tokyo HQ within the target date range, assigned via a Student Session whose Lesson Allocation has since been archived (Archived_At__c is populated), so the session's Is_Archived__c = TRUE.
+- Student B has a separate Draft lesson TC-BULK-B at the same Location and date range, with an active Lesson Allocation (Archived_At__c is blank).",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Calendar bulk-publish action for Location Tokyo HQ, sets the date range to cover 2026-05-18 to 2026-05-22, selects ""Apply to selected students"", and picks Student A only, then confirms""
+2. ""HQ or CM Staff opens TC-BULK-A""
+3. ""HQ or CM Staff repeats the bulk-publish action for the same date range and Location, this time selecting Student B""
+4. ""HQ or CM Staff opens TC-BULK-B""
+","1. ""The action completes with no error""
+2. ""TC-BULK-A status is still Draft; it was not published""
+3. ""The action completes with no error""
+4. ""TC-BULK-B status is now Published""
+","1. ""date range = 2026-05-18 to 2026-05-22; student = Student A""
+2. ""Student A Is_Archived__c = TRUE -> excluded, 0 eligible lessons found""
+3. ""student = Student B""
+4. ""Student B Is_Archived__c = FALSE -> included""
+",,,3591,3588,Bulk Publish Lesson by Date Range (Calendar – With Student),,,
+,Bulk Publish Lesson by Date Range – Unassigned-Lesson Scope – Lesson with Only an Archived Student Session Is Published as Unassigned,"Boundary / Decision Table: when staff runs the Calendar bulk-publish action scoped to ""lessons with no assigned student,"" a Draft lesson whose only Student Session belongs to an archived Lesson Allocation is treated as unassigned and gets published, because the unassigned-lesson query excludes archived sessions when checking for an existing assignment.","- HQ or CM Staff is logged in to Salesforce with access to the Calendar bulk-publish action.
+- Bulk_Publish_With_Student__c custom setting is enabled.
+- Draft lesson TC-BULK-UNASSIGNED exists at Location Tokyo HQ within the target date range. Its only Student Session belongs to Student A, whose Lesson Allocation has since been archived (Archived_At__c is populated), so the session's Is_Archived__c = TRUE.
+- A second Draft lesson TC-BULK-TRULY-EMPTY exists in the same scope with no Student Session at all.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Calendar bulk-publish action for Location Tokyo HQ, sets the date range to cover both lessons, selects the ""no student assigned"" scope, and confirms""
+2. ""HQ or CM Staff opens TC-BULK-UNASSIGNED""
+3. ""HQ or CM Staff opens TC-BULK-TRULY-EMPTY""
+","1. ""The action completes with no error""
+2. ""Status is now Published, even though Student A's historical (archived) session is still attached to it""
+3. ""Status is now Published""
+","1. ""date range covers both TC-BULK-UNASSIGNED and TC-BULK-TRULY-EMPTY""
+2. ""Student A Is_Archived__c = TRUE -> not counted as an existing assignment, lesson qualifies as ""unassigned""""
+3. ""No session at all -> qualifies as unassigned""
+",,,3591,3588,Bulk Publish Lesson by Date Range (Calendar – With Student),,,
+,Bulk Publish Lesson by Date Range – Notification After Bulk Publish – Student with Archived Lesson Allocation Not Notified,"Feature Impact / notification recipients - Decision Table: after the Calendar bulk-publish action completes, the follow-up push notification must not be sent to a student whose Lesson Allocation is archived, consistent with the single Publish-and-Notify and date/time-change notification paths.","- HQ or CM Staff is logged in to Salesforce with access to the Calendar bulk-publish action.
+- Bulk_Publish_With_Student__c and the teacher-publish-notification toggle are enabled.
+- Draft lesson TC-BULK-NOTI exists at Location Tokyo HQ within the target date range, with two assigned students: Student A (Lesson Allocation archived, Archived_At__c populated, session Is_Archived__c = TRUE) and Student B (active Lesson Allocation, Archived_At__c blank).
+- Student A and Student B are each logged into the Learner App on separate test devices with push notifications enabled.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Calendar bulk-publish action for Location Tokyo HQ, sets the date range to cover TC-BULK-NOTI, and confirms without a student filter""
+2. ""On Student B's device, check the Learner App notification inbox""
+3. ""On Student A's device, check the Learner App notification inbox""
+","1. ""TC-BULK-NOTI status becomes Published""
+2. ""Student B receives the bulk-publish push notification""
+3. ""Student A does NOT receive any notification for this lesson""
+","1. ""date range covers TC-BULK-NOTI""
+2. ""Student B Is_Archived__c = FALSE -> included""
+3. ""Student A Is_Archived__c = TRUE -> excluded""
+",,,3591,3588,Bulk Publish Lesson by Date Range (Calendar – With Student),,,

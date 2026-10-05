@@ -1,0 +1,14 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3608,3588,Collect Attendance,1,,
+,Collect Attendance (SF) – Lesson Allocation Restored – Student Session Reappears and Attendance Fields Update Normally,"Feature Impact (Attendance, Lesson Report, Report Detail), control case - Decision Table: after a previously archived Lesson Allocation is restored (unarchived, same record Id), the student's Student Session reappears on the SF Lesson Detail page, and staff can edit the full attendance field set (Status, Reason, Notice, Note) normally, with the change syncing to BO as usual.","- HQ or CM Staff is logged in to Salesforce (SF) with Collect Attendance access.
+- A published lesson TC-ATTEND-SF exists with Student A assigned.
+- Student A's Lesson Allocation was previously archived, then unarchived (same record Id) after a living Student Package Order reappeared for the same Student Course, so Student A's Student Session Is_Archived__c = FALSE again.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the SF Lesson Detail page for TC-ATTEND-SF and views the Student Session section""
+2. ""HQ or CM Staff clicks Edit on Student A's Student Session row, sets Attendance Status = Absent, Reason = Traffic Issue, Notice = No Contact, Note = ""Late bus"", and submits""
+3. ""HQ or CM Staff logs in to BO, opens the same lesson's Collect Attendance view for Student A""
+","1. ""Student A's row is visible again""
+2. ""The form accepts the update; Student A's row shows Status = Absent, Reason = Traffic Issue, Notice = No Contact, Note = ""Late bus""""
+3. ""BO shows the same Attendance Reason = Traffic Issue, consistent with SF""
+","1. ""Student A Is_Archived__c = FALSE (restored) -> shown""
+2. ""Full attendance field set accepted""
+3. ""SF <-> BO sync intact for a restored student too""
+",,,3608,3588,Collect Attendance,,,

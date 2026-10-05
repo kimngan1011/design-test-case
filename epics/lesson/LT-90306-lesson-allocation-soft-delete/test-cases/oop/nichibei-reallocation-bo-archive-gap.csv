@@ -1,0 +1,17 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Nichibei] BO Reallocate – LA Archives With an Open Request – Teacher on BO Still Sees Reallocate Flag Enabled for an Archived Student,"AC-1 / Gap (Business Rule #10) - Decision Table: Since cleanup never fires under archive, the Reallocate flag remains visibly enabled on BO's Collect Attendance page for a student whose Lesson Allocation has since archived.","Teacher has access to Back Office. Student A's Student Session on Lesson A is marked Absent with Reallocate flag enabled (matches an open Reallocation__c request)
+The Student Package Order group behind Student A's Lesson Allocation is fully removed, archiving the Lesson Allocation",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Teacher opens Collect Attendance for Lesson A on BO""
+2. ""Teacher checks whether the Reallocate flag is still shown as enabled for Student A""
+","1. ""Per AC-5, an archived student should not appear as an actionable roster entry at all - but confirm whether Student A (and their enabled Reallocate flag) still appears, consistent with the SF-side list also failing to exclude them""
+2. ""[UNVERIFIED] Record actual behavior: flag still shown enabled (consistent with the confirmed SF-side gap), or Student A is correctly excluded from the roster entirely (pass)""
+","1. ""LA Archived_At__c = populated""
+2. ""Actual result to be captured against live Nichibei org""
+",,,3674,3659,BO Reallocate student,,,
+,[Nichibei] BO Reallocate – Unarchive – Normal Unflag Behavior Resumes From BO,"AC-3 - Regression: Once the Lesson Allocation is restored, Teacher can unflag the Reallocate status from BO exactly as in the pre-archive baseline, reflected correctly back on the SF Reallocation list.","Student A's open Reallocate request survived an LA archive per the case above
+A living Student Package Order reappears for the same Student_Course_ID__c group, and the Lesson Allocation is unarchived on the same record Id",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Teacher opens Collect Attendance for Lesson A on BO after the restore and updates Student A's attendance status to Attend""
+2. ""HQ or CM Staff logs into SF and checks the Reallocation list and the Lesson Allocation detail""
+","1. ""Per the normal (non-archived) cleanup rule, the Reallocate checkbox auto-unchecks and disables""
+2. ""The request no longer appears in the Reallocation list, and no Reallocate student session remains in the Lesson Allocation detail - matching baseline #10411's behavior exactly""
+","1. ""Archived_At__c = null (restored)""
+2. ""Reallocation__c record removed/updated per normal behavior""
+",,,3674,3659,BO Reallocate student,,,

@@ -1,0 +1,20 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Nichibei] Point Management – Archived LA (Require Allocation = False) Excluded From the List,"AC-5 - Decision Table - [UNVERIFIED]: Mirrors the already-confirmed-safe Required-Allocation counterpart - once a Require_Allocation = False Lesson Allocation archives, it should no longer appear in Point Management.","HQ or CM Staff has access to the Nichibei Point Management screen
+Student A has a Lesson Allocation with Require Allocation = False, Priority = True, Purchase Point = 10, currently visible in Point Management",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Point Management and confirms Student A's Lesson Allocation is listed, showing Purchase Point = 10 and Priority = True""
+2. ""The Student Package Order group behind this Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""HQ or CM Staff reopens Point Management""
+","1. ""The LA is visible with its correct fields""
+2. ""The Lesson Allocation shows Archived_At__c populated""
+3. ""[UNVERIFIED] Record actual behavior: the LA is no longer listed (pass, consistent with AC-5 and every other LA-listing surface already confirmed in this epic), or the LA remains visible as if still active (fail - a genuinely new gap, since this screen has no code or prior test coverage to have ever caught it)""
+","1. ""Archived_At__c = blank -> included""
+2. ""Archived_At__c = current timestamp""
+3. ""Actual result to be captured against the live Nichibei org""
+",,,3672,3657,[Nichibei] Point Management,,,
+,[Nichibei] Point Management – Restore – LA Reappears With Correct Point/Priority/Duration Fields,"AC-3 - Regression - [UNVERIFIED]: Once the Lesson Allocation is unarchived on the same record Id, Point Management should show it again with its fields intact.","Student A's Lesson Allocation (Require Allocation = False, Priority = True, Purchase Point = 10) was hidden from Point Management per the case above
+A living Student Package Order reappears for the same Student_Course_ID__c group, and the Lesson Allocation is unarchived on the same record Id, with its fields unchanged from before the archive",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff confirms the Lesson Allocation is restored (Archived_At__c cleared, same Id)""
+2. ""HQ or CM Staff reopens Point Management""
+","1. """"
+2. ""[UNVERIFIED] Record actual behavior: the LA reappears with Purchase Point = 10, Priority = True, and its original duration unchanged (pass), or it remains missing / shows stale or incorrect values (fail - restore is incomplete on this screen)""
+","1. ""Archived_At__c = null (restored)""
+2. ""Actual result to be captured against the live Nichibei org""
+",,,3672,3657,[Nichibei] Point Management,,,

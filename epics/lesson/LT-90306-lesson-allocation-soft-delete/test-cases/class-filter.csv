@@ -1,0 +1,19 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3607,3588,Class Filter,1,,
+,Class Filter – Lesson Allocation Archived – Student Not Miscategorized Under Any Filter Option; Restored Student Filterable by Class Again,"Regression / control case - Decision Table: a student whose Lesson Allocation has been archived does not appear under the matching class filter, nor does it get miscategorized under ""No Assigned Class"" (even though their underlying Class Member record still technically exists, archived) - they are simply absent from the page entirely until restored.","- Student A is a member of Class A; Student B is also a member of Class A and remains active throughout.
+- Student A's Lesson Allocation is subsequently archived (Archived_At__c populated) after its Student Package Order was fully removed.",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Class Filter on the Location Course's Active Student page and selects Class A""
+2. ""HQ or CM Staff resets the filter and selects ""No Assigned Class"" instead""
+3. ""HQ or CM Staff resets the filter to show the full unfiltered Active Student list""
+4. ""A living Student Package Order reappears for Student A's Student Course, so the Lesson Allocation is unarchived on the same record Id""
+5. ""HQ or CM Staff selects Class A in the Class Filter again""
+","1. ""Only Student B appears; Student A does not appear under Class A""
+2. ""Student A does NOT appear here either, even though their Class Member record technically still exists (archived)""
+3. ""Student A still does not appear anywhere on this page""
+4. ""Student A's Lesson Allocation shows Archived_At__c blank again""
+5. ""Student A now appears alongside Student B under Class A""
+","1. ""Student A excluded at the base query level, before class filtering""
+2. ""Student A excluded from the entire underlying dataset, not reclassified as unassigned""
+3. ""Confirms archived students are excluded upstream of all Class Filter options, not selectively miscategorized""
+4. ""Archived_At__c = null (restored)""
+5. ""Student A Archived_At__c = blank (restored) -> correctly filterable again""
+",,,3607,3588,Class Filter,,,

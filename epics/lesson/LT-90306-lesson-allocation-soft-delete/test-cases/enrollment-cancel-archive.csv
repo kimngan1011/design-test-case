@@ -1,0 +1,16 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3611,3588,Create LA – Enrollment Order,1,,
+,"Cancel Enrollment – All Lesson Allocations Archived, Not Deleted","Gap/update case - Decision Table, contrasts with the legacy-wording baseline (case 1808, ""Cancel Enrollment – All LAs and Class Members Deleted"") - cancelling an enrollment application archives every Lesson Allocation it created rather than deleting them. All records remain reachable by Id, excluded from active lists, with their Class Member/Student Session children hidden via the Is_Archived__c formula.","- Student A has an enrollment application that created Lesson Allocations for Course A (One-Time) and Course B (Schedule), both with classes auto-assigned and students appearing in their respective lessons' Student Sessions.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the enrollment application detail and clicks ""Cancel Enrollment""""
+2. ""HQ or CM Staff opens Student A's Course A and Course B Lesson Allocations directly by record Id""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+4. ""HQ or CM Staff opens the Course A and Course B lessons Student A was assigned to""
+","1. ""The enrollment is cancelled""
+2. ""Both Lesson Allocations still exist and are reachable; both show Archived_At__c populated""
+3. ""Neither Lesson Allocation appears in the active list""
+4. ""Student A is removed from both lessons' Student Sessions - same end-user-visible outcome as the legacy ""deleted"" baseline (case 1808)""
+","1. ""Enrollment status = Cancelled""
+2. ""Archived_At__c = current timestamp on both; neither record deleted""
+3. ""Both excluded from active-list queries (Archived_At__c = NULL filter)""
+4. ""Both Student Sessions' Is_Archived__c = TRUE (via formula) -> hidden, not deleted""
+",,,3611,3588,Create LA – Enrollment Order,,,

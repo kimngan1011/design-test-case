@@ -1,0 +1,41 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3603,3588,Change Course and Class in Lesson Schedule Detail,1,,
+,Lesson Schedule – Add Class to Classless Schedule – Student's Lesson Allocation Archived – Excluded from Auto-Merge into Future Lessons,"Regression / control case - Decision Table, contrasts with the baseline (case 13962, ""Add Class to Classless Schedule... Class A students auto-assigned to all future lesson instances"") - a student with a Class Member for the newly-added class is excluded from the auto-merge into future lessons because their Lesson Allocation is already archived at the moment the class is added.","- Lesson Schedule exists with Course X and no classes assigned. Future lessons exist with no students.
+- Class A is available under Course X. Student A has a Class Member for Class A, but Student A's Lesson Allocation for Course X has already been archived (Archived_At__c populated) after its Student Package Order was fully removed. Student B also has a Class Member for Class A, with an active (non-archived) Lesson Allocation.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff adds Class A to the Lesson Schedule""
+2. ""HQ or CM Staff opens a future lesson from this schedule""
+3. ""HQ or CM Staff opens Student A's Class Member record directly by record Id""
+","1. ""Class A is added; the schedule now has one class""
+2. ""Student B appears in the lesson's Student Sessions; Student A does NOT appear""
+3. ""The Class Member record exists and is tied to Class A, but no Student Session was ever created for Student A on this schedule's lessons""
+","1. ""Schedule now has one class""
+2. ""Student B Is_Archived__c = FALSE -> merged in; Student A Is_Archived__c = TRUE (via formula) -> excluded from the merge job""
+3. ""getActiveClassMembersByClassIds / ClassMemberMasterQueueExecutor excluded Student A at the merge-query layer, before any session creation""
+",,,3603,3588,Change Course and Class in Lesson Schedule Detail,,,
+,Lesson Schedule – Student Excluded from Class-Add Merge Due to Archive – Lesson Allocation Restored – Student Does Not Automatically Reappear in Future Lessons,"Gap case - Decision Table - continuing from the scenario above, once Student A's Lesson Allocation is restored, their Class Member becomes data-correct (Is_Archived__c flips to FALSE via formula) but the one-time ""merge into future lessons"" job that already ran while archived is never automatically re-triggered. Unlike the Location Course / LA Detail restore cases (suite 1291/1293) where a previously-hidden session simply reappears, here no session was ever created for Student A on this class's future lessons, so nothing exists to reappear - Student A stays silently excluded until a manual resync.","- Following directly from the scenario above: Class A was added to the Lesson Schedule while Student A's Lesson Allocation was archived, so Student A's Class Member exists but was excluded from the merge - Student A does not appear in any future lesson for this schedule, and no Student Session record for Student A/Class A exists yet.
+- A living Student Package Order reappears for Student A's Course X Student Course, so the Lesson Allocation is unarchived on the same record Id.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff confirms Student A's Lesson Allocation shows Archived_At__c blank again""
+2. ""HQ or CM Staff opens the same future lesson from this schedule (no other action taken)""
+3. ""HQ or CM Staff manually triggers a resync for Student A's Lesson Allocation (e.g., via the LA Detail ""Assign Class"" resync action, or by removing and re-adding Class A on the schedule)""
+","1. ""The Lesson Allocation is restored""
+2. ""Student A still does NOT appear in the lesson's Student Sessions, even though their Class Member is now data-correct""
+3. ""Student A now appears in the lesson's Student Sessions, same as Student B""
+","1. ""Archived_At__c = null (restored); Student A Class Member Is_Archived__c = FALSE (via formula)""
+2. ""No DML path in LessonAllocationSyncService's restore flow (executeSyncPlan / UnarchivedSessionDeduplicator) re-enqueues ASSIGN_CLASS_MEMBER or calls resyncClassMemberByLessonAllocationId for this allocation""
+3. ""Manual resync re-enqueues ASSIGN_CLASS_MEMBER, which now includes Student A since Is_Archived__c = FALSE""
+",,,3603,3588,Change Course and Class in Lesson Schedule Detail,,,
+,Lesson Schedule – Student Auto-Assigned via Class Add – Lesson Allocation Archived – Hidden from Lesson; Restored – Shown Again,"Feature Impact (Class Assignment / Master Queue) - Decision Table - contrasts with the two cases above: here Student A's Lesson Allocation is still active at the moment Class A is added to the Lesson Schedule, so Student A IS merged into future lessons normally (per the case 13962 baseline). Only afterward does the Lesson Allocation get archived - since the Student Session already exists at that point, it is hidden purely by the Is_Archived__c formula (no re-merge needed), and reappears on the same record once the Lesson Allocation is restored, matching the pattern already locked in for the Location Course and CSV import flows (suite 1291, ""Import Class Member"").","- Lesson Schedule exists with Course X and no classes assigned. Future lessons exist with no students.
+- Class A is available under Course X with Student A as an active Class Member (Student A's Lesson Allocation for Course X is active, Archived_At__c blank). HQ or CM Staff has added Class A to the Lesson Schedule, and Student A now appears in this schedule's future lessons' Student Sessions.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens a future lesson from this schedule""
+2. ""The Student Package Order behind Student A's Course X Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""HQ or CM Staff reopens the same future lesson from this schedule""
+4. ""A living Student Package Order reappears for Student A's Course X Student Course, so the Lesson Allocation is unarchived on the same record Id""
+5. ""HQ or CM Staff reopens the same future lesson from this schedule""
+","1. ""Student A is listed as an active student in Student Sessions""
+2. ""The Lesson Allocation shows Archived_At__c populated; Student A's Student Session (created by the class-add merge) flips to archived via the same formula""
+3. ""Student A no longer appears in Student Sessions""
+4. ""The Lesson Allocation shows Archived_At__c blank again""
+5. ""Student A reappears in Student Sessions - the same original record created by the class-add merge, not newly created""
+","1. ""Student A Is_Archived__c = FALSE -> shown""
+2. ""Archived_At__c = current timestamp""
+3. ""Student A Is_Archived__c = TRUE (via formula) -> hidden""
+4. ""Archived_At__c = null (restored)""
+5. ""Student A Is_Archived__c = FALSE (restored) -> shown again""
+",,,3603,3588,Change Course and Class in Lesson Schedule Detail,,,

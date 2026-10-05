@@ -1,0 +1,31 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3624,3588,Lesson Assignment Update,1,,
+,Lesson Assignment – Lesson Allocation Archived – Manually-Assigned Session Also Hidden (No Assignment_Source Protection); Restored – Manual Session Reappears,"Gap/contrast case - Decision Table - contrasts directly with this suite's design philosophy (e.g. case 26899, ""Change Location Course – Active Class Ends – Existing Manual Session in Old Class Lesson Retained"", where a manual session survives class-based reconciliation): archiving the Lesson Allocation hides a manually-assigned Student Session exactly like an automatically-assigned one, because Is_Archived__c is purely parent-driven and carries no Assignment_Source__c awareness - the manual-session protection built into the reconciliation batches does not apply here. The session reappears correctly once the Lesson Allocation is restored, since the underlying record was only hidden, never deleted.","- Student A has an active Lesson Allocation for Course A. Staff has manually assigned Student A to Lesson B (Assignment_Source__c = Manual) - Student A currently appears in Lesson B's Student Sessions.
+- Student A is separately an active Class A member and is auto-assigned (Assignment_Source__c = Auto) to Lesson A - Student A currently appears in Lesson A's Student Sessions too.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens both Lesson A's and Lesson B's Student Session lists""
+2. ""The Student Package Order behind Student A's Course A Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""HQ or CM Staff reopens both Lesson A's and Lesson B's Student Session lists""
+4. ""A living Student Package Order reappears for Student A's Course A Student Course, so the Lesson Allocation is unarchived on the same record Id""
+5. ""HQ or CM Staff reopens both Lesson A's and Lesson B's Student Session lists""
+","1. ""Student A appears in both - the automatic session in Lesson A and the manual session in Lesson B""
+2. ""The Lesson Allocation shows Archived_At__c populated""
+3. ""Student A no longer appears in EITHER list - the manually-assigned session in Lesson B is hidden exactly like the automatic one in Lesson A, unlike how class-based reconciliation (case 26899) would have protected it""
+4. ""The Lesson Allocation shows Archived_At__c blank again""
+5. ""Student A reappears in both - the same original sessions, not newly created; the manual session in Lesson B is restored with its Assignment_Source__c still Manual""
+","1. ""Lesson A session Assignment_Source__c = Auto; Lesson B session Assignment_Source__c = Manual; both Is_Archived__c = FALSE""
+2. ""Archived_At__c = current timestamp""
+3. ""Both sessions' Is_Archived__c = TRUE (via formula) -> hidden regardless of Assignment_Source__c""
+4. ""Archived_At__c = null (restored)""
+5. ""Both sessions Is_Archived__c = FALSE (restored); Assignment_Source__c unchanged by the archive/restore cycle""
+",,,3624,3588,Lesson Assignment Update,,,
+,Lesson Assignment – Restored Lesson Allocation – Dedup Logic Force-Unassigns a Restored Manual Session on Lesson Collision (No Assignment_Source Protection),"Gap case - Decision Table - UnarchivedSessionDeduplicator (the restore-time collision cleanup in LessonAllocationSyncService) force-unassigns one of two sessions that collide on the same (Lesson, Student) pair after a restore, but its collision query has no Assignment_Source__c filter - so if the LOSING side of that collision happens to be a manually-assigned session, it gets unassigned (Lesson__c cleared) exactly like an automatic one would, with no special protection, even though this suite's reconciliation batches would never have removed that same manual session under normal (non-archive) circumstances.","- Student A has a Lesson Allocation for Course A with a manually-assigned session (Assignment_Source__c = Manual) on Lesson X, created before the allocation was archived.
+- While the Lesson Allocation was archived, a different, newer Lesson Allocation (or the same allocation re-synced) ends up with another Student Session also pointing at Lesson X for Student A - e.g. via a re-import or re-assignment that occurred during the archive window, creating a same-lesson collision once both sessions are live again.
+- The original Lesson Allocation is then restored (Archived_At__c cleared).",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff confirms both Student Session records exist for Student A on Lesson X before the restore completes""
+2. ""The Lesson Allocation finishes restoring (Archived_At__c cleared) and UnarchivedSessionDeduplicator runs""
+3. ""HQ or CM Staff checks which of the two sessions was unassigned""
+","1. ""Two Student_Sessions__c records exist for the same (Lesson X, Student A) pair, one of them the original manually-assigned session""
+2. ""The deduplicator detects the (Lesson X, Student A) collision and force-unassigns the losing session's Lesson__c, Assigned_Lesson__c, and Lesson_Report__c fields""
+3. ""If the original manually-assigned session is the one selected as the losing side, it is unassigned exactly like an automatic session would be - Student A's manual assignment to Lesson X is silently lost, with no error or warning that a manual assignment was overridden""
+","1. ""Original session: Assignment_Source__c = Manual, Lesson_Allocation__c = the restored LA""
+2. ""UnarchivedSessionDeduplicator.collectSessionsToUnassign has no Assignment_Source__c filter in its collision query""
+3. ""Manual session has no protection against being the collision loser during restore-time dedup""
+",,,3624,3588,Lesson Assignment Update,,,

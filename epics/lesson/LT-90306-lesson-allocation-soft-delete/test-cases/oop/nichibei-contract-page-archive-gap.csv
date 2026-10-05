@@ -1,0 +1,37 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Nichibei] Contract Page – Archived LA Hidden Even When Every Other Visibility Rule Would Show It,AC-5 - Decision Table - [UNVERIFIED]: An LA that passes every other documented visibility rule must still be hidden from the Contract page if it is archived - archive must override every other condition.,"Learner is logged into the Learner app; the Contract page is accessible
+LA-A: slots = 5, requiredAllocation = false, within the configured date range - passes every existing visibility rule
+LA-A's Archived_At__c is populated (its order group was fully removed)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Learner navigates to the Contract page""
+2. ""Learner checks whether LA-A appears in the list""
+","1. ""Per AC-5, LA-A should not be displayed, since an archived LA must be excluded from every in-scope read path regardless of its other field values""
+2. ""[UNVERIFIED] Record actual behavior: LA-A correctly hidden (pass), or LA-A still shown because the Contract page's filter doesn't know about Archived_At__c (fail - route to the engineering owner once identified for /lessonAllocation/v2/getPointsConsumption)""
+","1. ""LA-A Archived_At__c = populated; slots = 5; requiredAllocation = false""
+2. ""Actual result to be captured against live Nichibei org""
+",,,3671,3657,Lesson Mobile,,,
+,[Nichibei] Contract Page – List Updates Live After LA Archives – Previously Visible LA Disappears,"AC-5 - Regression - [UNVERIFIED]: Extends the existing live-update baseline to include archiving as a trigger, consistent with every other field change already confirmed to refresh the list.","LA-B is currently visible on the Contract page (slots > 0, requiredAllocation = false, within date range)
+Learner has the Contract page open",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""While the Learner has the Contract page open (or reopens it shortly after), HQ or CM Staff archives LA-B by fully removing its order group""
+2. ""Learner refreshes or reopens the Contract page""
+","1. ""LA-B's Archived_At__c becomes populated""
+2. ""[UNVERIFIED] Record actual behavior: LA-B disappears (pass), or LA-B remains visible because archiving isn't one of the recognized update triggers (fail)""
+","1. ""LA-B Archived_At__c = populated""
+2. ""Actual result to be captured against live Nichibei org""
+",,,3671,3657,Lesson Mobile,,,
+,"[Nichibei] Contract Page – Unarchive – Restored LA Reappears With Correct Purchased Slot, End Date, Remaining Points, and Product Name","AC-3 - Regression - [UNVERIFIED]: Inverse of the hide case; once the LA is unarchived on the same record Id, the Contract page must show it again with the correct field values.","LA-B was hidden from the Contract page per the archive case above
+A living Student Package Order reappears for the same Student_Course_ID__c group, and LA-B is unarchived on the same record Id (Archived_At__c cleared), with purchased slot, end date, remaining points, and product name unchanged from before the archive",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Learner refreshes or reopens the Contract page after LA-B is restored""
+2. ""Learner checks the displayed purchased slot, end date, remaining points, and product name for LA-B""
+","1. ""Per AC-3, LA-B should reappear exactly as a normal, never-archived LA would""
+2. ""[UNVERIFIED] Record actual behavior: all four fields display correctly and match the pre-archive values (pass), or LA-B remains hidden / shows stale or incorrect values (fail - restore is incomplete)""
+","1. ""LA-B Archived_At__c = null (restored, same Id)""
+2. ""Actual result to be captured against live Nichibei org""
+",,,3671,3657,Lesson Mobile,,,
+,[Nichibei] Contract Page – Account Switch – Archived LA Does Not Leak Back In Via a Stale Cached List,AC-5 (cross-system) - Regression - [UNVERIFIED]: Extends the existing org-boundary account-switch baseline with the archive dimension - switching away and back must not resurrect an archived LA via a stale client-side cache.,"Parent CrossOrg is logged in and linked to Student Nichibei
+Student Nichibei has LA-C, visible on the Contract page, which then archives (Archived_At__c populated) while the parent is viewing a different linked student",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Parent CrossOrg views Student Nichibei's Contract page, confirms LA-C is visible, then switches to a different linked student""
+2. ""While viewing the other student, LA-C archives""
+3. ""Parent CrossOrg switches back to Student Nichibei and opens the Contract page""
+","1. ""LA-C is visible before the switch""
+2. ""LA-C's Archived_At__c becomes populated""
+3. ""[UNVERIFIED] Record actual behavior: LA-C is correctly absent, reflecting its current archived state (pass), or LA-C still appears because the switch restored a stale cached list from step 1 (fail)""
+","1. ""LA-C Archived_At__c = null at this point""
+2. ""LA-C Archived_At__c = populated""
+3. ""Actual result to be captured against live Nichibei org""
+",,,3671,3657,Lesson Mobile,,,

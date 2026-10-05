@@ -14,8 +14,10 @@ When the user provides a plan URL without specifying run titles, use this config
 | `PSG PT teacher - Hoang - Aver lesson report` | From reference run | ✓ Yes | Untested → Skipped → Retest |
 | `Quoc Bao` | From reference run | ✓ Yes | Untested → Skipped → Retest |
 | `Van Loi` | From reference run | ✓ Yes | Untested → Skipped → Retest |
-| `PSv1 Regression test OOP and some core features for Aver, Aso and Nozomi` | From reference run | ✗ Skip | (no bulk status update) |
-| `PSv2 Regression test for Renseikai (main focus), EEA and Nichibei (OOP)` | From reference run | ✗ Skip | (no bulk status update) |
+| `Tam regression test` | From reference run | ✓ Yes | Untested → Skipped → Retest |
+| `PSv1 Regression test OOP and some core features for Aver and Aso` | From reference run | ✗ Skip | (no bulk status update) |
+| `PSv2 Regression test for EEA (OOP), Nichibei (OOP), Renseikai (OOP)` | From reference run | ✗ Skip | (no bulk status update) |
+| `Testing PSv2 for Nozomi (Center Staff)` | From reference run | ✗ Skip | (no bulk status update) |
 
 "From reference run" = look up the most recent existing run with the same title and `plan_id`. If no reference run exists, fall back to all cases from the plan.
 

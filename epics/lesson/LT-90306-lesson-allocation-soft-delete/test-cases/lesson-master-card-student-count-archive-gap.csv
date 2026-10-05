@@ -1,0 +1,19 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3596,3588,Lesson Master Calendar – Weekly Card – Archive Filter Gap,1,,
+,Lesson Master Calendar – Weekly Card – Student Count Badge – Archived Allocation Still Counted,"Gap case - AC-5 - Decision Table: the ""x/y"" student-count badge on a Lesson Master weekly card includes a student whose Lesson Allocation has been archived, because LessonScheduleHandler.getLessonSchedulesFromLessonMaster's Lesson_Schedule_Student__r subquery has no archive or deleted filter at all.","Lesson Schedule LS-1 (capacity 5) has 3 Lesson Schedule Students: Student A, Student B (both active Lesson Allocations), and Student C (Lesson Allocation archived, Archived_At__c populated).",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Lesson Master weekly calendar and locates LS-1's card""
+2. ""HQ or CM Staff opens the same lesson's occurrence card on the main Lesson Calendar grid""
+3. ""HQ or CM Staff compares the two badges from steps 1 and 2""
+","1. ""The card shows a student-count badge of 3/5, including archived Student C""
+2. ""The main grid's student-count badge shows 2/5, correctly excluding Student C""
+3. ""The Lesson Master card (3/5) and the main Calendar card (2/5) disagree for the same lesson, because only the main grid's query excludes the archived allocation""
+","1. ""capacity = 5; raw Lesson_Schedule_Student__r count = 3""
+2. ""LessonCalendarHandler filters Is_Archived__c = FALSE -> count = 2""
+3. ""Lesson_Schedule_Student__r subquery has no Is_Archived__c/Archived_At__c filter""
+",,,3596,3588,Lesson Master Calendar – Weekly Card – Archive Filter Gap,,,
+,Lesson Master Calendar – Weekly Card – Student List – Archived Allocation Student Still Named,"Gap case - AC-5 - Decision Table: expanding a Lesson Master weekly card's student list shows the name of a student whose Lesson Allocation has been archived, since the underlying query that feeds LessonScheduleIndividualItem has no archive filter.","Lesson Schedule LS-2 has 2 Lesson Schedule Students: Student D (active Lesson Allocation) and Student E (Lesson Allocation archived, Archived_At__c populated).",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Lesson Master weekly calendar, locates LS-2's card, and expands the student list""
+2. ""HQ or CM Staff opens the same lesson's attendee list on the main Lesson Calendar grid""
+","1. ""Both Student D and Student E are listed by name, grade, and course""
+2. ""Only Student D is listed""
+","1. ""Student E Is_Archived__c = TRUE (via parent allocation) but still listed""
+2. ""LessonCalendarHandler filters Is_Archived__c = FALSE""
+",,,3596,3588,Lesson Master Calendar – Weekly Card – Archive Filter Gap,,,

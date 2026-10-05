@@ -1,0 +1,32 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3628,3588,Lesson Report List,1,,
+,Search by Student Name – Student's Only Session Archived – Report Excluded from Search Results; Restored – Reappears,"Regression / control case - Decision Table, contrasts with the baseline (case 13716, ""Search by Student Name – Matching Reports Displayed"") - searching for a student whose Lesson Allocation is archived returns no matching lesson report, consistent with the shared Is_Archived__c = false filter pattern already locked in for the Lesson List page (suite 250).","- A lesson report exists for a lesson where Student A is the only student. Searching ""Student A"" on the Lesson Report List currently returns this report.
+- Student A has an active Lesson Allocation.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff searches ""Student A"" on the Lesson Report List""
+2. ""The Student Package Order behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""HQ or CM Staff repeats the search for ""Student A""""
+4. ""A living Student Package Order reappears for Student A's Student Course, so the Lesson Allocation is unarchived on the same record Id""
+5. ""HQ or CM Staff repeats the search for ""Student A""""
+","1. ""The report appears in the results""
+2. ""The Lesson Allocation shows Archived_At__c populated""
+3. ""The report no longer appears in the results""
+4. ""The Lesson Allocation shows Archived_At__c blank again""
+5. ""The report reappears in the results""
+","1. ""Student A Is_Archived__c = FALSE -> matched""
+2. ""Archived_At__c = current timestamp""
+3. ""Student A's Student Session Is_Archived__c = TRUE (via formula) -> excluded from calcSearchTerm's semi-join""
+4. ""Archived_At__c = null (restored)""
+5. ""Is_Archived__c = FALSE (restored) -> matched again""
+",,,3628,3588,Lesson Report List,,,
+,Bulk Update Group Report – One Student in the Group Archived – Cascade Correctly Skips That Student; Lesson-Level Fields and Other Students Update Normally,"Regression / control case - Decision Table, contrasts with the baseline (case 13726, ""Bulk Update Group Report – Content, Homework, Announcement Updated for All Selected"") - bulk-updating a Group lesson report that includes a student whose Lesson Allocation is archived still succeeds: the Lesson_Report__c-level Content/Homework/Announcement fields update correctly, and the cascade to Student_Sessions__c correctly skips the archived student's row (via updateLessonReportDetailInformation's Is_Archived__c = FALSE filter) while still updating the other, non-archived students' rows normally. This locks in that bulk actions aren't broken or blocked by having one archived student mixed into a multi-student Group report.","- A Group lesson report has Student A (active Lesson Allocation) and Student B (Lesson Allocation archived — Archived_At__c populated) both in the roster. The report is still listed and selectable on the Lesson Report List (not filtered out, since the list isn't scoped to a single student).",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff selects this Group report (and others) on the Lesson Report List and uses ""Bulk Update"" to set Content = ""Chapter 6 review"", Homework = ""Workbook p.30"", Announcement = ""Test next week""""
+2. ""HQ or CM Staff opens the Group report's Lesson_Report__c-level fields""
+3. ""HQ or CM Staff checks Student A's Student Session row for this lesson""
+4. ""HQ or CM Staff checks Student B's Student Session row for this lesson""
+","1. ""The bulk update completes with no error""
+2. ""Content, Homework, and Announcement all show the new values""
+3. ""Student A's row reflects the cascaded Content/Homework/Announcement update""
+4. ""Student B's row is not found in the active list (archived), and did not receive the cascaded update - consistent with every other archived-session write path in this epic""
+","1. ""Bulk payload applies to the selected report(s)""
+2. ""Lesson_Report__c fields updated directly, unaffected by any student's archive state""
+3. ""Student A Is_Archived__c = FALSE -> included in updateLessonReportDetailInformation's cascade""
+4. ""Student B Is_Archived__c = TRUE -> excluded from the cascade's WHERE clause, same as the already-confirmed pattern""
+",,,3628,3588,Lesson Report List,,,

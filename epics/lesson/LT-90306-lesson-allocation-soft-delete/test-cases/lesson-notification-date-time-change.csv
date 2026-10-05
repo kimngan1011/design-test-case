@@ -1,0 +1,16 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3637,3588,Send noti when changing lesson date&time of a published lesson,1,,
+,Lesson Notification – Published Lesson Date/Time Changed – Student with Archived Lesson Allocation Not Notified,"Feature Impact / notification recipients - Decision Table: when a published lesson's date or time is changed, a student whose Lesson Allocation has been archived must not receive the schedule-change push notification, since the recipient list is built from the same Is_Archived__c = FALSE filtered query used by Publish and Notify Student.","- HQ or CM Staff is logged in to Salesforce with Update Lesson permission.
+- A published lesson TC-NOTI exists for Course Math 101 at Location Tokyo HQ.
+- Student A was previously assigned to TC-NOTI; Student A's Lesson Allocation has since been archived (Archived_At__c is populated) after its Student Package Order was fully removed, so the Student Session Is_Archived__c = TRUE.
+- Student B remains assigned to TC-NOTI with an active Lesson Allocation (Archived_At__c is blank).
+- Student A and Student B are each logged into the Learner App on separate test devices with push notifications enabled.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens TC-NOTI and changes the lesson's date/time to a new valid value, then saves""
+2. ""On Student B's device, check the Learner App notification inbox""
+3. ""On Student A's device, check the Learner App notification inbox""
+","1. ""The lesson's date/time is updated; a schedule-change notification is triggered""
+2. ""Student B receives the lesson date/time-change notification""
+3. ""Student A does NOT receive any notification for this lesson""
+","1. ""New date/time saved""
+2. ""Student B Is_Archived__c = FALSE -> included""
+3. ""Student A Is_Archived__c = TRUE -> excluded""
+",,,3637,3588,Send noti when changing lesson date&time of a published lesson,,,

@@ -1,0 +1,68 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Nichibei] Point Consumption – Priority Chain – Archived LA Excluded Even When It Would Otherwise Win – Points Taken From Next Eligible LA,AC-5 (financial) - Decision Table - [UNVERIFIED]: An LA that would win the priority chain on every documented criterion must still be excluded if it is archived; the system should fall through to the next eligible non-archived LA instead.,"Course 3 has Number of point = 5, General flag = False
+LA3 + Course 3: Required Allocation = False, Priority = True, Purchase Point = 10 - this LA would win the priority chain under every existing documented rule
+LA3's Archived_At__c is populated (archived via its order group being fully removed); LA4 + Course 3 also exists: Required Allocation = False, Priority = False, Purchase Point = 10 (the next-best eligible candidate)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates a group lesson with Course 3, with the lesson date within the duration of LA3 and LA4, and assigns Student 1 to the lesson""
+2. ""HQ or CM Staff checks which LA the points were taken from""
+","1. ""Per AC-5's exclusion principle, LA3 should not be selected despite matching every priority-chain criterion, since it is archived""
+2. ""[UNVERIFIED] Record actual behavior: 5 points taken from LA4 (correct fallback, pass), or points taken from archived LA3 (fail - critical, financial data written against an archived allocation)""
+","1. ""LA3 Archived_At__c = populated""
+2. ""Actual result to be captured against live Nichibei org""
+",,,3669,3657,Lesson detail,,,
+,[Nichibei] Point Consumption – Priority Chain – Archived LA's Duration Still Covers Lesson Date – Still Excluded From Selection,AC-5 (financial) - Decision Table - [UNVERIFIED]: An LA whose duration still technically covers the lesson date is not eligible if it is archived - archive must override a duration match.,"LA2 + Course 2 (general course): Priority = True, Purchase Point = 20, Duration 2025-03-01 to 2025-07-01
+LA3 + Course 3: Priority = True, Purchase Point = 10, Duration 2025-04-01 to 2025-06-01 - its duration covers the target lesson date and it would normally be preferred as the matching-course LA
+LA3's Archived_At__c is populated",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates a group lesson with Course 3, lesson date = 2025-04-15 (within LA3's duration), and assigns Student 1""
+2. ""HQ or CM Staff checks which LA the points were taken from""
+","1. ""Per AC-5, LA3 remains ineligible despite its duration covering the date, because it is archived""
+2. ""[UNVERIFIED] Record actual behavior: points taken from LA2 (the general-course fallback, pass), or from archived LA3 because its duration still matched (fail)""
+","1. ""LA3 Archived_At__c = populated; lesson_date = 2025-04-15""
+2. ""Actual result to be captured against live Nichibei org""
+",,,3669,3657,Lesson detail,,,
+,"[Nichibei] Point Consumption – No Non-Archived LA Available – Error Shown, Archived LA Not Silently Used","AC-5 (financial) - Negative - [UNVERIFIED]: When the only LA(s) that would otherwise be eligible are archived, the system must show the same ""no available LA"" error as today - never silently fall back to consuming from an archived LA.","Course 3 has no other eligible LA besides LA3; LA3 + Course 3 is archived (Archived_At__c populated)
+No general-course LA with remaining points is available either",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates a group lesson with Course 3 and assigns Student 1 to the lesson""
+2. ""HQ or CM Staff checks the assignment result""
+","1. ""Per AC-5, the system should behave exactly as it does today when no eligible LA exists at all - show the error message, do not assign the student by silently drawing from the archived LA""
+2. ""[UNVERIFIED] Record actual behavior: error message shown, student not assigned, no points touched on the archived LA (pass), or the student is silently assigned and points are deducted from the archived LA (fail - critical)""
+","1. ""LA3 Archived_At__c = populated; no other eligible LA""
+2. ""Actual result to be captured against live Nichibei org""
+",,,3669,3657,Lesson detail,,,
+,[Nichibei] Point Consumption – Recurring Lesson – LA Archived Mid-Split – Remaining Occurrences Re-Split Across Only Non-Archived LAs,"AC-5 (financial) - State Transition - [UNVERIFIED]: If one of the LAs used mid-split archives between assigning occurrences, the later occurrence's split must be recomputed using only still-non-archived LAs.","Same setup as the recurring-lesson baseline: LA2 (general, Purchase Point 20) and LA3 (Course 3, Purchase Point 10, Duration 2025-04-01 to 2025-06-01). A recurring group lesson with Course 3 has its 1st occurrence outside LA3's duration, 2nd onward within it
+Student 1 is assigned to the 2nd occurrence only first, drawing 7 points from LA3
+Before assigning ""this and the following"" from the 1st occurrence, LA3's Archived_At__c becomes populated (its order group is fully removed)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the 1st occurrence and assigns Student 1 with 'this and the following lesson'""
+2. ""HQ or CM Staff checks the points taken for each of the 1st-4th occurrences""
+","1. ""Per AC-5, every occurrence that would have drawn from LA3 under the original split must now draw entirely from LA2 (or the next eligible non-archived LA), since LA3 is no longer selectable""
+2. ""[UNVERIFIED] Record actual behavior: all 4 occurrences now draw only from LA2 (or correctly fail/skip occurrences with no eligible LA) - never silently drawing any points from archived LA3""
+","1. ""LA3 Archived_At__c = populated before this action""
+2. ""Actual result to be captured against live Nichibei org""
+",,,3669,3657,Lesson detail,,,
+,[Nichibei] Point Consumption – Remove Student / Delete Lesson – Refund Returns to Same LA Even If Now Archived,"AC-3 / AC-8 (financial) - Regression - [UNVERIFIED]: Per AC-3/AC-8's design principle, a normal refund triggered by removing a student or deleting a lesson must still write the returned points back to the correct LA, identified by the same record Id, even if that LA has since archived.","Student 1 was assigned to a lesson with 5 points consumed from LA3
+LA3's Archived_At__c becomes populated (its order group is fully removed) after the points were consumed but before the student is removed from the lesson",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff removes Student 1 from the lesson""
+2. ""HQ or CM Staff checks LA3's remaining points and the student's total remaining""
+","1. ""Per AC-3/AC-8, the refund should still succeed and write 5 points back onto LA3 (same Id), consistent with archiving never blocking a legitimate write to an archived record""
+2. ""[UNVERIFIED] Record actual behavior: LA3's remaining points correctly increase by 5 and the student's total remaining is recalculated (pass), or the refund silently fails / errors / is written to the wrong LA (fail - route to the engineering owner of [SF][Nichibei] Implement LA soft delete with consume point)""
+","1. ""LA3 Archived_At__c = populated at time of removal""
+2. ""Actual result to be captured against live Nichibei org""
+",,,3669,3657,Lesson detail,,,
+,[Nichibei] Point Consumption – Custom Assign Disabled – Fallback Booking Path Already Excludes Archived LA,"AC-1 (parity) - Regression - control case, not a gap: Code-confirmed BookingLessonHandlerOutSide.cls:638-651 already filters Archived_At__c = NULL on the simpler, non-custom-assign LA-selection query.","Nichibei's ""Use Custom Assign/Unassign Student"" setting is disabled
+Student 1 has an eligible LA (LA-X, Required_Allocation__c = TRUE, Type__c includes Regular) whose duration covers the target lesson date, and a second LA (LA-Y, same course, otherwise eligible) that is archived (Archived_At__c populated)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student books/is assigned to a lesson via the fallback (non-custom-assign) path""
+2. ""HQ or CM Staff confirms which LA the booking drew from""
+","1. ""The booking query filters out LA-Y by Archived_At__c = NULL and picks the earliest-starting eligible LA among the remaining candidates - LA-X is selected""
+2. ""LA-X - confirms this path requires no new coverage, since the archive filter is already present""
+","1. ""LA-Y Archived_At__c = populated; LA-X Archived_At__c = null""
+2. ""Code-confirmed via BookingLessonHandlerOutSide.cls:638-651""
+",,,3669,3657,Lesson detail,,,
+,[Nichibei] Point Consumption – Unarchive – No Automatic Re-Consumption for Historical Sessions,AC-3 - Regression: Confirms that restoring an archived LA does not retroactively re-trigger point consumption for sessions whose points were already recorded before the archive.,"LA3 was archived with 5 points already consumed and recorded against it for a past session
+A living Student Package Order reappears for the same Student_Course_ID__c group, and LA3 is unarchived on the same record Id",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff confirms LA3 is restored (Archived_At__c cleared, same Id)""
+2. ""HQ or CM Staff checks whether the past session's consumption record changed as a result of the unarchive""
+","1. ""LA3's remaining points reflect the same balance it had at the moment of archiving (5 points still recorded as consumed from the past session) - not re-added, not re-deducted""
+2. ""No new consumption event is created, and the original consumption record is untouched""
+","1. ""LA3 Archived_At__c = null (restored)""
+2. ""Expect: 1 consumption record for the past session, unchanged""
+",,,3669,3657,Lesson detail,,,
+,[Nichibei] Point Consumption – Unarchive – Restored LA Is Selectable Again in the Priority Chain for New Assignments,"AC-3 (financial) - Regression - [UNVERIFIED]: Direct inverse of the exclusion cases - once an LA is unarchived (same Id, Archived_At__c cleared), it must become a normal, fully eligible candidate again, selectable by the priority chain for a brand-new assignment.","LA3 + Course 3 (Priority = True, Purchase Point = 10, remaining points = 10) was previously archived and is now unarchived on the same record Id (Archived_At__c cleared) - a living Student Package Order reappeared for the same Student_Course_ID__c group
+No other LA for Course 3 currently outranks LA3 in the priority chain",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates a new group lesson with Course 3, with the lesson date within LA3's duration, and assigns Student 2 (a different student, not involved in the earlier archive/unarchive cycle) to the lesson""
+2. ""HQ or CM Staff checks which LA the points were taken from""
+","1. ""Per AC-3, a restored LA must behave exactly like any other eligible, never-archived LA - it competes in the priority chain on its own merits, with archive history having no lingering effect""
+2. ""[UNVERIFIED] Record actual behavior: points correctly taken from LA3 (restore fully functional, pass), or LA3 is still skipped/ignored by the selection logic even though Archived_At__c is now null (fail - restore is incomplete, route to the engineering owner of [SF][Nichibei] Implement LA soft delete with consume point)""
+","1. ""LA3 Archived_At__c = null (restored); LA3 is otherwise the best-matching candidate""
+2. ""Actual result to be captured against live Nichibei org""
+",,,3669,3657,Lesson detail,,,

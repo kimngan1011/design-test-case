@@ -1,0 +1,16 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3593,3588,Calendar Table View (Multiple-Assign) – Archive Filter Gap,1,,
+,Calendar Table View – Multiple-Assign – Archived Student Session Still Shown as Attendee Row,"Gap case - AC-5 - Decision Table: lessonDetailCollapsible's Student Sessions related-list query filters Is_Deleted__c = FALSE only, so a student whose Lesson Allocation is archived still appears as an attendee row on the Mana Calendar's table-view (Multiple-Assign) surface, unlike the main calendar grid which correctly excludes them.","Lesson L6 is scheduled on 2026-05-23 at Location Tokyo HQ, with Student A (Lesson Allocation archived, Archived_At__c populated, session Is_Archived__c = TRUE) and Student B (active Lesson Allocation) both having Student Sessions.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the main Lesson Calendar grid for 2026-05-23 at Location Tokyo HQ and checks Lesson L6's attendee list""
+2. ""HQ or CM Staff switches to the Mana Calendar table view (Multiple-Assign) for the same lesson L6""
+","1. ""Student A is excluded; only Student B is shown""
+2. ""Student A still appears as an attendee row, inconsistent with step 1""
+","1. ""LessonCalendarHandler filters Is_Archived__c = FALSE""
+2. ""lessonDetailCollapsible's Student_Sessions__r query filters Is_Deleted__c = FALSE only, no Is_Archived__c check""
+",,,3593,3588,Calendar Table View (Multiple-Assign) – Archive Filter Gap,,,
+,Calendar Table View – Multiple-Assign – Trial/Reallocate Badge Computed from an Archived Student Session,"Gap case - AC-5 - Decision Table: because lessonDetailCollapsible does not exclude archived Student Sessions, the Trial and Reallocate badges on the Mana Calendar table-view can be computed using a student whose underlying Lesson Allocation is archived.","Lesson L7 is scheduled on 2026-05-24 at Location Tokyo HQ. Student C has a Trial-flagged Student Session under Lesson Allocation LA-3, which has since been archived (Archived_At__c populated, session Is_Archived__c = TRUE).",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Mana Calendar table view (Multiple-Assign) for Lesson L7""
+2. ""HQ or CM Staff compares this with the main Lesson Calendar grid for the same lesson""
+","1. ""Student C's row is still shown with the Trial badge, sourced from the archived session""
+2. ""The main grid correctly omits Student C entirely""
+","1. ""LA-3 Archived_At__c = populated; isTrial computed from an Is_Archived__c = TRUE session""
+2. ""LessonCalendarHandler filters Is_Archived__c = FALSE""
+",,,3593,3588,Calendar Table View (Multiple-Assign) – Archive Filter Gap,,,

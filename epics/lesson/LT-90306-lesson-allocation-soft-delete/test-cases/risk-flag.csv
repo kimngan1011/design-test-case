@@ -1,0 +1,14 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3636,3588,Risk Flag,1,,
+,Risk Flag – Auto-trigger – One of Two Consecutive Absent Sessions Archived – Archived Day Excluded from Recalculation Window,"Feature Impact (Risk flag calculation) - Decision Table: if one of the two sessions that originally satisfied the consecutive-absent-days threshold has its Lesson Allocation archived, the next Risk flag recalculation excludes that day entirely from the window, potentially turning the flag OFF even though the student was genuinely absent for the full original window.","- Risk flag auto-trigger config = 2 consecutive absent days.
+- Student A has Student Sessions marked Absent on 2026-05-18 and 2026-05-19, satisfying the 2-day threshold - Risk flag is currently ON.
+- The Lesson Allocation behind the 2026-05-18 session is archived (Archived_At__c populated) after its Student Package Order was fully removed, so that session's Is_Archived__c = TRUE. The 2026-05-19 session remains under a separate, still-active Lesson Allocation.",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff navigates to Student A's detail -> Risk tab""
+2. ""HQ or CM Staff edits the attendance note on the 2026-05-19 session and saves, triggering a fresh auto-trigger recalculation""
+3. ""Observe the Risk flag state after the recalculation""
+","1. ""Risk flag = ON, reflecting the original trigger before the archive""
+2. ""The recalculation runs via getAssignedStudentSessionsByDates, which now returns only the 2026-05-19 session for this window - the archived 2026-05-18 session is excluded entirely""
+3. ""Risk flag turns OFF, since only 1 absent day is now visible to the 2-day-threshold check - even though the student was genuinely absent for the full original 2-day window""
+","1. ""Baseline state""
+2. ""Window recalculated with 1 visible absent day instead of 2""
+3. ""Flag downgraded due to the archived day being invisible to the calculation, not due to any real change in attendance history""
+",,,3636,3588,Risk Flag,,,

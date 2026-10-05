@@ -1,0 +1,25 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3598,3588,Add Associated Course,1,,
+,"Add Associated Course – Future Effective Date – Existing Course's Lesson Allocation Unaffected, Not Archived","Regression case - Decision Table, contrasts with the existing baseline (case 1775, ""Add Associated Course – Future Effective Date – New Course LA Created, Auto-Assigned to Lessons"") - adding a new associated course never touches the existing course's Lesson Allocation at all; it remains fully active and unarchived throughout, since its own order was never modified or removed.","- Student A has an active Lesson Allocation for Course A (existing course), with a class assigned and lessons scheduled.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,low,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff adds a new associated Course B with a future effective date and a class, then submits""
+2. ""HQ or CM Staff opens Student A's existing Course A Lesson Allocation""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""Course B's new Lesson Allocation is created with start date = effective date""
+2. ""Course A's Lesson Allocation is completely unchanged - same Start/End dates, Archived_At__c still blank""
+3. ""Both Course A's (existing, active) and Course B's (new, future-starting) Lesson Allocations appear in the list""
+","1. ""New Course B LA created""
+2. ""Archived_At__c = null; Course A LA untouched""
+3. ""Course A Is_Archived__c = FALSE throughout""
+",,,3598,3588,Add Associated Course,,,
+,,,,,,,,,,,,,,,,,,,,3598,3588,Add Associated Course,1,,
+,"Change Associated Course – Future Effective Date (Order Not Yet Removed) – Old Lesson Allocation End Date Updated Only, Not Archived","Regression / boundary case - Decision Table, contrasts with the existing baseline (case 1774, ""Future Effective Date – Old LA End Date Updated, New LA Created"") - changing the associated course with an effective date in the future only updates the OLD course's Lesson Allocation end date; since its order remains alive (not removed) until the effective date, Archived_At__c is never touched for the old LA while this case's pre-effective-date window is in play. The archive-triggering ""old LA archived"" scenario is only reached once the effective date arrives and the order is actually removed (already covered separately for the effective-date = start-date case).","- Student A has an active Lesson Allocation for Course A with a class assigned and a recurring group lesson by class.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff changes the associated course from Course A to Course B with an effective date in the future (after today), assigns a class for Course B, saves draft, and submits""
+2. ""HQ or CM Staff opens Student A's Course A Lesson Allocation before the effective date arrives""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list before the effective date""
+","1. ""Course A's Lesson Allocation end date updates to the effective date; a new Course B Lesson Allocation is created starting on the effective date""
+2. ""Archived_At__c remains blank - only End_Date_Time__c was touched; the LA is still active""
+3. ""Course A's Lesson Allocation still appears in the active list alongside the new future-starting Course B Lesson Allocation""
+","1. ""effective_date > today""
+2. ""Archived_At__c = null (before effective date)""
+3. ""Is_Archived__c = FALSE (via formula) -> unaffected until the order is actually removed on the effective date""
+",,,3598,3588,Add Associated Course,,,

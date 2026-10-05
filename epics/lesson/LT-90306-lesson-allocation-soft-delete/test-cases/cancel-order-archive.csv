@@ -1,0 +1,38 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3602,3588,Cancel Order,1,,
+,"Cancel Order – Slot-Based – Full Cancellation (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted","Gap/update case - Decision Table, contrasts with the legacy-wording baseline (case 9922, ""Slot-Based – LA Deleted, Student Removed from Lessons"") - when Enable_Lesson_Allocation_Archive__c is enabled, cancelling the only order for a student-course does not delete the Lesson Allocation record; it archives it. The record remains reachable by Id, excluded from active lists, with its Class Member/Student Session children hidden via the Is_Archived__c formula rather than removed.","- Student A has a Slot-Based order for Course A with Require Allocation = True (the only order for this student-course). An individual lesson exists with Student A assigned.
+- Lesson_Custom_Settings__c.Enable_Lesson_Allocation_Archive__c = TRUE in this org.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the order group detail for the Slot-Based product, clicks ""Cancel"", saves draft, and submits""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation directly by record Id""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+4. ""HQ or CM Staff opens the individual lesson Student A was assigned to""
+","1. ""The order is cancelled""
+2. ""The Lesson Allocation still exists and is reachable; Archived_At__c is populated""
+3. ""The Lesson Allocation no longer appears in the active list""
+4. ""Student A is removed from the lesson's Student Sessions, same end-user-visible outcome as the legacy ""deleted"" baseline (case 9922)""
+","1. ""Order status = Cancelled""
+2. ""Archived_At__c = current timestamp; record NOT deleted""
+3. ""Archived LA excluded from active-list queries (Archived_At__c = NULL filter)""
+4. ""Student A's Student Session Is_Archived__c = TRUE (via formula) -> hidden, not deleted""
+",,,3602,3588,Cancel Order,,,
+,"Cancel Order – New Order Submitted After Full Cancellation – Archived Lesson Allocation Restored, Not Re-Created","Gap case - Decision Table - continuing from the scenario above: when a new order is later submitted for the same student-course (e.g. the family re-enrolls), LessonAllocationSyncService restores the SAME archived Lesson Allocation record (unarchive) rather than creating a brand-new one, since the record for that student-course already exists.","- Following directly from the case above: Student A's Lesson Allocation for Course A is archived (Archived_At__c populated) after the only order was cancelled. Note its record Id.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff submits a new order for Student A on the same Course A student-course""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation for Course A""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The order is submitted successfully""
+2. ""The SAME Lesson Allocation record (same record Id as before) now shows Archived_At__c blank - it was restored, not replaced by a new record""
+3. ""The Lesson Allocation reappears in the active list""
+","1. ""New order for Course A""
+2. ""Archived_At__c = null (restored); record Id unchanged from the archived state""
+3. ""Is_Archived__c = FALSE (via formula) -> visible again""
+",,,3602,3588,Cancel Order,,,
+,"Cancel Order – Partial Cancellation (Future Effective Date, Order Not Removed) – Lesson Allocation End Date Updated Only, Not Archived","Regression / boundary case - Decision Table, contrasts with the existing baseline (case 1777, ""Frequency – Future Effective Date – LA End Date Updated"") - cancelling an order with a future effective date only shortens the Lesson Allocation's end date; the order itself is not removed (it still has valid Start/End dates until the effective date), so shouldArchiveAllocationOfStudentCourse's ""all orders removed"" condition is never satisfied and Archived_At__c is never touched. This locks in that the archive mechanism introduced by this epic has no effect on this already-covered partial-cancel behavior.","- Student A has a Frequency order for Course A with Require Allocation = True and a class assigned; Student A is auto-assigned to lessons by class.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the order group detail, clicks ""Cancel"", fills in an effective date in the future (after today, before the order's original end date), saves draft, and submits""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The order's end date is updated to the effective date""
+2. ""End_Date_Time__c is updated to the effective date; Archived_At__c remains blank throughout""
+3. ""The Lesson Allocation still appears in the active list, unaffected by the archive mechanism""
+","1. ""effective_date > today""
+2. ""Archived_At__c = null; only duration fields changed""
+3. ""Is_Archived__c = FALSE (via formula) -> unaffected""
+",,,3602,3588,Cancel Order,,,

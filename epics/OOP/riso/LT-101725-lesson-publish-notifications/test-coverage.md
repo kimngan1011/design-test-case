@@ -1,9 +1,9 @@
 # Test Coverage: LT-101725 — Riso Lesson Publish Notifications to Teachers
 
 **Jira:** https://manabie.atlassian.net/browse/LT-101725
-**Date:** 2026-06-23
+**Date:** 2026-09-09
 **Partner scope:** Riso only (config flag: On = Riso, Off = all other tenants)
-**Platforms:** SF (single publish Chatter + bulk publish email) + BO (bulk publish email trigger)
+**Platforms:** SF (single publish Chatter + Notification Center, bulk publish email) + BO (Lesson Detail hyperlink destination, bulk publish email trigger)
 
 ---
 
@@ -22,10 +22,10 @@
 | BR-09 | AC-04 | Multiple teachers → single Chatter post (not one post per teacher) |
 | BR-10 | AC-05 | Chatter post EN body: `@[Teacher Name] — [Lesson Name.hyperlink] has been published. Click to see more details.` |
 | BR-11 | AC-05 | Chatter post JP body: `@[先生名] — [授業名.hyperlink]が公開されました。詳細はこちらをクリックしてください。` |
-| BR-12 | AC-05 | Lesson Name in Chatter post = hyperlink to SF Lesson Detail page |
+| BR-12 | AC-05 | Lesson Name in Chatter post = hyperlink to the BO Lesson Detail page for the same lesson |
 | BR-13 | AC-06 | SF notification center delivered via default SF @mention mechanism (no custom code); single publish only |
 | BR-14 | AC-07 | ONLY @mentioned teachers receive notification center alert; LBAC-only users can VIEW post but get NO alert |
-| BR-15 | AC-08 | Clicking Lesson Name hyperlink → opens SF Lesson Detail in new tab |
+| BR-15 | AC-08 | Clicking Lesson Name hyperlink in the Chatter post or Notification Center → opens BO Lesson Detail for the same lesson in a new tab |
 | BR-16 | AC-09 | Bulk publish → one email per Available Lesson Teacher per bulk action |
 | BR-17 | AC-09 | Email content = published period summary (not individual lesson details) |
 | BR-18 | AC-10 | One email per teacher per bulk action regardless of how many lessons in batch |
@@ -120,6 +120,8 @@
 - [x] Centre Manager (LBAC access) → can view Chatter post; does NOT receive notification center alert
 - [x] BO Teacher (CPU) → SF account existence TBD (Q10); flag as dependency
 - [x] Cross-tenant: non-Riso org (config=OFF) → no Chatter post, no email
+- [x] Centre Manager also assigned as Available Lesson Teacher on the same lesson → @mentioned in Chatter post; receives SF notification center alert (the Centre Manager affiliation role does not downgrade the assigned-teacher experience to view-only)
+- [x] Centre Staff also assigned as Available Lesson Teacher on the same lesson → @mentioned in Chatter post; receives SF notification center alert
 
 ### E. State transition (triggered by BR-01, BR-02, BR-16, BR-26)
 - [x] Draft → Published (single publish) → Chatter post created ✅ positive
@@ -128,7 +130,10 @@
 - [x] Published → Completed → NO publish notification ✅ negative (not a publish event)
 - [x] Draft → Published → Draft → Published (republish) → new Chatter post created on second publish ✅
 - [x] Cancelled lesson included in bulk publish batch → excluded from email/notification (batch filters Draft only)
-- [x] Teacher added to Published lesson with future date → Chatter post triggered ✅ special case
+- [x] Recurring lesson: teacher added from SF Lesson Detail with “Only this” → assignment and exactly 1 new Chatter post on the selected occurrence only ✅
+- [x] Recurring lesson: teacher added from SF Lesson Detail with “This and the following” → assignment and 1 new Chatter post on each affected occurrence ✅
+- [x] Recurring lesson: teacher added from SF Lesson Calendar with “Only this” → assignment and exactly 1 new Chatter post on the selected occurrence only ✅
+- [x] Recurring lesson: teacher added from SF Lesson Calendar with “This and the following” → assignment and 1 new Chatter post on each affected occurrence ✅
 
 ### F. Cross-system / cross-surface (triggered by BR-01, BR-13, BR-16)
 - [x] Single publish: SF status change → Chatter post visible in SF Lesson Detail Chatter section within SLA
@@ -148,17 +153,21 @@
 | Single publish | Available PT teacher @mentioned in post body | SF Chatter post body | chatter-post.md |
 | Single publish | Unavailable teacher NOT @mentioned | SF Chatter post body | chatter-post.md |
 | Single publish | Multiple teachers → single post (not per-teacher) | SF Chatter post | chatter-post.md |
-| Single publish | Lesson Name in post = hyperlink to SF Lesson Detail | SF Chatter post | chatter-post.md |
+| Single publish | Lesson Name in post = hyperlink to BO Lesson Detail for the same lesson | SF Chatter post | chatter-post.md |
 | Single publish | Available teacher receives SF notification center alert | SF Notification Center | sf-notification.md |
 | Single publish | LBAC-only user (HQ Admin) sees post, gets no notification alert | SF Notification Center + Chatter | sf-notification.md |
 | Single publish | LBAC-only user (CM) sees post, gets no notification alert | SF Notification Center + Chatter | sf-notification.md |
-| Single publish | Clicking hyperlink → SF Lesson Detail in new tab | SF browser navigation | chatter-post.md |
+| Single publish | Clicking Lesson Name hyperlink in Chatter post → BO Lesson Detail for the same lesson in new tab | SF Chatter post → BO browser navigation | chatter-post.md |
+| Single publish | Clicking Lesson Name hyperlink in Notification Center → BO Lesson Detail for the same lesson in new tab | SF Notification Center → BO browser navigation | sf-notification.md |
 | Republish (Published→Draft→Published) | New Chatter post created | SF Lesson Detail Chatter | chatter-post.md |
 | Republish | Old Chatter post(s) remain visible alongside new post | SF Lesson Detail Chatter | chatter-post.md |
 | Republish | Teacher receives new notification center alert | SF Notification Center | sf-notification.md |
 | Unpublish (Published→Draft) — inverse | NO new notification triggered | SF Notification Center | chatter-post.md |
-| Teacher added to Published future-date lesson | Chatter post created for added teacher(s) | SF Lesson Detail Chatter | teacher-added.md |
-| Teacher added to Published past-date lesson | NO Chatter post triggered (negative) | None | teacher-added.md |
+| Teacher added from SF Lesson Detail with “Only this” | Teacher assigned and exactly 1 new Chatter post on selected occurrence; other occurrences unchanged | SF Lesson Detail → Chatter | single-publish-chatter-post.md |
+| Teacher added from SF Lesson Detail with “This and the following” | Teacher assigned and 1 new Chatter post on each selected/following occurrence; preceding occurrence unchanged | SF Lesson Detail → Chatter | single-publish-chatter-post.md |
+| Teacher added from SF Lesson Calendar with “Only this” | Teacher assigned and exactly 1 new Chatter post on selected occurrence; other occurrences unchanged | SF Lesson Calendar → Chatter | single-publish-chatter-post.md |
+| Teacher added from SF Lesson Calendar with “This and the following” | Teacher assigned and 1 new Chatter post on each selected/following occurrence; preceding occurrence unchanged | SF Lesson Calendar → Chatter | single-publish-chatter-post.md |
+| Teacher added to Published past-date lesson | NO Chatter post triggered (negative) | None | single-publish-chatter-post.md |
 | Bulk publish (SF Lesson List) | Email sent to each Available teacher | Teacher SF email | bulk-email.md |
 | Bulk publish (SF Lesson Calendar) | Email sent to each Available teacher | Teacher SF email | bulk-email.md |
 | Bulk publish (BO Lesson Mgmt) | Email sent to each Available teacher | Teacher SF email | bulk-email.md |
@@ -203,10 +212,10 @@ N/A: No Figma URL in spec.
 | BR-09 | AC-04 | Multiple teachers → single post | Data integrity | CRUD | 🟠 High | Standard |
 | BR-10 | AC-05 | Chatter post EN body exact content | Validation, Display completeness | Equivalence Partitioning, Component | 🟠 High | Standard |
 | BR-11 | AC-05 | Chatter post JP body exact content | Validation, Display completeness | Equivalence Partitioning, Component | 🟠 High | Standard |
-| BR-12 | AC-05 | Lesson Name = hyperlink to SF Lesson Detail | Display completeness | Component | 🟠 High | Standard |
+| BR-12 | AC-05 | Lesson Name = hyperlink to BO Lesson Detail for the same lesson | Display completeness, Cross-system | Component | 🟠 High | Standard |
 | BR-13 | AC-06 | SF notification center via @mention (single publish only) | State transition, Cross-system | State Transition, Regression | 🔴 Critical | Deep |
 | BR-14 | AC-07 | Only @mentioned teachers get notification alert; LBAC-only → no alert | Permission logic, Conditional | Permission Matrix, Decision Table | 🔴 Critical | Deep |
-| BR-15 | AC-08 | Lesson Name hyperlink → new tab | Display completeness | Component | 🟡 Medium | Smoke |
+| BR-15 | AC-08 | Lesson Name hyperlink from Chatter post or Notification Center → BO Lesson Detail in a new tab | Display completeness, Cross-system | Component | 🟡 Medium | Smoke |
 | BR-16 | AC-09 | Bulk publish → email to each Available teacher | State transition, Cross-system | State Transition, CRUD | 🔴 Critical | Deep |
 | BR-17 | AC-09 | Email content = period summary | Validation, Display | Component | 🟠 High | Standard |
 | BR-18 | AC-10 | One email per teacher per bulk action | Data integrity | CRUD, Decision Table | 🔴 Critical | Deep |
@@ -257,7 +266,7 @@ N/A: No Figma URL in spec.
 
 | Area | Reason | Recommended Approach |
 |---|---|---|
-| Chatter post hyperlink (BR-12, BR-15) | Hyperlink must open Lesson Detail in new tab; if it navigates in-place, user loses their Chatter context | Component: click hyperlink → verify new browser tab opens to correct lesson detail URL |
+| Chatter post / Notification Center hyperlink (BR-12, BR-15) | Hyperlink must open the matching BO Lesson Detail in a new tab; an SF destination, incorrect lesson, or in-place navigation is a defect | Component: from each entry point, click hyperlink → verify a new browser tab opens to the correct BO Lesson Detail URL |
 | Email body format localization (BR-21, BR-22) | Date format must differ by language (EN: `Month Day, Year`; JP: `Year年Month月Day日`) — mismatched formats are visible user-facing defects | Equivalence Partitioning: EN email → verify EN date format; JP email → verify JP date format |
 | LBAC post visibility (BR-07) | Post visible only to LBAC-authorized users — verify user without lesson access cannot see post | Permission Matrix: SF user without LBAC access to the lesson → verify Chatter section shows no notification post |
 
@@ -313,15 +322,16 @@ epics/OOP/riso/LT-101725-lesson-publish-notifications/test-cases/
 │   → AC-01 through AC-05, AC-08
 │   → Covers: Chatter post creation on Draft→Published, @mention targeting
 │     (Available FT/PT included; Unavailable excluded; multi-teacher single post),
-│     post body content (EN/JP), Lesson Name hyperlink, republish behavior,
+│     post body content (EN/JP), Chatter-post Lesson Name hyperlink to BO,
+│     republish behavior,
 │     teacher-added-to-published-lesson trigger, non-Riso tenant (no post)
 │
 ├── sf-notification-center.md
-│   → AC-06, AC-07
+│   → AC-06, AC-07, AC-08 (Notification Center entry point)
 │   → Covers: SF notification center delivery to @mentioned teachers,
 │     LBAC isolation (HQ Admin + CM can VIEW post but receive NO alert),
 │     single-publish-only (bulk publish does NOT trigger notification center),
-│     notification center message content
+│     notification center message content and Lesson Name hyperlink to BO
 │
 ├── bulk-publish-email.md
 │   → AC-09, AC-10, AC-11

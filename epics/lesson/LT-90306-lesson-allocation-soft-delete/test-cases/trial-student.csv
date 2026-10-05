@@ -1,0 +1,13 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3643,3588,Trial Student,1,,
+,Trial Student – Core Lesson Allocation Soft Delete Feature Enabled – Trial LA Lifecycle Unaffected,"Control case / regression boundary - Decision Table: with the Core Lesson Allocation archive feature enabled org-wide, a Trial Lesson Allocation's creation, assignment, and cancellation continue to work exactly as before, since the Trial LA lifecycle is managed by a separate code path that never writes to or reads Archived_At__c.","- The Core Lesson Allocation soft-delete feature flag (Enable_Lesson_Allocation_Archive__c) is enabled org-wide.
+- A trial lesson request exists for Student A.",,,low,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff submits the trial lesson for Student A and opens the resulting Lesson Allocation detail""
+2. ""HQ or CM Staff opens a one-time lesson and adds Student A via Add Student""
+3. ""HQ or CM Staff cancels the trial via the normal trial-lesson cancellation flow""
+","1. ""LA created with Type = Trial; Archived_At__c is blank and is never populated by this flow""
+2. ""Student A is added with session type = Trial, exactly as in the pre-archive-feature baseline (case 1479)""
+3. ""The Trial LA and its sessions are handled by the existing trial-specific cleanup logic, independent of the archive/unarchive sync engine""
+","1. ""Archived_At__c = blank, untouched by TrialLessonAllocationHandler""
+2. ""No regression from the Core archive mechanism""
+3. ""Trial lifecycle unaffected by the Core LA soft-delete feature""
+",,,3643,3588,Trial Student,,,

@@ -1,0 +1,60 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[Aso] Lesson Survey – Cancel Full Order – Student's Lesson Allocation Archived – Survey Record Orphaned, Not Deleted","AC-1 / Gap #10-class (new, code-confirmed) - Decision Table: Cancelling the sole active order behind a student's enrollment archives the Lesson Allocation; the associated Lesson_Survey_Response__c is expected to remain in the system rather than being deleted, since the delete trigger never fires for an archived allocation.","HQ or CM Staff is logged in to the Aso Salesforce org
+Student A is enrolled in a Lesson through a full order, the only active order in Student A's Student_Course_ID__c group
+A Lesson_Survey_Response__c exists for Student A for that Lesson
+Lesson_Custom_Settings__c.Enable_Lesson_Allocation_Archive__c = TRUE",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff cancels the full order associated with Student A's lesson enrollment""
+2. ""HQ or CM Staff opens the affected Lesson and checks Student A's participant status""
+3. ""HQ or CM Staff opens or searches for the Lesson_Survey_Response__c associated with Student A and the affected lesson""
+","1. ""The full order is cancelled successfully; Student A's Lesson Allocation shows Archived_At__c populated (archived, not deleted)""
+2. ""Student A's Student Session shows Is_Archived__c = TRUE via formula; Lesson__c remains set to the affected lesson (not nulled) - excluded from active participant views but the record still exists""
+3. ""The Lesson Survey record still exists - it was not deleted, since no Student_Sessions__c delete/field-nulling trigger fired for the archived allocation""
+","1. ""Lesson_Allocation Archived_At__c = current timestamp""
+2. ""Student_Sessions Is_Archived__c = TRUE; Lesson__c unchanged""
+3. ""Expect: 1 Lesson_Survey_Response__c record found, unchanged from before archive""
+",,,3665,3651,Lesson Survey,,,
+,"[Aso] Lesson Survey – Void New Order – Student's Lesson Allocation Archived – Survey Record Orphaned, Not Deleted","AC-1 / Gap #10-class (new, code-confirmed) - Decision Table: Same mechanism as the cancel-order case, triggered via Void instead of Cancel.","HQ or CM Staff is logged in to the Aso Salesforce org
+Student A is enrolled in a Lesson through a new order, the only active order in Student A's Student_Course_ID__c group
+A Lesson_Survey_Response__c exists for Student A for that Lesson
+Lesson_Custom_Settings__c.Enable_Lesson_Allocation_Archive__c = TRUE",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff voids the new order associated with Student A's lesson enrollment""
+2. ""HQ or CM Staff opens the affected Lesson and checks Student A's participant status""
+3. ""HQ or CM Staff opens or searches for the Lesson_Survey_Response__c associated with Student A and the affected lesson""
+","1. ""The new order is voided successfully; Student A's Lesson Allocation shows Archived_At__c populated""
+2. ""Student A's Student Session shows Is_Archived__c = TRUE; Lesson__c remains set (not nulled)""
+3. ""The Lesson Survey record still exists, unchanged - no deletion trigger fired""
+","1. ""Lesson_Allocation Archived_At__c = current timestamp""
+2. ""Student_Sessions Is_Archived__c = TRUE; Lesson__c unchanged""
+3. ""Expect: 1 Lesson_Survey_Response__c record found""
+",,,3665,3651,Lesson Survey,,,
+,[Aso] Lesson Survey – Teacher Views Responses in Back Office – Archived Student's Orphaned Survey Still Listed,AC-5 (downstream impact) - Negative - [UNVERIFIED]: Extends the existing baseline (no archive dimension today). An archived student's orphaned survey response has no Is_Archived__c of its own and risks still appearing in the teacher's Back Office list as if the student were an active participant.,"Teacher has access to Back Office
+Student A's Lesson Allocation for a given Lesson is archived (per either gap case above), and Student A's Lesson_Survey_Response__c for that Lesson was left orphaned (not deleted)
+Student B is still actively enrolled in the same Lesson and has also submitted a survey response",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Teacher logs into Back Office and navigates to the Lesson detail page's survey response section""
+2. ""Teacher reviews the list of student responses""
+","1. ""The survey response list is displayed""
+2. ""[UNVERIFIED] Record actual behavior: Student A's orphaned response is excluded or clearly marked as inactive (pass), or appears indistinguishable from Student B's active response (fail - route to the engineering owner of this gap)""
+","1. ""Lesson has 2 survey responses on file: Student A (archived) and Student B (active)""
+2. ""Actual result to be captured; no code trace confirmed either way for the BO list's own filter""
+",,,3665,3651,Lesson Survey,,,
+,[Aso] Lesson Survey – Reduce Lesson Allocation End Date While Other Orders Remain – Survey Still Deleted as Before,"AC-1 (parity) - Regression: Control case confirming the existing baseline is unaffected by the archive refactor, since ManualSessionCleanupMasterQueueExecutor only processes Lesson Allocations where Archived_At__c = NULL.","HQ or CM Staff is logged in to Salesforce
+Individual Student A has an individual Lesson Allocation ending on 2026-03-31; other orders in the group remain active, so the allocation itself does not archive
+A Student Session and Lesson_Survey_Response__c for Student A exist on the lesson dated 2026-02-15
+The Lesson Allocation end date is reduced to 2026-02-08",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff reduces the Lesson Allocation end date to 2026-02-08""
+2. ""HQ or CM Staff opens the lesson dated 2026-02-15 (now outside the allocation's range)""
+3. ""HQ or CM Staff opens the Lesson Survey for the 2026-02-15 lesson""
+","1. ""The Lesson Allocation ends on 2026-02-08; Archived_At__c remains null (the allocation itself never archives)""
+2. ""Individual Student A is removed from the lesson via the normal cleanup pipeline, since the allocation is not archived""
+3. ""No Lesson Survey record exists for Individual Student A - deletion still works exactly as before, confirming this path is not part of the archive gap""
+","1. ""new_end_date = 2026-02-08; Archived_At__c = null""
+2. ""lesson_date = 2026-02-15""
+3. ""Expect: 0 Lesson_Survey_Response__c records for Student A on this lesson""
+",,,3665,3651,Lesson Survey,,,
+,[Aso] Lesson Survey – Unarchive Round Trip – Lesson Allocation Restored – No Duplicate Survey Created,"AC-3 (same-Id restore) - Regression: Confirms that once the archived Lesson Allocation is restored on the same Id, no second Lesson_Survey_Response__c is created for the same (student, lesson) pair.","Student A's Lesson Allocation was archived per the cancel/void gap case above, leaving one orphaned Lesson_Survey_Response__c for Student A on the affected Lesson
+A living Student Package Order reappears for Student A's Student Course, and the Lesson Allocation is unarchived on the same record Id (Archived_At__c cleared)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff confirms the Lesson Allocation is restored""
+2. ""HQ or CM Staff opens or searches for Lesson_Survey_Response__c records belonging to Student A on the affected Lesson""
+3. ""Student A logs into the mobile app and opens the affected lesson's survey""
+","1. ""Archived_At__c is null again (restored, same Id); Student A's Student Session shows Is_Archived__c = FALSE""
+2. ""Exactly one record is found - the original orphaned one, untouched by the restore. No duplicate was created""
+3. ""The original survey response is shown normally, consistent with attendance/report history surviving the archive to unarchive round trip""
+","1. ""LA Archived_At__c = null (restored)""
+2. ""Expect: 1 Lesson_Survey_Response__c record for (Student A, affected lesson)""
+3. ""Student A can view their prior response without error""
+",,,3665,3651,Lesson Survey,,,

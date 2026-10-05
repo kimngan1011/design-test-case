@@ -1,0 +1,78 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Aver] Lesson Report – Add – Student's Lesson Allocation Archived – Add Button Unavailable,"AC-5 (out-of-package, unverifiable by code) - Decision Table - [UNVERIFIED]: Confirms whether the Aver Lesson Report detail page (Experience Cloud iframe) disables Add for a student whose Lesson Allocation has archived, even though the Lesson itself stays active.","HQ or CM Staff is logged in to the Aver Salesforce org (or Aver sandbox/UAT)
+A Lesson exists with Status = Published; Student A is assigned via Lesson Allocation LA1
+Student A has not yet had a Lesson Report created for this Lesson
+LA1 is archived (Student Package Order group fully removed for Student A) - Archived_At__c populated; Lesson stays Status = Published",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Lesson's Report tab (Aver Experience Cloud detail page) for Student A""
+2. ""HQ or CM Staff inspects whether the Add button is present and enabled""
+","1. ""Per AC-5, the Add button for Student A's report should be unavailable, consistent with how an archived LA is excluded from every other read path in this epic""
+2. ""[UNVERIFIED] Record actual behavior: Add button correctly disabled/hidden (pass), or still enabled allowing a report to be created for the archived allocation (fail - route to [SF][Aver] Check custom aver lesson report)""
+","1. ""LA1 Archived_At__c = populated; Lesson Status = Published""
+2. ""Actual result to be captured against live Aver org""
+",,,3666,3652,Lesson Report correct,,,
+,[Aver] Lesson Report – Edit – Student's Lesson Allocation Archived Mid-Lifecycle – Edit Blocked,"AC-5 (out-of-package, unverifiable by code) - Decision Table - [UNVERIFIED]: Confirms whether an already-created Draft/Submitted Lesson Report becomes non-editable once the student's Lesson Allocation archives, independent of the Lesson's own status.","HQ or CM Staff is logged in to the Aver Salesforce org (or sandbox/UAT)
+A Lesson exists with Status = Published; Student A is assigned via Lesson Allocation LA1
+A Lesson Report for Student A exists with Status = Draft
+LA1 archives (Student Package Order group fully removed) - Archived_At__c populated; Lesson stays Status = Published",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Student A's existing Draft Lesson Report on the Aver detail page""
+2. ""HQ or CM Staff checks whether the Edit button/form is available""
+","1. ""Per AC-5, Edit should be blocked for a report tied to an archived allocation, matching the existing pattern for Canceled-lesson reports""
+2. ""[UNVERIFIED] Record actual behavior: Edit correctly blocked (pass), or still editable (fail - route to [SF][Aver] Check custom aver lesson report)""
+","1. ""LA1 Archived_At__c = populated; Lesson Report Status = Draft""
+2. ""Actual result to be captured against live Aver org""
+",,,3666,3652,Lesson Report correct,,,
+,[Aver] Lesson Report – Delete – Student's Lesson Allocation Archived – Delete Button Unavailable,"AC-5 (out-of-package, unverifiable by code) - Decision Table - [UNVERIFIED]: Confirms whether Delete becomes unavailable once the student's allocation archives, since deleting risks destroying report data that is supposed to remain restorable.","HQ or CM Staff is logged in to the Aver Salesforce org (or sandbox/UAT)
+A Lesson exists with Status = Published; Student A is assigned via Lesson Allocation LA1
+A Lesson Report for Student A exists with Status = Draft
+LA1 archives (Archived_At__c populated) via Student Package Order removal; Lesson stays Status = Published",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Student A's Draft Lesson Report on the Aver detail page""
+2. ""HQ or CM Staff checks whether the Delete button is present and enabled""
+","1. ""Per this epic's archive-never-delete principle, Delete should be unavailable once the allocation is archived""
+2. ""[UNVERIFIED] Record actual behavior: Delete correctly blocked (pass), or still allowed - letting staff permanently destroy data for a restorable allocation (fail - route to [SF][Aver] Check custom aver lesson report, flag as data-loss risk)""
+","1. ""LA1 Archived_At__c = populated""
+2. ""Actual result to be captured against live Aver org""
+",,,3666,3652,Lesson Report correct,,,
+,[Aver] Lesson Report – Status Transition – Student's Lesson Allocation Archived – Submit/Publish/Revert Blocked,"AC-5 (out-of-package, unverifiable by code) - State Transition - [UNVERIFIED]: Confirms whether Submit, Publish, and Revert all become unavailable once the student's allocation archives.","HQ or CM Staff (or Teacher) is logged in to the Aver Salesforce org (or sandbox/UAT)
+A Lesson exists with Status = Published; Student A is assigned via Lesson Allocation LA1
+A Lesson Report for Student A exists with Status = Draft
+LA1 archives (Archived_At__c populated); Lesson stays Status = Published",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Teacher opens Student A's Draft Lesson Report on the Aver detail page and looks for the Submit action""
+2. ""Teacher checks whether the Submit button is present and enabled""
+3. ""Repeat for a Submitted-status report of the same student: Teacher looks for the Publish action""
+4. ""Teacher checks whether the Publish button is present and enabled""
+","1. ""Per AC-5, the status-change action should be unavailable, consistent with the existing pattern for Draft-lesson reports""
+2. ""[UNVERIFIED] Record actual behavior""
+3. ""Per AC-5, Publish should equally be unavailable""
+4. ""[UNVERIFIED] Record actual behavior - any status transition left enabled on an archived allocation's report is a fail, route to [SF][Aver] Check custom aver lesson report""
+","1. ""LA1 Archived_At__c = populated; Lesson Report Status = Draft""
+2. ""Actual result to be captured against live Aver org""
+3. ""Lesson Report Status = Submitted""
+4. ""Actual result to be captured against live Aver org""
+",,,3666,3652,Lesson Report correct,,,
+,[Aver] Lesson Report – Homework Copy – Source Lesson's Allocation Archived – Homework Not Copied as Current,"AC-5 (out-of-package, unverifiable by code) - Decision Table - [UNVERIFIED]: Extends the existing isolation pattern (Do not show Homework of different LA) to the archived-LA case - confirms Previous-week Homework does not silently surface from an archived source session as if current.","HQ or CM Staff is logged in to the Aver Salesforce org (or sandbox/UAT)
+Student A has two consecutive weekly Lessons under Lesson Allocation LA1: L1 (previous week) and L2 (this week)
+L1's Lesson Report has a Next week Homework entry = ""Workbook p.12-15""
+L1's Student Session under LA1 becomes archived (LA1's Student Package Order group removed, Archived_At__c populated) before L2's report is created",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Report tab for Student A's Lesson L2 and clicks Add to create this week's report""
+2. ""HQ or CM Staff checks the Previous Homework section content""
+","1. ""Per AC-5's principle, the Previous Homework section should not silently populate from L1 as if it were an active, current source, since L1's session is now archived""
+2. ""[UNVERIFIED] Record actual behavior: shows ""No information"" or equivalent empty state (pass), or silently copies ""Workbook p.12-15"" from the archived L1 report as if nothing had changed (fail - route to [SF][Aver] Check custom aver lesson report)""
+","1. ""LA1 Archived_At__c = populated at the time L2's report is created""
+2. ""Actual result to be captured against live Aver org""
+",,,3666,3652,Lesson Report correct,,,
+,[Aver] Lesson Report – Historical Access – Allocation Archived After Publish – Report and Homework Remain Viewable and Exportable,AC-5 scope note (archived records remain reachable by direct record Id) - Component - [UNVERIFIED]: Confirms the Aver detail page does not over-correct by hard-hiding a report that was already Published before the allocation archived.,"HQ or CM Staff is logged in to the Aver Salesforce org (or sandbox/UAT)
+A Lesson Report for Student A exists with Status = Published, created while Lesson Allocation LA1 was active
+LA1 subsequently archives (Archived_At__c populated) via Student Package Order removal",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Student A's already-Published Lesson Report on the Aver detail page""
+2. ""HQ or CM Staff clicks the Export button""
+","1. ""Per AC-5's scope note, the report content (Report, Previous/Next Homework, PIC confirmation) should remain fully viewable in read-only mode - not hidden or blanked out""
+2. ""[UNVERIFIED] Record actual behavior: PDF exports normally with full historical content (pass), or export is blocked/errors (fail - over-correction, route to [SF][Aver] Check custom aver lesson report)""
+","1. ""LA1 Archived_At__c = populated; Lesson Report Status = Published""
+2. ""Actual result to be captured against live Aver org""
+",,,3666,3652,Lesson Report correct,,,
+,[Aver] Lesson Report – Unarchive Round Trip – Lesson Allocation Restored – Editing Resumes With No Duplicate Report,"AC-3 (same-Id restore) applied to the Aver detail page - Regression - [UNVERIFIED]: Confirms the Aver page treats a restored allocation as fully active again, resuming report actions without creating a duplicate report.","HQ or CM Staff is logged in to the Aver Salesforce org (or sandbox/UAT)
+Student A's Lesson Allocation LA1 was archived, blocking further report actions for Lesson L2
+A living Student Package Order reappears for Student A's Student Course, and LA1 is unarchived on the same record Id (Archived_At__c cleared)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Report tab for Student A's Lesson L2 on the Aver detail page""
+2. ""HQ or CM Staff creates or edits the Lesson Report for L2 and saves""
+3. ""HQ or CM Staff checks whether exactly one Lesson Report exists for Student A on Lesson L2""
+","1. ""Add/Edit/Status actions should be available again, matching normal active-allocation behavior""
+2. ""[UNVERIFIED] Record actual behavior: action succeeds normally (pass), or is still blocked as if the allocation were still archived (fail)""
+3. ""[UNVERIFIED] Record actual behavior: exactly one report exists (pass), or a second, duplicate report was created alongside any pre-archive report (fail - route to [SF][Aver] Check custom aver lesson report)""
+","1. ""LA1 Archived_At__c = null (restored, same Id)""
+2. ""Actual result to be captured against live Aver org""
+3. ""Expect: 1 report for (Student A, L2)""
+",,,3666,3652,Lesson Report correct,,,

@@ -1,0 +1,13 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3634,3588,Report History,1,,
+,Report History – Archived Lesson Allocation – Entire Tabset (Not Just the Tab's Rows) Disappears on Direct Record-Id Access,"Regression / control case - Decision Table, contrasts with the baseline (case 1659, ""Report History Tab – Shown only when Require Allocation = True"") - opening an archived Lesson Allocation's detail page directly by record Id hides the ""Report History"" tab entirely, via the same outer tabset visibility rule already confirmed for ""Student Sessions Related"" (suite 323/324) - not because its own historical rows are empty, but because the whole containing region is gone before the tab's own filters ever apply. This distinguishes ""tab absent"" from ""tab present but showing zero rows,"" which matters for how a tester interprets what they see.","- A Lesson Allocation with Require Allocation = True has historical lesson report entries (filled-in Student Sessions with report content) before being archived.
+- Student A's Lesson Allocation is subsequently archived (Archived_At__c populated) after its Student Package Order was fully removed.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Student A's archived Lesson Allocation detail page directly by record Id""
+2. ""HQ or CM Staff looks for the ""Report History"" tab""
+3. ""A living Student Package Order reappears for Student A's Student Course, so the Lesson Allocation is unarchived on the same record Id, and HQ or CM Staff reopens the LA Detail page""
+","1. ""The LA Detail page loads; the Archived_At__c field shows a populated timestamp""
+2. ""The tab is not shown at all - not present with zero rows, but structurally absent from the page, along with ""Student Sessions Related"" and ""Class history""""
+3. ""The ""Report History"" tab reappears, showing the same historical entries as before archiving""
+","1. ""Page reachable despite archive, by design""
+2. ""Outer tabset visibility rule {!Record.Is_Archived__c} EQUAL false hides the whole region before Report History's own Require Allocation / Is_Archived__c filters ever run""
+3. ""Is_Archived__c = FALSE (restored) -> tabset region visible again; underlying Student_Sessions__c records unchanged throughout""
+",,,3634,3588,Report History,,,

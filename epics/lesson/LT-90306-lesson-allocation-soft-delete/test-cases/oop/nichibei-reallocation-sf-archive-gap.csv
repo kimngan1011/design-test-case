@@ -1,0 +1,42 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Nichibei] Reallocation – Open Request Survives LA Archive – Remains Listed and Actionable in the Reallocation List,"AC-1 / Gap (Business Rule #10) - Decision Table: Under the archive flow, the cleanup that would normally remove an open request never fires, so it stays listed as if the student were still actively enrolled.","Student A's Student Session on Lesson A is marked Absent with Reallocate = TRUE - an open Reallocation__c request exists (Request Status = Open, no linked New Lesson)
+Lesson_Custom_Settings__c.Enable_Lesson_Allocation_Archive__c = TRUE",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff confirms the open Reallocate request for Student A appears in the Reallocation list""
+2. ""The Student Package Order group behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""HQ or CM Staff reopens the Reallocation list""
+","1. ""The request is listed with Request Status = Open""
+2. ""The Lesson Allocation shows Archived_At__c populated; Student A's Student Session on Lesson A becomes Is_Archived__c = TRUE via formula, hidden from the lesson's active roster""
+3. ""Per AC-5's general exclusion principle, an archived student's request should no longer be actionable here - but since buildReallocationListWithFilterQuery has no archive filter, the request remains listed as Open, as if Student A were still actively enrolled""
+","1. ""Reallocation__c exists, Reallocate_Status__c = Open""
+2. ""Archived_At__c = current timestamp""
+3. ""Request still shown - gap, route to the engineering owner of the Reallocation__c archive-state work""
+",,,3673,3659,SF Reallocation,,,
+,[Nichibei] Reallocation – Reallocate Lesson Picker Has No Archive Filter – Staff Can Complete a Request Against an Archived Source Session,"AC-5 - Negative: Directly instantiates the spec's named risk - 'must not complete a request against an already-archived record.' Unlike other LA-selection pickers in this epic, the Reallocate Lesson picker never checks the request's own Lesson Allocation archive state.","Student A has an open Reallocate request whose original Lesson Allocation is now archived (Archived_At__c populated)
+A new lesson exists that would otherwise be a valid Reallocate Lesson candidate (same location, within the date range, capacity available)",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Student A's (still-listed) Reallocate request and clicks 'Reallocate Lesson'""
+2. ""HQ or CM Staff selects the candidate new lesson and clicks 'Add'""
+","1. ""Per the spec's named risk, the system should block completing this request since the source session's LA is archived""
+2. ""[UNVERIFIED - but code-confirmed no filter exists] Record actual behavior: the student is assigned to the new lesson and the request is marked Approved exactly as if the source were still active, with no block or warning (fail - matches spec's named risk, route to the engineering owner)""
+","1. ""LA Archived_At__c = populated""
+2. ""No Archived_At__c check anywhere in updateReallocationBySessionTypeRegular/Reallocate""
+",,,3673,3659,SF Reallocation,,,
+,[Nichibei] Reallocation – Already-Linked (Approved) Pair Survives LA Archive – Neither Session Is Cleaned Up,"AC-1 / Gap (Business Rule #10) - Decision Table: Once an LA archives, the equivalent cleanup for an already-Approved Reallocate pair never fires either, since it rides the same Student_Sessions__c-DML-bound mechanism.","Student A's Reallocate request was already completed: Original Lesson A's session is linked to New Lesson B's Reallocate session (Request Status = Approved, Reallocate Counter = 1)
+The Student Package Order group behind Student A's Lesson Allocation is fully removed",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""The Lesson Allocation archives""
+2. ""HQ or CM Staff reopens the Reallocation list""
+3. ""HQ or CM Staff opens Lesson B directly""
+","1. ""Both the original session (Lesson A) and the linked Reallocate session (Lesson B) become Is_Archived__c = TRUE via formula - both hidden from their respective lessons' active rosters""
+2. ""The pair remains listed with Request Status = Approved, exactly as before the archive - neither session was cleaned up, since the cleanup trigger never fired""
+3. ""The orphaned Reallocate session is still attached to Lesson B, even though Student A is no longer actively enrolled anywhere under this Lesson Allocation""
+","1. ""Archived_At__c = current timestamp""
+2. ""Reallocate_Status__c = Approved, unchanged""
+3. ""Session record exists but Is_Archived__c = TRUE""
+",,,3673,3659,SF Reallocation,,,
+,"[Nichibei] Reallocation – Unarchive – Previously Orphaned Request Resumes Normal Behavior, No Duplicate","AC-3 - Regression: Once the Lesson Allocation is restored on the same record Id, the previously-orphaned Reallocate request resumes normal behavior - cleanup rules apply again, and no duplicate request is created.","Student A's open Reallocate request survived an LA archive (still listed as Open)
+A living Student Package Order reappears for the same Student_Course_ID__c group, and the Lesson Allocation is unarchived on the same record Id",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff confirms the Lesson Allocation is restored (Archived_At__c cleared)""
+2. ""HQ or CM Staff reopens the Reallocation list""
+3. ""HQ or CM Staff unflags the Reallocate status on Student A's original session""
+","1. ""Student A's original Student Session on Lesson A shows Is_Archived__c = FALSE again""
+2. ""Exactly one open request still exists for Student A - the same original Reallocation__c record, not a new one""
+3. ""Per the normal (non-archived) cleanup rule, the request is now correctly removed from the Reallocation list, confirming the cleanup mechanism works again post-restore""
+","1. ""Archived_At__c = null (restored)""
+2. ""Expect: 1 Reallocation__c record, Reallocate_Status__c = Open""
+3. ""Reallocation__c record deleted/updated per normal unflag behavior""
+",,,3673,3659,SF Reallocation,,,

@@ -1,0 +1,28 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3606,3588,Check clashing across locations,1,,
+,Restoring an Archived Student Then Re-Generating the Multiple Zoom Creates a Transient Duplicate Zoom Participant Row,"Gap case - Decision Table - demonstrates the directly-observable, easily-reproducible half of the finding: right after restoring a student's Lesson Allocation and re-running ""Generate the multiple zoom"" for their lesson, the student's OLD Zoom Participant row (from before the archive) and a brand-new one both exist simultaneously, because the old row's deletion is only an asynchronously-published platform event at the moment the new row is inserted.","- Lesson 1 (Teaching Medium = Zoom, Zoom Type = Multiple) has Student A assigned, with Zoom_Participant__c (ZP_A) already generated for them.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""The Student Package Order behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+2. ""A living Student Package Order reappears for Student A's Student Course, so the Lesson Allocation is restored (Archived_At__c cleared)""
+3. ""CM/Teacher clicks ""Generate the multiple zoom"" again for Lesson 1 (e.g., because a new Student C was just added and also needs a link)""
+4. ""SF Admin immediately queries Zoom_Participant__c WHERE Lesson__c = Lesson 1 AND Student_Session__c = Student A's session, right after step 3's save completes""
+5. ""SF Admin re-queries the same records a few minutes later, after the async platform event has had time to process""
+","1. ""Student A's Student Session shows Is_Archived__c = TRUE; ZP_A is untouched""
+2. ""Student A's Student Session shows Is_Archived__c = FALSE again""
+3. ""The action completes and reports success; extractStudentSessionInfo's eligibility query includes Student A (Is_Archived__c = FALSE), so insertZoomParticipants synchronously creates a NEW Zoom_Participant__c row (ZP_A2) for Student A in the same transaction""
+4. ""BOTH ZP_A (old) and ZP_A2 (new) are returned - two Zoom Participant rows exist simultaneously for the same student+lesson, since the async delete of ZP_A has not yet run""
+5. ""Only ZP_A2 remains; ZP_A has been hard-deleted by LessonPlatformEventSubscriber - the expected, correct end state once the async cleanup completes normally""
+","1. ""Archived_At__c = current timestamp""
+2. ""Archived_At__c = null (restored)""
+3. ""cleanZoomParticipants only PUBLISHES a delete event for ZP_A at this point; it has not executed yet""
+4. ""Transient duplicate window confirmed""
+5. ""Happy-path resolution, assuming the async delete succeeds""
+",,,3606,3588,Check clashing across locations,,,
+,"[To Verify With Engineering] If the Async Zoom Participant Cleanup Event Fails, the Pre-Archive Zoom Participant Row Becomes a Permanent Duplicate","Gap case - Decision Table, extends the transient-window case above - no retry or dead-letter handling was found in LessonPlatformEventHandler/LessonPlatformEventSubscriber.trigger for a failed deletion of the old Zoom_Participant__c row. If that async delete event errors, hits a governor limit, or is otherwise never successfully processed (e.g., subscriber exception, event bus backlog), the old row (ZP_A) is never cleaned up and permanently coexists with the newly-inserted row (ZP_A2) for the same student+lesson. Since Student_Session__c is only correctly re-pointed on the NEW row, the old row is left stale and orphaned, but still a real Zoom-API-backed meeting that nobody is tracking. This case requires engineering support (checking platform event failure logs/monitoring, or deliberately inducing a subscriber failure in a sandbox) to fully reproduce - QA should flag it for review rather than attempt to force the failure via UI alone.","- Same setup as the previous case, immediately after step 3 (both ZP_A and ZP_A2 exist in the transient window).",,,medium,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Engineering checks Salesforce Setup -> Apex Exception Email / Platform Event monitoring for any failed Lesson_Platform_Event__e deliveries tied to this lesson's delete-participant event around the time of step 3""
+2. ""(If reproducible in a sandbox) Temporarily disable or break LessonPlatformEventSubscriber.trigger (or induce an exception in its handler), then repeat steps 1-3 of the previous case""
+3. ""Re-enable the subscriber and check whether any backlog/catch-up mechanism exists to retroactively clean up the now-stale ZP_A""
+","1. ""Ideally: no failures, and the event completes normally (covered by the happy-path case above). If failures ARE found in general monitoring for this event type, flag as confirmed systemic risk""
+2. ""ZP_A is never hard-deleted; it remains indefinitely alongside ZP_A2""
+3. ""Determine whether Salesforce's platform event retry window (24-hour replay) or any custom retry logic eventually cleans this up, or whether the row is permanently orphaned once the retry window lapses""
+","1. ""Check Setup -> Apex Jobs / Platform Event usage, or application logs for LessonPlatformEventHandler exceptions""
+2. ""Simulated async failure""
+3. ""No custom retry/dead-letter logic found in LessonPlatformEventHandler at the time of this trace - likely permanent if the native platform event retry window is exhausted""
+",,,3606,3588,Check clashing across locations,,,

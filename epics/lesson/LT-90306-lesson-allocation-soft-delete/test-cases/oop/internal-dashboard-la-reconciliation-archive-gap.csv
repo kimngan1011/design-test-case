@@ -1,0 +1,17 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Cross-Tenant] Internal Dashboard – LA Reconciliation Search – Archived LA Not Distinguished From an Active One,AC-5 - Negative - [UNVERIFIED]: The reconciliation dashboard's Lesson Allocation lookup has no archive awareness - an archived LA is indistinguishable from an active one in the tool's output.,"Ops/support staff has access to the Internal Dashboard LA reconciliation tool
+Student A's Lesson Allocation for Course A is archived (Archived_At__c populated, via its order group being fully removed) - a correct, expected state per this epic's design",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Staff searches the dashboard using Student A's Student (Contact) Id or the archived Lesson Allocation's Id""
+2. ""Staff reviews the row's status/flag""
+","1. ""The tool resolves to Student A's Student Course and reports on the Lesson Allocation it finds""
+2. ""[UNVERIFIED] Record actual behavior: the row is shown as a normal, healthy Lesson Allocation entry with no indication it is archived (fail - staff cannot distinguish 'correctly archived' from 'actually missing/broken', defeating the tool's diagnostic purpose)""
+","1. ""LA Archived_At__c = populated""
+2. ""No Archived_At__c field surfaced anywhere in getLessonAllocations's query or output columns""
+",,,3667,3656,Internal Dashboard — LA Reconciliation,,,
+,[Cross-Tenant] Internal Dashboard – LA Reconciliation Search – Archived LA's Underlying Gap Could Be Masked as 'Found',"AC-5 - Negative - [UNVERIFIED]: If a genuinely broken sync coincides with an unrelated archived LA for the same student/course being returned by the unfiltered query, staff could be misled into believing a Lesson Allocation was found when it's actually an unrelated archived record.","Student B has a backend Student Package Order with no corresponding active Lesson Allocation (a genuine sync gap)
+Student B separately has an unrelated, already-archived Lesson Allocation for a different, past enrollment under the same Student Course grouping",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Ops staff searches the dashboard for Student B to diagnose a reported sync issue""
+2. ""Staff reviews the search result""
+","1. ""Per the tool's purpose, it should clearly flag that no active Lesson Allocation exists for the current enrollment, distinct from the unrelated archived one""
+2. ""[UNVERIFIED] Record actual behavior: the unfiltered query returns the archived LA as if it were a valid match, potentially causing staff to close the investigation prematurely believing the sync is healthy (fail), or the tool already distinguishes this correctly some other way not yet identified (pass)""
+","1. ""Backend SPO exists; only archived LA found""
+2. ""Actual result to be captured; getLessonAllocations has no Archived_At__c filter to exclude this row""
+",,,3667,3656,Internal Dashboard — LA Reconciliation,,,

@@ -1,0 +1,27 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[WithUs Juku] Direct Class Assignment – Archived LA Not Selectable in the Contact/Course Picker,"AC-5 (parity) - Regression - control case: Code-confirmed LessonAllocationController.cls:15 already filters Archived_At__c = NULL, so an archived LA never appears as an assignable candidate.","Student A has a Course A Lesson Allocation, archived (Archived_At__c populated). Student B has an active Course A Lesson Allocation",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Student A's Contact > Course record and selects Assign Class for Course A""
+2. ""HQ or CM Staff opens Student B's Contact > Course record and selects Assign Class for Course A""
+","1. ""Student A's archived LA does not appear as an assignable target""
+2. ""Student B's active LA appears and is assignable, with the normal 'Allow Start In The Past' lower-bound validation applying""
+","1. ""Student A LA Archived_At__c = populated""
+2. ""Student B LA Archived_At__c = blank""
+",,,3681,3664,Direct Class Assignment,,,
+,"[WithUs Juku] Add New Course – Student Previously Had an Archived LA for the Same Course – Existing LA Restored, Not Duplicated",AC-3 (parity) - Regression - control case: LessonAllocationSyncService.collectAllocationsToUnarchive/buildUnarchivedAllocation restore the existing LA by the same record Id when a living order reappears for the same Student_Course_ID__c grouping.,"Student A previously had a Course B Lesson Allocation (same Student_Course_ID__c grouping Student A would re-enroll into) that is now archived (Archived_At__c populated, order group previously fully removed)
+Student A has an active One-Time product for Course A",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff starts an update order for Student A's existing One-Time product, adds Course B (the same course as the archived LA), selects Class B, and submits""
+2. ""HQ or CM Staff opens Student A's Course B Lesson Allocation""
+3. ""HQ or CM Staff opens the Course B Class Member""
+","1. ""Per AC-3, the system should restore Student A's existing archived Course B Lesson Allocation on the same record Id, not create a second, separate one""
+2. ""Exactly one Lesson Allocation record exists for Course B - the original Id, now with Archived_At__c cleared""
+3. ""The Class Member is linked to the restored (same-Id) Lesson Allocation, with start/end dates recomputed per the new order""
+","1. ""Archived LA's Student_Course_ID__c matches the new order's grouping""
+2. ""Expect: 1 LA record, same Id as before archive""
+3. ""Class Member Lesson_Allocation__c = the restored LA's Id""
+",,,3682,3664,Order Group Class Member,,,
+,[WithUs Juku] Class Member History – Archived LA's Old Class Members Do Not Interfere With a New Assignment's Timeline,AC-5 (parity) - Regression - control case: the timeline/overlap queries already filter Is_Archived__c = FALSE.,"Student A has a Course A Lesson Allocation that was previously archived and later restored (same Id). Before the archive, Class A was assigned to it (now Is_Archived__c = TRUE via the old archive cycle). After restore, a fresh assignment history starts clean
+Student A's restored Course A LA runs 2026-07-01 through 2026-12-31. No new Class has been assigned since the restore",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Student A's Contact > Course record and selects Assign Class for Course A, selects Class B, and enters 2026-07-01 (the LA's restored start date)""
+2. ""HQ or CM Staff opens Student A's Class Member history""
+","1. ""Per AC-5, the assignment is accepted purely on today's state - the old, now-historical Class A record (from before the archive cycle) must not be treated as a currently-overlapping active class""
+2. ""Class B is active from 2026-07-01 through 2026-12-31; the old Class A entry remains visible only as historical record (not affecting the new timeline calculation)""
+","1. ""Old Class A Is_Archived__c = TRUE (pre-restore history); not considered by the timeline query""
+2. ""Timeline query excludes Is_Archived__c = TRUE rows""
+",,,3683,3664,Class Member History,,,

@@ -1,0 +1,36 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3614,3588,Delete lesson,1,,
+,"Delete Lesson – Student Session Under Archived Lesson Allocation – Reallocation Request Not Closed, Media Not Cleaned Up","Feature Impact / data-integrity gap - Decision Table: when the lesson behind a student session is deleted, a session belonging to an archived Lesson Allocation is excluded from the delete-lesson cascade cleanup, so its linked Reallocation request is not closed and its Lesson Report Media is not deleted, even though its Lesson__c field is still cleared automatically by Salesforce.","- HQ or CM Staff is logged in to Salesforce with Delete Lesson permission.
+- A one-time lesson TC-DEL-archived exists for Course Math 101 at Location Tokyo HQ, status = Draft.
+- Student A has a Student Session on TC-DEL-archived with Reallocate_Flag__c = TRUE and an attached Lesson Report Media.
+- Student A's Lesson Allocation has since been archived (Archived_At__c is populated), so the session's Is_Archived__c = TRUE.
+- An open Reallocation request record exists referencing this Student Session.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff clicks Delete on TC-DEL-archived and confirms""
+2. ""HQ or CM Staff opens Student A's Student Session record directly by its record Id""
+3. ""HQ or CM Staff opens the Reallocation request linked to this session""
+4. ""HQ or CM Staff checks the Lesson Report Media attached to this session""
+","1. ""The lesson is deleted; success notification shown""
+2. ""The Student Session record still exists; its Lesson field is now blank""
+3. ""The Reallocation request still shows its original pending/open status; it was not closed or updated by the delete""
+4. ""The media record still exists; it was not deleted""
+","1. """"
+2. ""Lesson__c = null (Salesforce lookup SetNull on parent delete)""
+3. ""Student A Is_Archived__c = TRUE -> excluded from cleanup; status stale""
+4. ""Student A Is_Archived__c = TRUE -> excluded from cleanup""
+",,,3614,3588,Delete lesson,,,
+,Delete Lesson – Student Session Under Active Lesson Allocation – Reallocation Request Closed and Media Cleaned Up,"Feature Impact / data-integrity gap, control case - Decision Table: the same delete-lesson flow for a student session belonging to an active (non-archived) Lesson Allocation correctly closes the linked Reallocation request and deletes the Lesson Report Media, confirming the gap above is specific to the archived state and not a regression in the normal flow.","- HQ or CM Staff is logged in to Salesforce with Delete Lesson permission.
+- A one-time lesson TC-DEL-active exists for Course Math 101 at Location Tokyo HQ, status = Draft.
+- Student B has a Student Session on TC-DEL-active with Reallocate_Flag__c = TRUE and an attached Lesson Report Media.
+- Student B's Lesson Allocation is active (Archived_At__c is blank), so the session's Is_Archived__c = FALSE.
+- An open Reallocation request record exists referencing this Student Session.",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff clicks Delete on TC-DEL-active and confirms""
+2. ""HQ or CM Staff opens Student B's Student Session record directly by its record Id""
+3. ""HQ or CM Staff opens the Reallocation request linked to this session""
+4. ""HQ or CM Staff checks the Lesson Report Media attached to this session""
+","1. ""The lesson is deleted; success notification shown""
+2. ""The Student Session record still exists; its Lesson field is blank""
+3. ""The Reallocation request is closed/updated by the delete-lesson cleanup""
+4. ""The media record has been deleted""
+","1. """"
+2. ""Lesson__c = null""
+3. ""Student B Is_Archived__c = FALSE -> included in cleanup""
+4. ""Student B Is_Archived__c = FALSE -> included in cleanup""
+",,,3614,3588,Delete lesson,,,

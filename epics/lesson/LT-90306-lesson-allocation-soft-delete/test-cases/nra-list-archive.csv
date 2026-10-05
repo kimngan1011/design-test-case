@@ -1,0 +1,18 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3610,3588,Contract List – Not Require Allocation (NRA) List,1,,
+,NRA List – Lesson Allocation (Require Allocation = False) Archived – Excluded from Active and Inactive NRA Lists; Restored – Reappears,"Regression / control case - Decision Table - a Not-Require-Allocation Lesson Allocation is excluded from both the Active and Inactive NRA list sections once archived, via the same Archived_At__c = NULL filter shared with the main Require-Allocation=True list (suite 1291/1293, already covered elsewhere in this epic), and reappears correctly once restored.","- Student A has a Lesson Allocation for Course A with Require Allocation = False, End_Date_Time__c in the future (so it currently appears in the NRA list's Active section). The tenant is non-Riso (NRA list is shown).",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Student A's Contact record, clicks the Course tab, and views the NRA list's Active section""
+2. ""The Student Package Order behind this Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""HQ or CM Staff reopens the Course tab and checks both the NRA Active and Inactive sections""
+4. ""A living Student Package Order reappears for Student A's Course A Student Course, so the Lesson Allocation is unarchived on the same record Id""
+5. ""HQ or CM Staff reopens the Course tab and views the NRA list's Active section""
+","1. ""Student A's Course A Lesson Allocation appears in the NRA Active list""
+2. ""The Lesson Allocation shows Archived_At__c populated""
+3. ""The Lesson Allocation does not appear in either NRA section""
+4. ""The Lesson Allocation shows Archived_At__c blank again""
+5. ""The Lesson Allocation reappears in the NRA Active list""
+","1. ""Require_Allocation__c = FALSE; Archived_At__c = blank -> included""
+2. ""Archived_At__c = current timestamp""
+3. ""Archived LA excluded from getLessonAllocationByFilter regardless of requireAllocation value""
+4. ""Archived_At__c = null (restored)""
+5. ""Archived_At__c = blank (restored) -> included again""
+",,,3610,3588,Contract List – Not Require Allocation (NRA) List,,,

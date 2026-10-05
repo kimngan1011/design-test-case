@@ -1,0 +1,57 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3647,3588,Void Order,1,,
+,"Void Order – One-Time – Full Order Void (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted","Gap/update case - Decision Table, contrasts with the legacy-wording baseline (case 1790, ""One-Time – LA Deleted, Student Removed from Lessons"") - voiding the only order for a student-course archives the Lesson Allocation rather than deleting it, consistent with the Cancel Order archive behavior (same underlying engine).","- Student A has a One-Time order for Course A (the only order for this student-course), with Require Allocation = True. Student A is assigned to an individual lesson.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the order group detail for the One-Time product and clicks ""Void"", then confirms""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation directly by record Id""
+3. ""HQ or CM Staff opens the individual lesson Student A was assigned to""
+","1. ""The order is voided""
+2. ""The Lesson Allocation still exists and is reachable; Archived_At__c is populated""
+3. ""Student A is removed from the lesson's Student Sessions - same end-user-visible outcome as the legacy baseline (case 1790)""
+","1. ""Order status = Voided""
+2. ""Archived_At__c = current timestamp; record NOT deleted""
+3. ""Student A's Student Session Is_Archived__c = TRUE (via formula) -> hidden, not deleted""
+",,,3647,3588,Void Order,,,
+,Void Cancel Order – Lesson Allocation Was Fully Archived (Not Just End-Dated) – Void Restores the Same Archived Record,"Gap case - Decision Table, contrasts with the existing baseline (case 1802, ""Void Cancel Order – LA Duration Restored"", which covers the partial end-date-shortening scenario) - when the Cancel Order being voided had fully archived the Lesson Allocation (per the ""Cancel Order – Full Cancellation"" archive case), voiding it restores the SAME archived record via unarchiveAllocations, not a duration-only revert on a record that was never removed from the active list.","- Student A's Lesson Allocation for Course A was archived (Archived_At__c populated) after their only order was cancelled. Note its record Id.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the cancelled order group detail and clicks ""Void"", then confirms""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation for Course A""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The cancel order is voided""
+2. ""The SAME record (same Id as the archived one) now shows Archived_At__c blank""
+3. ""The Lesson Allocation reappears in the active list""
+","1. ""Cancel order status = Voided""
+2. ""Archived_At__c = null (restored); record Id unchanged""
+3. ""Is_Archived__c = FALSE (via formula) -> visible again""
+",,,3647,3588,Void Order,,,
+,"Void Change Associated Course – Both Old and New LA Were Archived (Not Deleted/End-Dated) – Void Restores Old, Archives New","Gap case - Decision Table, contrasts with the existing baseline (case 1797, ""Void Change Course Order – Effective Date = Start Date – Old LA Restored, New LA Deleted"") - when a Change Associated Course (effective date = start date) fully archived the old course's Lesson Allocation and created a new one, voiding that change restores the OLD Lesson Allocation via unarchive (same record Id as before the course change), and the ""new"" course's Lesson Allocation - which now has zero remaining orders since the one that created it was just voided - gets archived in turn, not hard-deleted.","- Student A changed their associated course from Course A to Course B with effective date = start date - Course A's Lesson Allocation was archived, and a new Lesson Allocation for Course B was created and is active with Class A auto-assigned.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Change Associated Course order group detail and clicks ""Void"", then confirms""
+2. ""HQ or CM Staff opens Student A's original Course A Lesson Allocation by its original record Id""
+3. ""HQ or CM Staff opens the Course B Lesson Allocation that was created by the now-voided change""
+","1. ""The change-course order is voided""
+2. ""The SAME Course A record shows Archived_At__c blank again - restored, not newly re-created; the student is auto-assigned to a lesson by class per the restored Class Member""
+3. ""The Course B Lesson Allocation still exists and is reachable by Id, but now shows Archived_At__c populated - archived because voiding removed its only order, not hard-deleted""
+","1. ""Change-course order status = Voided""
+2. ""Archived_At__c = null (restored); same record Id as before the course change""
+3. ""Course B LA Archived_At__c = current timestamp; record NOT deleted""
+",,,3647,3588,Void Order,,,
+,"Void Add Associated Course Order – Future Effective Date – Newly-Added Course's Lesson Allocation Archived, Not Deleted","Gap/update case - Decision Table, contrasts with the legacy-wording baseline (case 1799, ""Void Add Course Order – Future Effective Date – Added LA Deleted"") - when Student A adds a new associated Course B with a future effective date (creating a new, not-yet-started Lesson Allocation per the Add Associated Course baseline, case 1775), and that add-course order is then voided, Course B's Lesson Allocation - which only ever had that one order - now has zero remaining orders, satisfying shouldArchiveAllocationOfStudentCourse. It gets archived, not hard-deleted; Course A (the pre-existing course) is completely unaffected throughout, since it was never touched by the add-course order in the first place.","- Student A has an active Lesson Allocation for Course A. Student A also added a new associated Course B with a future effective date and a class (per case 1775) - Course B's Lesson Allocation exists, not yet started (future Start_Date_Time__c).
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the order group detail for the add-course order (Course B) and clicks ""Void"", then confirms""
+2. ""HQ or CM Staff opens the Course B Lesson Allocation directly by record Id""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The add-course order is voided""
+2. ""The record still exists and is reachable; Archived_At__c is populated - archived because its only order was voided, not hard-deleted""
+3. ""Course B's Lesson Allocation no longer appears in the active list; Course A's Lesson Allocation is unaffected and still appears normally""
+","1. ""Add-course order status = Voided""
+2. ""Course B LA Archived_At__c = current timestamp; record NOT deleted""
+3. ""Course B Is_Archived__c = TRUE (via formula); Course A LA untouched throughout""
+",,,3647,3588,Void Order,,,
+,Void Update Slot Order – Purchased Slot Reverted – Lesson Allocation Not Archived; Existing Behavior Unchanged,"Regression case - Decision Table, contrasts with the existing baseline (case 1796, ""Void Update Slot Order – Purchased Slot Reverted to Original"") - voiding an Update Slot order only reverts Purchased_Slot_Number__c and Total_Session_Count__c to their pre-update values; it never touches Archived_At__c, since neither the update nor its void ever changes the order's removed/not-removed state. This locks in that the archive mechanism introduced by this epic has no effect on this already-covered void-of-update-slot behavior.","- Student A has a Frequency order for Course A; an Update Slot order increased it from 2 to 3 slots/week and is still in a voidable state.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,low,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Update Slot order group detail and clicks ""Void"", then confirms""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""Purchased slot reverts to the original value (2/week); total session count updated accordingly""
+2. ""Archived_At__c remains blank throughout - only slot/session-count fields were ever touched""
+3. ""The Lesson Allocation still appears in the active list""
+","1. ""Purchased_Slot_Number__c reverts to 2""
+2. ""Archived_At__c = null""
+3. ""Is_Archived__c = FALSE (via formula) -> unaffected""
+",,,3647,3588,Void Order,,,

@@ -1,0 +1,11 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"Lesson Point Consumption Report – Archived LA's Historical Consumption Still Shown, No Distinguishing Indicator","AC-5 (confirmed instance of existing Regression Risk #4) - Negative: Confirms current behavior (archived LA's consumption history still appears, which is arguably correct) while documenting the concrete gap (no way to tell it apart from an active LA in the same report).","Student A has two Lesson Allocations for Course A: LA-1 (active, Total Purchased Points = 20, Remaining = 15, with lesson consumption rows) and LA-2 (archived, Archived_At__c populated, Total Purchased Points = 10, Remaining = 4, with its own historical lesson consumption rows from before the archive)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff generates the Lesson Point Consumption report, grouped by Student A""
+2. ""HQ or CM Staff reviews LA-1's and LA-2's rows side by side in the report""
+3. ""HQ or CM Staff (hypothetically) relies on this report alone to judge whether Student A still has 4 usable points under LA-2""
+","1. ""Per AC-5's scope note, LA-2's historical consumption rows should remain visible - archiving must not erase financial/consumption history""
+2. ""Both LA-1 (active) and LA-2 (archived) appear with their respective Total Purchased Points and Remaining Points, with no column, flag, or visual indicator distinguishing LA-2 as archived""
+3. ""Risk: a staff member could misread LA-2's 'Remaining Points = 4' as still consumable, when the underlying enrollment is archived/inactive - recommended fix: add an Archived/Status column to the Student_Allocation_Report__c report type as part of the broader report-remediation pass already tracked in spec""
+","1. ""LA-2 Archived_At__c = populated; historical rows preserved""
+2. ""Confirmed: report type has no Archived_At__c/Is_Archived__c column""
+3. ""No server-side/report fix within this epic's scope - documentation only""
+",,,3668,3656,Lesson Point Consumption tracking,,,

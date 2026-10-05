@@ -1,0 +1,36 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3595,3588,Lesson Calendar – Archived Record Exclusion,1,,
+,Lesson Calendar – Monthly Grid – Student with Archived Lesson Allocation – Not Shown as Lesson Attendee,"AC-5 - Decision Table: a student whose Lesson Allocation has been archived is excluded from the attendee list of lessons shown on the Lesson Calendar grid, since LessonCalendarHandler's Student_Sessions__r subquery filters Is_Archived__c = FALSE.","- Lesson L1 is scheduled on 2026-05-18 at Location Tokyo HQ, with Student A and Student B both assigned via Student Sessions.
+- Student A's Lesson Allocation has since been archived (Archived_At__c is populated, session Is_Archived__c = TRUE).
+- Student B's Lesson Allocation remains active (Archived_At__c is blank, session Is_Archived__c = FALSE).",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Lesson Calendar and navigates to 2026-05-18 at Location Tokyo HQ""
+2. ""HQ or CM Staff opens Lesson L1's card/detail from the calendar""
+","1. ""Lesson L1 is shown on the calendar grid""
+2. ""The attendee list shows Student B only""
+","1. ""calendar_date = 2026-05-18""
+2. ""Student A Is_Archived__c = TRUE -> excluded; Student B Is_Archived__c = FALSE -> included""
+",,,3595,3588,Lesson Calendar – Archived Record Exclusion,,,
+,Lesson Calendar – Lesson Detail Drawer – Attendance Status Badge – Archived Student Excluded from Count,"AC-5 - Boundary / Decision Table: the attendance-status badges (absent/trial/reallocated counts) shown on a Calendar lesson card exclude a student whose Lesson Allocation is archived, since LessonHandler.getLessonAttendeeStatuses filters Is_Archived__c = FALSE.","- Lesson L2 is scheduled on 2026-05-19 at Location Tokyo HQ with 3 Student Sessions: Student A (active, marked Absent), Student B (active, Trial), Student C (Lesson Allocation archived, Archived_At__c populated).",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Lesson Calendar for 2026-05-19 at Location Tokyo HQ""
+2. ""HQ or CM Staff inspects the Absent/Trial count badges on Lesson L2's card""
+","1. ""Lesson L2 is shown with attendance badges""
+2. ""Absent count = 1 (Student A), Trial count = 1 (Student B); Student C is not counted in any badge""
+","1. ""calendar_date = 2026-05-19""
+2. ""Student C Is_Archived__c = TRUE -> excluded from getLessonAttendeeStatuses""
+",,,3595,3588,Lesson Calendar – Archived Record Exclusion,,,
+,Available Teacher Calendar – Month Overlay – Student with Archived Lesson Allocation – Lesson Not Shown,"AC-5 - Decision Table: a student's lesson is excluded from the Available-Teacher Calendar's student-month overlay when the student's Lesson Allocation is archived, since AvailableTeacherHandler.getStudentLessonsForMonth filters Is_Archived__c = FALSE.","- Student A has Lesson L3 on 2026-05-20 at Location Tokyo HQ, assigned via a Student Session whose Lesson Allocation has since been archived (Archived_At__c populated).
+- Student A has a second Lesson L4 on 2026-05-21 with an active Lesson Allocation (Archived_At__c blank).",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Available Teacher Calendar, selects Student A, and views May 2026""
+2. ""HQ or CM Staff inspects 2026-05-20 on the overlay""
+","1. ""The month overlay shows Lesson L4 only on 2026-05-21""
+2. ""No lesson is shown for Student A on this date""
+","1. ""month = 2026-05""
+2. ""Student A's L3 session Is_Archived__c = TRUE -> excluded""
+",,,3595,3588,Lesson Calendar – Archived Record Exclusion,,,
+,Lesson Calendar – Unarchive Round Trip – Same Lesson Allocation Restored – Student Reappears Without Duplicate Session,"AC-3 / AC-5 - State Transition: after a student's archived Lesson Allocation is restored (same Id, Archived_At__c cleared), the student reappears as an attendee on the Lesson Calendar using the original Student Session, with no duplicate session created.","Lesson L5 is scheduled on 2026-05-22 at Location Tokyo HQ. Student A's Lesson Allocation LA-1 was archived on 2026-05-10 (Archived_At__c = 2026-05-10), hiding Student A's existing Student Session SS-1 from the calendar.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Lesson Calendar for 2026-05-22 at Location Tokyo HQ""
+2. ""A living Student Package Order reappears for Student A's course group, triggering the sync to rebuild and unarchive LA-1 (same Id)""
+3. ""HQ or CM Staff reopens the Lesson Calendar for 2026-05-22 at Location Tokyo HQ""
+","1. ""Lesson L5's attendee list does not include Student A""
+2. ""LA-1's Archived_At__c is cleared""
+3. ""Lesson L5's attendee list now includes Student A again, using the original Student Session SS-1""
+","1. ""LA-1 Archived_At__c = 2026-05-10""
+2. ""LA-1 Id unchanged; Archived_At__c = null""
+3. ""SS-1 Id unchanged, Is_Archived__c = FALSE; no duplicate session created""
+",,,3595,3588,Lesson Calendar – Archived Record Exclusion,,,

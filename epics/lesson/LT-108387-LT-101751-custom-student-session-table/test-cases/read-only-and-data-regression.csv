@@ -1,0 +1,51 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+28199,Student Session Table – Table Cell – Direct interaction – Inline editing unavailable,User clarification — Negative UI interaction — The table is read-only and does not expose inline editing controls.,"- HQ or CM Staff is logged in to the Renseikai Salesforce tenant.
+- The Renseikai Enable Customizable Table Columns setting is ON.
+- The Renseikai layout includes Student Name and Attendance Status.
+- A published lesson contains Student A with Attendance Status Absent.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the published lesson in Salesforce Lesson Detail.""
+2. ""HQ or CM Staff selects Student A's Attendance Status cell.""
+3. ""HQ or CM Staff attempts to change the Attendance Status value directly in the table.""","1. ""Salesforce Lesson Detail opens with Student A's row.""
+2. ""The cell displays Absent without an inline input, selector, or save control.""
+3. ""The table value remains Absent and no Student Session update is initiated.""","1. ""tenant = Renseikai; setting = ON; Student A Attendance Status = Absent""
+2. ""target cell = Student A / Attendance Status""
+3. ""attempted inline value = Attend""",,,3545,3534,Read-only and Data Regression,1,,no
+28198,Student Session Table – Separate Edit Function – Saved attendance update – Table reads current value,User clarification — Regression and Readback — The separate Edit function remains the supported update path and the table reads the saved value.,"- HQ or CM Staff is logged in to the Renseikai Salesforce tenant.
+- The Renseikai Enable Customizable Table Columns setting is ON.
+- The Renseikai layout includes Student Name and Attendance Status.
+- A published lesson contains Student A with Attendance Status Absent.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the separate Edit function for Student A.""
+2. ""HQ or CM Staff changes Attendance Status to Attend in the separate Edit function and saves.""
+3. ""HQ or CM Staff returns to and refreshes Salesforce Lesson Detail.""","1. ""The separate Edit function opens with Attendance Status Absent.""
+2. ""The separate Edit function saves Attendance Status Attend.""
+3. ""Student A's table row displays Attendance Status Attend.""","1. ""tenant = Renseikai; setting = ON; initial Attendance Status = Absent""
+2. ""new Attendance Status = Attend""
+3. ""expected table value = Attend""",,,3545,3534,Read-only and Data Regression,1,,no
+28200,Student Session Table – Column Configuration – Refresh after save – Separate Edit values retained,Core configuration — Regression — Refreshing a saved configuration never changes values maintained by the separate Edit function.,"- System Administrator is logged in to the Renseikai Salesforce tenant.
+- The Renseikai Enable Customizable Table Columns setting is ON.
+- A published lesson contains Student A with Attendance Status Absent and Attendance Reason Family event.
+- The Renseikai layout includes Student Name, Attendance Status, and Attendance Reason.
+- A different HQ or CM Staff user can access the Renseikai Salesforce tenant without the System Administrator role.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System Administrator opens the Student Session column configuration and saves the order Attendance Reason, Student Name, Attendance Status.""
+2. ""System Administrator refreshes Salesforce Lesson Detail.""
+3. ""A different HQ or CM Staff user opens and refreshes the same published lesson in Salesforce Lesson Detail.""
+4. ""System Administrator opens the separate Edit function for Student A.""","1. ""The new Renseikai header order is saved.""
+2. ""The table headers follow Attendance Reason, Student Name, Attendance Status and Student A still displays Family event and Absent.""
+3. ""The table headers follow Attendance Reason, Student Name, Attendance Status.""
+4. ""The separate Edit function still shows Attendance Reason Family event and Attendance Status Absent.""","1. ""tenant = Renseikai; setting = ON; saved order = Attendance Reason → Student Name → Attendance Status""
+2. ""expected values = Attendance Reason: Family event; Attendance Status: Absent""
+3. ""role = non-System Administrator; expected header order = Attendance Reason → Student Name → Attendance Status""
+4. ""expected edit values = Attendance Reason: Family event; Attendance Status: Absent""",,,3545,3534,Read-only and Data Regression,1,,no
+28247,Student Session Table – Separate Edit Function – Custom layout saved – Staff value update persists,"User request — Regression and Readback — After a System Administrator saves a custom Renseikai layout, a different HQ or CM Staff user updates a Student Session value through the separate Edit function.","- System Administrator is logged in to the Renseikai Salesforce tenant.
+- The Renseikai Enable Customizable Table Columns setting is ON.
+- A different HQ or CM Staff user can access the Renseikai Salesforce tenant without the System Administrator role.
+- A published lesson contains Student A with Grade 7 and Attendance Status Absent.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System Administrator selects Student Name, Grade, and Attendance Status in the Student Session column configuration and saves.""
+2. ""A different HQ or CM Staff user opens and refreshes the published lesson in Salesforce Lesson Detail.""
+3. ""A different HQ or CM Staff user opens the separate Edit function for Student A.""
+4. ""A different HQ or CM Staff user changes Attendance Status to Attend in the separate Edit function and saves.""
+5. ""A different HQ or CM Staff user returns to and refreshes Salesforce Lesson Detail.""","1. ""The Renseikai saved layout contains exactly Student Name, Grade, and Attendance Status.""
+2. ""The Student Session table shows exactly Student Name, Grade, and Attendance Status.""
+3. ""The separate Edit function opens with Attendance Status Absent.""
+4. ""The separate Edit function saves Attendance Status Attend.""
+5. ""The Student Session table keeps exactly Student Name, Grade, and Attendance Status, and Student A displays Attendance Status Attend.""","1. ""tenant = Renseikai; selected fields = Student Name, Grade, Attendance Status""
+2. ""role = non-System Administrator; expected headers = Student Name, Grade, Attendance Status""
+3. ""initial Attendance Status = Absent""
+4. ""new Attendance Status = Attend""
+5. ""expected headers = Student Name, Grade, Attendance Status; expected Attendance Status = Attend""",,,3545,3534,Read-only and Data Regression,,,

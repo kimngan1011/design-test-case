@@ -1,0 +1,32 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3627,3588,Lesson Report Detail,1,,
+,Bulk Edit Individual Report via SF – One Student's Lesson Allocation Archived Mid-Session – That Student's Edit Silently Dropped; Others Saved Normally,"Gap case - Decision Table, contrasts with the baseline (case 13735, ""Bulk Edit Individual Report via SF – Changes Reflected on BO and Mobile"") - if a teacher has the Report tab open with multiple students loaded and one student's Lesson Allocation is archived in the background before Save, that student's edit is silently dropped with no error while other students' edits save normally. Same mechanism as already documented for suites 426/3269.","- A Draft lesson report has Student A and Student B both loaded on SF, both with active Lesson Allocations.",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Teacher opens the Report tab on SF with both students loaded""
+2. ""The Student Package Order behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""Teacher (stale page) bulk-edits both students and saves""
+4. ""Teacher refreshes the Report tab""
+","1. ""Both students' SRD values shown""
+2. ""Archived_At__c populated""
+3. ""No error shown; save appears to succeed""
+4. ""Student B's edit applied; Student A no longer appears, with no indication their edit was dropped""
+","1. ""Both Is_Archived__c = FALSE""
+2. ""Archived_At__c = current timestamp""
+3. ""modifyLessonReportDetailsInStudentSession excludes Student A's archived session""
+4. ""Student A Is_Archived__c = TRUE""
+",,,3627,3588,Lesson Report Detail,,,
+,Report History – Lesson Allocation Archived – History Chain Inaccessible; Restored – Full Chain Navigable Again,"Regression / control case - Decision Table, contrasts with the baseline (case 13727, ""Report History – Most Recent Entry (Jan 4th) at Top"") - once a student's Lesson Allocation is archived, the Report History entry point for that student disappears from the Report tab entirely (no valid Student Session to seed the chain from). Restoring the Lesson Allocation makes the same history chain fully navigable again via Previous/Next.","- Student A is enrolled in Course X with saved lesson reports on Jan 1st–4th. Report History from the Jan 4th lesson currently shows the full chain.
+- Student A has an active Lesson Allocation.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Teacher/CM opens Report History for Student A from the Jan 4th lesson""
+2. ""The Student Package Order behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""Teacher/CM reopens the Jan 4th lesson's Report tab""
+4. ""A living Student Package Order reappears, so the Lesson Allocation is unarchived on the same record Id""
+5. ""Teacher/CM reopens Report History for Student A from the Jan 4th lesson""
+","1. ""Full Jan 4th → Jan 1st chain shown, navigable""
+2. ""Archived_At__c populated""
+3. ""Student A is absent; no Report History entry point for them""
+4. ""Archived_At__c blank again""
+5. ""Same full Jan 4th → Jan 1st chain shown, same records""
+","1. ""Is_Archived__c = FALSE""
+2. ""Archived_At__c = current timestamp""
+3. ""Is_Archived__c = TRUE""
+4. ""Archived_At__c = null (restored)""
+5. ""Is_Archived__c = FALSE (restored)""
+",,,3627,3588,Lesson Report Detail,,,

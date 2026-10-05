@@ -1,0 +1,24 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3645,3588,Update Order,1,,
+,Update Order – Slot Decreased to Minimum (1) – Lesson Allocation Not Archived; Existing Behavior Unchanged,"Regression / boundary case - Decision Table, contrasts with the baseline (case 1667, ""Decrease Slot – Purchased Slot Updated"") - decreasing a Frequency/Slot-Based order's slot count all the way down to the minimum valid value (1) never archives the Lesson Allocation, since the order itself still exists with valid Start/End dates. Only Purchased_Slot_Number__c and Total_Session_Count__c are recalculated; Archived_At__c remains untouched throughout.","- Student A has a Frequency order for Course A with Require Allocation = True, currently at 3 slots/week. Student A is auto-assigned to a group lesson by class.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the order group detail, clicks ""Update"", decreases slot/week from 3 to the minimum value of 1, fills in an effective date, saves draft, and submits""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The order is submitted successfully""
+2. ""Purchased_Slot_Number__c and Total_Session_Count__c are recalculated for 1 slot/week; Archived_At__c remains blank; LA duration unchanged""
+3. ""The Lesson Allocation still appears in the active list, exactly as before the update""
+","1. ""New slot/week = 1""
+2. ""Archived_At__c = null throughout; no archive-related fields touched""
+3. ""Is_Archived__c = FALSE (via formula) -> unaffected by the slot decrease""
+",,,3645,3588,Update Order,,,
+,Update Order – Duration Reduced to a Single Day – Lesson Allocation Not Archived; Existing Behavior Unchanged,"Regression / boundary case - Decision Table, contrasts with the baseline (case 9925, ""Reduce Start and End Date – Duration Updated"") - reducing a Slot-Based order's duration down to the narrowest valid window (start date = end date, a single day) never archives the Lesson Allocation, as long as the order itself is not removed (both dates remain populated, non-null). Only Start_Date_Time__c/End_Date_Time__c are recalculated; Archived_At__c remains untouched.","- Student A has a Slot-Based order for Course A with Require Allocation = True, currently spanning 2026-08-01 to 2026-12-31.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the order group detail, clicks ""Update"", reduces both start and end date to the same single day (2026-09-15), saves draft, and submits""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The order is submitted successfully""
+2. ""LA Start_Date_Time__c and End_Date_Time__c both update to 2026-09-15; Archived_At__c remains blank""
+3. ""The Lesson Allocation still appears in the active list""
+","1. ""new_start = new_end = 2026-09-15""
+2. ""Archived_At__c = null throughout; a narrow but non-null duration is not treated as ""removed""""
+3. ""Is_Archived__c = FALSE (via formula) -> unaffected by the extreme duration reduction""
+",,,3645,3588,Update Order,,,

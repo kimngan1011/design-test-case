@@ -1,0 +1,22 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,[Nichibei] Book a Lesson – LA Selection – Archived LA Excluded Even When It Would Otherwise Win on Location and Date,AC-5 (parity) - Regression - control case: An LA that matches the lesson's location and would win the earliest-start/earliest-created tiebreak must still be excluded from selection if it is archived.,"Student A has two Lesson Allocations at the lesson's Location A: LA-A (start = 2026-01-01, would normally win the tiebreak) and LA-B (start = 2026-03-01, the next-best candidate). Both are otherwise eligible (Require_Allocation = TRUE, Type includes Regular, date range covers the lesson date)
+LA-A's Archived_At__c is populated (archived via its order group being fully removed)",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student A books a lesson at Location A""
+2. ""HQ or CM Staff checks which LA the resulting Student Session is linked to""
+","1. ""Per the code's Archived_At__c = NULL filter, LA-A should not be selected despite having the earliest start date""
+2. ""LA-B is used, confirming the archived LA was correctly excluded from the candidate set before the tiebreak even ran""
+","1. ""LA-A Archived_At__c = populated""
+2. ""LA-B is the Lesson_Allocation__c on the new Student Session""
+",,,3676,3660,Book a Lesson,,,
+,[Nichibei] Book a Lesson – LA Archives Between Browse and Confirmation – Booking Blocked (Archive Replaces Legacy 'LA Deleted Mid-Flow'),"AC-5 - Decision Table - regression-contrast: covers the archive variant of the existing 'LA deleted mid-flow' baseline, since an LA is never hard-deleted mid-flow under the new archive mechanism.",Student A has exactly one active Lesson Allocation and has reached the Booking Confirmation screen for a lesson at that LA's location,,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Student A opens a bookable lesson and proceeds to the Confirmation screen""
+2. ""While the Confirmation screen is still open, the Student Package Order group behind Student A's Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""Student A taps 'Confirm' to complete the booking""
+4. ""HQ or CM Staff confirms no Student Session was created for this attempt""
+","1. ""Confirmation screen shown normally, LA still active at this point""
+2. ""The Lesson Allocation shows Archived_At__c populated""
+3. ""The booking is rejected - reserveLesson()'s re-run of the LA-selection query finds no eligible LA and throws NO_LESSON_ALLOCATION, surfacing the same 'no active LA' error as the existing baseline""
+4. ""No orphaned or partial Student Session exists for Student A on this lesson""
+","1. ""Archived_At__c = blank""
+2. ""Archived_At__c = current timestamp""
+3. ""reserveLesson() query excludes the now-archived LA; no Student Session created""
+4. ""No DML occurred past the LA-selection failure""
+",,,3676,3660,Book a Lesson,,,

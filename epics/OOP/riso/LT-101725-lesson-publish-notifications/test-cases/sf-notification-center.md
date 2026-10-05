@@ -24,6 +24,94 @@
 
 ---
 
+### [Riso] SF Notification Center – Available Part-Time teacher – Receives notification center alert after lesson published
+
+**Description:** AC-06, BR-13 — State Transition — A Part-Time Lesson Teacher @mentioned in the Chatter post receives an SF notification center alert after lesson publish, the same as a Full-Time teacher.
+
+**Preconditions:**
+- Riso Salesforce org with Lesson Publish Notification config flag = ON
+- A Draft lesson "Math Class B" with 1 Lesson Teacher: "Yamamoto Yuki" (working_status=Available, working_type=Part Time)
+- "Yamamoto Yuki" has an active Salesforce user account
+- Logged in as HQ or CM Staff to the Salesforce org to perform the publish action
+
+| # | Action | Expected Result | Test Data |
+|---|---|---|---|
+| 1 | HQ or CM Staff publishes the lesson "Math Class B" from SF Lesson Detail (change status Draft → Published) | Status = Published; Chatter post created with "@Yamamoto Yuki" | lesson_name="Math Class B"; teacher="Yamamoto Yuki" |
+| 2 | Log out as Staff; log in to Salesforce as "Yamamoto Yuki" | Logged in successfully as Yamamoto Yuki | actor switches to Yamamoto Yuki (Part-Time teacher) |
+| 3 | "Yamamoto Yuki" opens the SF Notification Center (bell icon) | Notification center panel opens | "" |
+| 4 | "Yamamoto Yuki" looks for the lesson publish notification | A notification message appears referencing the Chatter post @mention for "Math Class B" | expected: 1 notification; Part-Time working_type does not block delivery |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] SF Notification Center – Centre Manager assigned as Lesson Teacher – Receives notification center alert (not view-only)
+
+**Description:** AC-06, AC-07, BR-13, BR-14 — Decision Table — A user who holds the Centre Manager affiliation role but is ALSO the @mentioned Lesson Teacher on this lesson receives the SF notification center alert; holding the Centre Manager role elsewhere does not downgrade this to the LBAC view-only experience.
+
+**Preconditions:**
+- Riso Salesforce org with Lesson Publish Notification config flag = ON
+- A Draft lesson "Science Class C" with 1 Lesson Teacher: "Kimura CM" (working_status=Available, working_type=Full Time)
+- "Kimura CM" also holds the Centre Manager affiliation role at another center and has an active Salesforce user account
+- Logged in as HQ or CM Staff to the Salesforce org to perform the publish action
+
+| # | Action | Expected Result | Test Data |
+|---|---|---|---|
+| 1 | HQ or CM Staff publishes the lesson "Science Class C" (change status Draft → Published) | Status = Published; Chatter post created with "@Kimura CM" | lesson_name="Science Class C"; teacher="Kimura CM" |
+| 2 | Log out as Staff; log in to Salesforce as "Kimura CM" | Logged in successfully as Kimura CM | actor switches to Kimura CM (assigned Lesson Teacher who also holds Centre Manager role elsewhere) |
+| 3 | "Kimura CM" opens the SF Notification Center (bell icon) | Notification center panel opens | "" |
+| 4 | "Kimura CM" looks for the lesson publish notification | A notification message appears referencing the Chatter post @mention for "Science Class C" | expected: 1 notification received — the Centre Manager affiliation role does not suppress the assigned-teacher alert |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] SF Notification Center – Centre Staff assigned as Lesson Teacher – Receives notification center alert (not view-only)
+
+**Description:** AC-06, AC-07, BR-13, BR-14 — Decision Table — A user who holds the Centre Staff affiliation role but is ALSO the @mentioned Lesson Teacher on this lesson receives the SF notification center alert.
+
+**Preconditions:**
+- Riso Salesforce org with Lesson Publish Notification config flag = ON
+- A Draft lesson "History Class D" with 1 Lesson Teacher: "Ito Staff" (working_status=Available, working_type=Full Time)
+- "Ito Staff" also holds the Centre Staff affiliation role and has an active Salesforce user account
+- Logged in as HQ or CM Staff to the Salesforce org to perform the publish action
+
+| # | Action | Expected Result | Test Data |
+|---|---|---|---|
+| 1 | HQ or CM Staff publishes the lesson "History Class D" (change status Draft → Published) | Status = Published; Chatter post created with "@Ito Staff" | lesson_name="History Class D"; teacher="Ito Staff" |
+| 2 | Log out as Staff; log in to Salesforce as "Ito Staff" | Logged in successfully as Ito Staff | actor switches to Ito Staff (assigned Lesson Teacher who also holds Centre Staff role) |
+| 3 | "Ito Staff" opens the SF Notification Center (bell icon) | Notification center panel opens | "" |
+| 4 | "Ito Staff" looks for the lesson publish notification | A notification message appears referencing the Chatter post @mention for "History Class D" | expected: 1 notification received — the Centre Staff affiliation role does not suppress the assigned-teacher alert |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] SF Notification Center – Lesson Name hyperlink – Opens BO Lesson Detail in new tab
+
+**Description:** AC-08, BR-15 — Component (Smoke) — The Lesson Name hyperlink in the SF Notification Center sends the teacher to the BO Lesson Detail page for the same lesson in a new browser tab.
+
+**Preconditions:**
+- Riso Salesforce org with Lesson Publish Notification config flag = ON
+- A published lesson "English Class A" has a Chatter post that @mentions Lesson Teacher "Tanaka Kenji"
+- "Tanaka Kenji" has an active Salesforce user account and can access the BO Lesson Detail page for "English Class A"
+- Logged in to Salesforce as "Tanaka Kenji"
+
+| # | Action | Expected Result | Test Data |
+|---|---|---|---|
+| 1 | Open the SF Notification Center (bell icon) | Notification center panel opens and shows the lesson publish notification | lesson_name="English Class A" |
+| 2 | Click the "English Class A" Lesson Name hyperlink in the notification | A new browser tab opens | expected: new tab |
+| 3 | Observe the new tab | The new tab displays the BO Lesson Detail page for "English Class A" | expected: correct BO lesson |
+| 4 | Return to the original tab | The original Salesforce Notification Center remains open and unchanged | "" |
+
+**Severity:** medium
+**Priority:** high
+
+---
+
 ### [Riso] SF Notification Center – HQ Admin with LBAC access – Can view Chatter post but receives no notification center alert
 
 **Description:** AC-07, BR-14 — Permission Matrix — An HQ Admin with LBAC access to the lesson record can see the Chatter post but does NOT receive a notification center alert because they were not @mentioned.

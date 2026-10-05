@@ -1,0 +1,33 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3604,3588,Change Location Course in LA Detail,1,,
+,LA Detail – Change Location Popup – Archived Lesson Allocation – Button Not Disabled; Submit Fails with Unhandled Error Instead of Friendly Validation,"Gap case - Decision Table - contrasts with the existing baseline cases (1829/11369/11370, which all exercise this popup only on non-archived LAs): on an archived Lesson Allocation, the ""Change Location"" button is not disabled, so staff can open the popup and attempt a save exactly as if the LA were active, but the save fails server-side with a raw unhandled exception instead of a validation message, because the Apex handler's single-row SOQL excludes archived LAs with no error-handling around it.","- Student A's Lesson Allocation for Math 101 has been archived (Archived_At__c populated) after its Student Package Order was fully removed.
+- A different Location Course with an available Class exists as a valid target for the Change Location popup.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Student A's archived Lesson Allocation detail page""
+2. ""HQ or CM Staff clicks ""Change Location"" on this archived LA""
+3. ""HQ or CM Staff selects a new Location Course and Class, and clicks Save""
+4. ""HQ or CM Staff refreshes the LA Detail page""
+","1. ""The LA Detail page loads; the Archived_At__c field shows a populated timestamp; the ""record deleted""/archived banner is shown""
+2. ""The Change Location popup opens normally - the button is not disabled, unlike what a staff member might expect given the archived banner is already visible""
+3. ""The save fails; the user sees a raw/generic error toast rather than a clear ""this Lesson Allocation is archived and cannot be changed"" message""
+4. ""The LA's Location Course and Class remain unchanged from before the attempted save - no partial update occurred""
+","1. ""Page reachable despite archive, by design""
+2. ""isDisableChangeLocationButton only checks Trial type / missing Location Course, never Archived_At__c/isArchived""
+3. ""LessonAllocationLocationCourseHandler.changeLessonAllocationLocationCourse's SOQL (WHERE Id = :lessonAllocationId AND Archived_At__c = NULL) returns zero rows for an archived LA, throwing an unhandled System.ListException""
+4. ""Archived_At__c still populated; no DML was ever reached in the failed Apex call""
+",,,3604,3588,Change Location Course in LA Detail,,,
+,LA Detail – Student Auto-Assigned via Change Location + Class Flow – Lesson Allocation Archived – Hidden from Lesson; Restored – Shown Again with Updated Location/Course/Class,"Feature Impact (Class Assignment / Master Queue) - Decision Table - continuing from the ""Change Location + Class"" baseline (case 11369/25014, where changing Location/Course/Class ends the old class member and creates a new one, which then gets auto-assigned into the new class's future lessons): once the Lesson Allocation is later archived, that auto-assigned session is hidden purely by the Is_Archived__c formula, and on restore it reappears on the same record, still reflecting the new Location Course and new Class B chosen during the earlier Change Location action - not reverted to the old Class A.","- Student A's Lesson Allocation for Math 101 was active under old Location Course ""LC1"" and old Class A.
+- HQ or CM Staff used the Change Location popup to move Student A's Lesson Allocation to new Location Course ""LC2"" and new Class B (effective today) - Class A membership was ended, a new Class B membership was created, and Student A is now auto-assigned to Class B's future lessons.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens a future Class B lesson's Student Sessions section""
+2. ""The Student Package Order behind Student A's Math 101 Lesson Allocation is fully removed, so the Lesson Allocation is archived""
+3. ""HQ or CM Staff reopens the future Class B lesson's Student Sessions section""
+4. ""A living Student Package Order reappears for Student A's Math 101 Student Course, so the Lesson Allocation is unarchived on the same record Id""
+5. ""HQ or CM Staff reopens the future Class B lesson's Student Sessions section""
+","1. ""Student A is listed as an active student, under the new Location Course LC2 / Class B""
+2. ""The Lesson Allocation shows Archived_At__c populated; Student A's Class B Student Session flips to archived via the same formula""
+3. ""Student A no longer appears""
+4. ""The Lesson Allocation shows Archived_At__c blank again; Location Course and Class fields still show LC2 / Class B""
+5. ""Student A reappears - the same original Student Session created by the Change Location + Class flow, still under LC2 / Class B, not reverted to the old LC1 / Class A""
+","1. ""Student A Is_Archived__c = FALSE -> shown; Lesson Allocation Location_Course__c = LC2""
+2. ""Archived_At__c = current timestamp""
+3. ""Student A Is_Archived__c = TRUE (via formula) -> hidden""
+4. ""Archived_At__c = null (restored); Location_Course__c and Class membership untouched by the archive/restore cycle""
+5. ""Student A Is_Archived__c = FALSE (restored) -> shown again""
+",,,3604,3588,Change Location Course in LA Detail,,,

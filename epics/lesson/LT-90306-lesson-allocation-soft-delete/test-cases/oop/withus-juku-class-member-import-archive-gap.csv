@@ -1,0 +1,13 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[WithUs Juku] Class Member Import – Archived LA Referenced – Backdated Class Member Silently Created, No Error Shown","AC-5 - Negative - confirmed gap: the shared validator silently skips validation when the referenced LA is archived (absent from lessonAllocationMap), returning early with no error instead of rejecting the insert.","HQ or CM Staff has Class Member import access to the Withus Juku Salesforce org
+Student A's Course A Lesson Allocation is archived (Archived_At__c populated, via its order group being fully removed) - it would otherwise be a valid target (start 2026-08-01, end 2026-12-31) if still active
+The import file contains one row: Student A, Class A, effective date = 2026-08-01 (matching the archived LA's own start date), referencing the archived LA's Id or the Student+Course combination that resolves to it",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Import Class Member and uploads the prepared file""
+2. ""HQ or CM Staff starts the import""
+3. ""HQ or CM Staff checks the import result and Student A's Class Member history""
+","1. ""The preview shows the submitted row""
+2. ""Per AC-5, this should be rejected - the referenced Lesson Allocation is archived and should not accept a new Class Member""
+3. ""[Confirmed by code] The import completes with no error shown; a new Class A Class Member is created, start date 2026-08-01, linked to the archived LA (fail - route to the engineering owner of LessonClassMemberHandler.validateClassMember, which needs an explicit archived-LA rejection branch instead of its current empty-map early-return)""
+","1. ""today = 2026-08-12; import rows = 1""
+2. ""LA Archived_At__c = populated""
+3. ""validateClassMember returns early with no error when the LA is absent from lessonAllocationMap (archived)""
+",,,3680,3664,Class Member Import,,,

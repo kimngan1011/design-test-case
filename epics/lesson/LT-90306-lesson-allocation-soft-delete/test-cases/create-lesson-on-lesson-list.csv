@@ -1,0 +1,35 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,,,,,,,,,,,,,,,,,,,,3613,3588,Create Lesson on Lesson list,1,,
+,Create Lesson – One-time – Group – Class Member Archived – Student Not Auto-Assigned,Feature Impact (Class Assignment / Master Queue) - Decision Table: Creating a one-time Group lesson for a Class must not auto-assign a Student Session to a student whose Class Member has been archived by the Lesson Allocation soft-delete.,"- HQ or CM Staff is logged in to Salesforce.
+- Class A exists, linked to Course Math 101 and Location Tokyo HQ.
+- Student A has a Class Member record on Class A whose Lesson Allocation has been archived (Archived_At__c is populated) after its Student Package Order was fully removed, so Class Member Is_Archived__c = TRUE.
+- Student B has a Class Member record on Class A with an active Lesson Allocation (Archived_At__c is blank), so Class Member Is_Archived__c = FALSE.
+- No lesson exists for Class A on 2026-05-20.",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates a new one-time Group lesson for Class A on 2026-05-20""
+2. ""The system completes the Class Member auto-assignment job for the new lesson""
+3. ""HQ or CM Staff opens the new lesson's Student Sessions related list and looks for Student B""
+4. ""HQ or CM Staff looks for Student A in the same related list""
+","1. ""The lesson is created with Draft status""
+2. ""The job completes with no error""
+3. ""Student B's Student Session is listed, auto-assigned by the job""
+4. ""Student A's Student Session is absent; Student A was not auto-assigned""
+","1. ""class = Class A; lesson_date = 2026-05-20""
+2. """"
+3. ""Student B Class Member Is_Archived__c = FALSE -> included""
+4. ""Student A Class Member Is_Archived__c = TRUE -> excluded""
+",,,3613,3588,Create Lesson on Lesson list,,,
+,Create Lesson – One-time – Group – Lesson Allocation Unarchived – Student Auto-Assigned After Restore,"Feature Impact (Class Assignment / Master Queue) - Decision Table: After a previously archived Lesson Allocation is unarchived (its Class Member returns to Is_Archived = FALSE on the same record), a new Group lesson created for the same Class must auto-assign that student, proving the archive filter does not permanently block a restored student.","- HQ or CM Staff is logged in to Salesforce.
+- Class A exists, linked to Course Math 101 and Location Tokyo HQ.
+- Student A previously had its Class Member on Class A archived, then unarchived after a living Student Package Order reappeared for the same Student Course, so the same Class Member record now has Is_Archived__c = FALSE.
+- No lesson exists for Class A on 2026-05-21.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates a new one-time Group lesson for Class A on 2026-05-21""
+2. ""The system completes the Class Member auto-assignment job for the new lesson""
+3. ""HQ or CM Staff opens the new lesson's Student Sessions related list and looks for Student A""
+4. ""HQ or CM Staff opens Student A's Lesson Allocation record""
+","1. ""The lesson is created with Draft status""
+2. ""The job completes with no error""
+3. ""Student A's Student Session is listed, auto-assigned by the job""
+4. ""Exactly one Lesson Allocation record exists for Student A on this Student Course, with the same record Id as before the archive""
+","1. ""class = Class A; lesson_date = 2026-05-21""
+2. """"
+3. ""Student A Class Member Is_Archived__c = FALSE (restored) -> included""
+4. ""One record, same Id across archive -> unarchive""
+",,,3613,3588,Create Lesson on Lesson list,,,
