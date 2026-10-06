@@ -1,0 +1,61 @@
+{
+  "project": "PX",
+  "parentSuiteId": 483,
+  "suite": {
+    "id": 3698,
+    "title": "Lesson Calendar \u2013 Student List \u2013 Student Course Status Default (LT-108376)",
+    "created": true,
+    "url": "https://app.qase.io/project/PX?suite=3698"
+  },
+  "created": [
+    29506,
+    29507,
+    29508,
+    29509,
+    29510,
+    29511,
+    29512,
+    29513,
+    29514,
+    29515,
+    29516,
+    29517,
+    29518,
+    29519,
+    29520,
+    29521,
+    29522
+  ],
+  "skippedDuplicates": [],
+  "caseIds": [
+    29506,
+    29507,
+    29508,
+    29509,
+    29510,
+    29511,
+    29512,
+    29513,
+    29514,
+    29515,
+    29516,
+    29517,
+    29518,
+    29519,
+    29520,
+    29521,
+    29522
+  ],
+  "extraCases": [
+    1774,
+    1775,
+    4639,
+    13084
+  ],
+  "verifyMismatches": [],
+  "run": {
+    "id": 3658,
+    "url": "https://app.qase.io/run/PX/dashboard/3658",
+    "caseCount": 21
+  }
+}

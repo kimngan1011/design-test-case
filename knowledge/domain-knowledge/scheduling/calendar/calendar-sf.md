@@ -50,6 +50,29 @@ Bulk Publish Lesson date filtering must evaluate the selected Start Date and End
 - Existing Bulk Publish rules still apply after timezone conversion: location scope, selected-student scope when enabled, and Draft-only status transition.
 - Regression cases live in `epics/calendar/LT-110579-bulk-publish-timezone/`.
 
+## Student List (left panel) — Student Course Status filter (core SF - LT-108376, added 2026-10-07)
+
+The left **Student** panel on Lesson Calendar lists Lesson Allocations (LAs) that staff can drag into lessons. Its filter popover (funnel icon) contains Location, Academic Year, Type, **Student Course Status**, Package Type, Course Master, Class, Grade, School, … with **Reset** / **Save** at the bottom.
+
+- **Status is derived from the LA dates** (from code `LessonMasterHandler.getListAssignStudent`):
+
+  | Status | LA condition | JP label |
+  |---|---|---|
+  | Active | Start Date Time ≤ TODAY **and** End Date Time ≥ TODAY | アクティブ |
+  | Not Started | Start Date Time > TODAY | 未来のコース |
+  | Inactive | End Date Time < TODAY | 過去のコース |
+
+  `TODAY` is the Salesforce date literal: **date only, in the logged-in user's Salesforce timezone** (not the location's). An LA starting today at 18:00 is Active from 00:00; a user on GMT+7 and a user on JST can see a different status for an LA near midnight JST. Not defined in any spec — PO question open (LT-108376 Q3). Selected statuses are OR-combined; no status selected = no status condition.
+- **Defaults on first load:** Location = calendar location (chip not removable); Academic Year = **current AY**; Type = all types (Regular, Seasonal, Trial); Student Course Status = **Active + Not Started** (since LT-108376; before it was Active only). The list and "N items" count are filtered by the defaults immediately, without opening the popover.
+- **Lesson Master** uses the same component (`listStudentCalendar`) but keeps the **Active-only** default.
+- **One row per LA, not per student.** A student with two LAs that match the filter (e.g. Change / Add Associated Course with a future effective date → old LA Active + new LA Not Started) shows two rows. Expected — no merge by student.
+- **Academic Year scopes the list.** A newly ordered LA in the **next** academic year stays hidden with the default current AY until that AY is selected — by design.
+- **Reset** clears every filter except the calendar location (Academic Year, Type and Student Course Status become empty = all values); it does **not** restore the defaults. Changes take effect only after **Save**; closing the popover without Save discards them.
+- **Filter state:** changing the calendar location or switching view keeps the user's selection (only the Location chip follows the calendar location). A page reload re-applies the defaults.
+- The list loads only the first **200 LA rows** (sorted by Phonetic Name → Name → Created Date) — accepted Salesforce limitation; use name search to reach others.
+- Not to be confused with the **calendar grid** student filter used by Bulk Publish "Apply to selected students" (section below).
+- Qase: suite 3698 (PX-29506 → PX-29522, incl. timezone cases), existing suite 483 "Student Filter" (PX-4639 default, PX-13084 / PX-4653 Reset). Spec: `epics/calendar/LT-108376-not-started-default-student-filter/`.
+
 ---
 
 ## Bulk Publish (Riso — LT-98532, confirmed 2026-05-12)
