@@ -196,19 +196,19 @@ In the SF Lesson Calendar 7-Day Teacher Schedule View, the selected teacher coun
 
 ---
 
-## [2026-09-29] Core — Calendar Grid May Hit the 50,000 Query-Row Limit on Monthly View (Untested Risk)
+## [2026-09-29] Core — Calendar Grid May Hit the 50,000 Query-Row Limit on Dense Date Ranges (Untested Risk)
 
 **Source:** Code review of `LessonCalendarHandler` (erp-salesforce `develop`, 2026-09-29) — not a production incident yet. **Not covered by any test so far.**
 
 ### Issue
 
-The SF and BO calendar grid load lessons through `/LessonCalendar/v1/retrieveV2` → `LessonCalendarHandler.getLessonsCalendarDeserializeV3`. Salesforce allows **50,000 query rows per transaction** (`Too many query rows: 50001` is a `LimitException` and cannot be caught). Dense orgs on Monthly view with Grade / Course / Student filters can approach this limit.
+The SF and BO calendar grid load lessons through `/LessonCalendar/v1/retrieveV2` → `LessonCalendarHandler.getLessonsCalendarDeserializeV3`. Salesforce allows **50,000 query rows per transaction** (`Too many query rows: 50001` is a `LimitException` and cannot be caught). Dense locations over a long date range with Grade / Course / Student filters can approach this limit. **Views:** SF calendar has Weekly / Daily / 7-Day only; **Monthly exists only on BO**, behind Unleash `Calendar_IndividualCalendar_MonthlyView` — that is the largest range to test.
 
 **Why (from code):**
 1. Filters Grade, Course and Student first query `Student_Sessions__c` in the date range to get lesson IDs. This pre-query is limited by date only — **not by location** — so it scans the whole org's student sessions for the month.
 2. The main lesson query uses `LIMIT (50,000 − rows already used)`, which protects the **lesson rows only**. Its child sub-queries (`Lesson_Teachers__r`, `Lesson_Classrooms__r`, `Student_Sessions__r`) also count toward the 50,000 rows but are not reserved. Example: 8,000 lessons × 6 student sessions ≈ 56,000 rows → `LimitException` → API error → empty calendar.
 3. When the lesson rows alone exceed the remaining limit, the extra lessons are **dropped silently** (no message).
-4. BO splits a range longer than 2 days into 2 requests (`chunkRequest`), which halves the risk on BO but not on SF calendar.
+4. BO splits a range longer than 2 days into 2 requests (`chunkRequest`), so a BO Monthly view sends two ~15-day requests; SF sends one request per Weekly / Daily range.
 
 ### Resolution
 
@@ -216,7 +216,7 @@ The SF and BO calendar grid load lessons through `/LessonCalendar/v1/retrieveV2`
 
 ### Lessons Learned / Design Notes
 
-- Test the calendar grid with **Monthly view + dense location(s)**, and with **Grade / Course / Student filters**, on a production-like data volume. Check: no API error, lesson count on the grid equals the count from a report/SOQL for the same range.
+- Test the calendar grid on **BO Monthly view (flag ON) and SF Weekly view with dense location(s)**, and with **Grade / Course / Student filters**, on a production-like data volume. Check: no API error, lesson count on the grid equals the count from a report/SOQL for the same range.
 - Count rows as **parents + all child sub-query rows + pre-query rows**; a `LIMIT` on the parent query is not enough.
 - Pre-queries used to build ID lists should be limited by the same location as the main query when possible.
 - When a result is truncated by a limit, the UI should say so instead of silently showing fewer records.
