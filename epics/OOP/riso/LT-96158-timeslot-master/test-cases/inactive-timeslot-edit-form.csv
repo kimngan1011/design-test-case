@@ -1,0 +1,30 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+29633,[Riso] Timeslot - Inactive Timeslot - Edit lesson already assigned to it - Timeslot still shown as selected in Edit form,AC US02.4 - Regression + Negative: A lesson keeps showing its existing Timeslot in the Edit form after that Timeslot is deactivated; only new selection of an inactive Timeslot is blocked. Found 2026-10-08: the Edit form currently shows the Timeslot field blank because the dropdown only loads Active Timeslots — this case is expected to fail until fixed.,"- Partner config ""Show Timeslot In Lesson"" is ON
+- HQ or CM Staff is logged in to Salesforce with Lesson edit permission
+- Timeslot Master ""Morning"" (09:00 ~ 10:00) was Active when Lesson P1 was created
+- Lesson P1 at Location A is dated 2026-10-21 09:00 - 10:00 and has Timeslot ""Morning""
+- Timeslot Master ""Morning"" has since been set to Active = false (Inactive)",,"LT-96158,Riso,Timeslot,Inactive Timeslot",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. HQ or CM Staff opens Lesson P1 detail in Salesforce
+2. HQ or CM Staff clicks Edit on Lesson P1
+3. HQ or CM Staff looks at Start Time and End Time in the Edit form
+4. HQ or CM Staff opens Lesson Calendar for Location A on 2026-10-21, clicks Lesson P1 and opens the Edit popup","1. Lesson P1 detail shows Timeslot ""Morning""
+2. The Edit form opens; the Timeslot field shows ""Morning (09:00 ~ 10:00)"" as the selected value (not blank)
+3. Start Time = 09:00 and End Time = 10:00
+4. The Edit popup opens; the Timeslot field shows ""Morning (09:00 ~ 10:00)"" as the selected value (not blank)","1. today = 2026-10-20; lesson_date = 2026-10-21; Morning = Inactive
+2. expected selected = Morning
+3. unchanged times
+4. surface = Lesson Calendar Edit popup; lesson_date = 2026-10-21",,,2719,2717,[Riso] Timeslot Master - Active/Inactive,no,,
+29634,[Riso] Timeslot - Inactive Timeslot - Edit lesson and save without touching Timeslot - Timeslot value retained on the lesson,AC US02.4 - CRUD (update) + Regression: Saving the Edit form of a lesson whose Timeslot is inactive must not clear or replace the Timeslot. Found 2026-10-08: the Edit form currently shows the Timeslot field blank because the dropdown only loads Active Timeslots — this case is expected to fail until fixed.,"- Partner config ""Show Timeslot In Lesson"" is ON
+- HQ or CM Staff is logged in to Salesforce with Lesson edit permission
+- Timeslot Master ""Morning"" (09:00 ~ 10:00) was Active when Lesson P1 was created
+- Lesson P1 at Location A is dated 2026-10-21 09:00 - 10:00 and has Timeslot ""Morning""
+- Timeslot Master ""Morning"" has since been set to Active = false (Inactive)
+- Lesson P1 has Lesson Name ""Math P1""",,"LT-96158,Riso,Timeslot,Inactive Timeslot",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. HQ or CM Staff opens Lesson P1 in Salesforce and clicks Edit
+2. HQ or CM Staff changes Lesson Name to ""Math P1 updated"", does not touch the Timeslot field and clicks Save
+3. HQ or CM Staff reopens Lesson P1 detail
+4. HQ or CM Staff clicks Edit on Lesson P1 again and clicks Save without any change, then reopens Lesson P1 detail","1. The Edit form opens
+2. The lesson is saved without error
+3. Lesson Name = ""Math P1 updated""; Timeslot still shows ""Morning""; time is still 09:00 - 10:00
+4. Timeslot still shows ""Morning""","1. today = 2026-10-20; Morning = Inactive
+2. only Lesson Name changed
+3. expected Timeslot = Morning (retained)
+4. second save, no change",,,2719,2717,[Riso] Timeslot Master - Active/Inactive,no,,
