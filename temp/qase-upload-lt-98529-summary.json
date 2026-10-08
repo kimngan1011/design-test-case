@@ -32,5 +32,10 @@
   ],
   "deleted_suite": 3515,
   "linked": "LT-106142",
-  "verify_mismatches": []
+  "verify_mismatches": [],
+  "recurring_added": [
+    29630,
+    29631,
+    29632
+  ]
 }

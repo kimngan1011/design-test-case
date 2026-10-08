@@ -491,3 +491,71 @@
 **Priority:** medium
 
 ---
+
+### [Riso] Lesson Note – SF Create Recurring Lesson – Note entered on create – Note copied to every occurrence
+
+**Description:** Q4 (answered 2026-10-08) — CRUD (create, recurring) — A note entered when creating a recurring lesson is saved on every created occurrence.
+
+**Preconditions:**
+- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting "Show Lesson Note" is ON in Salesforce
+- Student A is logged in to the Learner App
+- Student A is affiliated with Location A
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the Salesforce Lesson create form for Location A | The Lesson form opens with the Lesson Note field | start = 2026-10-21 09:00 - 10:00 |
+| 2 | HQ or CM Staff fills all required fields, adds Student A, types "Bring workbook A" in Lesson Note, turns on "Recur this lesson" weekly with end date 2026-11-11 and clicks Save | The recurring lesson is saved; 4 lessons are created on 2026-10-21, 2026-10-28, 2026-11-04 and 2026-11-11 | note = Bring workbook A; occurrences = 4 |
+| 3 | HQ or CM Staff opens each of the 4 created lessons in Salesforce | Each lesson shows Lesson Note "Bring workbook A" | expected = 4 / 4 lessons with the note |
+| 4 | Student A opens the App Calendar on 2026-10-21 and on 2026-11-11 | The lesson card on both dates shows the note-available tag | first and last occurrence |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Lesson Note – SF Edit Recurring Lesson – "This and the following lessons" – Selected and following occurrences updated, earlier occurrence keeps old note
+
+**Description:** Q4 (answered 2026-10-08) — CRUD (update, recurring scope) — Editing the note with "This and the following lessons" changes the selected and later occurrences only.
+
+**Preconditions:**
+- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting "Show Lesson Note" is ON in Salesforce
+- Student A is logged in to the Learner App
+- Recurring weekly lesson R at Location A runs every Wednesday 09:00 - 10:00 on 2026-10-21, 2026-10-28, 2026-11-04 and 2026-11-11, and is assigned to Student A
+- All 4 occurrences of lesson R have Lesson Note "Old announcement"
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the 2026-10-28 occurrence of lesson R in Salesforce edit mode | The edit form opens; Lesson Note shows "Old announcement" | selected = 2026-10-28 |
+| 2 | HQ or CM Staff changes Lesson Note to "New announcement", clicks Save and chooses "This and the following lessons" | The lessons are saved | save scope = This and the following lessons |
+| 3 | HQ or CM Staff opens the occurrences on 2026-10-28, 2026-11-04 and 2026-11-11 | Each of the 3 lessons shows Lesson Note "New announcement" | expected = updated (3 lessons) |
+| 4 | HQ or CM Staff opens the occurrence on 2026-10-21 | Lesson Note still shows "Old announcement" | expected = unchanged (earlier occurrence) |
+| 5 | Student A opens Lesson R detail in the App for 2026-10-21 and for 2026-11-04 | 2026-10-21 shows "Old announcement"; 2026-11-04 shows "New announcement" | App check |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Lesson Note – SF Edit Recurring Lesson – "Only this Lesson" – Only the selected occurrence updated
+
+**Description:** Q4 (answered 2026-10-08) — CRUD (update, single scope) + Negative — Editing the note with "Only this Lesson" leaves every other occurrence unchanged.
+
+**Preconditions:**
+- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting "Show Lesson Note" is ON in Salesforce
+- Recurring weekly lesson R at Location A runs every Wednesday 09:00 - 10:00 on 2026-10-21, 2026-10-28, 2026-11-04 and 2026-11-11, and is assigned to Student A
+- All 4 occurrences of lesson R have Lesson Note "Old announcement"
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the 2026-11-04 occurrence of lesson R in Salesforce edit mode | The edit form opens; Lesson Note shows "Old announcement" | selected = 2026-11-04 |
+| 2 | HQ or CM Staff changes Lesson Note to "Room changed to 301", clicks Save and chooses "Only this Lesson" | The lesson is saved | save scope = Only this Lesson |
+| 3 | HQ or CM Staff opens the 2026-11-04 occurrence | Lesson Note shows "Room changed to 301" | expected = updated |
+| 4 | HQ or CM Staff opens the occurrences on 2026-10-21, 2026-10-28 and 2026-11-11 | Each of the 3 lessons still shows Lesson Note "Old announcement" | expected = unchanged (3 lessons) |
+
+**Severity:** major
+**Priority:** high
+
+---

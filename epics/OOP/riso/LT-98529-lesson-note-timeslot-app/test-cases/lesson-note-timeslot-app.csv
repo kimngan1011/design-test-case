@@ -223,3 +223,46 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 2. Student A looks at the row of the completed lesson on 2026-10-14","1. Lesson History opens
 2. The row shows the lesson time with the Timeslot name ""1限"" as before; no note tag or other Calendar-only element appears","1. month = 2026-10
 2. timeslot = 1限",,,3709,2458,[Riso] Core | Lesson Note and Timeslot (App),no,,
+29630,[Riso] Lesson Note – SF Create Recurring Lesson – Note entered on create – Note copied to every occurrence,"LT-98529 Q4 (answered 2026-10-08) — CRUD (create, recurring) — A note entered when creating a recurring lesson is saved on every created occurrence.","- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting ""Show Lesson Note"" is ON in Salesforce
+- Student A is logged in to the Learner App
+- Student A is affiliated with Location A",,"LT-98529,Riso,Lesson Note,Timeslot,Learner App",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. HQ or CM Staff opens the Salesforce Lesson create form for Location A
+2. HQ or CM Staff fills all required fields, adds Student A, types ""Bring workbook A"" in Lesson Note, turns on ""Recur this lesson"" weekly with end date 2026-11-11 and clicks Save
+3. HQ or CM Staff opens each of the 4 created lessons in Salesforce
+4. Student A opens the App Calendar on 2026-10-21 and on 2026-11-11","1. The Lesson form opens with the Lesson Note field
+2. The recurring lesson is saved; 4 lessons are created on 2026-10-21, 2026-10-28, 2026-11-04 and 2026-11-11
+3. Each lesson shows Lesson Note ""Bring workbook A""
+4. The lesson card on both dates shows the note-available tag","1. start = 2026-10-21 09:00 - 10:00
+2. note = Bring workbook A; occurrences = 4
+3. expected = 4 / 4 lessons with the note
+4. first and last occurrence",,,3709,2458,[Riso] Core | Lesson Note and Timeslot (App),no,,
+29631,"[Riso] Lesson Note – SF Edit Recurring Lesson – ""This and the following lessons"" – Selected and following occurrences updated, earlier occurrence keeps old note","LT-98529 Q4 (answered 2026-10-08) — CRUD (update, recurring scope) — Editing the note with ""This and the following lessons"" changes the selected and later occurrences only.","- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting ""Show Lesson Note"" is ON in Salesforce
+- Student A is logged in to the Learner App
+- Recurring weekly lesson R at Location A runs every Wednesday 09:00 - 10:00 on 2026-10-21, 2026-10-28, 2026-11-04 and 2026-11-11, and is assigned to Student A
+- All 4 occurrences of lesson R have Lesson Note ""Old announcement""",,"LT-98529,Riso,Lesson Note,Timeslot,Learner App",high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. HQ or CM Staff opens the 2026-10-28 occurrence of lesson R in Salesforce edit mode
+2. HQ or CM Staff changes Lesson Note to ""New announcement"", clicks Save and chooses ""This and the following lessons""
+3. HQ or CM Staff opens the occurrences on 2026-10-28, 2026-11-04 and 2026-11-11
+4. HQ or CM Staff opens the occurrence on 2026-10-21
+5. Student A opens Lesson R detail in the App for 2026-10-21 and for 2026-11-04","1. The edit form opens; Lesson Note shows ""Old announcement""
+2. The lessons are saved
+3. Each of the 3 lessons shows Lesson Note ""New announcement""
+4. Lesson Note still shows ""Old announcement""
+5. 2026-10-21 shows ""Old announcement""; 2026-11-04 shows ""New announcement""","1. selected = 2026-10-28
+2. save scope = This and the following lessons
+3. expected = updated (3 lessons)
+4. expected = unchanged (earlier occurrence)
+5. App check",,,3709,2458,[Riso] Core | Lesson Note and Timeslot (App),no,,
+29632,"[Riso] Lesson Note – SF Edit Recurring Lesson – ""Only this Lesson"" – Only the selected occurrence updated","LT-98529 Q4 (answered 2026-10-08) — CRUD (update, single scope) + Negative — Editing the note with ""Only this Lesson"" leaves every other occurrence unchanged.","- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting ""Show Lesson Note"" is ON in Salesforce
+- Recurring weekly lesson R at Location A runs every Wednesday 09:00 - 10:00 on 2026-10-21, 2026-10-28, 2026-11-04 and 2026-11-11, and is assigned to Student A
+- All 4 occurrences of lesson R have Lesson Note ""Old announcement""",,"LT-98529,Riso,Lesson Note,Timeslot,Learner App",high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. HQ or CM Staff opens the 2026-11-04 occurrence of lesson R in Salesforce edit mode
+2. HQ or CM Staff changes Lesson Note to ""Room changed to 301"", clicks Save and chooses ""Only this Lesson""
+3. HQ or CM Staff opens the 2026-11-04 occurrence
+4. HQ or CM Staff opens the occurrences on 2026-10-21, 2026-10-28 and 2026-11-11","1. The edit form opens; Lesson Note shows ""Old announcement""
+2. The lesson is saved
+3. Lesson Note shows ""Room changed to 301""
+4. Each of the 3 lessons still shows Lesson Note ""Old announcement""","1. selected = 2026-11-04
+2. save scope = Only this Lesson
+3. expected = updated
+4. expected = unchanged (3 lessons)",,,3709,2458,[Riso] Core | Lesson Note and Timeslot (App),no,,

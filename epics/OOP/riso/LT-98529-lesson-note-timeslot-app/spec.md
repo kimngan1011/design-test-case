@@ -100,6 +100,7 @@ The PRD says this is a CORE build for all partners without partner-specific conf
 2. When `Show_Lesson_Note__c` / `lesson.lesson_note.is_enabled` is disabled but an old note value exists, should App still display the note, or is the App also gated by config?
 3. Should Timeslot display depend on active Timeslot Master status after the lesson already references it, or only on lesson `Timeslot__c` value and partner config?
 4. For recurring lesson creation/edit, should Lesson Note be copied to all created/updated occurrences or only the selected lesson based on the saving method?
+   ✅ **Answered (QA owner, 2026-10-08):** copied. Code confirms (erp-salesforce develop `58acabb55e`): creating a recurring lesson writes the note to **every created occurrence** (`LessonScheduleHandler`, `UpdateLessonHandler`); editing writes the note to **every lesson in the chosen save scope** — "Only this Lesson" = that lesson only, "This and the following lessons" = selected + following (`LessonUpdateProcessor`). Clearing the note in that scope clears it too.
 
 ## Related Specs
 
@@ -110,7 +111,7 @@ The PRD says this is a CORE build for all partners without partner-specific conf
 ## QASE Coverage
 
 - Suite **3709** `[Riso] Core | Lesson Note and Timeslot (App)` under `OOP FEATURES > Riso` (2458) — https://app.qase.io/project/PX?suite=3709 (created 2026-10-08)
-- Cases **PX-29605 → PX-29628** (24, normalized 2026-10-08), linked to Jira **LT-106142**
+- Cases **PX-29605 → PX-29628** (24, normalized 2026-10-08) + **PX-29630 → PX-29632** (3 recurring-lesson cases from Q4 answer, 2026-10-08) — all 27 linked to Jira **LT-106142**
 - **PX-27314** (bug regression LT-109576 — note tag + detail) moved here from suite 3515 `Learner App Calendar - Lesson Note`; suite 3515 deleted (empty). Partly overlaps PX-29614 (card tag) and PX-29616 (detail section).
 - Clarification Q1 (whitespace-only note) is still open — PX-29621 expects whitespace-only = blank.
 
