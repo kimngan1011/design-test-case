@@ -9,7 +9,7 @@ priority: High
 linked_pbt: PBT-1927
 qa_ticket: LT-106142
 target_uat: 2026-06-30
-last_updated: 2026-08-26
+last_updated: 2026-10-08
 ---
 
 # LT-98529: [Riso] Core | Lesson Note and Timeslot (App)
@@ -107,9 +107,11 @@ The PRD says this is a CORE build for all partners without partner-specific conf
 - `epics/calendar/LT-92536-daily-timetable-print/spec.md` - Timeslot display/config behavior for SF Daily Timetable Print.
 - `epics/OOP/riso/LT-94698-subject-in-lesson-detail/test-cases/` - Nearby Riso Lesson Detail display/import style.
 
-## QASE Coverage Target
+## QASE Coverage
 
-- Suggested target suite: create a new suite `[Riso] Lesson Note & Timeslot (App)` under the Riso/App area.
-- CSV currently uses suite `3253` (`[Riso] Lesson History — Display & Navigation`) as the closest existing App display suite so it remains importable without inventing an unknown Qase id.
+- Suite **3709** `[Riso] Core | Lesson Note and Timeslot (App)` under `OOP FEATURES > Riso` (2458) — https://app.qase.io/project/PX?suite=3709 (created 2026-10-08)
+- Cases **PX-29605 → PX-29628** (24, normalized 2026-10-08), linked to Jira **LT-106142**
+- **PX-27314** (bug regression LT-109576 — note tag + detail) moved here from suite 3515 `Learner App Calendar - Lesson Note`; suite 3515 deleted (empty). Partly overlaps PX-29614 (card tag) and PX-29616 (detail section).
+- Clarification Q1 (whitespace-only note) is still open — PX-29621 expects whitespace-only = blank.
 
 > Posted status: not posted

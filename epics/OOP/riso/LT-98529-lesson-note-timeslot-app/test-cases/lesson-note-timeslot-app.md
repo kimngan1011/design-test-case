@@ -1,474 +1,493 @@
-# Test Cases: LT-98529 - [Riso] Core | Lesson Note and Timeslot (App)
+# Test Cases: LT-98529 — [Riso] Core | Lesson Note and Timeslot (App)
 
-## Suite: [Riso] Lesson Note & Timeslot (App)
+> Normalized 2026-10-08 to current test-case rules (actor + verb steps, state preconditions, anchored dates, severity/priority mapping). Test intent unchanged.
 
-### [Riso] Lesson Note & Timeslot App - SF Lesson Form - Lesson Note visible when setting ON
+## Suite: [Riso] Core | Lesson Note and Timeslot (App)
 
-**Description:** US01.1 - Config/component - SF Lesson create/edit screen shows Lesson Note as optional long text when `Show_Lesson_Note__c` is enabled.
+### [Riso] Lesson Note – SF Lesson Form – Show Lesson Note setting ON – Lesson Note shown as optional multi-line field
+
+**Description:** US01.1 — Decision Table (config ON) — SF Lesson create/edit form shows Lesson Note as an optional multi-line text field.
 
 **Preconditions:**
-- Logged in as SF user with Lesson create/edit permission.
-- `Lesson_Custom_Settings__c.Show_Lesson_Note__c = true`.
+- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting "Show Lesson Note" is ON in Salesforce
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open SF Lesson create or edit form. | Lesson form opens. | surface = SF |
-| 2 | Inspect the general/basic information section. | Field `Lesson Note` is visible as a multi-line text area. | field = `Lesson_Note__c` |
-| 3 | Leave the field blank and inspect required validation. | No required-marker validation is shown for Lesson Note. | optional = true |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the Salesforce Lesson create form | The Lesson form opens | surface = Salesforce; Show Lesson Note = ON |
+| 2 | HQ or CM Staff looks at the Basic Information section | A "Lesson Note" multi-line text field is shown | field = Lesson Note |
+| 3 | HQ or CM Staff fills all required lesson fields, leaves Lesson Note blank and clicks Save | The lesson is saved; no required-field error is shown for Lesson Note | Lesson Note = (blank) |
 
 **Severity:** major
 **Priority:** high
 
 ---
 
-### [Riso] Lesson Note & Timeslot App - SF Lesson Form - Lesson Note hidden when setting OFF
+### [Riso] Lesson Note – SF Lesson Form – Show Lesson Note setting OFF – Lesson Note field hidden and save unaffected
 
-**Description:** US01.1 - Negative/config - SF must not expose Lesson Note when `Show_Lesson_Note__c` is disabled.
+**Description:** US01.1 — Decision Table (config OFF) + Negative — SF does not show Lesson Note when the setting is OFF; saving is not blocked.
 
 **Preconditions:**
-- Logged in as SF user with Lesson create/edit permission.
-- `Lesson_Custom_Settings__c.Show_Lesson_Note__c = false`.
+- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting "Show Lesson Note" is OFF in Salesforce
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open SF Lesson create or edit form. | Lesson form opens. | surface = SF |
-| 2 | Inspect the form for Lesson Note. | `Lesson Note` field is not displayed. | config = OFF |
-| 3 | Save a lesson without Lesson Note. | Lesson saves through the existing flow; no Lesson Note validation blocks save. | note = blank |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the Salesforce Lesson create form | The Lesson form opens | Show Lesson Note = OFF |
+| 2 | HQ or CM Staff looks for the Lesson Note field | No "Lesson Note" field is shown | — |
+| 3 | HQ or CM Staff fills all required lesson fields and clicks Save | The lesson is saved with no Lesson Note error | Lesson Note = (not shown) |
 
-**Severity:** major
+**Severity:** minor
 **Priority:** medium
 
 ---
 
-### [Riso] Lesson Note & Timeslot App - SF Save - 32768 character note is accepted
+### [Riso] Lesson Note – SF Save – Note of 32,768 characters – Saved in full
 
-**Description:** US01.1 / US01.3 - Boundary value - `Lesson_Note__c` accepts the max Long Text Area length.
+**Description:** US01.1 / US01.3 — BVA (max) — Lesson Note accepts the maximum length of 32,768 characters.
 
 **Preconditions:**
-- `Show_Lesson_Note__c = true`.
-- SF user can edit Lesson A.
-- Test data generator can create a 32,768-character plain text note.
+- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting "Show Lesson Note" is ON in Salesforce
+- Lesson A exists and is editable by HQ or CM Staff
+- A plain-text string of exactly 32,768 characters is prepared
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open Lesson A edit form in SF. | Edit form opens. | lesson = Lesson A |
-| 2 | Enter a 32,768-character note into Lesson Note. | Field accepts the value. | length = 32768 |
-| 3 | Save the lesson. | Save succeeds and record stores the full note. | field = `Lesson_Note__c` |
-| 4 | Reopen the lesson detail. | Lesson Note value is still present and not truncated below 32,768 characters. | expected length = 32768 |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens Lesson A edit form in Salesforce | The edit form opens with the Lesson Note field | lesson = Lesson A |
+| 2 | HQ or CM Staff pastes the 32,768-character text into Lesson Note | The field shows the pasted text | length = 32768 (max) |
+| 3 | HQ or CM Staff clicks Save | The lesson is saved without error | — |
+| 4 | HQ or CM Staff reopens Lesson A and copies the Lesson Note value | The Lesson Note value is exactly 32,768 characters and identical to the prepared text | expected length = 32768 |
 
 **Severity:** critical
 **Priority:** high
 
 ---
 
-### [Riso] Lesson Note & Timeslot App - SF Save - 32769 character note is rejected or constrained
+### [Riso] Lesson Note – SF Save – Note of 32,769 characters – Save blocked with error, previous note kept
 
-**Description:** US01.1 - Negative boundary - Values above the field max cannot be saved silently.
+**Description:** US01.1 — BVA (max + 1) + Negative — A note one character over the limit cannot be saved; the stored value is unchanged.
 
 **Preconditions:**
-- `Show_Lesson_Note__c = true`.
-- SF user can edit Lesson A.
-- Test data generator can create a 32,769-character plain text note.
+- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting "Show Lesson Note" is ON in Salesforce
+- Lesson A has Lesson Note "Old announcement"
+- A plain-text string of exactly 32,769 characters is prepared
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open Lesson A edit form in SF. | Edit form opens. | lesson = Lesson A |
-| 2 | Enter a 32,769-character note. | UI prevents entry beyond max length or allows edit until save validation. | length = 32769 |
-| 3 | Save the lesson. | Save is blocked with validation, or value is explicitly constrained to 32,768 characters; no silent corrupted value is stored. | max = 32768 |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens Lesson A edit form in Salesforce | The edit form opens; Lesson Note shows "Old announcement" | lesson = Lesson A |
+| 2 | HQ or CM Staff replaces Lesson Note with the 32,769-character text and clicks Save | Save is blocked and an error message is shown; the edit form stays open | length = 32769 (max + 1) |
+| 3 | HQ or CM Staff cancels the edit and reopens Lesson A | Lesson Note still shows "Old announcement" | expected = Old announcement |
 
 **Severity:** major
 **Priority:** high
 
 ---
 
-### [Riso] Lesson Note & Timeslot App - BO Lesson Form - Lesson Note visible when feature setting ON
+### [Riso] Lesson Note – BO Lesson Form – Feature setting ON – Lesson Note shown as optional multi-line field
 
-**Description:** US01.1 - BO component/config - BO Lesson form shows Lesson Note when `lesson.lesson_note.is_enabled` is enabled.
+**Description:** US01.1 — Decision Table (config ON) — Back Office Lesson form shows an optional Lesson Note field.
 
 **Preconditions:**
-- Logged in to BO as HQ/CM user with Lesson create/edit permission.
-- `lesson.lesson_note.is_enabled = true`.
+- HQ or CM Staff is logged in to the Back Office with Lesson create and edit permission
+- Back Office feature setting "Lesson Note" (lesson.lesson_note.is_enabled) is ON
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open BO Lesson create or edit form. | Lesson form opens. | surface = BO |
-| 2 | Inspect Lesson form fields. | `Lesson Note` field is visible as multiline text area. | i18n EN = Lesson Note |
-| 3 | Leave Lesson Note blank and save a valid lesson. | Save succeeds; field is optional. | note = blank |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the Back Office Lesson create form | The Lesson form opens | surface = Back Office; feature setting = ON |
+| 2 | HQ or CM Staff looks at the form fields | A "Lesson Note" multi-line text field is shown | label EN = Lesson Note |
+| 3 | HQ or CM Staff fills all required lesson fields, leaves Lesson Note blank and clicks Save | The lesson is saved; no required-field error is shown for Lesson Note | Lesson Note = (blank) |
 
 **Severity:** major
 **Priority:** high
 
 ---
 
-### [Riso] Lesson Note & Timeslot App - BO Save - Created or edited note is stored on Lesson
+### [Riso] Lesson Note – BO Lesson Form – Feature setting OFF – Lesson Note field hidden and save unaffected
 
-**Description:** US01.3 - Integration - BO sends `lessonNote` and stores it on the Lesson record.
-
-**Preconditions:**
-- Logged in to BO as HQ/CM user with Lesson edit permission.
-- `lesson.lesson_note.is_enabled = true`.
-- Lesson A exists and is assigned to Student A.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open Lesson A in BO edit mode. | Edit form opens with Lesson Note field. | lesson = Lesson A |
-| 2 | Enter `Bring workbook A` in Lesson Note. | Text is entered. | note = Bring workbook A |
-| 3 | Save the lesson. | Save succeeds. | payload field = lessonNote |
-| 4 | Reopen Lesson A in BO/SF detail or query the record. | `Lesson_Note__c` equals `Bring workbook A`. | expected record value |
-
-**Severity:** critical
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - Permissions - Read-only lesson user cannot edit Lesson Note
-
-**Description:** US01.2 - Permission - Lesson Note follows existing Lesson object/field permissions.
+**Description:** US01.1 — Decision Table (config OFF) + Negative — Back Office does not show Lesson Note when the feature setting is OFF.
 
 **Preconditions:**
-- User has permission to view Lesson Detail but not update Lesson.
-- Lesson A has Lesson Note populated.
+- HQ or CM Staff is logged in to the Back Office with Lesson create and edit permission
+- Back Office feature setting "Lesson Note" (lesson.lesson_note.is_enabled) is OFF
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Log in as read-only/restricted lesson user. | User logs in successfully. | role = view-only |
-| 2 | Open Lesson A detail. | Lesson detail is accessible according to existing Lesson permission. | lesson = Lesson A |
-| 3 | Try to edit Lesson Note. | Edit action is unavailable or Lesson Note is read-only/disabled; user cannot save changes. | permission = no update |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the Back Office Lesson create form | The Lesson form opens | feature setting = OFF |
+| 2 | HQ or CM Staff looks for the Lesson Note field | No "Lesson Note" field is shown | — |
+| 3 | HQ or CM Staff fills all required lesson fields and clicks Save | The lesson is saved with no Lesson Note error | Lesson Note = (not shown) |
 
-**Severity:** major
+**Severity:** minor
 **Priority:** medium
 
 ---
 
-### [Riso] Lesson Note & Timeslot App - SF Calendar information shows Lesson Note
+### [Riso] Lesson Note – BO Save – Note entered in Back Office – Stored on the Lesson and shown in Salesforce
 
-**Description:** US01.4 - Calendar display - Lesson Calendar information includes Lesson Note when the lesson has a note.
-
-**Preconditions:**
-- SF Calendar is accessible.
-- `Show_Lesson_Note__c = true`.
-- Lesson A exists on the selected date with Lesson Note `Bring workbook A`.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open SF Lesson Calendar for Lesson A date/location. | Calendar loads and Lesson A is visible. | date/location = Lesson A |
-| 2 | Open Lesson A calendar information/detail panel. | Lesson information panel opens. | card = Lesson A |
-| 3 | Inspect Lesson Note area. | `Lesson Note` is displayed with value `Bring workbook A`. | expected note |
-
-**Severity:** major
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - App Calendar Card shows note available tag
-
-**Description:** US02.1 - App component - Calendar lesson card shows note-available tag when Lesson Note is entered.
+**Description:** US01.3 — CRUD (update) — A note saved in the Back Office is stored on the Lesson record.
 
 **Preconditions:**
-- Logged in to Learner App as Student A or Parent of Student A.
-- Lesson A is assigned to Student A and has Lesson Note.
+- HQ or CM Staff is logged in to the Back Office with Lesson create and edit permission
+- Back Office feature setting "Lesson Note" (lesson.lesson_note.is_enabled) is ON
+- Lesson Custom Setting "Show Lesson Note" is ON in Salesforce
+- Lesson A exists with a blank Lesson Note and is assigned to Student A
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open App Calendar for Lesson A date. | Calendar opens. | student = Student A |
-| 2 | Locate Lesson A card. | Lesson card is visible. | lesson = Lesson A |
-| 3 | Inspect the bottom of the card. | Tag `Lesson Note Available` is shown in EN locale or `教室からのお知らせあり` in JP locale. | note exists |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens Lesson A in Back Office edit mode | The edit form opens with an empty Lesson Note field | lesson = Lesson A |
+| 2 | HQ or CM Staff types "Bring workbook A" in Lesson Note and clicks Save | The lesson is saved | note = Bring workbook A |
+| 3 | HQ or CM Staff opens Lesson A detail in Salesforce | Lesson Note shows "Bring workbook A" | expected = Bring workbook A |
 
 **Severity:** critical
 **Priority:** high
 
 ---
 
-### [Riso] Lesson Note & Timeslot App - App Calendar Card hides note tag for blank note
+### [Riso] Lesson Note – Permission – Staff with view-only Lesson access – Lesson Note cannot be edited
 
-**Description:** US02.1 - Negative - Calendar lesson card hides note tag when Lesson Note is blank.
-
-**Preconditions:**
-- Logged in to Learner App as Student A or Parent of Student A.
-- Lesson B is assigned to Student A and has blank Lesson Note.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open App Calendar for Lesson B date. | Calendar opens. | student = Student A |
-| 2 | Locate Lesson B card. | Lesson card is visible. | lesson = Lesson B |
-| 3 | Inspect the bottom of the card. | `Lesson Note Available` / `教室からのお知らせあり` tag is not shown. | note = blank |
-
-**Severity:** major
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - App Lesson Detail shows note section at top
-
-**Description:** US02.2 - App detail - Lesson Detail shows dedicated note section above/basic info when note exists.
+**Description:** US01.2 — Permission Matrix — Lesson Note follows the existing Lesson object permission.
 
 **Preconditions:**
-- Logged in to Learner App as Student A.
-- Lesson A has Lesson Note `Bring workbook A`.
+- Staff User R is logged in to Salesforce with permission to view Lessons but not to edit them
+- Lesson Custom Setting "Show Lesson Note" is ON in Salesforce
+- Lesson A has Lesson Note "Bring workbook A"
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open App Calendar and tap Lesson A. | Lesson Detail opens. | lesson = Lesson A |
-| 2 | Inspect top of Lesson Detail. | Dedicated Lesson Note section is displayed near the top before normal lesson information. | placement = top |
-| 3 | Inspect section header and content. | Header shows note icon + `Lesson Note` / `教室からのお知らせ`; content shows `Bring workbook A`. | expected note |
-| 4 | Try to edit the note from App. | No edit control is available; note is read-only. | app = view only |
+|---|--------|-----------------|-----------|
+| 1 | Staff User R opens Lesson A detail in Salesforce | Lesson A detail opens; Lesson Note shows "Bring workbook A" | role = view-only |
+| 2 | Staff User R looks for an Edit action or tries to change Lesson Note | No Edit action is available, or Lesson Note is read-only; the value cannot be changed | permission = no update |
 
-**Severity:** critical
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - App Lesson Detail hides note section for blank note
-
-**Description:** US02.2 - Negative - Blank Lesson Note does not leave an empty section on App Lesson Detail.
-
-**Preconditions:**
-- Logged in to Learner App as Student A.
-- Lesson B is assigned to Student A and has blank Lesson Note.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open Lesson B detail from App Calendar. | Lesson Detail opens. | lesson = Lesson B |
-| 2 | Inspect the top area and Basic Info. | No Lesson Note section/header/icon/empty block is shown. | note = blank |
-| 3 | Confirm existing Lesson Detail content. | Existing lesson information remains aligned and unchanged. | regression = layout |
-
-**Severity:** major
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - App preserves plain text line breaks and escapes symbols
-
-**Description:** US02.2 - Data format/security - App displays note as plain text with line breaks reflected.
-
-**Preconditions:**
-- Lesson A note is `Bring workbook A\nUse classroom entrance B <Room 301>`.
-- Lesson A is assigned to Student A.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open Lesson A detail in App. | Lesson Detail opens. | lesson = Lesson A |
-| 2 | Inspect Lesson Note content. | Two lines are displayed in the same order. | line1/line2 |
-| 3 | Inspect `<Room 301>` rendering. | Symbols are displayed as plain text; no HTML rendering or broken layout occurs. | plain text only |
-
-**Severity:** critical
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - Editing note is reflected in App immediately
-
-**Description:** US01.3 / US02 - State transition - Saved note changes are visible in App without Lesson Report dependency.
-
-**Preconditions:**
-- Lesson A is assigned to Student A.
-- Lesson A initial note is `Old announcement`.
-- No published Lesson Report is required for this lesson.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open Lesson A in SF or BO edit mode. | Edit form opens. | initial note = Old announcement |
-| 2 | Change Lesson Note to `New announcement`. | Value is changed. | new note |
-| 3 | Save the lesson. | Save succeeds. | source = SF/BO |
-| 4 | Refresh App Calendar and Lesson Detail for Lesson A. | Card still shows note tag and detail shows `New announcement`, not the old note. | no Lesson Report required |
-
-**Severity:** critical
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - Clearing note removes App tag and detail section
-
-**Description:** US01.3 / US02 - State transition - Clearing Lesson Note removes all App note UI.
-
-**Preconditions:**
-- Lesson A has Lesson Note and is visible in App for Student A.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open Lesson A in SF or BO edit mode. | Edit form opens. | note exists |
-| 2 | Clear Lesson Note and save. | Save succeeds and `Lesson_Note__c` is blank. | note = empty |
-| 3 | Refresh App Calendar for Lesson A date. | Lesson A card no longer shows note-available tag. | card tag hidden |
-| 4 | Open Lesson A detail. | Lesson Note section is hidden. | detail section hidden |
-
-**Severity:** critical
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - App Calendar Card displays timeslot in PRD format
-
-**Description:** US03.1 - App component - Calendar card time includes Timeslot name after lesson time when enabled.
-
-**Preconditions:**
-- `Show_Timeslot_In_Lesson__c = true`.
-- Lesson A is assigned to Student A.
-- Lesson A time = 09:00-10:00 and Timeslot = `TimeSlot S`.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open App Calendar for Lesson A date. | Calendar opens. | student = Student A |
-| 2 | Locate Lesson A card. | Lesson card is visible. | lesson = Lesson A |
-| 3 | Inspect the time line on the card. | Time displays `09:00 - 10:00 (TimeSlot S)`. | expected PRD format |
-
-**Severity:** critical
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - App Lesson Detail displays Timeslot under Time
-
-**Description:** US03.2 - App detail - Lesson Detail Basic Info shows Timeslot label and value under Time.
-
-**Preconditions:**
-- `Show_Timeslot_In_Lesson__c = true`.
-- Lesson A is assigned to Student A.
-- Lesson A has Timeslot `TimeSlot S`.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open Lesson A detail in App. | Lesson Detail opens. | lesson = Lesson A |
-| 2 | Inspect Basic Info section under Time. | Row/field `Timeslot` / `時限` is displayed. | label |
-| 3 | Inspect Timeslot value. | Value shows `TimeSlot S` without breaking the existing Time display. | expected timeslot |
-
-**Severity:** critical
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - Lesson without timeslot hides timeslot UI safely
-
-**Description:** US03.1 / US03.2 - Negative - No-timeslot lesson does not show empty parentheses or empty row.
-
-**Preconditions:**
-- `Show_Timeslot_In_Lesson__c = true`.
-- Lesson B is assigned to Student A.
-- Lesson B has no Timeslot.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open App Calendar for Lesson B date. | Lesson card is visible. | lesson = Lesson B |
-| 2 | Inspect Lesson B card time. | Time shows only start-end time; no empty `()` or `null` Timeslot text appears. | timeslot = blank |
-| 3 | Open Lesson B detail. | Detail opens. |  |
-| 4 | Inspect Basic Info. | Timeslot row is hidden or blank-safe per PRD; no empty label/value pair distorts layout. | no timeslot |
-
-**Severity:** major
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - Timeslot hidden when partner config OFF
-
-**Description:** US03.1 / US03.2 - Config - Timeslot display respects partner config.
-
-**Preconditions:**
-- `Show_Timeslot_In_Lesson__c = false`.
-- Lesson A is assigned to Student A and has Timeslot `TimeSlot S`.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open App Calendar for Lesson A date. | Lesson card is visible. | config = OFF |
-| 2 | Inspect Lesson A card time. | Card does not display `(TimeSlot S)`; existing start-end time remains visible. | expected hidden |
-| 3 | Open Lesson A detail. | Detail opens. |  |
-| 4 | Inspect Basic Info. | Timeslot row/value is not displayed. | expected hidden |
-
-**Severity:** major
-**Priority:** high
-
----
-
-### [Riso] Lesson Note & Timeslot App - Localization for Note and Timeslot labels
-
-**Description:** US02.1 / US02.2 / US03.2 - i18n - App labels match EN/JP localization.
-
-**Preconditions:**
-- Lesson A has note and Timeslot.
-- Student A can switch App locale between EN and JP.
-- `Show_Timeslot_In_Lesson__c = true`.
-
-| # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open App Calendar in English. | Note card tag shows `Lesson Note Available`. | locale = EN |
-| 2 | Open Lesson A detail in English. | Note header shows `Lesson Note`; Basic Info label shows `Timeslot`. | locale = EN |
-| 3 | Switch to Japanese and reopen Calendar/detail. | Tag shows `教室からのお知らせあり`; note header shows `教室からのお知らせ`; Timeslot label shows `時限`. | locale = JP |
-
-**Severity:** major
+**Severity:** minor
 **Priority:** medium
 
 ---
 
-### [Riso] Lesson Note & Timeslot App - Student and parent only see assigned child's lesson note
+### [Riso] Lesson Note – SF Lesson Calendar – Lesson with note – Lesson Note shown in lesson information
 
-**Description:** US02 / US03 - Access scope - Notes/timeslots respect existing App lesson visibility and selected child.
+**Description:** US01.4 — Component — Salesforce Lesson Calendar lesson information shows the Lesson Note.
 
 **Preconditions:**
-- Parent account has Student A and Student B.
-- Lesson A is assigned to Student A and has note/timeslot.
-- Lesson D is assigned to Student B and has different note/timeslot.
+- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting "Show Lesson Note" is ON in Salesforce
+- Lesson A at Location A is dated 2026-10-21 and has Lesson Note "Bring workbook A"
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Log in as parent and select Student A. | Student A context is active. | selected child = Student A |
-| 2 | Open App Calendar for shared date. | Lesson A is visible with its note tag/timeslot; Lesson D is not shown in Student A context. | access scope |
-| 3 | Switch to Student B. | Calendar refreshes to Student B context. | selected child = Student B |
-| 4 | Inspect the same date. | Lesson D is visible with its own note/timeslot; Lesson A is not shown in Student B context. | no cross-child leak |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens Lesson Calendar for Location A on 2026-10-21 | Lesson A is shown on the calendar | lesson_date = 2026-10-21 |
+| 2 | HQ or CM Staff clicks Lesson A to open its information panel | The lesson information panel opens | lesson = Lesson A |
+| 3 | HQ or CM Staff looks at the Lesson Note area | "Lesson Note" shows "Bring workbook A" | expected = Bring workbook A |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Note – App Calendar Card – Lesson with note – Note-available tag shown
+
+**Description:** US02.1 — Decision Table (note present) — The App Calendar lesson card shows the note-available tag for Student and Parent.
+
+**Preconditions:**
+- Lesson A is published, dated 2026-10-21 09:00 - 10:00 and assigned to Student A
+- Lesson A has Lesson Note "Bring workbook A"
+- Student A's App language is English
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student A opens the App Calendar on 2026-10-21 | The Lesson A card is shown | lesson_date = 2026-10-21 |
+| 2 | Student A looks at the bottom of the Lesson A card | The tag "Lesson Note Available" is shown | note = Bring workbook A |
+| 3 | Parent of Student A logs in, selects Student A and opens the App Calendar on 2026-10-21 | The Lesson A card shows the tag "Lesson Note Available" | viewer = Parent |
 
 **Severity:** critical
 **Priority:** high
 
 ---
 
-### [Riso] Lesson Note & Timeslot App - Existing Lesson History timeslot display is not regressed
+### [Riso] Lesson Note – App Calendar Card – Lesson with blank note – Note-available tag hidden
 
-**Description:** Regression - LT-98530 Lesson History still shows time + Timeslot name after LT-98529 App Calendar/detail changes.
+**Description:** US02.1 — Decision Table (note blank) + Negative — The App Calendar lesson card has no note tag when the note is blank.
 
 **Preconditions:**
-- LT-98530 Lesson History is enabled.
-- Student A has a completed lesson with Timeslot `1限`.
+- Student A is logged in to the Learner App
+- Lesson B is published, dated 2026-10-21 10:30 - 11:30, assigned to Student A and has a blank Lesson Note
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open App Lesson History for the completed lesson month. | Lesson History opens. | source = LT-98530 |
-| 2 | Inspect the completed lesson row. | Row still shows Lesson Time plus Timeslot name on the expected line; no duplicate note tag or Calendar-only UI appears. | timeslot = 1限 |
+|---|--------|-----------------|-----------|
+| 1 | Student A opens the App Calendar on 2026-10-21 | The Lesson B card is shown | lesson_date = 2026-10-21 |
+| 2 | Student A looks at the bottom of the Lesson B card | No "Lesson Note Available" / "教室からのお知らせあり" tag is shown | note = (blank) |
 
 **Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Note – App Lesson Detail – Lesson with note – Read-only note section shown at the top
+
+**Description:** US02.2 — Component — App Lesson Detail shows the note section at the top with icon, header and content; it is read-only.
+
+**Preconditions:**
+- Student A is logged in to the Learner App
+- Lesson A is published, dated 2026-10-21 09:00 - 10:00 and assigned to Student A
+- Lesson A has Lesson Note "Bring workbook A"
+- Student A's App language is English
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student A opens the App Calendar on 2026-10-21 and taps the Lesson A card | Lesson A detail opens | lesson_date = 2026-10-21 |
+| 2 | Student A looks at the top of Lesson A detail | A Lesson Note section is shown above the basic lesson information | position = top |
+| 3 | Student A looks at the section header and content | The header shows the note icon and "Lesson Note"; the content shows "Bring workbook A" | expected = Bring workbook A |
+| 4 | Student A taps the note content | No edit control appears; the note cannot be changed | App = view only |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Lesson Note – App Lesson Detail – Lesson with blank note – Note section hidden, layout unchanged
+
+**Description:** US02.2 — Decision Table (note blank) + Negative — No empty note block appears on App Lesson Detail.
+
+**Preconditions:**
+- Student A is logged in to the Learner App
+- Lesson B is published, dated 2026-10-21 10:30 - 11:30, assigned to Student A and has a blank Lesson Note
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student A opens Lesson B detail from the App Calendar on 2026-10-21 | Lesson B detail opens | lesson_date = 2026-10-21 |
+| 2 | Student A looks at the top of Lesson B detail | No Lesson Note section, header, icon or empty block is shown | note = (blank) |
+| 3 | Student A looks at the basic lesson information | Date, time and other lesson information are shown as before, with no blank gap | — |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Note – App Lesson Detail – Note with line breaks and symbols – Shown as plain text on separate lines
+
+**Description:** US02.2 — EP (special content) — The note is shown as plain text; line breaks are kept and symbols are not treated as formatting.
+
+**Preconditions:**
+- Student A is logged in to the Learner App
+- Lesson A is published, dated 2026-10-21 09:00 - 10:00 and assigned to Student A
+- Lesson A has a two-line Lesson Note: line 1 "Bring workbook A", line 2 "Use classroom entrance B <Room 301>"
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student A opens Lesson A detail from the App Calendar on 2026-10-21 | Lesson A detail opens | lesson_date = 2026-10-21 |
+| 2 | Student A looks at the Lesson Note content | "Bring workbook A" and "Use classroom entrance B <Room 301>" are shown on two separate lines in this order | line 1 / line 2 |
+| 3 | Student A looks at the text "<Room 301>" | "<Room 301>" is shown exactly as typed; no formatting is applied and the layout is not broken | plain text only |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Lesson Note – App – Note edited in Salesforce – New note shown in App after refresh
+
+**Description:** US01.3 — State Transition (note changed) — A saved note change is shown in the App without any Lesson Report.
+
+**Preconditions:**
+- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting "Show Lesson Note" is ON in Salesforce
+- Student A is logged in to the Learner App
+- Lesson A is published, dated 2026-10-21 09:00 - 10:00 and assigned to Student A
+- Lesson A has Lesson Note "Old announcement"
+- Lesson A has no published Lesson Report
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens Lesson A edit form in Salesforce | Lesson Note shows "Old announcement" | initial = Old announcement |
+| 2 | HQ or CM Staff changes Lesson Note to "New announcement" and clicks Save | The lesson is saved | new = New announcement |
+| 3 | Student A pulls to refresh the App Calendar on 2026-10-21 | The Lesson A card still shows the note-available tag | lesson_date = 2026-10-21 |
+| 4 | Student A opens Lesson A detail | The Lesson Note section shows "New announcement"; "Old announcement" is not shown | expected = New announcement |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Lesson Note – App – Note cleared in Salesforce – Tag and note section removed from App
+
+**Description:** US01.3 — State Transition (note cleared) — Clearing the note removes all note UI in the App.
+
+**Preconditions:**
+- HQ or CM Staff is logged in to Salesforce with Lesson create and edit permission
+- Lesson Custom Setting "Show Lesson Note" is ON in Salesforce
+- Student A is logged in to the Learner App
+- Lesson A is published, dated 2026-10-21 09:00 - 10:00 and assigned to Student A
+- Lesson A has Lesson Note "Bring workbook A" and the App shows its note-available tag
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens Lesson A edit form in Salesforce, clears Lesson Note and clicks Save | The lesson is saved; Lesson Note is blank on Lesson A detail | note = (cleared) |
+| 2 | Student A pulls to refresh the App Calendar on 2026-10-21 | The Lesson A card no longer shows the note-available tag | lesson_date = 2026-10-21 |
+| 3 | Student A opens Lesson A detail | No Lesson Note section is shown | expected = hidden |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Lesson Note – App – Note containing only spaces and line breaks – Treated as blank, no tag and no section
+
+**Description:** US02.1 / US02.2 — EP (whitespace-only) + Negative — A whitespace-only note behaves like a blank note in the App.
+
+**Preconditions:**
+- Student A is logged in to the Learner App
+- Lesson C is published, dated 2026-10-21 13:00 - 14:00, assigned to Student A and its Lesson Note contains only spaces and line breaks
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student A opens the App Calendar on 2026-10-21 | The Lesson C card is shown | lesson_date = 2026-10-21; note = spaces + line breaks only |
+| 2 | Student A looks at the bottom of the Lesson C card | No note-available tag is shown | expected = hidden |
+| 3 | Student A opens Lesson C detail | No Lesson Note section or empty block is shown | expected = hidden |
+
+**Severity:** minor
 **Priority:** medium
 
 ---
 
-### [Riso] Lesson Note & Timeslot App - BO Lesson Form - Lesson Note hidden when feature setting OFF
+### [Riso] Timeslot – App Calendar Card – Timeslot display ON and lesson has Timeslot – Time shown as "Start - End (Timeslot)"
 
-**Description:** US01.1 - Negative/config - BO does not expose Lesson Note when `lesson.lesson_note.is_enabled` is disabled.
+**Description:** US03.1 — Component — The App lesson card shows the Timeslot name after the lesson time.
 
 **Preconditions:**
-- Logged in to BO as HQ/CM user with Lesson create/edit permission.
-- `lesson.lesson_note.is_enabled = false`.
+- Partner config "Show Timeslot In Lesson" is ON
+- Student A is logged in to the Learner App
+- Lesson A is published, dated 2026-10-21 09:00 - 10:00 and assigned to Student A
+- Lesson A has Timeslot "TimeSlot S"
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open BO Lesson create or edit form. | Lesson form opens. | surface = BO |
-| 2 | Inspect Lesson form fields. | `Lesson Note` field is not displayed. | config = OFF |
-| 3 | Save a valid lesson without note. | Save succeeds through existing flow; no hidden Lesson Note validation blocks save. | note = blank |
+|---|--------|-----------------|-----------|
+| 1 | Student A opens the App Calendar on 2026-10-21 | The Lesson A card is shown | lesson_date = 2026-10-21 |
+| 2 | Student A looks at the time line on the Lesson A card | The time shows "09:00 - 10:00 (TimeSlot S)" | start = 09:00; end = 10:00; timeslot = TimeSlot S |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Timeslot – App Lesson Detail – Timeslot display ON and lesson has Timeslot – Timeslot row shown under Time
+
+**Description:** US03.2 — Component — App Lesson Detail basic information shows a Timeslot row under Time.
+
+**Preconditions:**
+- Partner config "Show Timeslot In Lesson" is ON
+- Student A is logged in to the Learner App
+- Lesson A is published, dated 2026-10-21 09:00 - 10:00 and assigned to Student A
+- Lesson A has Timeslot "TimeSlot S"
+- Student A's App language is English
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student A opens Lesson A detail from the App Calendar on 2026-10-21 | Lesson A detail opens | lesson_date = 2026-10-21 |
+| 2 | Student A looks at the basic information under Time | A "Timeslot" row is shown directly under the Time row | label EN = Timeslot |
+| 3 | Student A looks at the Timeslot value | The value is "TimeSlot S"; the Time row still shows "09:00 - 10:00" | expected = TimeSlot S |
+
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Timeslot – App – Lesson without Timeslot – No empty brackets on card and no Timeslot row in detail
+
+**Description:** US03.1 / US03.2 — Decision Table (no Timeslot) + Negative — A lesson without Timeslot shows no empty Timeslot text.
+
+**Preconditions:**
+- Partner config "Show Timeslot In Lesson" is ON
+- Student A is logged in to the Learner App
+- Lesson B is published, dated 2026-10-21 10:30 - 11:30, assigned to Student A and has no Timeslot
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student A opens the App Calendar on 2026-10-21 | The Lesson B card is shown | lesson_date = 2026-10-21 |
+| 2 | Student A looks at the time line on the Lesson B card | The time shows "10:30 - 11:30" only, with no "()" or "null" | timeslot = (none) |
+| 3 | Student A opens Lesson B detail and looks under Time | No Timeslot row is shown and no empty label appears | expected = hidden |
 
 **Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Timeslot – App – Timeslot display OFF – Timeslot hidden on card and in detail
+
+**Description:** US03.1 / US03.2 — Decision Table (config OFF) + Negative — Timeslot is not shown when the partner config is OFF.
+
+**Preconditions:**
+- Partner config "Show Timeslot In Lesson" is OFF
+- Student A is logged in to the Learner App
+- Lesson A is published, dated 2026-10-21 09:00 - 10:00 and assigned to Student A
+- Lesson A has Timeslot "TimeSlot S"
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student A opens the App Calendar on 2026-10-21 | The Lesson A card is shown | lesson_date = 2026-10-21; Show Timeslot In Lesson = OFF |
+| 2 | Student A looks at the time line on the Lesson A card | The time shows "09:00 - 10:00" without "(TimeSlot S)" | expected = hidden |
+| 3 | Student A opens Lesson A detail and looks under Time | No Timeslot row is shown | expected = hidden |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### [Riso] Lesson Note and Timeslot – App – Japanese language – Tag, note header and Timeslot label in Japanese
+
+**Description:** US02.1 / US02.2 / US03.2 — Component (localization) — App labels match the English and Japanese texts.
+
+**Preconditions:**
+- Partner config "Show Timeslot In Lesson" is ON
+- Student A is logged in to the Learner App
+- Lesson A is published, dated 2026-10-21 09:00 - 10:00 and assigned to Student A
+- Lesson A has Lesson Note "Bring workbook A" and Timeslot "TimeSlot S"
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student A sets the App language to English and opens the App Calendar on 2026-10-21 | The Lesson A card shows the tag "Lesson Note Available" | lesson_date = 2026-10-21; language = English |
+| 2 | Student A opens Lesson A detail | The note header shows "Lesson Note"; the basic information label shows "Timeslot" | language = English |
+| 3 | Student A sets the App language to Japanese and reopens the App Calendar and Lesson A detail | The tag shows "教室からのお知らせあり"; the note header shows "教室からのお知らせ"; the Timeslot label shows "時限" | language = Japanese |
+
+**Severity:** minor
 **Priority:** medium
 
 ---
 
-### [Riso] Lesson Note & Timeslot App - Whitespace-only note is treated as blank in App
+### [Riso] Lesson Note and Timeslot – App – Parent with two children – Each child sees only their own lesson note and Timeslot
 
-**Description:** US02.1 / US02.2 - Negative blank handling - Whitespace-only note should not create an empty tag or note section.
+**Description:** US02 / US03 — Permission Matrix (child scope) — Note and Timeslot follow the selected child; no data from the other child is shown.
 
 **Preconditions:**
-- Lesson C is assigned to Student A.
-- Lesson C `Lesson_Note__c` contains only spaces/newlines.
+- Partner config "Show Timeslot In Lesson" is ON
+- Parent P is linked to Student A and Student B
+- Lesson A on 2026-10-21 is assigned to Student A with Lesson Note "Bring workbook A" and Timeslot "TimeSlot S"
+- Lesson D on 2026-10-21 is assigned to Student B with Lesson Note "Bring gym clothes" and Timeslot "TimeSlot T"
 
 | # | Action | Expected Result | Test Data |
-|---|---|---|---|
-| 1 | Open App Calendar for Lesson C date. | Lesson C card is visible. | note = whitespace-only |
-| 2 | Inspect the bottom of the card. | Note-available tag is hidden. | expected blank behavior |
-| 3 | Open Lesson C detail. | Lesson Detail opens. | lesson = Lesson C |
-| 4 | Inspect the top note area. | Lesson Note section is hidden; no empty announcement block appears. | expected hidden |
+|---|--------|-----------------|-----------|
+| 1 | Parent P logs in to the Learner App and selects Student A | Student A's view is active | selected child = Student A |
+| 2 | Parent P opens the App Calendar on 2026-10-21 | Lesson A is shown with the note-available tag and "(TimeSlot S)"; Lesson D is not shown | lesson_date = 2026-10-21 |
+| 3 | Parent P switches to Student B | The calendar reloads for Student B | selected child = Student B |
+| 4 | Parent P opens Lesson D detail on 2026-10-21 | Lesson D shows "Bring gym clothes" and Timeslot "TimeSlot T"; nothing from Lesson A is shown | no cross-child data |
 
-**Severity:** major
+**Severity:** critical
+**Priority:** high
+
+---
+
+### [Riso] Timeslot – App Lesson History – Completed lesson with Timeslot – Time and Timeslot still shown (regression LT-98530)
+
+**Description:** Regression (LT-98530) — Lesson History still shows the lesson time with the Timeslot name after the LT-98529 App changes.
+
+**Preconditions:**
+- Lesson History (LT-98530) is enabled for Student A
+- Student A is logged in to the Learner App
+- Student A has a completed lesson on 2026-10-14 09:00 - 10:00 with Timeslot "1限"
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | Student A opens App Lesson History for October 2026 | Lesson History opens | month = 2026-10 |
+| 2 | Student A looks at the row of the completed lesson on 2026-10-14 | The row shows the lesson time with the Timeslot name "1限" as before; no note tag or other Calendar-only element appears | timeslot = 1限 |
+
+**Severity:** minor
 **Priority:** medium
+
+---
