@@ -36,3 +36,30 @@ Nichibei's SPO sync flow was missing improvements that had already been applied 
 - Always confirm **full data scope before starting recovery** — mid-recovery findings increase pressure on PS and client.
 
 ---
+
+## [2025-09-22] Aver — Lesson Report PDF Shows Homework Weeks in Wrong Order (Sep → Oct)
+
+**Jira:** [LT-86378](https://manabie.atlassian.net/browse/LT-86378) (Closed)
+**Slack thread:** https://manabie.slack.com/archives/C037409QQ4S/p1758525884519909
+
+### Issue
+
+In the exported Aver Lesson Report PDF (Report for Teacher / Report for Student), when the homework date range covered 2 consecutive weeks, the later week (e.g. 10/01–10/07) was displayed **before** the earlier week (e.g. 9/24–9/30). The date rows are in the 前回からの宿題 (Previous Week Homework) and 次回までの宿題 (Next Week Homework) tables, column 月日/曜日, one row per day from the day after the lesson to the next lesson date.
+
+**Root cause:**
+Not recorded on the ticket. *(Suspected, not confirmed by dev)* The date rows were ordered by their `M/DD` display text rather than by date: `"10/01"` sorts before `"9/24"` as text. This fits the ticket title ("Oct–Dec"): the bug only shows when a 1-digit month (Sep) and a 2-digit month (Oct–Dec) are in the same range. The verification PDFs attached to the ticket (lessons 2025-09-22, 2025-10-05) show the correct order.
+
+### Resolution
+
+- Fixed by dev (assignee: Pham Van Loi); ticket Closed.
+- No Qase case covered it until 2026-10-09: the existing export cases (PX-2428/2429/2430, PX-5769/5770/5771) check layout, colors and ratios, but not date order.
+- Added Qase **PX-29646** in suite Incident Prevention (2183), linked to LT-86378: Teacher + Student PDF, month boundary (9/30 → 10/01) in both homework tables, and year boundary (12/31 → 1/01).
+
+### Lessons Learned / Design Notes
+
+- **Any list of dates displayed in a report must be sorted by the date value, never by the formatted string.** Formats like `M/DD` (no leading zero, no year) break text sorting at month changes (Sep → Oct) and at the year change (12/31 → 1/01).
+- **Test data for date-range features should cross a month boundary and a year boundary**, not stay inside one month. A range inside September (or inside Oct–Dec) does not reproduce this bug.
+- Check the order across **page breaks** too — the date rows of one table can span several PDF pages.
+- When a production bug is fixed, add a regression case to Qase at the same time; this one stayed uncovered for over a year.
+
+---
