@@ -1,0 +1,22 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,Teacher Lesson Access – Pending recovery request – Repeated activation event – Duplicate request is not created,"AC-06 — State Transition, Decision Table — Pending blocks duplicates.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact K is assigned to Lesson Kilo.
+Teacher K has an active Salesforce User.
+One unfinished recovery request has status Pending.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff causes a second eligible activation event for Teacher K.""
+2. ""HQ or CM Staff counts unfinished recovery requests for Teacher Contact K.""","1. ""No additional Pending recovery request is created.""
+2. ""The count is one.""","1. ""Existing request status = Pending""
+2. ""Expected unfinished request count = 1""",,,3706,,Master Queue Lifecycle,,,
+,Teacher Lesson Access – Failed recovery request – Repeated activation event – Duplicate request is not created,"AC-06 — State Transition, Decision Table — Failed blocks duplicates.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact L is assigned to Lesson Lima.
+Teacher L has an active Salesforce User.
+One unfinished recovery request has status Failed.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff causes a second eligible activation event for Teacher L.""
+2. ""HQ or CM Staff counts unfinished recovery requests for Teacher Contact L.""","1. ""No additional recovery request is created.""
+2. ""The count is one and the existing request remains the retry candidate.""","1. ""Existing request status = Failed""
+2. ""Expected unfinished request count = 1""",,,3706,,Master Queue Lifecycle,,,
+,Teacher Lesson Access – Completed recovery request – Later activation event – New reconciliation request is created,"AC-06 — State Transition, CRUD — Success permits later reconciliation.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact M is assigned to Lesson Mike.
+Teacher M has an inactive Salesforce User.
+One earlier recovery request has status Success.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff changes Teacher M's Salesforce User status from inactive to active.""
+2. ""HQ or CM Staff opens the recovery requests for Teacher Contact M.""","1. ""A new unfinished recovery request is created for Teacher Contact M.""
+2. ""One earlier successful request remains and one newer unfinished request exists.""","1. ""Previous request status = Success; New user status = Active""
+2. ""Expected successful requests = 1; Expected unfinished requests = 1""",,,3706,,Master Queue Lifecycle,,,

@@ -1,0 +1,19 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,Teacher Lesson Access – One teacher with 100 lessons – Recovery completes with 100 unique lesson permissions,"AC-07 — Boundary Value Analysis, Regression — High-volume single teacher.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact N is assigned to exactly 100 lessons.
+Teacher Contact N has no Salesforce User.
+None of the 100 lessons has a teacher permission for Teacher Contact N.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates an active Salesforce User linked to Teacher Contact N.""
+2. ""HQ or CM Staff counts teacher permissions for the 100 assigned lessons.""","1. ""One recovery flow reaches completed status without a limit error.""
+2. ""Exactly 100 unique Edit permissions exist for Teacher N.""","1. ""Lesson assignment count = 100; User status = Active""
+2. ""Expected permission count = 100; Duplicate count = 0""",,,3707,,Recovery Performance,,,
+,Teacher Lesson Access – 100 teachers with 100 lessons each – Recovery workload – Complete unique permissions are created,"AC-07 — Boundary Value Analysis, Regression — 100 × 100 stress workload.","HQ or CM Staff is logged in to Salesforce.
+100 teacher Contacts are each assigned to exactly 100 lessons.
+The 100 corresponding Salesforce Users do not exist before recovery.
+No assignment has a teacher permission before recovery starts.
+Background recovery monitoring is enabled.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates or activates the 100 Salesforce Users.""
+2. ""HQ or CM Staff waits for recovery flows to finish and counts teacher permissions.""
+3. ""HQ or CM Staff samples the first middle and last teachers in Back Office.""","1. ""Each eligible teacher has one recovery flow and no flow ends in Failed status.""
+2. ""Exactly 10000 unique Edit permissions exist.""
+3. ""Each sampled teacher sees 100 assigned lessons and no sampled teacher's lessons.""","1. ""User count = 100; Lessons per user = 100; Total assignments = 10000""
+2. ""Expected permission count = 10000; Duplicate count = 0; Failed request count = 0""
+3. ""Sample users = P-001 P-050 P-100; Expected lessons per sample = 100""",,,3707,,Recovery Performance,,,

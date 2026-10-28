@@ -165,18 +165,19 @@
 
 ### [Riso] Lesson Allocation – New/Risk Flag – Displayed Correctly on Student Session
 
-**Description:** Integration — Verify that after a student with a UI-created LA is assigned to a lesson, the New flag and Risk flag are displayed correctly in the Student Sessions table based on the student's status.
+**Description:** Integration — Verify that after a student with a UI-created LA is assigned to a lesson, the New flag and Risk flag are displayed correctly in the Student Sessions table. New flag eligibility is based on the linked Enrollment Status (V2) Enrolled Date, not the assignment order or lesson-attendance history.
 
 **Preconditions:**
 
 - Student A has a UI-created LA: Course X, `require_allocation = TRUE`
 - Student A is assigned to a published group lesson (Course X)
-- At least one student is configured to show the New flag (first time assigned) and another set up for Risk flag conditions
+- Student A has a current active Enrolled V1 record linked through Enrollment Status Record to an active Enrollment Status (V2) record, and the lesson date is within `New_Student_Day_Config` days of the V2 Enrolled Date
+- Student B is set up for Risk flag conditions
 
 | #   | Action                                                                 | Expected Result                                    | Test Data                            |
 | --- | ---------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------ |
 | 1   | Navigate to lesson detail → Student Sessions table                     | Student Sessions table is displayed                |                                      |
-| 2   | Locate Student A (newly assigned, no prior lesson attendance)          | New flag is displayed on Student A's row           | Student A: first lesson assignment   |
+| 2   | Locate Student A                                                       | New flag is displayed on Student A's row           | Student A: active Enrolled; lesson date within configured window of V2 Enrolled Date |
 | 3   | Locate Student B whose risk condition is met (e.g., multiple absences) | Risk flag is displayed on Student B's row          | Student B: risk condition configured |
 | 4   | Verify flag translations and column labels                             | New/Risk tags display correctly in the UI language |                                      |
 
@@ -415,19 +416,20 @@
 
 ### [Riso] Lesson Allocation – Calendar – Student Dots – "New Student" label visibility
 
-**Description:** Integration — Verify that a UI-created LA (as the student's first enrollment) correctly flags the student attribute so the "New Student dot" is indicated at their first lesson in the Calendar view.
+**Description:** Integration — Verify that a student with a UI-created LA shows the "New Student" dot in Calendar when the assigned lesson is within the configured New window of the linked Enrollment Status (V2) Enrolled Date. The dot is not determined by whether this is the first lesson assignment.
 
 **Preconditions:**
 
 - Logged in as HQ or CM user
-- Student A has a newly created active UI LA: Course X, Type = **Regular**
-- This applies to the very first lesson assigned to Student A upon starting the course
+- Student A has an active UI LA: Course X, Type = **Regular**
+- Student A has a current active Enrolled V1 record linked through Enrollment Status Record to an active Enrollment Status (V2) record
+- Student A's assigned lesson date is within `New_Student_Day_Config` days of the V2 Enrolled Date
 
 | #   | Action                                                                  | Expected Result                                                                                | Test Data               |
 | --- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------- |
 | 1   | Navigate to Calendar tab                                                | Calendar view is displayed                                                                     |                         |
-| 2   | Open the detail or drawer of Student A's first assigned lesson event    | Student Sessions list opens                                                                    |                         |
-| 3   | Observe the visual indicators next to Student A's name                  | System correctly displays the "New Student dot" to mark the student's very first enrolled date |                         |
+| 2   | Open the detail or drawer of Student A's assigned lesson event          | Student Sessions list opens                                                                    |                         |
+| 3   | Observe the visual indicators next to Student A's name                  | System correctly displays the "New Student" dot because the lesson date is within the configured window of the V2 Enrolled Date |                         |
 
 **Severity:** major
 **Priority:** medium

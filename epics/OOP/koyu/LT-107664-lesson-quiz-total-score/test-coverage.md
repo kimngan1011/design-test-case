@@ -63,6 +63,8 @@
 | AC 1.2 | App config OFF: student and parent see only read-only Lesson Quiz in a published report; new fields are absent. | Conditional; Display completeness; Permission | Decision Table; Component; Permission Matrix | High | Deep |
 | AC 2.1.1 | SF config ON: staff sees editable Total Score and Test Result, and Lesson Quiz is absent. | Conditional; Display completeness | Decision Table; Component; Negative | High | Deep |
 | AC 2.1.1 | BO config ON: staff sees editable Total Score and Test Result, and Lesson Quiz is absent. | Conditional; Display completeness | Decision Table; Component; Negative | High | Deep |
+| AC 1.1, AC 2.1.1 | Each stated staff entry point renders the active layout: SF Report under Lesson, SF Lesson Report Detail, SF Report History in Lesson Allocation Detail, BO Report under Lesson, and BO Lesson Report Detail. | Conditional; Display completeness; Regression | Decision Table; Component; Regression | High | Deep |
+| AC 1.1, AC 2.1.1 | Secondary staff entry points also render the active layout: BO Bulk Update, BO Report History from both report entry points, and SF Student Sessions Bulk Edit. | Conditional; Display completeness; Regression | Decision Table; Component; Regression | High | Deep |
 | AC 2.1.1 | Each field accepts blank, zero, positive/negative integers, and positive/negative one-decimal values. | Validation; Boundary/range | Equivalence Partitioning; BVA | High | Deep |
 | AC 2.1.1 | Each field rejects more than one decimal, non-numeric input, malformed signs, and values exceeding the configured Salesforce field precision; Save is blocked and the prior values remain. | Validation; Boundary/range; Data integrity | Equivalence Partitioning; BVA; Negative | Critical | Deep |
 | AC 2.1.1 | EN and JP validation messages are exact for invalid Total Score and invalid Test Result. | Validation; Display completeness | Negative; Component | Medium | Standard |
@@ -107,8 +109,14 @@ No child entity, counter, notification, deletion, or inverse CRUD action is adde
 
 | Screen / Component | Required Fields | Conditional Fields | Sort Rule | Tooltip / Text to Assert |
 |---|---|---|---|---|
-| SF Lesson Report tab / Lesson Report page | Active-layout fields: Lesson Quiz **or** Total Score + Test Result | Config OFF/ON; editable staff fields | None | Active-locale validation error: `Only single-digit decimal numbers are allowed.` / `1桁の少数までの数値のみ使用できます` |
-| BO Lesson Report | Active-layout fields: Lesson Quiz **or** Total Score + Test Result | Internal config OFF/ON; editable staff fields | None | Same active-locale validation error |
+| SF Report under Lesson | Active-layout fields: Lesson Quiz **or** Total Score + Test Result | SF custom setting OFF/ON; editable staff fields | None | Active-locale validation error: `Only single-digit decimal numbers are allowed.` / `1桁の少数までの数値のみ使用できます` |
+| SF Lesson Report Detail | Active-layout fields: Lesson Quiz **or** Total Score + Test Result | SF custom setting OFF/ON; editable staff fields | None | Same active-locale validation error |
+| SF Report History in Lesson Allocation Detail | Active-layout fields: Lesson Quiz **or** Total Score + Test Result | SF custom setting OFF/ON | None | Same active-locale validation error |
+| BO Report under Lesson | Active-layout fields: Lesson Quiz **or** Total Score + Test Result | Internal config OFF/ON; editable staff fields | None | Same active-locale validation error |
+| BO Lesson Report Detail | Active-layout fields: Lesson Quiz **or** Total Score + Test Result | Internal config OFF/ON; editable staff fields | None | Same active-locale validation error |
+| BO Bulk Update dialog | Active-layout editable fields: Lesson Quiz **or** Total Score + Test Result | Internal config OFF/ON; two or more selected student details | None | Same active-locale validation error |
+| BO Report History dialog | Active-layout read-only fields: Lesson Quiz **or** Total Score + Test Result | Internal config OFF/ON; opened from Report under Lesson and Lesson Report Detail | None | Same active-locale validation error |
+| SF Student Sessions Bulk Edit | Active-layout editable fields: Lesson Quiz **or** Total Score + Test Result | SF custom setting OFF/ON; two or more selected student sessions | None | Same active-locale validation error |
 | Learner App Lesson Report — student | Active-layout fields read-only for the student | Internal config OFF/ON; published report | None | EN labels: `Total Score`, `Test Result`; JP labels: `満点`, `テスト結果` |
 | Learner App Lesson Report — parent | Active-layout fields read-only for the selected child | Internal config OFF/ON; published report | None | EN labels: `Total Score`, `Test Result`; JP labels: `満点`, `テスト結果` |
 | Per-student group-lesson detail | Student A and Student B retain their own exact Total Score/Test Result values | One student changed; peer unchanged | None | None |

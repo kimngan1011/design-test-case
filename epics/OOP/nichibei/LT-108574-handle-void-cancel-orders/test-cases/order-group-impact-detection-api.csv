@@ -1,0 +1,57 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+29653,[Nichibei] Order Group Impact Detection – Empty impact state – No impact and zero detail returned,AC 01.1 — Decision Table — An Order Group without scheduled assignments or consumed points produces an empty impact result.,"- HQ or CM Staff is logged in to the Nichibei Salesforce org and can use Developer Console.
+- Test Order Group `OG-NB-API-001A` has Assignment LA `LA-NB-API-001A` with `Require Allocation = true` and zero scheduled student sessions.
+- Test Order Group `OG-NB-API-001P` has Point LA `LA-NB-API-001P` with `Require Allocation = false` and consumed points of `0`.
+- The actual Salesforce IDs for both test Order Groups are recorded for this execution.",,LT-108574; Nichibei; API,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff runs one detector request with the recorded IDs for `OG-NB-API-001A` and `OG-NB-API-001P`.""
+2. ""HQ or CM Staff inspects the response impact flags and aggregate values.""
+3. ""HQ or CM Staff inspects the affected allocation IDs and summaries.""","1. ""One response is returned for the request.""
+2. ""`hasImpact`, `hasAssignment`, and `hasConsumedPoints` are `false`; assigned-session count is `0`; consumed-points total is `0`.""
+3. ""Both affected-allocation ID lists and both summary lists are empty.""","1. ""orderGroupIds = [OG-NB-API-001A, OG-NB-API-001P]""
+2. ""expectedAssignedSessionCount = 0; expectedConsumedPoints = 0""
+3. ""expectedAssignedAllocationIds = []; expectedConsumedPointAllocationIds = []""",,,3711,3710,[Nichibei] Order Group Impact Detection API,,,
+29654,[Nichibei] Order Group Impact Detection – Scheduled assignment sessions – Assignment impact returned without point impact,AC 01.2 — Decision Table — Scheduled sessions are reported from the Assignment LA while consumed points on an out-of-scope Point LA are excluded.,"- HQ or CM Staff is logged in to the Nichibei Salesforce org and can use Developer Console.
+- Test Order Group `OG-NB-API-002A` has Assignment LA `LA-NB-API-002A` with `Require Allocation = true` and exactly two scheduled student sessions.
+- A separate, active Order Group `OG-NB-API-002P` has Point LA `LA-NB-API-002P` with `Require Allocation = false` and consumed points of `4` from those sessions.
+- The actual Salesforce ID for `OG-NB-API-002A` is recorded; `OG-NB-API-002P` is deliberately excluded from the request.",,LT-108574; Nichibei; API,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff runs the supplied detector request with the recorded ID for `OG-NB-API-002A`.""
+2. ""HQ or CM Staff inspects the assignment section of the response.""
+3. ""HQ or CM Staff inspects the consumed-point section of the response.""","1. ""One response is returned for the request.""
+2. ""`hasAssignment` and `hasImpact` are `true`; total assigned-session count is `2`; affected assignment ID list contains only `LA-NB-API-002A`; its summary has assigned-session count `2`.""
+3. ""`hasConsumedPoints` is `false`; total consumed points is `0`; consumed-point IDs and summaries are empty.""","1. ""orderGroupIds = [OG-NB-API-002A]; excludedOrderGroupId = OG-NB-API-002P""
+2. ""expectedAssignedSessionCount = 2; expectedAssignmentAllocationIds = [LA-NB-API-002A]""
+3. ""expectedConsumedPoints = 0; expectedConsumedPointAllocationIds = []""",,,3711,3710,[Nichibei] Order Group Impact Detection API,,,
+29655,[Nichibei] Order Group Impact Detection – Consumed points without scheduled sessions – Point impact returned without assignment impact,AC 01.3 — Decision Table — A point-only Lesson Allocation is reported even when it has no scheduled student session.,"- HQ or CM Staff is logged in to the Nichibei Salesforce org and can use Developer Console.
+- Test Order Group `OG-NB-API-003P` has Point LA `LA-NB-API-003P` with `Require Allocation = false` and consumed points of `3.5`.
+- A separate, active Order Group `OG-NB-API-003A` has Assignment LA `LA-NB-API-003A` with `Require Allocation = true` and two scheduled student sessions.
+- The actual Salesforce ID for `OG-NB-API-003P` is recorded; `OG-NB-API-003A` is deliberately excluded from the request.",,LT-108574; Nichibei; API,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff runs the supplied detector request with the recorded ID for `OG-NB-API-003P`.""
+2. ""HQ or CM Staff inspects the consumed-point section of the response.""
+3. ""HQ or CM Staff inspects the assignment section of the response.""","1. ""One response is returned for the request.""
+2. ""`hasConsumedPoints` and `hasImpact` are `true`; total consumed points is `3.5`; affected point ID list contains only `LA-NB-API-003P`; its summary has consumed points `3.5`.""
+3. ""`hasAssignment` is `false`; total assigned-session count is `0`; assignment IDs and summaries are empty because Assignment LA `LA-NB-API-003A` belongs to excluded `OG-NB-API-003A`.""","1. ""orderGroupIds = [OG-NB-API-003P]; excludedOrderGroupId = OG-NB-API-003A""
+2. ""expectedConsumedPoints = 3.5; expectedConsumedPointAllocationIds = [LA-NB-API-003P]""
+3. ""expectedAssignedSessionCount = 0; expectedAssignmentAllocationIds = []""",,,3711,3710,[Nichibei] Order Group Impact Detection API,,,
+29656,[Nichibei] Order Group Impact Detection – Assignment and point impact – Both categories and summaries returned,AC 01.4 — Decision Table — The response retains assignment and consumed-point details when both impacts exist.,"- HQ or CM Staff is logged in to the Nichibei Salesforce org and can use Developer Console.
+- Test Order Group `OG-NB-API-004A` has Assignment LA `LA-NB-API-004A` with `Require Allocation = true` and three scheduled student sessions.
+- Separate Test Order Group `OG-NB-API-004P` has Point LA `LA-NB-API-004P` with `Require Allocation = false` and consumed points of `4.25` from those sessions.
+- The actual Salesforce IDs for both test Order Groups are recorded for this execution.",,LT-108574; Nichibei; API,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff runs one detector request with the recorded IDs for `OG-NB-API-004A` and `OG-NB-API-004P`.""
+2. ""HQ or CM Staff inspects the assignment impact in the response.""
+3. ""HQ or CM Staff inspects the consumed-point impact in the response.""
+4. ""HQ or CM Staff inspects the combined impact flag.""","1. ""One response is returned for the request.""
+2. ""`hasAssignment` is `true`; total assigned-session count is `3`; the assignment IDs and summaries contain `LA-NB-API-004A` with assigned-session count `3`.""
+3. ""`hasConsumedPoints` is `true`; total consumed points is `4.25`; the point IDs and summaries contain `LA-NB-API-004P` with consumed points `4.25`.""
+4. ""`hasImpact` is `true` and neither category's IDs or summary is omitted.""","1. ""orderGroupIds = [OG-NB-API-004A, OG-NB-API-004P]""
+2. ""expectedAssignedSessionCount = 3; expectedAssignmentAllocationIds = [LA-NB-API-004A]""
+3. ""expectedConsumedPoints = 4.25; expectedConsumedPointAllocationIds = [LA-NB-API-004P]""
+4. ""expectedHasImpact = true""",,,3711,3710,[Nichibei] Order Group Impact Detection API,,,
+29657,[Nichibei] Order Group Impact Detection – Four Order Groups – Totals and affected allocations aggregated,AC 01.5 — Decision Table — One request aggregates distinct assignment and point impact from two supplied Order Groups.,"- HQ or CM Staff is logged in to the Nichibei Salesforce org and can use Developer Console.
+- Test Order Groups `OG-NB-API-005A1` and `OG-NB-API-005A2` have Assignment LAs `LA-NB-API-005A1` and `LA-NB-API-005A2`, each with `Require Allocation = true` and respectively one and two scheduled student sessions.
+- Separate Test Order Groups `OG-NB-API-005P1` and `OG-NB-API-005P2` have Point LAs `LA-NB-API-005P1` and `LA-NB-API-005P2`, each with `Require Allocation = false` and respectively consumed points of `1.5` and `2.75`.
+- The actual Salesforce IDs for all four test Order Groups are recorded for this execution.",,LT-108574; Nichibei; API,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff runs one detector request containing the recorded IDs for all four test Order Groups.""
+2. ""HQ or CM Staff inspects assignment impact and its summary.""
+3. ""HQ or CM Staff inspects consumed-point impact and its summary.""
+4. ""HQ or CM Staff inspects the combined result.""","1. ""One aggregated response is returned for the request.""
+2. ""`hasAssignment` is `true`; total assigned-session count is `3`; assignment IDs and summaries contain `LA-NB-API-005A1` with count `1` and `LA-NB-API-005A2` with count `2`.""
+3. ""`hasConsumedPoints` is `true`; total consumed points is `4.25`; point IDs and summaries contain `LA-NB-API-005P1` with points `1.5` and `LA-NB-API-005P2` with points `2.75`.""
+4. ""`hasImpact` is `true`; each affected allocation appears once in the category matching its Require Allocation value.""","1. ""orderGroupIds = [OG-NB-API-005A1, OG-NB-API-005A2, OG-NB-API-005P1, OG-NB-API-005P2]""
+2. ""expectedAssignedSessionCount = 3; expectedAssignmentAllocationIds = [LA-NB-API-005A1, LA-NB-API-005A2]""
+3. ""expectedConsumedPoints = 4.25; expectedConsumedPointAllocationIds = [LA-NB-API-005P1, LA-NB-API-005P2]""
+4. ""expectedHasImpact = true; expectedDistinctAllocationCount = 4""",,,3711,3710,[Nichibei] Order Group Impact Detection API,,,

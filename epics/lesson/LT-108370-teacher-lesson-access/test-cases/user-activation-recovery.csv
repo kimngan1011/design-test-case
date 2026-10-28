@@ -1,0 +1,26 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,Teacher Lesson Access – New active user – Existing assignment – Assigned lesson becomes visible,"AC-01 — State Transition, Regression — Active-user recovery.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact A is assigned to Lesson Alpha.
+Teacher Contact A has no Salesforce User.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates an active Salesforce User linked to Teacher Contact A.""
+2. ""Teacher A signs in to Back Office and opens the lesson list.""","1. ""The new user is active and linked to Teacher Contact A.""
+2. ""The lesson list contains LT108370 Alpha.""","1. ""User status = Active; Contact = Teacher Contact A""
+2. ""Expected lesson = LT108370 Alpha""",,,3704,,User Activation Recovery,,,
+,Teacher Lesson Access – Reactivated user – Existing assignment – Assigned lesson becomes visible,"AC-02 — State Transition, Decision Table — Reactivation recovery.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact B is assigned to Lesson Bravo.
+Teacher Contact B has an inactive Salesforce User.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff changes Teacher B's Salesforce User status from inactive to active.""
+2. ""Teacher B signs in to Back Office and opens the lesson list.""","1. ""Teacher B's Salesforce User is active.""
+2. ""The lesson list contains LT108370 Bravo.""","1. ""Previous status = Inactive; New status = Active""
+2. ""Expected lesson = LT108370 Bravo""",,,3704,,User Activation Recovery,,,
+,Teacher Lesson Access – New active user – Multiple existing assignments – Every assigned lesson becomes visible,"AC-01 — Regression — All assigned lessons recover.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact C is assigned to Lesson Charlie and Lesson Delta.
+Teacher Contact C has no Salesforce User.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates an active Salesforce User linked to Teacher Contact C.""
+2. ""Teacher C signs in to Back Office and opens the lesson list.""","1. ""The new user is active and linked to Teacher Contact C.""
+2. ""The lesson list contains LT108370 Charlie and LT108370 Delta.""","1. ""User status = Active; Contact = Teacher Contact C""
+2. ""Expected lessons = Charlie, Delta""",,,3704,,User Activation Recovery,,,
+,Teacher Lesson Access – New active user – Existing assignment – Background recovery request is created,"AC-01 — CRUD, Regression — Eligible creation queues recovery.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact D is assigned to Lesson Echo.
+Teacher Contact D has no Salesforce User.
+No unfinished recovery request exists for Teacher Contact D.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates an active Salesforce User linked to Teacher Contact D.""
+2. ""HQ or CM Staff opens the background recovery request list for Teacher Contact D.""","1. ""Salesforce accepts the user creation without a mixed-data-operation error.""
+2. ""One unfinished lesson-access recovery request exists for Teacher Contact D.""","1. ""User status = Active; Contact = Teacher Contact D""
+2. ""Expected request count = 1""",,,3704,,User Activation Recovery,,,

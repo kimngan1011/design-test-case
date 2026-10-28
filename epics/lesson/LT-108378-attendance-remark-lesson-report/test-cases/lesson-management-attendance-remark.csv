@@ -1,0 +1,30 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,Lesson Management – Report Tab Student List – Salesforce Attendance Note – Saved note shown beside Attendance Status,"AC 01.1 - CRUD/readback; Component; Regression - A Salesforce Student Session Attendance Note is shown as Attendance Remark beside the same student's saved Attendance Status in the Back Office Lesson Management Report tab.","- HQ or CM Staff is logged in to Salesforce and Back Office.
+- A published lesson named `LT-108378 Lesson A` includes Student A and has a Student Session.
+- Student A's Student Session is visible in the Lesson Management lesson-detail Report tab Student List.
+- Student A's Attendance Status is `Attend` and Attendance Note is blank before this test.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens Student A's Student Session for `LT-108378 Lesson A` in Salesforce.""
+2. ""HQ or CM Staff sets Attendance Status to `Absent`, enters `school events` in Attendance Note, and saves the Student Session.""
+3. ""HQ or CM Staff opens `LT-108378 Lesson A` in Back Office through Lesson Management, opens Lesson Detail, and selects the Report tab.""
+4. ""HQ or CM Staff reads Student A's Attendance Status in the Student List.""
+5. ""HQ or CM Staff refreshes the Report tab and reads Student A's Attendance Status again.""","1. ""Student A's Student Session opens and shows the current Attendance Status and Attendance Note.""
+2. ""Salesforce saves Attendance Status=`Absent` and Attendance Note=`school events` for Student A.""
+3. ""The Report tab displays the Student List containing Student A.""
+4. ""Student A's Attendance Status displays exactly `Absent (school events)`.""
+5. ""Student A's Attendance Status still displays exactly `Absent (school events)`; no value is changed by viewing the report.""","1. ""Lesson=`LT-108378 Lesson A`; Student=`Student A`; initial status=`Attend`; initial note=blank""
+2. ""Attendance Status=`Absent`; Attendance Note=`school events`""
+3. ""BO route=`Lesson > Lesson Management > Lesson Detail > Report`""
+4. ""Expected display=`Absent (school events)`""
+5. ""Expected display after refresh=`Absent (school events)`""",,,3269,,Update LR,,,
+,Lesson Management – Report Tab Student List – BO Attendance Remark – Updated note persists beside Attendance Status,"AC 01.3 - CRUD/readback; Component; Regression - Back Office saves a replacement Attendance Remark and displays it beside the unchanged Attendance Status after refresh.","- HQ or CM Staff is logged in to Back Office.
+- A published lesson named `LT-108378 Lesson C` includes Student C and has a Student Session.
+- Student C's Attendance Status is `Absent` and Attendance Remark is `school events` before this test.
+- Student C is visible in the Lesson Management lesson-detail Report tab Student List.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens `LT-108378 Lesson C` in Back Office through Lesson Management, opens Lesson Detail, and selects the Report tab.""
+2. ""HQ or CM Staff opens the attendance edit form for Student C, replaces Attendance Remark with `medical appointment`, and saves the update.""
+3. ""HQ or CM Staff reads Student C's Attendance Status in the Student List.""
+4. ""HQ or CM Staff refreshes the Report tab and reads Student C's Attendance Status again.""","1. ""The Report tab displays the Student List containing Student C with Attendance Status `Absent (school events)`.""
+2. ""Back Office saves Attendance Remark=`medical appointment` for Student C while Attendance Status remains `Absent`.""
+3. ""Student C's Attendance Status displays exactly `Absent (medical appointment)`.""
+4. ""Student C's Attendance Status still displays exactly `Absent (medical appointment)`.""","1. ""BO route=`Lesson > Lesson Management > Lesson Detail > Report`; initial display=`Absent (school events)`""
+2. ""Attendance Remark=`medical appointment`; Attendance Status=`Absent`""
+3. ""Expected display=`Absent (medical appointment)`""
+4. ""Expected display after refresh=`Absent (medical appointment)`""",,,3269,,Update LR,,,

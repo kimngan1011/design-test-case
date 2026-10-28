@@ -6,7 +6,7 @@ Code trace: same engine as Cancel Order — `shouldArchiveAllocationOfStudentCou
 
 ## Suite: Void Order
 
-### Void Order – One-Time – Full Order Void (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted
+### Void New Order – One-Time – Full Order Void (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted
 
 **Description:** Gap/update case — Decision Table, contrasts with the legacy-wording baseline (case 1790, "One-Time – LA Deleted, Student Removed from Lessons") — voiding the only order for a student-course archives the Lesson Allocation rather than deleting it, consistent with the Cancel Order archive behavior (same underlying engine).
 
@@ -19,6 +19,63 @@ Code trace: same engine as Cancel Order — `shouldArchiveAllocationOfStudentCou
 | 1 | HQ or CM Staff opens the order group detail for the One-Time product and clicks "Void", then confirms | The order is voided | Order status = Voided |
 | 2 | HQ or CM Staff opens Student A's Lesson Allocation directly by record Id | The Lesson Allocation still exists and is reachable; Archived_At__c is populated | Archived_At__c = current timestamp; record NOT deleted |
 | 3 | HQ or CM Staff opens the individual lesson Student A was assigned to | Student A is removed from the lesson's Student Sessions — same end-user-visible outcome as the legacy baseline (case 1790) | Student A's Student Session Is_Archived__c = TRUE (via formula) → hidden, not deleted |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### Void New Order – Slot-Based – Full Order Void (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted
+
+**Description:** Gap/update case — Decision Table, contrasts with legacy baseline case 1791, "Slot-Based – LA Deleted, Student Removed from Lessons." For a Slot-Based new order that is the student's only order for the course, Void removes the final order and therefore archives the existing Lesson Allocation instead of hard-deleting it.
+
+**Preconditions:**
+- Student A has a Slot-Based order for Course A (the only order for this student-course), with Require Allocation = True. Student A is assigned to an individual lesson. Record the Lesson Allocation Id.
+- `Enable_Lesson_Allocation_Archive__c` = TRUE.
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the order group detail for the Slot-Based product and clicks "Void", then confirms | The order is voided | Order status = Voided |
+| 2 | HQ or CM Staff opens Student A's Lesson Allocation directly by its recorded Id | The Lesson Allocation still exists and is reachable; `Archived_At__c` is populated | `Archived_At__c` = current timestamp; record NOT deleted |
+| 3 | HQ or CM Staff opens the individual lesson Student A was assigned to | Student A is no longer shown in active Student Sessions; the session is hidden through the archived allocation, not hard-deleted | Student Session `Is_Archived__c` = TRUE (formula) |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### Void New Order – Scheduled – Full Order Void (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted
+
+**Description:** Gap/update case — Decision Table, contrasts with legacy baseline case 1792, "Schedule – LA Deleted, Student Removed from Lessons." For a Scheduled new order that is the student's only order for the course, Void archives the existing Lesson Allocation rather than hard-deleting it.
+
+**Preconditions:**
+- Student A has a Scheduled order for Course A (the only order for this student-course), with Require Allocation = True and a class assignment. Student A is auto-assigned to a recurring lesson. Record the Lesson Allocation Id.
+- `Enable_Lesson_Allocation_Archive__c` = TRUE.
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the order group detail for the Scheduled product and clicks "Void", then confirms | The order is voided | Order status = Voided |
+| 2 | HQ or CM Staff opens Student A's Lesson Allocation directly by its recorded Id | The Lesson Allocation still exists and is reachable; `Archived_At__c` is populated | `Archived_At__c` = current timestamp; record NOT deleted |
+| 3 | HQ or CM Staff opens a recurring lesson previously assigned through the class | Student A is no longer shown in active Student Sessions; the session is hidden through the archived allocation, not hard-deleted | Student Session `Is_Archived__c` = TRUE (formula) |
+
+**Severity:** major
+**Priority:** high
+
+---
+
+### Void New Order – Frequency – Full Order Void (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted
+
+**Description:** Gap/update case — Decision Table, contrasts with legacy baseline case 1795, "Frequency – LA Deleted, Student Removed from Lessons." For a Frequency new order that is the student's only order for the course, Void archives the existing Lesson Allocation rather than hard-deleting it.
+
+**Preconditions:**
+- Student A has a Frequency order for Course A (the only order for this student-course), with Require Allocation = True and a class assignment. Student A is auto-assigned to a recurring lesson. Record the Lesson Allocation Id.
+- `Enable_Lesson_Allocation_Archive__c` = TRUE.
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the order group detail for the Frequency product and clicks "Void", then confirms | The order is voided | Order status = Voided |
+| 2 | HQ or CM Staff opens Student A's Lesson Allocation directly by its recorded Id | The Lesson Allocation still exists and is reachable; `Archived_At__c` is populated | `Archived_At__c` = current timestamp; record NOT deleted |
+| 3 | HQ or CM Staff opens a recurring lesson previously assigned through the class | Student A is no longer shown in active Student Sessions; the session is hidden through the archived allocation, not hard-deleted | Student Session `Is_Archived__c` = TRUE (formula) |
 
 **Severity:** major
 **Priority:** high
@@ -98,5 +155,45 @@ Code trace: same engine as Cancel Order — `shouldArchiveAllocationOfStudentCou
 
 **Severity:** minor
 **Priority:** low
+
+---
+
+### Void Partial Cancel Order – Original Duration Restored – Lesson Allocation Remains Active
+
+**Description:** Regression / state-transition case — a partial cancellation only shortens the duration; the order and its Lesson Allocation were never removed. Voiding that partial-cancel action must restore the original duration on the same active Lesson Allocation and must not archive or recreate it.
+
+**Preconditions:**
+- Student A has a Frequency order for Course A with an active Lesson Allocation from `2026-01-01` through `2026-12-31`. Record its Id.
+- A partial Cancel Order with a future effective date shortened the LA end date to `2026-06-30`; the LA remains active and `Archived_At__c` is blank.
+- `Enable_Lesson_Allocation_Archive__c` = TRUE.
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the partial Cancel Order group detail and clicks "Void", then confirms | The partial-cancel action is voided | Cancel order status = Voided |
+| 2 | HQ or CM Staff opens Student A's Lesson Allocation by its recorded Id | The same active record has its original duration restored; it is not recreated or archived | End date = `2026-12-31`; record Id unchanged; `Archived_At__c` = null |
+| 3 | HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list | The Lesson Allocation remains in the active list | `Is_Archived__c` = FALSE (formula) |
+
+**Severity:** major
+**Priority:** medium
+
+---
+
+### Void Update Duration – Original Duration Restored – Lesson Allocation Remains Active
+
+**Description:** Regression / state-transition case — Update Duration changes the existing allocation's date range but does not remove the order. Voiding that update must restore the original duration on the same active Lesson Allocation; it must not trigger the all-orders-removed archive condition.
+
+**Preconditions:**
+- Student A has an active order for Course A with a Lesson Allocation from `2026-01-01` through `2026-12-31`. Record its Id.
+- A voidable Update Duration order shortened the LA end date to `2026-06-30`; the LA remains active and `Archived_At__c` is blank.
+- `Enable_Lesson_Allocation_Archive__c` = TRUE.
+
+| # | Action | Expected Result | Test Data |
+|---|--------|-----------------|-----------|
+| 1 | HQ or CM Staff opens the Update Duration order group detail and clicks "Void", then confirms | The Update Duration action is voided | Update Duration order status = Voided |
+| 2 | HQ or CM Staff opens Student A's Lesson Allocation by its recorded Id | The same active record has its original duration restored; it is not recreated or archived | End date = `2026-12-31`; record Id unchanged; `Archived_At__c` = null |
+| 3 | HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list | The Lesson Allocation remains in the active list | `Is_Archived__c` = FALSE (formula) |
+
+**Severity:** major
+**Priority:** medium
 
 ---

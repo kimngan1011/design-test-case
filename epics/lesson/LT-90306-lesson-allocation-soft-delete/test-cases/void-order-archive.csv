@@ -1,6 +1,6 @@
 v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
 ,,,,,,,,,,,,,,,,,,,,3647,3588,Void Order,1,,
-,"Void Order – One-Time – Full Order Void (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted","Gap/update case - Decision Table, contrasts with the legacy-wording baseline (case 1790, ""One-Time – LA Deleted, Student Removed from Lessons"") - voiding the only order for a student-course archives the Lesson Allocation rather than deleting it, consistent with the Cancel Order archive behavior (same underlying engine).","- Student A has a One-Time order for Course A (the only order for this student-course), with Require Allocation = True. Student A is assigned to an individual lesson.
+,"Void New Order – One-Time – Full Order Void (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted","Gap/update case - Decision Table, contrasts with the legacy-wording baseline (case 1790, ""One-Time – LA Deleted, Student Removed from Lessons"") - voiding the only order for a student-course archives the Lesson Allocation rather than deleting it, consistent with the Cancel Order archive behavior (same underlying engine).","- Student A has a One-Time order for Course A (the only order for this student-course), with Require Allocation = True. Student A is assigned to an individual lesson.
 - Enable_Lesson_Allocation_Archive__c = TRUE.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the order group detail for the One-Time product and clicks ""Void"", then confirms""
 2. ""HQ or CM Staff opens Student A's Lesson Allocation directly by record Id""
 3. ""HQ or CM Staff opens the individual lesson Student A was assigned to""
@@ -10,6 +10,39 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 ","1. ""Order status = Voided""
 2. ""Archived_At__c = current timestamp; record NOT deleted""
 3. ""Student A's Student Session Is_Archived__c = TRUE (via formula) -> hidden, not deleted""
+",,,3647,3588,Void Order,,,
+,"Void New Order – Slot-Based – Full Order Void (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted","Gap/update case - Decision Table, contrasts with legacy baseline case 1791, ""Slot-Based – LA Deleted, Student Removed from Lessons."" For a Slot-Based new order that is the student's only order for the course, Void removes the final order and therefore archives the existing Lesson Allocation instead of hard-deleting it.","- Student A has a Slot-Based order for Course A (the only order for this student-course), with Require Allocation = True. Student A is assigned to an individual lesson. Record the Lesson Allocation Id.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the order group detail for the Slot-Based product and clicks ""Void"", then confirms""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation directly by its recorded Id""
+3. ""HQ or CM Staff opens the individual lesson Student A was assigned to""
+","1. ""The order is voided""
+2. ""The Lesson Allocation still exists and is reachable; Archived_At__c is populated""
+3. ""Student A is no longer shown in active Student Sessions; the session is hidden through the archived allocation, not hard-deleted""
+","1. ""Order status = Voided""
+2. ""Archived_At__c = current timestamp; record NOT deleted""
+3. ""Student Session Is_Archived__c = TRUE (formula)""
+",,,3647,3588,Void Order,,,
+,"Void New Order – Scheduled – Full Order Void (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted","Gap/update case - Decision Table, contrasts with legacy baseline case 1792, ""Schedule – LA Deleted, Student Removed from Lessons."" For a Scheduled new order that is the student's only order for the course, Void archives the existing Lesson Allocation rather than hard-deleting it.","- Student A has a Scheduled order for Course A (the only order for this student-course), with Require Allocation = True and a class assignment. Student A is auto-assigned to a recurring lesson. Record the Lesson Allocation Id.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the order group detail for the Scheduled product and clicks ""Void"", then confirms""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation directly by its recorded Id""
+3. ""HQ or CM Staff opens a recurring lesson previously assigned through the class""
+","1. ""The order is voided""
+2. ""The Lesson Allocation still exists and is reachable; Archived_At__c is populated""
+3. ""Student A is no longer shown in active Student Sessions; the session is hidden through the archived allocation, not hard-deleted""
+","1. ""Order status = Voided""
+2. ""Archived_At__c = current timestamp; record NOT deleted""
+3. ""Student Session Is_Archived__c = TRUE (formula)""
+",,,3647,3588,Void Order,,,
+,"Void New Order – Frequency – Full Order Void (Only Order for Student Course) – Lesson Allocation Archived, Not Deleted","Gap/update case - Decision Table, contrasts with legacy baseline case 1795, ""Frequency – LA Deleted, Student Removed from Lessons."" For a Frequency new order that is the student's only order for the course, Void archives the existing Lesson Allocation rather than hard-deleting it.","- Student A has a Frequency order for Course A (the only order for this student-course), with Require Allocation = True and a class assignment. Student A is auto-assigned to a recurring lesson. Record the Lesson Allocation Id.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the order group detail for the Frequency product and clicks ""Void"", then confirms""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation directly by its recorded Id""
+3. ""HQ or CM Staff opens a recurring lesson previously assigned through the class""
+","1. ""The order is voided""
+2. ""The Lesson Allocation still exists and is reachable; Archived_At__c is populated""
+3. ""Student A is no longer shown in active Student Sessions; the session is hidden through the archived allocation, not hard-deleted""
+","1. ""Order status = Voided""
+2. ""Archived_At__c = current timestamp; record NOT deleted""
+3. ""Student Session Is_Archived__c = TRUE (formula)""
 ",,,3647,3588,Void Order,,,
 ,Void Cancel Order – Lesson Allocation Was Fully Archived (Not Just End-Dated) – Void Restores the Same Archived Record,"Gap case - Decision Table, contrasts with the existing baseline (case 1802, ""Void Cancel Order – LA Duration Restored"", which covers the partial end-date-shortening scenario) - when the Cancel Order being voided had fully archived the Lesson Allocation (per the ""Cancel Order – Full Cancellation"" archive case), voiding it restores the SAME archived record via unarchiveAllocations, not a duration-only revert on a record that was never removed from the active list.","- Student A's Lesson Allocation for Course A was archived (Archived_At__c populated) after their only order was cancelled. Note its record Id.
 - Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the cancelled order group detail and clicks ""Void"", then confirms""
@@ -54,4 +87,28 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 ","1. ""Purchased_Slot_Number__c reverts to 2""
 2. ""Archived_At__c = null""
 3. ""Is_Archived__c = FALSE (via formula) -> unaffected""
+",,,3647,3588,Void Order,,,
+,Void Partial Cancel Order – Original Duration Restored – Lesson Allocation Remains Active,"Regression / state-transition case - a partial cancellation only shortens the duration; the order and its Lesson Allocation were never removed. Voiding that partial-cancel action must restore the original duration on the same active Lesson Allocation and must not archive or recreate it.","- Student A has a Frequency order for Course A with an active Lesson Allocation from 2026-01-01 through 2026-12-31. Record its Id.
+- A partial Cancel Order with a future effective date shortened the LA end date to 2026-06-30; the LA remains active and Archived_At__c is blank.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the partial Cancel Order group detail and clicks ""Void"", then confirms""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation by its recorded Id""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The partial-cancel action is voided""
+2. ""The same active record has its original duration restored; it is not recreated or archived""
+3. ""The Lesson Allocation remains in the active list""
+","1. ""Cancel order status = Voided""
+2. ""End date = 2026-12-31; record Id unchanged; Archived_At__c = null""
+3. ""Is_Archived__c = FALSE (formula)""
+",,,3647,3588,Void Order,,,
+,Void Update Duration – Original Duration Restored – Lesson Allocation Remains Active,"Regression / state-transition case - Update Duration changes the existing allocation's date range but does not remove the order. Voiding that update must restore the original duration on the same active Lesson Allocation; it must not trigger the all-orders-removed archive condition.","- Student A has an active order for Course A with a Lesson Allocation from 2026-01-01 through 2026-12-31. Record its Id.
+- A voidable Update Duration order shortened the LA end date to 2026-06-30; the LA remains active and Archived_At__c is blank.
+- Enable_Lesson_Allocation_Archive__c = TRUE.",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff opens the Update Duration order group detail and clicks ""Void"", then confirms""
+2. ""HQ or CM Staff opens Student A's Lesson Allocation by its recorded Id""
+3. ""HQ or CM Staff navigates to Student A's Course tab / Lesson Allocation list""
+","1. ""The Update Duration action is voided""
+2. ""The same active record has its original duration restored; it is not recreated or archived""
+3. ""The Lesson Allocation remains in the active list""
+","1. ""Update Duration order status = Voided""
+2. ""End date = 2026-12-31; record Id unchanged; Archived_At__c = null""
+3. ""Is_Archived__c = FALSE (formula)""
 ",,,3647,3588,Void Order,,,

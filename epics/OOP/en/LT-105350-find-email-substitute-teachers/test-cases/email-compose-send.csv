@@ -248,6 +248,15 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 4. """"
 5. """"
 ",,,3201,3202,[EN] Substitute Teacher – Email Compose & Send,,,
+,[EN] Substitute Teacher – Email Editor – English staff still receives hard-coded Japanese default template,"AC 03.2, BR-17 — Localization regression — substitute-teacher email defaults are intentionally hard-coded Japanese and do not follow the English staff profile.","- Acting EN staff Salesforce language = English
+- A lesson requiring a substitute teacher is open
+- At least one candidate is selected",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Confirm English staff language and select candidate(s)""
+2. ""Click Send Email""
+3. ""Inspect default subject and body before editing""","1. ""English staff UI; Send Email enabled""
+2. ""Email editor opens""
+3. ""Subject = 代講をお願いいたします; text-only body contains 案件名： and 時間：; no translation to English""","1. ""staff_language=English; selected_count>=1""
+2. """"
+3. ""expected_default=Japanese template""",,,3201,3202,[EN] Substitute Teacher – Email Compose & Send,,,
 25011,[EN] Substitute Teacher – Post-Send – Email sent outside Manabie – Lesson teacher assignment unchanged in Lesson Detail,"AC 03.2, BR-20 — Smoke — After the email send action, the lesson's teacher assignment is not automatically changed; the substitute teacher must be manually assigned after out-of-system negotiation.","- Logged in as HQ or CM Staff to the EN Salesforce org
 - A lesson with no teacher assigned exists on Lesson Detail
 - Email has been sent to substitute teacher candidates via the Add Teacher popup",,,low,trivial,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Complete the email send flow for the target lesson""

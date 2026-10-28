@@ -1,0 +1,46 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,Teacher Lesson Access – Lesson permission – Recovered user – Edit permission is created for the assigned lesson,"AC-03 — CRUD, Permission Matrix — Lesson permission fields.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact E is assigned to Lesson Foxtrot.
+Teacher Contact E has no Salesforce User.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates an active Salesforce User linked to Teacher Contact E.""
+2. ""HQ or CM Staff opens the lesson permissions for Lesson Foxtrot.""","1. ""The lesson-access recovery completes for Teacher Contact E.""
+2. ""Exactly one teacher permission exists for Teacher E with Edit access and the lesson-teacher assignment reason.""","1. ""User status = Active; Contact = Teacher Contact E""
+2. ""Recipient = Teacher E; Access = Edit; Permission count = 1""",,,3705,,Sharing Integrity,,,
+,Teacher Lesson Access – Lesson allocation permission – Active student session – Edit permission is created,"AC-03 — Decision Table, CRUD — Active session creates allocation permission.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact F is assigned to Lesson Golf.
+Lesson Golf has a non-deleted student session linked to Lesson Allocation Golf-1.
+Teacher Contact F has no Salesforce User.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates an active Salesforce User linked to Teacher Contact F.""
+2. ""HQ or CM Staff opens the permissions for Lesson Allocation Golf-1.""","1. ""The lesson-access recovery completes for Teacher Contact F.""
+2. ""Exactly one teacher permission exists for Teacher F with Edit access and the lesson-teacher assignment reason.""","1. ""User status = Active; Contact = Teacher Contact F""
+2. ""Session status = Not deleted; Permission count = 1""",,,3705,,Sharing Integrity,,,
+,Teacher Lesson Access – Lesson allocation permission – Deleted student session – No allocation permission is created,"AC-03 — Decision Table, Negative — Deleted session excludes allocation permission.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact G is assigned to Lesson Hotel.
+Lesson Hotel has only one deleted student session linked to Lesson Allocation Hotel-1.
+Teacher Contact G has no Salesforce User.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates an active Salesforce User linked to Teacher Contact G.""
+2. ""HQ or CM Staff opens the permissions for Lesson Allocation Hotel-1.""","1. ""The lesson-access recovery completes for Teacher Contact G.""
+2. ""No teacher permission exists for Teacher G.""","1. ""User status = Active; Contact = Teacher Contact G""
+2. ""Session status = Deleted; Expected permission count = 0""",,,3705,,Sharing Integrity,,,
+,Teacher Lesson Access – Repeated recovery – Existing teacher permissions – No duplicate or cross-teacher change occurs,"AC-04 — State Transition, Regression — Two activation events remain idempotent.","HQ or CM Staff is logged in to Salesforce.
+Teacher Contact H and Teacher Contact I are assigned to Lesson India.
+Teacher H has an inactive Salesforce User and has no teacher permission for Lesson India.
+Teacher I has an active Salesforce User and already has one Edit permission for Lesson India.",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff changes Teacher H's Salesforce User status from inactive to active.""
+2. ""HQ or CM Staff waits for Teacher H's first recovery request to finish.""
+3. ""HQ or CM Staff changes Teacher H's Salesforce User status from active to inactive.""
+4. ""HQ or CM Staff changes Teacher H's Salesforce User status from inactive to active.""
+5. ""HQ or CM Staff waits for Teacher H's second recovery request to finish.""
+6. ""HQ or CM Staff opens the lesson permissions for Lesson India.""","1. ""One recovery request is created for Teacher H.""
+2. ""The first recovery request has status Success.""
+3. ""Teacher H's Salesforce User is inactive.""
+4. ""A new recovery request is created for Teacher H.""
+5. ""The second recovery request has status Success.""
+6. ""Teacher H has exactly one Edit permission and Teacher I still has exactly one Edit permission.""","1. ""First activation; Previous status = Inactive""
+2. ""Recovery run = 1""
+3. ""Intermediate status = Inactive""
+4. ""Second activation; Previous status = Inactive""
+5. ""Recovery run = 2""
+6. ""Expected permissions: Teacher H = 1; Teacher I = 1""",,,3705,,Sharing Integrity,,,
+,Teacher Lesson Access – User without lesson assignment – Active user creation – No recovery request or permission is created,"AC-05 — Equivalence Partitioning, Negative — Non-teacher Contact is unaffected.","HQ or CM Staff is logged in to Salesforce.
+Staff Contact J has no lesson-teacher assignment.
+Staff Contact J has no Salesforce User.",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""HQ or CM Staff creates an active Salesforce User linked to Staff Contact J.""
+2. ""HQ or CM Staff searches recovery requests and teacher permissions for Staff Contact J.""","1. ""The new user is active and linked to Staff Contact J.""
+2. ""No recovery request and no teacher permission are found for Staff Contact J.""","1. ""User status = Active; Contact = Staff Contact J""
+2. ""Expected request count = 0; Expected permission count = 0""",,,3705,,Sharing Integrity,,,

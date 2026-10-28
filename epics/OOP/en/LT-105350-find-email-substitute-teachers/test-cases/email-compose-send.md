@@ -141,6 +141,26 @@
 
 ---
 
+### [EN] Substitute Teacher – Email Editor – English staff still receives hard-coded Japanese default template
+
+**Description:** AC 03.2, BR-17 — Localization regression — the substitute-teacher email template is intentionally hard-coded in Japanese. An English-language Salesforce profile must not translate its default subject or body.
+
+**Preconditions:**
+- Acting EN staff user's Salesforce language is English.
+- A lesson requiring a substitute teacher is open.
+- At least one candidate is selected in the Add Teacher popup.
+
+| # | Action | Expected Result | Test Data |
+|---|---|---|---|
+| 1 | Confirm the acting staff profile language is English and select one or more candidates. | Staff UI is English and **Send Email** is enabled. | Staff language = English; selected count >= 1 |
+| 2 | Click **Send Email**. | The email editor opens for the selected candidate(s). | — |
+| 3 | Inspect the default subject and body before editing. | Subject is exactly **代講をお願いいたします** and text-only body contains **案件名：** and **時間：**. These defaults remain Japanese; they are not translated from the staff profile language. | Expected default = Japanese template |
+
+**Severity:** major
+**Priority:** high
+
+---
+
 ### [EN] Substitute Teacher – Bulk Send – Confirm send with multiple candidates – All selected candidates in recipient list
 
 **Description:** AC 03.2, BR-15, BR-18 — CRUD — When the staff composes an email in the editor and confirms sending, the system generates a recipient list containing all selected teachers' email addresses.

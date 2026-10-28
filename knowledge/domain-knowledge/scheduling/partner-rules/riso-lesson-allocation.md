@@ -104,7 +104,7 @@ This isolation means UI-created LAs persist regardless of any order operations.
 | Update LA dates | Does NOT trigger auto-assign/unassign. Existing assignments remain unchanged |
 | Delete LA | Synchronously unlinks student from ALL lessons (immediate) |
 | Trial LA type | Calendar shows **"Trial Student" dot** indicator |
-| First enrollment | Calendar shows **"New Student" dot** indicator |
+| Active Enrolled student within New window | Calendar shows **"New Student" dot** when the lesson date is within `New_Student_Day_Config` days of the linked Enrollment Status (V2) Enrolled Date; V1 Enrollment Start Date is fallback only |
 
 ## Subject in Lesson Detail (25 cases — LT-94698)
 
@@ -206,4 +206,3 @@ Riso adds two notification paths triggered on lesson publish. Both are gated by 
 - Bulk publish does NOT create a Chatter post (Path 1 = single publish only)
 - Single publish does NOT send an email (Path 2 = bulk publish only)
 - No cross-type dedup defined (open question Q1): a lesson single-published then included in a bulk publish may trigger both a Chatter @mention and an email
-

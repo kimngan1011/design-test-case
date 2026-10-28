@@ -1,0 +1,25 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[Renseikai] Lesson Report Notification – English Content – Eligible report – Exact title and lesson name","REQ-03 — Component — English content is exact.","- R-301 Math Addition is eligible
+- Student A locale is English",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the batch""
+2. ""Student A opens R-301""
+3. ""Student A reads body""","1. ""English delivery is present""
+2. ""Title is Lesson Report ready!""
+3. ""Body names Math Addition""","1. ""locale=English""
+2. ""title=Lesson Report ready!""
+3. ""lesson=Math Addition""",,,3722,,Localized Notification Content,1,,
+,"[Renseikai] Lesson Report Notification – Japanese Content – Eligible report – Exact title and lesson name","REQ-03 — Component — Japanese content is exact.","- R-302 算数の足し算 is eligible
+- Student B locale is Japanese",,,medium,minor,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the batch""
+2. ""Student B opens R-302""
+3. ""Student B reads body""","1. ""Japanese delivery is present""
+2. ""Title is 指導簿が公開されました""
+3. ""Body names 算数の足し算""","1. ""locale=Japanese""
+2. ""title=指導簿が公開されました""
+3. ""lesson=算数の足し算""",,,3722,,Localized Notification Content,1,,
+,"[Renseikai] Lesson Report Notification – Content Binding – Two reports – Each lesson name retained","REQ-03 — Decision Table — Lesson names remain bound to their reports.","- R-303 Math I and R-304 Science J are eligible
+- Student C locale is English",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the batch""
+2. ""Student C opens R-303""
+3. ""Student C opens R-304""","1. ""Separate deliveries exist""
+2. ""Body names Math I only""
+3. ""Body names Science J only""","1. ""reports=R-303;R-304""
+2. ""report=R-303""
+3. ""report=R-304""",,,3722,,Localized Notification Content,1,,

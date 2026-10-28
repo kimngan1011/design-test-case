@@ -1,0 +1,79 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[Renseikai] Lesson Report Notification – Daily Batch – Eligible Published Report – One notification per recipient","REQ-01 — Decision Table — Eligible Published report is processed.","- Scheduler is 2026-10-12 12:00 JST
+- R-101 is Published at 2026-10-11 13:00 JST",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the daily batch""
+2. ""Student A opens the inbox""
+3. ""Parent A opens the inbox""","1. ""R-101 is selected once""
+2. ""One Math A notification is present""
+3. ""One Math A notification is present""","1. ""run=2026-10-12 12:00 JST""
+2. ""recipient=Student A""
+3. ""recipient=Default Parent A""",,,3721,,Scheduled Report Delivery,1,,
+,"[Renseikai] Lesson Report Notification – Daily Batch – Pre-window Report – No notification created","REQ-01 — BVA Negative — Pre-window report is excluded.","- Scheduler is 2026-10-12 12:00 JST
+- R-102 is Published at 2026-10-11 11:59:59 JST",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the daily batch""
+2. ""Student A opens the inbox""","1. ""R-102 is not selected""
+2. ""No R-102 notification is present""","1. ""window_start=2026-10-11 12:00 JST""
+2. ""report=R-102""",,,3721,,Scheduled Report Delivery,1,,
+,"[Renseikai] Lesson Report Notification – Daily Batch – Noon Boundary – No duplicate or omission","REQ-01 — BVA — Noon boundary belongs to one non-overlapping run.","- R-103 is Published at 2026-10-12 12:00:00 JST",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the ending batch""
+2. ""System runs the next batch""
+3. ""Student A opens the inbox""","1. ""R-103 is assigned to exactly one named batch run""
+2. ""Exactly one delivery decision exists""
+3. ""No duplicate or omission occurs""","1. ""boundary=2026-10-12 12:00:00 JST""
+2. ""next_run=2026-10-13 12:00 JST""
+3. ""report=R-103""",,,3721,,Scheduled Report Delivery,1,,
+,"[Renseikai] Lesson Report Notification – Daily Batch – Non-published Report – No notification created","REQ-01 — Decision Table Negative — Draft and Submitted reports are excluded.","- Scheduler is 2026-10-12 12:00 JST
+- R-104 is Draft
+- R-105 is Submitted",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the daily batch""
+2. ""Student A opens the inbox""","1. ""Neither report is selected""
+2. ""No notification is present""","1. ""statuses=Draft;Submitted""
+2. ""reports=R-104;R-105""",,,3721,,Scheduled Report Delivery,1,,
+,"[Renseikai] Lesson Report Notification – Daily Batch – Retry – One delivery retained","REQ-01 — Regression — Retry is idempotent.","- R-106 is Published at 2026-10-12 09:00 JST
+- First delivery failure is simulated",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the batch with first failure""
+2. ""Student A opens the inbox""
+3. ""System displays the audit""","1. ""Retry is recorded""
+2. ""Exactly one notification is present""
+3. ""One completed delivery is recorded""","1. ""report=R-106""
+2. ""recipient=Student A""
+3. ""expected_completed_deliveries=1""",,,3721,,Scheduled Report Delivery,1,,
+,"[Renseikai] Lesson Report Notification – Daily Batch – JST and UTC Date Boundary – Eligible report selected","REQ-01 — BVA — Selection uses JST timestamp.","- Scheduler is 2026-10-12 12:00 JST
+- R-107 is Published at 2026-10-11 00:30 JST",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the daily batch""
+2. ""Student A opens the inbox""","1. ""R-107 is selected using JST""
+2. ""One notification is present""","1. ""JST=2026-10-11 00:30; UTC=2026-10-10 15:30""
+2. ""report=R-107""",,,3721,,Scheduled Report Delivery,1,,
+,"[Renseikai] Lesson Report Notification – Daily Batch – Two eligible reports – Separate notifications retained","REQ-01 and REQ-02 — Decision Table — Notifications remain separate.","- R-108 and R-109 are Published in window
+- Student A is logged in",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the daily batch""
+2. ""Student A opens the inbox""","1. ""Both reports are selected once""
+2. ""Separate Math G and Science H notifications are present""","1. ""reports=R-108;R-109""
+2. ""expected_count=2""",,,3721,,Scheduled Report Delivery,1,,
+,"[Renseikai] Lesson Report Notification – Daily Batch – High-volume Delivery – 500 Students and Default Parents notified","REQ-01 and REQ-02 — Scenario — A 1,000-report batch delivers every report to its Student and Default Parent without omissions or duplicates.","- The scheduler time is 2026-10-12 12:00 JST
+- 1,000 Lesson Reports are Published with updated_at values between 2026-10-11 12:00 JST and 2026-10-12 11:59:59 JST
+- The 1,000 reports belong to 500 Students, with exactly two reports per Student
+- Each Student has one Default Parent identified by Relationship Default = true
+- All 500 Students and 500 Default Parents are logged in to their respective apps",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the daily report-notification batch""
+2. ""System displays the batch delivery audit""
+3. ""Each Student opens the notification inbox""
+4. ""Each Default Parent opens the notification inbox""","1. ""System selects all 1,000 eligible reports once""
+2. ""Audit records 2,000 completed recipient deliveries with no failed; omitted; or duplicate delivery""
+3. ""Every one of the 500 Students has exactly two notifications for their own reports""
+4. ""Every one of the 500 Default Parents has exactly two notifications for their linked Student's reports""","1. ""run=2026-10-12 12:00 JST; reports=1000; students=500""
+2. ""1000 reports × 2 recipients = 2000""
+3. ""Student notifications=1000; 2 per Student""
+4. ""Parent notifications=1000; 2 per Default Parent""",,,3721,,Scheduled Report Delivery,1,,
+,"[Renseikai] Lesson Report Notification – Archived Lesson Allocation – Eligible Report Sends No Notification","LT-90306 AC-5 and REQ-01/REQ-02 — Decision Table. An otherwise eligible Published Lesson Report is excluded from scheduled delivery while the student's Lesson Allocation is archived.","- The scheduler time is 2026-10-12 12:00 JST.
+- Report R-201 for Math Archive is Published with updated_at = 2026-10-12 09:00 JST.
+- Student A's sole Lesson Allocation is archived after its Student Package Order is fully removed.
+- Student A and Default Parent A are logged in to their apps.",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the daily report-notification batch.""
+2. ""Student A opens the Learner App notification inbox.""
+3. ""Default Parent A opens the Parent App notification inbox.""","1. ""System does not select R-201 and creates no delivery for either recipient.""
+2. ""No notification for Math Archive is present.""
+3. ""No notification for Math Archive is present.""","1. ""run=2026-10-12 12:00 JST; report=R-201; allocation=archived""
+2. ""recipient=Student A""
+3. ""recipient=Default Parent A""",,,3721,,Scheduled Report Delivery,1,,
+,"[Renseikai] Lesson Report Notification – Restored Lesson Allocation – Subsequent Eligible Report Sends Normally","LT-90306 AC-3/AC-5 and REQ-01/REQ-02 — State Transition. After restore, a subsequently eligible Published Lesson Report is delivered once to the Student and Default Parent; restore does not replay the report skipped while archived.","- Student A's Lesson Allocation was archived, then restored on the same record after a living Student Package Order reappeared.
+- Report R-202 for Math Restore is Published with updated_at = 2026-10-12 09:00 JST, after the allocation is restored.
+- The scheduler time is 2026-10-12 12:00 JST.
+- Student A and Default Parent A are logged in to their apps.",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the daily report-notification batch.""
+2. ""Student A opens the Learner App notification inbox.""
+3. ""Default Parent A opens the Parent App notification inbox.""","1. ""System selects R-202 once and creates one delivery for each intended recipient.""
+2. ""Exactly one notification for Math Restore is present.""
+3. ""Exactly one notification for Math Restore is present.""","1. ""run=2026-10-12 12:00 JST; report=R-202; allocation=restored""
+2. ""recipient=Student A; expected_count=1""
+3. ""recipient=Default Parent A; expected_count=1""",,,3721,,Scheduled Report Delivery,1,,

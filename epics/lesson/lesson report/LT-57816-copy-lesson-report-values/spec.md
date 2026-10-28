@@ -7,7 +7,7 @@ bucket: lesson/lesson report
 status: Done
 internal_uat_date: null
 production_release_date: null
-last_updated: 2026-07-31
+last_updated: 2026-10-12
 ---
 
 # LT-57816: Copy Lesson Report Values to Lesson Report Details
@@ -68,3 +68,39 @@ No open question for this scope. The user confirmed that validation must cover S
 ## QASE Coverage Gaps
 
 No Qase case with a title matching “Copy lesson report” was found. New coverage is needed for initial propagation, update-overwrite, preservation on unrelated updates, and post-publication Learner App visibility of all three values.
+
+---
+
+## Related Change — LT-108358: Lesson Report fields arrangement SF<>BO
+
+> Deep impact analysis was skipped at the user's direction. This addendum preserves the original LT-57816 scope and records only the supplied LT-108358 requirements.
+
+### Acceptance Criteria
+
+- **AC 108358.1 — Internal remark labels:** In Salesforce Lesson Report, replace `Remarks` with `Remark (Internal Only)` and `備考` with `特筆事項（社内用)`.
+- **AC 108358.2 — Content required indicator:** `Content/[公開]授業内容` is optional on Salesforce and Back Office. Neither surface displays an asterisk and both permit saving the field blank. In Back Office, requiredness is controlled by `Lesson_Report_Require_Fields_Setting`; the relevant field must be configured as optional.
+- **AC 108358.3 — Group lesson layout:** Salesforce displays group-lesson fields in this exact order: `Homework Completion`, `In-Lesson Quiz`, `Understanding`, `Remark (Internal Only)`, `CM Note`.
+- **AC 108358.4 — Individual lesson layout:** Salesforce displays individual-lesson fields in this exact order: `Content`, `Next Lesson’s Homework`, `Next Lesson's Announcement`, `Homework Completion`, `In-Lesson Quiz`, `Understanding`, `Remark (Internal Only)`, `CM Note`.
+
+### Business Rules (Extracted)
+
+| # | AC | Business rule | Field / entity | Behaviour | Platform |
+| --- | --- | --- | --- | --- | --- |
+| 9 | AC 108358.1 | The English internal-remark label is exactly `Remark (Internal Only)`. | Lesson Report internal remark | Display label | Salesforce |
+| 10 | AC 108358.1 | The Japanese internal-remark label is exactly `特筆事項（社内用)`. | Lesson Report internal remark | Localized display label | Salesforce |
+| 11 | AC 108358.2 | `Content/[公開]授業内容` is optional on Salesforce and Back Office; the Back Office `Lesson_Report_Require_Fields_Setting` configuration marks the field optional. | Content | Optional / no required indicator | SF, BO |
+| 12 | AC 108358.3 | Group-lesson fields use the ticket-specified order. | Group Lesson Report fields | Display order | Salesforce |
+| 13 | AC 108358.4 | Individual-lesson fields use the ticket-specified order. | Individual Lesson Report fields | Display order | Salesforce |
+
+### Scope Notes and Open Decision
+
+- This is a presentation-alignment change. It must not change saved report values, report status transitions, or the SF → BO → Mobile data flow established by the original specification.
+- `Remark (Internal Only)` is not the per-student Attendance Remark covered by LT-108378.
+- **Confirmed decision:** `Content/[公開]授業内容` is optional on both surfaces. In Back Office, update `Lesson_Report_Require_Fields_Setting` so the field is optional.
+
+### Related Test Cases
+
+- Qase PX suite 401 — Lesson Report SF / Lesson Report under Lesson.
+- Qase PX suite 426 — Lesson Report SF / Lesson Report Detail.
+- Qase PX suite 427 — Lesson Report BO / Lesson Report under Lesson.
+- Qase PX suite 1748 — Lesson Report BO / Lesson Report Detail.

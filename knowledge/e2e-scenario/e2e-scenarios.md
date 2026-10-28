@@ -701,7 +701,7 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 | 8   | [SF]     | Staff creates a **Trial Lesson** and assigns a trial student; verifies **"Trial Student" dot** on lesson card                  |
 | 9   | [BO]     | Teacher opens Trial Lesson → **edits trial student session** (updates attendance status) — session updated before removal      |
 | 10  | [SF]     | Staff **removes the trial student** from the lesson; verifies Lesson Report Detail deleted; LA Lesson Allocated decremented    |
-| 11  | [SF]     | Staff verifies **Risk Flag** triggers based on attendance/performance; **New Flag** visible on first-enrolled student          |
+| 11  | [SF]     | Staff verifies **Risk Flag** triggers based on attendance/performance; **New Flag** visible for an active Enrolled student whose lesson date is within the configured window of the linked Enrollment Status (V2) Enrolled Date |
 | 12  | [SF]     | Staff **publishes** both lessons                                                                                               |
 | 13  | [BO]     | Teacher views reallocation info and Calendar indicators on lesson detail                                                       |
 | 14  | [Mobile] | Student views remaining assigned lessons on **Learner App** schedule                                                           |
@@ -713,7 +713,7 @@ Each E2E scenario is a numbered sequence of user actions across platforms:
 - Nichibei > Reallocation (26 cases)
 - Nichibei > Trial Lesson (20 cases)
 - Student Session > Risk Flag (9 cases)
-- Student Session > New flag (3 cases)
+- Student Session > New flag (4 cases)
 - Calendar SF > Student/Teacher/Reallocation list (114 cases)
 - Lesson Teacher > Assign in lesson detail (27 cases)
 - Lesson Mobile > View lesson (6 cases)

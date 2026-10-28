@@ -348,7 +348,7 @@ epics/lesson/LT-90306-lesson-allocation-soft-delete/test-cases/oop/
 
 ## Addendum 6: OOP/Nichibei — Table/List-View Sweep (requested check: "does Nichibei reuse Core's archive filter, given how much outside-package code it has?")
 
-**Trigger:** user asked to proactively check Nichibei's tables/list views for the same archived-LA exclusion Core already has, given how much of Nichibei runs on `outside-packages/` custom code (already proven true for Point Consumption's priority chain and the Reallocate Lesson picker, both found unguarded).
+**Trigger:** user asked to proactively check Nichibei's tables/list views for the same archived-LA behavior as Core, given how much of Nichibei runs on `outside-packages/` custom code (already proven true for Point Consumption's priority chain and the Reallocate Lesson picker, both found unguarded).
 
 **Suites enumerated under Nichibei (parent 371) not yet covered by Addenda 1-5:** `376` Lesson Syllabus (already ruled out of scope — lesson/course metadata, no LA relation), `1276` Trial Lesson → `1411` Trial Student (already ruled out of scope — separate `TrialLessonAllocationHandler`, structurally independent of archive), `2759` "[Nichibei] Lesson Booking System" (LT-96620/LT-104607), `2783` "[Nichibei] Lesson List in BO (Smartphone view)" (LT-96616, 18 cases).
 
@@ -390,9 +390,9 @@ epics/lesson/LT-90306-lesson-allocation-soft-delete/test-cases/oop/
 
 1. **Add Student popup:** no Nichibei-specific LWC/Apex fork exists anywhere in `outside-packages/`. The modal (`DialogAddStandardStudentSF.tsx`) is used identically regardless of tenant; its underlying query goes through `/services/apexrest/MANAERP/lessonAllocations/retrieve/v1` → `LessonAllocationHandler.cls:92`, which already filters `Archived_At__c = NULL` — a **second**, previously-unenumerated archive-filtered query (distinct from the `LessonMasterHandler.cls:46` query already confirmed for the bulk-assign flow). No tenant/org branching found anywhere in this path.
 2. **Calendar student list:** same shared GraphQL queries as Core (`lesson-student-session.query.graphql:85-139`, `student-session.query.graphql:1-30`), both already filtering `Is_Archived__c: { eq: false }` (and `Archived_At__c: { eq: null }` on the LA side). No tenant conditional found.
-3. **Lesson Allocation tab / list views:** repo-wide search for `*.listView-meta.xml` under `Lesson_Allocation__c` returns only the already-confirmed 8 shared views; `outside-packages/` has zero `Lesson_Allocation__c` list-view metadata of its own, and the project has no per-tenant metadata partition (`sfdx-project.json` is a single flat layer) — confirmed no separate "Not Required Allocation" or other Nichibei-only view exists.
+3. **Lesson Allocation tab / list views:** repo-wide search for `*.listView-meta.xml` under `Lesson_Allocation__c` returns only the 8 shared views; `outside-packages/` has zero `Lesson_Allocation__c` list-view metadata of its own, and the project has no per-tenant metadata partition (`sfdx-project.json` is a single flat layer) — confirmed no separate "Not Required Allocation" or other Nichibei-only view exists. The current runtime behavior reported on 2026-10-19 is that a soft-deleted LA remains visible in any of these views whose ordinary filters it matches; the shared behavior therefore applies to Nichibei too.
 
-**Verdict: no new gap on the three requested surfaces** — all already covered by the existing control cases (`assign-unassign-student-lesson-schedule.md`, `lesson-calendar-display-archive.md`, `lesson-allocation-tab-list-views-archive.md`). Adding a lightweight control case below to explicitly lock in the newly-found second Add-Student query path.
+**Verdict:** Add Student and Calendar remain covered by their existing archive-exclusion controls. The shared Lesson Allocation list views are a known visibility limitation: they do not hide an archived LA. The existing Qase cases #29303/#29226 and `lesson-allocation-tab-list-views-archive.md` have been updated to assert that current behavior. Adding a lightweight control case below to explicitly lock in the newly-found second Add-Student query path.
 
 ### New finding — "Internal Dashboard" LA reconciliation tool (not Nichibei-exclusive, but surfaced by this sweep)
 
@@ -403,6 +403,7 @@ While tracing the above, a related `outside-packages/dlrs` tool was flagged: `In
 | AC | Business Rule Summary | Logic Type | Test Technique | Risk Level | Coverage Depth |
 |---|---|---|---|---|---|
 | AC-5 (parity) | Add Student popup's REST-backed query path (`LessonAllocationHandler.cls:92`) already excludes archived LA — control case, locks in a second, previously unenumerated code path | Data integrity | Regression | 🟡 Medium | Smoke |
+| AC-5 (known limitation) | Shared LA list views leave a soft-deleted LA visible whenever its ordinary status/Academic Year filters match; visibility must not make it operationally selectable | Display completeness | Decision Table | 🟡 Medium | Smoke |
 | AC-5 | Internal Dashboard LA reconciliation search has no archive filter — an archived LA can be misreported as a sync "needs attention" row, or a real gap can hide behind one | Data integrity | Negative | 🟠 High | Standard |
 
 ### Gap table (addendum 7)
@@ -411,6 +412,7 @@ While tracing the above, a related `outside-packages/dlrs` tool was flagged: `In
 |---|---|---|---|
 | Add Student popup (REST path) vs. archived LA | None naming this specific path (only the LWC-level behavior was covered) | Partial — behavior already locked in, code path now explicitly confirmed | Control case only |
 | Calendar student list vs. archived LA | `lesson-calendar-display-archive.md` (already covers this) | Full | None — already covered |
+| Shared LA list views vs. archived LA | Qase #29303/#29226 and `lesson-allocation-tab-list-views-archive.md` | Updated — previous expected result wrongly required the archived LA to disappear/reappear | Current behavior covered: archived LA remains visible in matching views; restore clears archive state without changing visibility |
 | LA tab "Not Required Allocation" view | N/A — confirmed not to exist | Full (confirmed non-existent) | None |
 | Internal Dashboard reconciliation tool vs. archived LA | None | None | ✅ New TC needed |
 
@@ -429,7 +431,7 @@ epics/lesson/LT-90306-lesson-allocation-soft-delete/test-cases/oop/
 
 **Code-trace result: not found anywhere in either repo.** Exhaustive search (grep for "point management"/"Point_Management"/"ポイント管理" across `erp-salesforce` packages/outside-packages and `school-portal-admin`; `find` for any tab/LWC/Visualforce/FlexiPage named with "point"; relaxed search for any `Require_Allocation__c = False` listing query or list view under any name) found nothing. The 8 confirmed `Lesson_Allocation__c` list views are exhaustively `Require_Allocation__c = True` only; no `= False` counterpart exists in source. **Conclusion: this is an org-specific Nichibei customization not checked into either repo** — the same category as Aver's Experience Cloud Lesson Report page and Nichibei's external `StudentSessionHandlerOutSide` priority-chain class (both already confirmed unverifiable-by-code elsewhere in this effort). No existing Qase case or suite references it either.
 
-**Grounding used instead of code:** the fields/business context of `Require_Allocation__c = False` LAs are already well-established from the Point Consumption suites (373/624/504) already covered — Purchase Point, Priority flag, Duration, General-course flag, remaining points — so test cases below are written against that known shape, applying the same AC-5/AC-3 principle already proven for the Required-Allocation counterpart (8 list views), explicitly marked [UNVERIFIED] since no code or existing case confirms actual behavior.
+**Grounding used instead of code:** the fields/business context of `Require_Allocation__c = False` LAs are already well-established from the Point Consumption suites (373/624/504) already covered — Purchase Point, Priority flag, Duration, General-course flag, remaining points — so test cases below are written against that known shape and the intended AC-5/AC-3 principle. The Required-Allocation counterpart's list-view behavior is now recorded as a visibility limitation rather than proof of archive exclusion; these cases remain explicitly marked [UNVERIFIED] because no code or existing case confirms actual behavior.
 
 ### Coverage Strategy (addendum 8)
 
@@ -627,3 +629,49 @@ Qase "SF Report" > "Risk Flag Report" (suite 2234, LT-93054), 5 cases — lists 
 - Archiving an LA only ever runs `LessonAllocationHandler.afterUpdate`, which explicitly skips archived records before any further processing (`cls:1326-1329`, `if (Archived_At__c != null) continue;`) and never calls `publishCancelLessonEvent`/`cancelLessonBooking` anywhere. **Verdict: structurally impossible for an archive event to spuriously fire either the Chatter post or the Draft-revert** — there is no code path connecting them.
 - The Chatter post's `[Student Name]` → LA-record hyperlink (`ChatterPostHandler.createCancelLessonChatterPost:131` → `LessonUtils.buildRecordUrl:388-396`) is a raw Id-based Lightning permalink built from string concatenation, with no SOQL and no `Archived_At__c` filter — it resolves correctly regardless of whether the LA is later archived, consistent with AC-5's "archived records remain reachable by direct Id" scope note.
 - **Conclusion: fully safe, no gap.** Control cases below exist for live re-verification per the user's standing request, directly covering the spec's named concern.
+
+---
+
+## Addendum 14: OOP/Renseikai — Scheduled Lesson Report Notification
+
+**Source:** LT-61333's Qase Scheduled Report Delivery suite (3721) covers Published-report time-window selection and Student/Default-Parent delivery, but none of its eight existing cases include the Lesson Allocation archive state. This is a cross-epic notification read path: a report can meet LT-61333's status/time conditions while its student's Lesson Allocation has been archived by LT-90306.
+
+### Coverage Strategy
+
+| AC | Business Rule Summary | Logic Type | Test Technique | Risk Level | Coverage Depth |
+|---|---|---|---|---|---|
+| AC-5 / LT-61333 REQ-01/REQ-02 | An otherwise eligible Published Lesson Report creates no notification for Student or Default Parent while the student's LA is archived. | Conditional; Cross-system impact | Decision Table; Negative | 🔴 Critical | Standard |
+| AC-3 / LT-61333 REQ-01/REQ-02 | After the same LA is restored, a subsequently eligible report sends once to Student and Default Parent. Restore must not replay a report skipped during archive. | State transition; Data integrity | State Transition; Regression | 🔴 Critical | Standard |
+
+### Gap Table
+
+| Gap Area | Existing Test Case | Overlap | New Coverage |
+|---|---|---|---|
+| Archived LA suppresses scheduled report notification | LT-61333 suite 3721, 8 cases — no archive dimension | None | Qase #30024 |
+| Restored LA resumes normal delivery for a subsequently eligible report | LT-61333 suite 3721, 8 cases — no archive/restore transition | None | Qase #30025 |
+
+### Qase Mapping
+
+```
+epics/lesson/LT-90306-lesson-allocation-soft-delete/test-cases/oop/
+└── renseikai-lesson-report-notification-archive.md
+    → PX suite 3756 "[Renseikai] Lesson Report Notification – Archive"
+    → Qase #30024, #30025
+```
+
+---
+
+## Addendum 15: Void Order — complete New Order package-type matrix and non-archiving reversals
+
+The archive-enabled Void Order suite previously covered only the **One-Time** New Order path. The same sole-order removal rule also applies to **Slot-Based, Scheduled, and Frequency** orders; each must preserve the LA record while setting `Archived_At__c`, rather than retaining the legacy hard-delete behavior. Conversely, voiding a **partial cancel** or **Update Duration** only restores a date range on an already-active LA: neither operation removes every order, so neither may archive or recreate that LA.
+
+| Area | Expected archive behavior | Qase coverage |
+|---|---|---|
+| Void New Order — One-Time | Archive the sole-order LA, not delete it | #29294 (renamed for consistency) |
+| Void New Order — Slot-Based | Archive the sole-order LA, not delete it | #30026 |
+| Void New Order — Scheduled | Archive the sole-order LA, not delete it | #30027 |
+| Void New Order — Frequency | Archive the sole-order LA, not delete it | #30028 |
+| Void Partial Cancel Order | Restore original duration on same active LA; `Archived_At__c` remains null | #30029 |
+| Void Update Duration | Restore original duration on same active LA; `Archived_At__c` remains null | #30030 |
+
+All cases are in PX suite 3647 **Void Order**, under parent suite 3588 **Lesson Allocation Soft Delete**. The corresponding local source is `test-cases/void-order-archive.md` and CSV.

@@ -1,0 +1,38 @@
+v2.id,title,description,preconditions,postconditions,tags,priority,severity,type,behavior,automation,status,is_flaky,layer,steps_type,steps_actions,steps_result,steps_data,milestone_id,milestone,suite_id,suite_parent_id,suite,suite_without_cases,parameters,is_muted
+,"[Renseikai] Lesson Report Notification – Recipient – Default Parent – Only default parent notified","REQ-02 — Decision Table — Default relationship controls delivery.","- R-201 is eligible
+- Parent A Default=true
+- Parent B Default=false",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the batch""
+2. ""Parent A opens inbox""
+3. ""Parent B opens inbox""","1. ""Student A and Parent A are recipients""
+2. ""R-201 is present""
+3. ""R-201 is absent""","1. ""report=R-201""
+2. ""Default=true""
+3. ""Default=false""",,,3723,,Recipient Resolution and Account Isolation,1,,
+,"[Renseikai] Lesson Report Notification – Recipient – No Default Parent – Student delivery retained","REQ-02 — Negative — Student delivery remains.","- R-202 is eligible
+- Student B has no Default parent",,,high,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the batch""
+2. ""Student B opens inbox""","1. ""Only Student B receives delivery""
+2. ""R-202 is present""","1. ""report=R-202""
+2. ""recipient=Student B""",,,3723,,Recipient Resolution and Account Isolation,1,,
+,"[Renseikai] Lesson Report Notification – Recipient – Unrelated Parent – No report data exposed","REQ-02 — Permission Matrix Negative — Unrelated parent is excluded.","- R-203 is eligible for Student C
+- Parent D has no relationship",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the batch""
+2. ""Parent D opens inbox""","1. ""No Parent D delivery exists""
+2. ""No Student C data is present""","1. ""report=R-203""
+2. ""recipient=Parent D""",,,3723,,Recipient Resolution and Account Isolation,1,,
+,"[Renseikai] Lesson Report Notification – Switch Account – Intended Student active – Notification visible","REQ-02 — Permission Matrix — Active intended student receives.","- R-204 is eligible for Student D
+- Student D is currently logged in",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the batch""
+2. ""Student D opens inbox""","1. ""Delivery targets Student D""
+2. ""R-204 is present""","1. ""active=Student D""
+2. ""report=R-204""",,,3723,,Recipient Resolution and Account Isolation,1,,
+,"[Renseikai] Lesson Report Notification – Switch Account – Different Student active – Notification hidden","REQ-02 — Permission Matrix Negative — Different active account is excluded.","- R-205 is eligible for Student F
+- Student G is currently logged in",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the batch""
+2. ""Student G opens inbox""","1. ""No visible Student G delivery exists""
+2. ""R-205 is absent""","1. ""recipient=Student F""
+2. ""active=Student G""",,,3723,,Recipient Resolution and Account Isolation,1,,
+,"[Renseikai] Lesson Report Notification – Switch Account – Parent account – Recipient role isolated","REQ-02 — Permission Matrix — Parent delivery remains role-scoped.","- R-206 is eligible for Student H and Parent H
+- Parent H is currently logged in",,,high,critical,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""System runs the batch""
+2. ""Parent H opens inbox""
+3. ""Student H switches into account""","1. ""Parent H delivery exists""
+2. ""R-206 is present""
+3. ""Parent H entry is not visible""","1. ""active=Parent H""
+2. ""recipient=Parent H""
+3. ""switched_account=Student H""",,,3723,,Recipient Resolution and Account Isolation,1,,

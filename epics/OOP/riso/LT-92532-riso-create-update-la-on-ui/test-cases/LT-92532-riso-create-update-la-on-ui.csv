@@ -481,13 +481,14 @@ v2.id,title,description,preconditions,postconditions,tags,priority,severity,type
 3. ""System correctly displays the """"Trial Student dot"""" indicating they are taking a trial""","1. """"
 2. """"
 3. ""LA Type used: Trial""",,,,,LA – System Integration,,,
-,"[Riso] Lesson Allocation – Calendar – Student Dots – ""New Student"" label visibility","Integration — Verify that a UI-created LA (as the student's first enrollment) correctly flags the student attribute so the ""New Student dot"" is indicated at their first lesson in the Calendar view.","- Logged in as HQ or CM user
-- Student A has a newly created active UI LA: Course X, Type = **Regular**
-- This applies to the very first lesson assigned to Student A upon starting the course",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Calendar tab""
-2. ""Open the detail or drawer of Student A's first assigned lesson event""
+,"[Riso] Lesson Allocation – Calendar – Student Dots – ""New Student"" label visibility","Integration — Verify that a student with a UI-created LA shows the ""New Student"" dot in Calendar when the assigned lesson is within the configured New window of the linked Enrollment Status (V2) Enrolled Date. The dot is not determined by whether this is the first lesson assignment.","- Logged in as HQ or CM user
+- Student A has an active UI LA: Course X, Type = **Regular**
+- Student A has a current active Enrolled V1 record linked through Enrollment Status Record to an active Enrollment Status (V2) record.
+- Student A's assigned lesson date is within `New_Student_Day_Config` days of the V2 Enrolled Date.",,,medium,major,functional,undefined,is-not-automated,draft,no,unknown,classic,"1. ""Navigate to Calendar tab""
+2. ""Open the detail or drawer of Student A's assigned lesson event""
 3. ""Observe the visual indicators next to Student A's name""","1. ""Calendar view is displayed""
 2. ""Student Sessions list opens""
-3. ""System correctly displays the """"New Student dot"""" to mark the student's very first enrolled date""","1. """"
+3. ""System correctly displays the """"New Student"""" dot because the lesson date is within the configured window of the V2 Enrolled Date""","1. """"
 2. """"
 3. """"",,,,,LA – System Integration,,,
 ,[Riso] Lesson Allocation – Calendar – Assign Student – One-time lesson,"Integration — Verify that a student with a UI-created LA can be properly assigned to a One-time lesson, and the LA's Lesson Allocated count updates correctly.","- Logged in as HQ or CM user

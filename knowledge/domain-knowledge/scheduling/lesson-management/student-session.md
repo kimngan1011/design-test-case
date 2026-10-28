@@ -12,7 +12,7 @@ See `lesson-allocation.md` for the LA authorization model; see `class-assignment
 | **Lesson** | The lesson instance |
 | **Attendance Status** | Present / Absent / Late / Leave Early |
 | **Lesson Allocation** | The LA record that authorizes this assignment |
-| **New Flag** | Indicates newly assigned student (3 cases) |
+| **New Flag** | Shown for a current active Enrolled student when the absolute difference between lesson start and the linked Enrollment Status (V2) Enrolled Date is within `New_Student_Day_Config`; falls back to V1 Enrollment Start Date only when the V2 date is unavailable (4 cases). Per PDM, lessons dated before the enrolled date are out of test scope. |
 | **Risk Flag** | Flags at-risk students based on attendance/performance (9 cases) |
 | **Trial Flag** | Marks trial students (20 cases) |
 
